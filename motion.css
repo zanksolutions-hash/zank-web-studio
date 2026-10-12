@@ -48,3 +48,16 @@
 @keyframes heroTypeSweep{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 @media(max-width:600px){.hero-horizontal{bottom:80px;opacity:.12}.hero-horizontal-track{animation-duration:40s}}
 @media(prefers-reduced-motion:reduce){.hero-horizontal{display:none}.hero .cloud,.hero .ribbons{animation:none!important;transform:none;will-change:auto}}
+
+/* Scroll-linked opening. No automatic movement: scrolling back reverses it. */
+.hero-runway{height:185svh;background:#151515}
+.hero-runway .hero{position:sticky;top:0;height:100svh;min-height:650px}
+.hero-runway .hero-inner{transform:none}
+.hero-runway h1{transform:translate3d(var(--title-x,0px),0,0);will-change:transform}
+.hero-runway .cloud,.hero-runway .ribbons,.hero-runway .hero-horizontal-track{animation:none!important}
+.hero-runway .cloud-one,.hero-runway .cloud-three{transform:translate3d(var(--shape-x,0px),0,0)}
+.hero-runway .cloud-two{transform:translate3d(var(--counter-x,0px),0,0)}
+.hero-runway .ribbons{transform:translate3d(var(--counter-x,0px),0,0)}
+.hero-runway .hero-horizontal-track{transform:translate3d(var(--ribbon-x,0px),0,0)}
+@media(max-width:600px){.hero-runway{height:155svh}.hero-runway .hero{min-height:550px}}
+@media(prefers-reduced-motion:reduce){.hero-runway{height:auto}.hero-runway .hero{position:relative;height:auto;min-height:100svh}.hero-runway h1,.hero-runway .cloud,.hero-runway .ribbons{transform:none!important;will-change:auto}}

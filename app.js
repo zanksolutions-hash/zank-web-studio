@@ -33,6 +33,10 @@ const progressFill=document.createElement('span');progress.append(progressFill);
 const hint=document.createElement('p');hint.className='horizontal-hint';hint.textContent='Continuez à défiler pour explorer →';
 stage.append(track,hint,progress);runway.append(stage);portfolio.append(runway);
 const wideMotion=window.matchMedia('(min-width: 1000px) and (prefers-reduced-motion: no-preference)');
+const heroScene=document.querySelector('.hero');
+const heroRunway=document.createElement('div');heroRunway.className='hero-runway';
+heroScene.before(heroRunway);heroRunway.append(heroScene);
+const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
 let distance=0;let scheduled=false;
 function measurePortfolio(){
   portfolio.classList.toggle('horizontal-active',wideMotion.matches);
@@ -43,14 +47,22 @@ function measurePortfolio(){
 function updateScene(){
   scheduled=false;
   if(wideMotion.matches){const offset=Math.min(distance,Math.max(0,-runway.getBoundingClientRect().top));track.style.transform=`translate3d(${-offset}px,0,0)`;progressFill.style.transform=`scaleX(${distance?offset/distance:1})`;}
-  if(!reduceMotion){const hero=document.querySelector('.hero');const offset=Math.min(hero.offsetHeight,Math.max(0,window.scrollY));hero.style.setProperty('--hero-drift',`${offset*.15}px`);}
+  const travel=Math.max(1,heroRunway.offsetHeight-heroScene.offsetHeight);
+  const position=Math.min(1,Math.max(0,-heroRunway.getBoundingClientRect().top/travel));
+  const amount=motionPreference.matches?0:position;
+  const width=window.innerWidth;
+  heroScene.style.setProperty('--title-x',`${-amount*width*.18}px`);
+  heroScene.style.setProperty('--shape-x',`${amount*width*.24}px`);
+  heroScene.style.setProperty('--counter-x',`${-amount*width*.16}px`);
+  heroScene.style.setProperty('--ribbon-x',`${-amount*width*.65}px`);
 }
 window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(updateScene);}},{passive:true});
 window.addEventListener('resize',measurePortfolio);wideMotion.addEventListener('change',measurePortfolio);
+motionPreference.addEventListener('change',measurePortfolio);
 track.addEventListener('focusin',event=>{if(!wideMotion.matches)return;const card=event.target.closest('.project');if(!card)return;const top=window.scrollY+runway.getBoundingClientRect().top;window.scrollTo({top:top+Math.min(distance,card.offsetLeft),behavior:'instant'});});
 measurePortfolio();document.fonts.ready.then(measurePortfolio);
 
-// Decorative horizontal ribbon: duplicated for a seamless loop.
+// Decorative ribbon translated only by the scroll position.
 const heroRibbon=document.createElement('div');heroRibbon.className='hero-horizontal';heroRibbon.setAttribute('aria-hidden','true');
 const heroRibbonTrack=document.createElement('div');heroRibbonTrack.className='hero-horizontal-track';
 for(let i=0;i<2;i++){const group=document.createElement('span');group.textContent='DESIGN · WEB · EXPÉRIENCE · ';heroRibbonTrack.append(group);}
