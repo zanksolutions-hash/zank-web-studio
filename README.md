@@ -9,6 +9,10 @@ Ouvrir `index.html` dans un navigateur. Aucun outil de compilation ni installati
 ## Fonctionnalités
 
 - Présentation responsive, fond animé et prise en charge du mouvement réduit.
+- Ouverture et portfolio pilotés par le défilement sur ordinateur.
+- Scène « Présence » avec typographie monumentale et composition originale en plusieurs plans.
+- Sélecteur de cinq services : transitions latérales, navigation par flèches du clavier et états accessibles.
+- Composition mobile sans scènes épinglées ; les projets restent en lecture verticale.
 - Menu plein écran et détails de trois concepts fictifs, explicitement identifiés.
 - Sites vitrines, refontes, boutiques en ligne, référencement et maintenance.
 - Présentation de la méthode et FAQ.
@@ -19,10 +23,12 @@ Ouvrir `index.html` dans un navigateur. Aucun outil de compilation ni installati
 - `index.html` : contenu, navigation et formulaires.
 - `style.css` : identité visuelle, responsive et animations.
 - `app.js` : interactions et préparation des demandes.
+- `motion.css` : défilement horizontal et palette encre-orange.
+- `scenes.css`, `scenes.js` : scènes éditoriales, composition mobile et sélecteur de services.
 
 ## État de validation
 
-Syntaxe JavaScript, unicité des identifiants, liens internes et cibles des scripts vérifiés. La prévisualisation locale automatisée était inaccessible : le contrôle visuel sur ordinateur et mobile reste à effectuer.
+Syntaxe JavaScript, unicité des identifiants, liens internes et cibles des scripts vérifiés. Des contrôles de logique couvrent les cinq états du sélecteur, les flèches du clavier, Home/End, la sélection, le défilement réversible et la réduction des mouvements. Ils ne remplacent pas un contrôle dans le navigateur. La prévisualisation locale automatisée était inaccessible : le contrôle visuel sur ordinateur et mobile reste à effectuer.
 
 ## Avant publication
 
