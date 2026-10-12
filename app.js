@@ -18,3 +18,34 @@ const form=document.getElementById('project-form');let draft='';
 form.addEventListener('submit',event=>{event.preventDefault();const values=Object.fromEntries(new FormData(form));draft=`Bonjour,\n\nJe souhaite vous parler d’un projet de ${values.need.toLowerCase()}.\n\nNom : ${values.name}\nE-mail : ${values.email}\nBesoin : ${values.need}\n\n${values.message}\n\nBudget envisagé : ${values.budget||'À définir'}\nÉchéance souhaitée : ${values.deadline||'À définir'}\n\nBien à vous,\n${values.name}`;document.getElementById('draft-link').href=`mailto:info@zanksolutions.be?subject=${encodeURIComponent('Demande de projet — '+values.need)}&body=${encodeURIComponent(draft)}`;document.getElementById('form-result').hidden=false;document.getElementById('copy-status').textContent='';document.getElementById('form-result').scrollIntoView({behavior:reduceMotion?'instant':'smooth',block:'nearest'});});
 form.addEventListener('input',()=>{document.getElementById('form-result').hidden=true;draft='';});
 document.getElementById('copy-draft').addEventListener('click',async()=>{const status=document.getElementById('copy-status');try{await navigator.clipboard.writeText(draft);status.textContent='Demande copiée. Vous pouvez la coller dans un e-mail à info@zanksolutions.be.';}catch{status.textContent='La copie automatique est indisponible. Utilisez le lien « Ouvrir ma messagerie ».';}});
+
+// A native vertical scroll drives the horizontal portfolio on wide screens.
+// Touch screens and reduced-motion preferences keep a conventional document.
+const portfolio=document.getElementById('projets');
+const projectCards=[...portfolio.querySelectorAll('article.project')];
+const runway=document.createElement('div');runway.className='project-runway';
+const stage=document.createElement('div');stage.className='project-stage';
+const track=document.createElement('div');track.className='project-track';
+projectCards.forEach(card=>track.append(card));
+portfolio.querySelector('.project-pair').remove();
+const progress=document.createElement('div');progress.className='project-progress';progress.setAttribute('aria-hidden','true');
+const progressFill=document.createElement('span');progress.append(progressFill);
+const hint=document.createElement('p');hint.className='horizontal-hint';hint.textContent='Continuez à défiler pour explorer →';
+stage.append(track,hint,progress);runway.append(stage);portfolio.append(runway);
+const wideMotion=window.matchMedia('(min-width: 1000px) and (prefers-reduced-motion: no-preference)');
+let distance=0;let scheduled=false;
+function measurePortfolio(){
+  portfolio.classList.toggle('horizontal-active',wideMotion.matches);
+  if(wideMotion.matches){distance=Math.max(0,track.scrollWidth-stage.clientWidth);runway.style.height=(window.innerHeight+distance)+'px';}
+  else{distance=0;runway.style.height='';track.style.transform='';}
+  updateScene();
+}
+function updateScene(){
+  scheduled=false;
+  if(wideMotion.matches){const offset=Math.min(distance,Math.max(0,-runway.getBoundingClientRect().top));track.style.transform=`translate3d(${-offset}px,0,0)`;progressFill.style.transform=`scaleX(${distance?offset/distance:1})`;}
+  if(!reduceMotion){const hero=document.querySelector('.hero');const offset=Math.min(hero.offsetHeight,Math.max(0,window.scrollY));hero.style.setProperty('--hero-drift',`${offset*.15}px`);}
+}
+window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(updateScene);}},{passive:true});
+window.addEventListener('resize',measurePortfolio);wideMotion.addEventListener('change',measurePortfolio);
+track.addEventListener('focusin',event=>{if(!wideMotion.matches)return;const card=event.target.closest('.project');if(!card)return;const top=window.scrollY+runway.getBoundingClientRect().top;window.scrollTo({top:top+Math.min(distance,card.offsetLeft),behavior:'instant'});});
+measurePortfolio();document.fonts.ready.then(measurePortfolio);

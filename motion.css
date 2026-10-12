@@ -1,0 +1,35 @@
+/* Second direction: ink, burnt orange and an editorial horizontal portfolio. */
+.hero{background:#151515;color:#fff1dc}
+.header{color:#fff1dc}.menu-toggle span{background:#fff1dc}
+.cloud-one{background:#bd461c;width:85%;height:105%;left:25%;top:-5%;filter:blur(70px)}
+.cloud-two{background:#251e1b;width:75%;height:95%;left:-18%;top:12%;filter:blur(85px)}
+.cloud-three{background:#ef7e32;width:32%;height:75%;left:76%;top:-12%;opacity:.85;filter:blur(50px)}
+.hero-inner{transform:translate3d(0,var(--hero-drift,0px),0)}
+.hero h1{font-size:clamp(65px,7.8vw,128px);letter-spacing:-4px}
+.hero h1 em{color:#ffbc84}
+.ribbons{inset:-5% 6%;height:110%;width:88%;animation-duration:15s}
+.ribbons path{stroke:#ffbf8e;opacity:.6;stroke-width:1}
+.hero-bottom{color:#fff1dc}.hero .eyebrow{color:#ffcfaa}
+.studio{background:#eddfc9}.projects{background:#191919;color:#f5ebdd}
+.projects>.display{max-width:1050px;text-align:left;margin-left:auto;margin-right:auto}
+.project-track{display:grid;gap:40px}.project-track .project-caption{margin-bottom:15px}
+.horizontal-hint,.project-progress{display:none}
+.services{background:#f5f0e5}.approach{background:#e77d4f}.faq{background:#e3d9c8}.contact{background:#efad7b}
+.form-intro{max-width:470px}
+@media(min-width:1000px) and (prefers-reduced-motion:no-preference){
+ .projects.horizontal-active{padding-left:0;padding-right:0;padding-bottom:0}
+ .horizontal-active>.section-top,.horizontal-active>.display{margin-left:6vw;margin-right:6vw}
+ .horizontal-active .project-stage{height:100svh;position:sticky;top:0;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+ .horizontal-active .project-track{display:flex;gap:5vw;padding:0 6vw;width:max-content;will-change:transform}
+ .horizontal-active .project{flex:0 0 82vw;width:82vw;position:relative;opacity:1;transform:none}
+ .horizontal-active .project-art{height:68svh;min-height:340px;max-height:760px}
+ .horizontal-active .garden-title,.horizontal-active .objects-title,.horizontal-active .bakery-title{font-size:clamp(70px,8vw,140px);margin-left:7%}
+ .horizontal-active .objects-title{max-width:650px}
+ .horizontal-active .vases{right:14%;bottom:12%;transform:scale(1.7)}
+ .horizontal-active .bread{right:12%;bottom:20%;transform:rotate(-40deg) scale(1.8)}
+ .horizontal-active .horizontal-hint{display:block;margin:18px 6vw 12px;font-size:11px;letter-spacing:1px}
+ .horizontal-active .project-progress{display:block;margin:0 6vw;height:2px;background:#f5ebdd30}
+ .horizontal-active .project-progress span{display:block;height:100%;background:#efad7b;transform-origin:left;transform:scaleX(0)}
+}
+@media(max-width:600px){.hero h1{font-size:clamp(48px,11vw,70px);letter-spacing:-1.8px}.cloud-one{left:15%}.cloud-two{left:-38%}.project-track{gap:28px}.hero-inner{transform:none}}
+@media(prefers-reduced-motion:reduce){.hero-inner{transform:none}.project-track{transform:none!important}.project-stage{height:auto}.project-runway{height:auto!important}}
