@@ -49,3 +49,9 @@ window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnima
 window.addEventListener('resize',measurePortfolio);wideMotion.addEventListener('change',measurePortfolio);
 track.addEventListener('focusin',event=>{if(!wideMotion.matches)return;const card=event.target.closest('.project');if(!card)return;const top=window.scrollY+runway.getBoundingClientRect().top;window.scrollTo({top:top+Math.min(distance,card.offsetLeft),behavior:'instant'});});
 measurePortfolio();document.fonts.ready.then(measurePortfolio);
+
+// Decorative horizontal ribbon: duplicated for a seamless loop.
+const heroRibbon=document.createElement('div');heroRibbon.className='hero-horizontal';heroRibbon.setAttribute('aria-hidden','true');
+const heroRibbonTrack=document.createElement('div');heroRibbonTrack.className='hero-horizontal-track';
+for(let i=0;i<2;i++){const group=document.createElement('span');group.textContent='DESIGN · WEB · EXPÉRIENCE · ';heroRibbonTrack.append(group);}
+heroRibbon.append(heroRibbonTrack);document.querySelector('.hero').append(heroRibbon);
