@@ -1,6 +1,6 @@
 # Studio web — by ZANK Solutions
 
-Première version du site consacré à la création de sites web pour les professionnels en Belgique et en France. **Trame Web** reste un nom provisoire.
+Première version du site consacré à la création de sites web pour les professionnels. **Trame Web** reste un nom provisoire.
 
 ## Ouvrir le site
 
