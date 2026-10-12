@@ -13,6 +13,8 @@ Ouvrir `index.html` dans un navigateur. Aucun outil de compilation ni installati
 - Scène « Présence » avec typographie monumentale et composition originale en plusieurs plans.
 - Sélecteur de cinq services : transitions latérales, navigation par flèches du clavier et états accessibles.
 - Composition mobile sans scènes épinglées ; les projets restent en lecture verticale.
+- Section Formules & tarifs, comparatif et trois pages dédiées : One Page (à partir de 450 € HT), Site vitrine (850 € HT) et Sur mesure (sur devis).
+- Les liens des formules préremplissent le besoin et le message du formulaire de contact.
 - Menu plein écran et détails de trois concepts fictifs, explicitement identifiés.
 - Sites vitrines, refontes, boutiques en ligne, référencement et maintenance.
 - Présentation de la méthode et FAQ.
@@ -25,6 +27,8 @@ Ouvrir `index.html` dans un navigateur. Aucun outil de compilation ni installati
 - `app.js` : interactions et préparation des demandes.
 - `motion.css` : défilement horizontal et palette encre-orange.
 - `scenes.css`, `scenes.js` : scènes éditoriales, composition mobile et sélecteur de services.
+- `tarifs.html`, `one-page.html`, `site-vitrine.html`, `sur-mesure.html` : comparatif et détails des offres.
+- `offers.css`, `offers.js` : présentation des formules et préremplissage du contact.
 
 ## État de validation
 
