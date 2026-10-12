@@ -5,7 +5,7 @@
  const desktop=matchMedia('(min-width: 1000px) and (prefers-reduced-motion: no-preference)');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let pending=false;
- function paint(){pending=false;const distance=Math.max(1,section.offsetHeight-stage.offsetHeight);const t=desktop.matches?Math.max(0,Math.min(1,-section.getBoundingClientRect().top/distance)):0;section.style.setProperty('--presence-word-x',`${-t*innerWidth*.7}px`);section.style.setProperty('--presence-art-x',`${t*innerWidth*.09}px`);section.style.setProperty('--presence-copy-x',`${(1-t)*innerWidth*.035}px`);}
+ function paint(){pending=false;const distance=Math.max(1,section.offsetHeight-stage.offsetHeight);const t=desktop.matches?Math.max(0,Math.min(1,-section.getBoundingClientRect().top/distance)):0;section.style.setProperty('--presence-turn',`${t*105-35}deg`);section.style.setProperty('--presence-scale',`${.86+t*.24}`);section.style.setProperty('--presence-word-x',`${-t*innerWidth*1.05}px`);section.style.setProperty('--presence-art-x',`${(t-.5)*innerWidth*.28}px`);section.style.setProperty('--presence-copy-x',`${(1-t)*innerWidth*.1}px`);}
  addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});addEventListener('resize',paint);desktop.addEventListener('change',paint);paint();
  const selector=document.querySelector('.service-selector');
  const buttons=[...selector.querySelectorAll('[role=tab]')];
