@@ -186,6 +186,21 @@ footer{border-top:1px solid var(--line);padding:70px 0 34px}
 .demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
 body{padding-bottom:44px}
 @media (max-width:560px){.demo-bar{font-size:12px}body{padding-bottom:58px}}
+
+/* Menu mobile : plein écran opaque */
+.nav.open{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+.mobile-menu{height:100vh;height:100dvh;overflow-y:auto}
+@media (max-width:560px){.mobile-menu a{font-size:34px}}
+
+/* Bandeau maquette compact */
+@media (max-width:560px){.demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}.demo-bar .long{display:none}body{padding-bottom:34px}}
+@media (min-width:561px){.demo-bar .short{display:none}}
+
+/* Correctifs mobile */
+@media (max-width:560px){
+  section{padding-top:56px;padding-bottom:56px}
+  h2{font-size:min(36px,9.6vw);line-height:1.05}
+}
 </style>
 </head>
 <body>
@@ -325,7 +340,6 @@ body{padding-bottom:44px}
       <div><a href="#" class="logo"><i>Le</i><span>Waressaix</span></a><p style="margin-top:18px;max-width:280px">Restaurant & brasserie à Haulchin.</p></div>
       <div><h4>Adresse</h4><p>Pl. de Waressaix 7</p><p>7120 Haulchin</p></div>
       <div><h4>Contact</h4><a href="tel:+32491032290">0491 03 22 90</a></div>
-      <div><h4>Suivez-nous</h4><a href="#">Instagram</a><a href="#">Facebook</a></div>
     </div>
     <div class="foot-bottom">
       <span>© <span id="y"></span> Le Waressaix</span>
@@ -344,6 +358,6 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
 }));
 document.getElementById('y').textContent=new Date().getFullYear();
 </script>
-<div class="demo-bar" role="note">Maquette de démonstration réalisée pour Le Waressaix par Zank Solutions. Ce n'est pas le site officiel. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Le Waressaix par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 </body>
 </html>
