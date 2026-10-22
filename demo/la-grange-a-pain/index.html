@@ -187,6 +187,49 @@ footer{padding:60px 0 32px}
 .demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
 body{padding-bottom:44px}
 @media (max-width:560px){.demo-bar{font-size:12px}body{padding-bottom:58px}}
+
+/* Correctifs mobile */
+@media (max-width:560px){
+  section{padding:56px 0}
+  h2{font-size:34px;line-height:1.05}
+  .eyebrow{font-size:11px;margin-bottom:14px}
+  .nav .wrap{height:64px}
+  .logo{font-size:21px}
+  .hero .wrap{gap:28px;padding-top:24px;padding-bottom:36px}
+  .issue{margin-bottom:24px;padding-bottom:16px}
+  .hero h1{font-size:46px;line-height:.95}
+  .hero-row{margin-top:22px;gap:20px}
+  .hero-row p{font-size:16px}
+  .hero-row .btn{width:100%;justify-content:center}
+  .hero-img{min-height:0;aspect-ratio:4/3}
+  .caption{position:static;display:block;padding:12px 0 0;background:none}
+  .band{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;gap:18px;padding:16px 20px;font-size:18px;white-space:nowrap;scrollbar-width:none}
+  .band::-webkit-scrollbar{display:none}
+  .band i{flex:none}
+  .head{margin-bottom:28px}
+  .cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:20px;gap:14px;margin:0 -20px;padding:0 20px 6px;scrollbar-width:none}
+  .cards::-webkit-scrollbar{display:none}
+  .cards>div{flex:0 0 78%;scroll-snap-align:start}
+  .cover{height:auto;aspect-ratio:4/5}
+  .meta{padding:14px 2px}
+  .meta h3{font-size:21px}
+  .ev-img{height:auto;aspect-ratio:16/10}
+  .ev{padding:16px 0}
+  .ev h3{font-size:20px}
+  .service{padding:22px 0;display:grid;grid-template-columns:34px 1fr;column-gap:14px;align-items:start}
+  .service .ic{font-size:24px;grid-row:span 2;margin-top:2px}
+  .service h3{font-size:21px;margin:0 0 4px}
+  .service p{font-size:15px}
+  .hours div{font-size:14.5px;padding:11px 0}
+  form h3{font-size:24px}
+  footer{padding:40px 0 24px}
+  .foot{gap:24px}
+  .foot-bottom{margin-top:28px}
+  .demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}
+  .demo-bar .long{display:none}
+  body{padding-bottom:34px}
+}
+@media (min-width:561px){.demo-bar .short{display:none}}
 </style>
 </head>
 <body>
@@ -323,7 +366,6 @@ body{padding-bottom:44px}
       <div><a href="#" class="logo">La Grange à <i>Pain</i></a><p style="margin-top:14px;max-width:280px">Boulangerie à Estinnes.</p></div>
       <div><h4>Adresse</h4><p>Rue de Lisseroeulx 14a</p><p>7120 Estinnes</p></div>
       <div><h4>Contact</h4><a href="tel:+3264338809">064 33 88 09</a></div>
-      <div><h4>Suivez-nous</h4><a href="#">Instagram</a><a href="#">Facebook</a></div>
     </div>
         <div class="foot-bottom">
       <span>© <span id="y"></span> La Grange à Pain</span>
@@ -341,6 +383,6 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
 }));
 document.getElementById('y').textContent=new Date().getFullYear();
 </script>
-<div class="demo-bar" role="note">Maquette de démonstration réalisée pour La Grange à Pain par Zank Solutions. Ce n'est pas le site officiel. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour La Grange à Pain par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 </body>
 </html>
