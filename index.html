@@ -375,17 +375,17 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
   --text:#191918; --muted:#615d59; --dim:#8f8a85;
   --indigo:#0075de; --violet:#0075de; --cyan:#0075de; --lime:#0075de;
   --grad:linear-gradient(#0075de,#0075de);
-  --radius:28px;
+  --radius:6px;
   --display:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:var(--text)}
 h1,h2,h3{font-weight:700!important;letter-spacing:-.035em}
 h2{font-weight:600}
 .grad-text{background:linear-gradient(transparent 62%,#ffe58a 62%);color:inherit;-webkit-text-fill-color:currentColor;padding:0 .08em}
-.eyebrow{color:#615d59;letter-spacing:0;text-transform:none;font-size:15px;font-weight:600;background:#f1efed;padding:4px 10px;border-radius:6px}
+.eyebrow{color:#615d59;letter-spacing:0;text-transform:none;font-size:15px;font-weight:600;background:#f1efed;padding:4px 10px;border-radius:3px}
 .eyebrow::before{display:none}
 section:nth-of-type(even){background:#f6f5f4}
-.btn{border-radius:8px;padding:12px 20px;font-weight:600}
+.btn{border-radius:4px;padding:12px 20px;font-weight:600}
 .btn-primary{background:#0075de;color:#fff;box-shadow:none}
 .btn-primary:hover{background:#005bab;transform:none;box-shadow:none}
 .btn-ghost{border:0;background:#f1efed;color:#191918}
@@ -395,9 +395,9 @@ nav#nav.scrolled,nav#nav.open{background:#fff;backdrop-filter:none;-webkit-backd
 .logo-mark{filter:invert(1)}
 .burger{border-color:var(--line)}
 .hero-bg{display:none}
-.badge-pill{background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:8px}
+.badge-pill{background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:4px}
 .badge-pill b{background:#fdecc8;color:#7a4b00;padding:2px 8px;border-radius:5px}
-.browser{box-shadow:0 0 0 1px rgba(0,0,0,.1),0 18px 40px -18px rgba(0,0,0,.18);transform:none;border-radius:12px}
+.browser{box-shadow:0 0 0 1px rgba(0,0,0,.1),0 18px 40px -18px rgba(0,0,0,.18);transform:none;border-radius:6px}
 .stage:hover .browser{transform:none}
 .phone{background:#191918;box-shadow:0 30px 60px -15px rgba(0,0,0,.35)}
 .phone .notch{background:#191918}
@@ -418,7 +418,7 @@ nav#nav.scrolled,nav#nav.open{background:#fff;backdrop-filter:none;-webkit-backd
 .show-frame-wrap{background:#fff;border:0}
 .show-frame{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 24px 50px -20px rgba(0,0,0,.25)}
 .show-frame.is-m{box-shadow:0 0 0 9px #191918,0 24px 50px -20px rgba(0,0,0,.3)}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px}
 section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .card::before{display:none}
 .card:hover{transform:none}
@@ -438,11 +438,11 @@ section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .billing-inner{background:#e8e8ed;border:0}
 .billing button.on{background:#fff;color:#191918;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .billing .save,.billing button.on .save{background:rgba(0,117,222,.1);color:#0075de}
-.plan{background:#fff;border:1px solid var(--line);border-radius:14px}
+.plan{background:#fff;border:1px solid var(--line);border-radius:6px}
 .plan.hot{background:#fff}
-.plan.hot::before{background:#0075de;padding:2px;border-radius:15px}
+.plan.hot::before{background:#0075de;padding:2px;border-radius:7px}
 .plan.hot::after{box-shadow:none}
-.plan-tag{background:#0075de;color:#fff;border-radius:6px}
+.plan-tag{background:#0075de;color:#fff;border-radius:3px}
 .setup em{color:#0075de}
 .plan li::before{background:rgba(0,117,222,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
 .plan li.off::before{background-color:rgba(0,0,0,.04)}
@@ -451,9 +451,9 @@ section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .crow>div:nth-child(3){background:rgba(0,117,222,.04)}
 .crow.head>div:nth-child(3){color:#0075de}
 .faq details[open] summary .pm{background:#f6f5f4}
-.cta-box{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:none}
-#lead-form{background:#f6f5f4;border:0;border-radius:12px;backdrop-filter:none;-webkit-backdrop-filter:none}
-#lead-form input,#lead-form select{background:#fff;border:1px solid rgba(0,0,0,.15);color:#191918;border-radius:6px}
+.cta-box{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:none}
+#lead-form{background:#f6f5f4;border:0;border-radius:6px;backdrop-filter:none;-webkit-backdrop-filter:none}
+#lead-form input,#lead-form select{background:#fff;border:1px solid rgba(0,0,0,.15);color:#191918;border-radius:3px}
 #lead-form select option{background:#fff;color:#191918}
 #lead-form input:focus,#lead-form select:focus{border-color:#0075de;background:#fff;box-shadow:0 0 0 3px rgba(0,117,222,.15)}
 .form-ok{background:#e8f5ec;color:#1d7f3a}
@@ -462,10 +462,15 @@ footer{background:#fff;border-top:1px solid var(--line);margin-top:0}
 footer .foot p,footer .foot-bottom{color:#6e6e73}
 @media (max-width:860px){.nav-links{background:#fff}}
 nav#nav.scrolled{border-color:var(--line)}
-.tab.on{border-radius:10px}
-.ba{border-radius:14px}
-.show-frame-wrap{border-radius:16px;border:1px solid var(--line)}
+.tab.on{border-radius:5px}
+.ba{border-radius:6px}
+.show-frame-wrap{border-radius:8px;border:1px solid var(--line)}
 @media (prefers-color-scheme:dark){html{color-scheme:light}}
+/* coins réduits */
+.icon-tile,.tab .ti,.float-card,.float-card .fi,.domain,.billing-inner,.device-toggle,.device-toggle button,.billing button,.step .n,.serp,.serp .q{border-radius:5px}
+.chip,.badge-pill b,.step .when,.billing .save{border-radius:3px}
+.show-frame{border-radius:4px}.compare,.promise,.faq summary .pm{border-radius:6px}
+.burger{border-radius:5px}.plan-tag{border-radius:3px}
 </style>
 
 <!-- ================================================================
@@ -1087,7 +1092,7 @@ nav#nav.scrolled{border-color:var(--line)}
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="eyebrow">Nos engagements</div>
-      <h2>Ce qui nous différencie des <span class="grad-text">« sites à petit prix ».</span></h2>
+      <h2>Ce qui nous différencie des <span class="grad-text" style="white-space:nowrap">«&nbsp;sites à petit prix&nbsp;».</span></h2>
     </div>
     <div class="promise reveal">
       <div><div class="icon-tile"><svg class="ic"><use href="#i-key"/></svg></div><h3>Vous restez propriétaire</h3><p>Domaine à votre nom, vos contenus restent les vôtres, et vous pouvez racheter votre site si vous partez.</p></div>
