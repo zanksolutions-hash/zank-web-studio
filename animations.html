@@ -473,20 +473,38 @@ nav#nav.scrolled{border-color:var(--line)}
 .show-frame{border-radius:4px}.compare,.promise,.faq summary .pm{border-radius:6px}
 .burger{border-radius:5px}.plan-tag{border-radius:3px}
 
-/* ===== Animations façon Wix ===== */
+/* ===== Animations variées façon Wix ===== */
 #wx-progress{position:fixed;top:0;left:0;height:3px;width:100%;background:#0075de;transform-origin:0 50%;transform:scaleX(0);z-index:999}
-.wx-w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
-.wx-w>span{display:inline-block;transform:translateY(105%) rotate(4deg);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
-.wx-in .wx-w>span{transform:none}
-.grad-text .wx-w>span{background:inherit}
-.wx-up{opacity:0;transform:translateY(60px) scale(.97);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
-.wx-up.wx-in{opacity:1;transform:none}
-.wx-clip{clip-path:inset(18% 10% 18% 10% round 24px);transition:clip-path 1.2s cubic-bezier(.2,.8,.2,1)}
-.wx-clip.wx-in{clip-path:inset(0 0 0 0 round 0px)}
-.wx-tilt{transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;will-change:transform}
-.btn{will-change:transform}
 .js .reveal{opacity:1!important;transform:none!important}
-@media (prefers-reduced-motion:reduce){.wx-w>span,.wx-up,.wx-clip{transform:none!important;opacity:1!important;clip-path:none!important;transition:none!important}}
+.u{display:inline-block;transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity 1s cubic-bezier(.2,.8,.2,1),filter 1s cubic-bezier(.2,.8,.2,1),clip-path 1s cubic-bezier(.2,.8,.2,1)}
+.m{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.t-rise .u{transform:translateY(110%) rotate(5deg)}
+.t-blur .u{opacity:0;filter:blur(14px);transform:scale(1.4)}
+.t-left .u{opacity:0;transform:translateX(-60px)}
+.t-flip .u{opacity:0;transform:perspective(600px) rotateX(-90deg);transform-origin:50% 100%}
+.t-zoom .u{opacity:0;transform:scale(.2)}
+.t-drop .u{opacity:0;transform:translateY(-80px) rotate(-12deg)}
+.t-wipe .u{clip-path:inset(0 100% 0 0)}
+.t-letters .u{opacity:0;transform:translateY(.6em)}
+.wx-in .u{opacity:1;transform:none;filter:none;clip-path:inset(0 0 0 0)}
+.b-up{opacity:0;transform:translateY(70px)}
+.b-left{opacity:0;transform:translateX(-90px)}
+.b-right{opacity:0;transform:translateX(90px)}
+.b-zoom{opacity:0;transform:scale(.8)}
+.b-flip{opacity:0;transform:perspective(900px) rotateY(-35deg);transform-origin:0 50%}
+.b-blur{opacity:0;filter:blur(18px)}
+.b-fan{opacity:0;transform:translateY(120px) rotate(8deg)}
+.b-pop{opacity:0;transform:scale(.5)}
+.b-up,.b-left,.b-right,.b-zoom,.b-flip,.b-blur,.b-fan,.b-pop{transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .9s cubic-bezier(.2,.8,.2,1)}
+.b-pop{transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.3,1.6,.5,1)}
+.b-up.wx-in,.b-left.wx-in,.b-right.wx-in,.b-zoom.wx-in,.b-flip.wx-in,.b-blur.wx-in,.b-fan.wx-in,.b-pop.wx-in{opacity:1;transform:none;filter:none}
+.v-curtain{clip-path:inset(18% 10% 18% 10% round 24px)}
+.v-circle{clip-path:circle(8% at 50% 50%)}
+.v-bottom{clip-path:inset(100% 0 0 0)}
+.v-curtain,.v-circle,.v-bottom{transition:clip-path 1.4s cubic-bezier(.2,.8,.2,1)}
+.v-curtain.wx-in,.v-bottom.wx-in{clip-path:inset(0 0 0 0)}
+.v-circle.wx-in{clip-path:circle(75% at 50% 50%)}
+@media (prefers-reduced-motion:reduce){.u,.b-up,.b-left,.b-right,.b-zoom,.b-flip,.b-blur,.b-fan,.b-pop,.v-curtain,.v-circle,.v-bottom{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;transition:none!important}}
 </style>
 
 <!-- ================================================================
@@ -1529,41 +1547,114 @@ form.addEventListener('submit', async e=>{
   }
 });
 </script>
-
 <div id="wx-progress"></div>
 <script>
-(()=>{
-const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const outside=e=>!e.closest('.ms,.screen,.pscreen,.show-frame');
-// 1. Titres mot par mot
-const split=el=>{const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.append(w);return}const o=document.createElement('span');o.className='wx-w';const i=document.createElement('span');i.textContent=w;o.append(i);f.append(o)});c.replaceWith(f)}else if(c.nodeType===1&&!c.classList.contains('wx-w'))walk(c)})};walk(el);el.querySelectorAll('.wx-w>span').forEach((s,k)=>s.style.transitionDelay=(k*0.06)+'s')};
-document.querySelectorAll('h1,h2').forEach(h=>{if(outside(h)){h.classList.remove('reveal');split(h);h.classList.add('wx-split')}});
-// 2. Blocs qui montent en cascade
-const groups=['.hero .sub','.hero-ctas','.trust','.sec-head p','.card','.plan','.step','.promise>div','.crow','.faq details','.tab','.cta-list li','#lead-form','.billing'];
-groups.forEach(g=>document.querySelectorAll(g).forEach((e,i)=>{if(!outside(e))return;e.classList.add('wx-up');e.style.transitionDelay=((i%4)*0.1)+'s'}));
-// 3. Révélation en rideau des grands visuels
-document.querySelectorAll('.ba,.show-frame-wrap,.stage,.compare').forEach(e=>e.classList.add('wx-clip'));
-// Observateur
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('wx-in');io.unobserve(en.target)}}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
-document.querySelectorAll('.wx-split,.wx-up,.wx-clip').forEach(e=>io.observe(e));
-if(reduce)return;
-// 4. Parallaxe + barre de progression + vitesse du bandeau
-const stage=document.querySelector('.stage'),bar=document.getElementById('wx-progress'),track=document.querySelector('.marquee-track');
-let last=scrollY,vel=0,x=0;
-const tick=()=>{const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(y/h)+')';
- if(stage&&stage.classList.contains('wx-in')){stage.style.transform='translateY('+(y*-0.12)+'px) rotate('+(y*0.004)+'deg)'}
- vel+=(Math.abs(y-last)-vel)*.1;last=y;if(track){x-=0.6+vel*0.35;const w=track.scrollWidth/2;if(-x>w)x+=w;track.style.transform='translateX('+x+'px)'}
- requestAnimationFrame(tick)};
-if(track)track.style.animation='none';
+(() => {
+const inside = e => !!e.closest('.ms,.screen,.pscreen,.show-frame');
+const wrap = (el, mode) => {
+  const walk = n => {
+    [...n.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const f = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(w => {
+          if (!w) return;
+          if (/^\s+$/.test(w)) { f.append(w); return; }
+          if (mode === 'letters') {
+            const g = document.createElement('span'); g.style.whiteSpace = 'nowrap';
+            [...w].forEach(ch => { const u = document.createElement('span'); u.className = 'u'; u.textContent = ch; g.append(u); });
+            f.append(g);
+          } else {
+            const m = document.createElement('span'); m.className = 'm';
+            const u = document.createElement('span'); u.className = 'u'; u.textContent = w;
+            m.append(u); f.append(m);
+          }
+        });
+        c.replaceWith(f);
+      } else if (c.nodeType === 1) walk(c);
+    });
+  };
+  walk(el);
+  el.querySelectorAll('.u').forEach((u, k) => u.style.transitionDelay = (k * (mode === 'letters' ? 0.025 : 0.07)) + 's');
+  if (mode !== 'rise' && mode !== 'wipe') el.querySelectorAll('.m').forEach(m => m.style.overflow = 'visible');
+};
+const titleFx = ['rise', 'blur', 'letters', 'flip', 'left', 'zoom', 'wipe', 'drop', 'letters'];
+const blockFx = [['b-up'], ['b-zoom'], ['b-flip'], ['b-fan'], ['b-left', 'b-right'], ['b-pop'], ['b-blur'], ['b-left', 'b-right'], ['b-up']];
+const visFx = ['v-curtain', 'v-circle', 'v-bottom'];
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) { en.target.classList.add('wx-in'); io.unobserve(en.target); }
+}), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+
+// En-tête
+const h1 = document.querySelector('.hero h1');
+if (h1) { h1.classList.remove('reveal'); wrap(h1, 'rise'); h1.classList.add('t-rise'); io.observe(h1); }
+document.querySelectorAll('.hero .sub,.hero-ctas,.trust').forEach((e, i) => {
+  e.classList.remove('reveal'); e.classList.add('b-blur'); e.style.transitionDelay = (.5 + i * .15) + 's'; io.observe(e);
+});
+const st = document.querySelector('.stage');
+if (st) { st.classList.remove('reveal'); st.classList.add('v-circle'); io.observe(st); }
+
+// Chaque section a son propre style d'animation
+[...document.querySelectorAll('section')].filter(s => !inside(s)).forEach((sec, i) => {
+  const tf = titleFx[i % titleFx.length], bf = blockFx[i % blockFx.length];
+  sec.querySelectorAll('h2').forEach(h => { if (inside(h)) return; h.classList.remove('reveal'); wrap(h, tf); h.classList.add('t-' + tf); io.observe(h); });
+  sec.querySelectorAll('.sec-head p,.card,.plan,.step,.promise>div,.crow,.faq details,.tab,.cta-list li,#lead-form,.billing').forEach((e, k) => {
+    if (inside(e)) return;
+    e.classList.remove('reveal'); e.classList.add(bf[k % bf.length]); e.style.transitionDelay = ((k % 4) * 0.12) + 's'; io.observe(e);
+  });
+  sec.querySelectorAll('.ba,.show-frame-wrap,.compare').forEach((v, k) => { v.classList.add(visFx[(i + k) % visFx.length]); io.observe(v); });
+});
+
+if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+// Parallaxe, barre de progression, bandeau réactif
+const bar = document.getElementById('wx-progress'), track = document.querySelector('.marquee-track');
+let last = scrollY, vel = 0, x = 0;
+if (track) track.style.animation = 'none';
+const tick = () => {
+  const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = 'scaleX(' + (y / h) + ')';
+  if (st && st.classList.contains('wx-in') && y < 1200) st.style.transform = 'translateY(' + (y * -0.1) + 'px)';
+  vel += (Math.abs(y - last) - vel) * .1; last = y;
+  if (track) {
+    x -= 0.6 + vel * 0.35; const w = track.scrollWidth / 2; if (-x > w) x += w;
+    track.style.transform = 'translateX(' + x + 'px) skewX(' + (-Math.min(vel, 40) * 0.3) + 'deg)';
+  }
+  requestAnimationFrame(tick);
+};
 requestAnimationFrame(tick);
-// 5. Compteurs des prix
-document.querySelectorAll('.price b').forEach(b=>{const m=b.textContent.match(/\d+/);if(!m)return;const to=+m[0];const ob=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;ob.disconnect();const t0=performance.now();const run=t=>{const p=Math.min(1,(t-t0)/1200),v=Math.round(to*(1-Math.pow(1-p,3)));b.textContent=b.textContent.replace(/\d+/,v);if(p<1)requestAnimationFrame(run)};run(t0)});ob.observe(b)});
-// 6. Boutons magnétiques + cartes qui s'inclinent
-if(matchMedia('(hover:hover)').matches){
- document.querySelectorAll('.btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.25)+'px,'+((e.clientY-r.top-r.height/2)*.35)+'px)'});b.addEventListener('mouseleave',()=>b.style.transform='')});
- document.querySelectorAll('.card,.plan').forEach(c=>{c.classList.add('wx-tilt');c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(px*6)+'deg) rotateX('+(-py*6)+'deg) translateY(-4px)'});c.addEventListener('mouseleave',()=>c.style.transform='')});
+
+// Compteurs de prix
+document.querySelectorAll('.price b').forEach(b => {
+  const m = b.textContent.match(/\d+/); if (!m) return; const to = +m[0];
+  const ob = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return; ob.disconnect(); const t0 = performance.now();
+    const run = t => { const p = Math.min(1, (t - t0) / 1300), v = Math.round(to * (1 - Math.pow(1 - p, 3))); b.textContent = b.textContent.replace(/\d+/, v); if (p < 1) requestAnimationFrame(run); };
+    requestAnimationFrame(run);
+  });
+  ob.observe(b);
+});
+
+// Effets au survol (ordinateur)
+if (matchMedia('(hover:hover)').matches) {
+  document.querySelectorAll('.btn').forEach(b => {
+    b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .25) + 'px,' + ((e.clientY - r.top - r.height / 2) * .35) + 'px)'; });
+    b.addEventListener('mouseleave', () => b.style.transform = '');
+  });
+  const hov = (sel, fn) => document.querySelectorAll(sel).forEach(c => {
+    c.addEventListener('mousemove', e => {
+      if (!c.classList.contains('wx-in')) return;
+      const r = c.getBoundingClientRect();
+      c.style.transition = 'transform .4s cubic-bezier(.2,.8,.2,1)';
+      c.style.transform = fn((e.clientX - r.left) / r.width - .5, (e.clientY - r.top) / r.height - .5);
+    });
+    c.addEventListener('mouseleave', () => c.style.transform = '');
+  });
+  hov('.card', (x, y) => 'perspective(900px) rotateY(' + (x * 7) + 'deg) rotateX(' + (-y * 7) + 'deg)');
+  hov('.plan', () => 'translateY(-8px) scale(1.02)');
+  hov('.promise>div', (x, y) => 'translate(' + (x * 10) + 'px,' + (y * 10) + 'px)');
 }
 })();
+
 </script>
 </body>
 </html>
