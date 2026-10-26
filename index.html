@@ -499,7 +499,7 @@ nav#nav.scrolled{border-color:var(--line)}
 .b-up.wx-in,.b-left.wx-in,.b-right.wx-in,.b-zoom.wx-in,.b-flip.wx-in,.b-blur.wx-in,.b-fan.wx-in,.b-pop.wx-in{opacity:1;transform:none;filter:none}
 .v-curtain{clip-path:inset(18% 10% 18% 10% round 24px)}
 .v-circle{clip-path:circle(8% at 50% 50%)}
-.v-bottom{clip-path:inset(100% 0 0 0)}
+.v-bottom{clip-path:inset(75% 0 0 0)}
 .v-curtain,.v-circle,.v-bottom{transition:clip-path 1.4s cubic-bezier(.2,.8,.2,1)}
 .v-curtain.wx-in,.v-bottom.wx-in{clip-path:inset(0 0 0 0)}
 .v-circle.wx-in{clip-path:circle(75% at 50% 50%)}
@@ -1582,6 +1582,9 @@ const visFx = ['v-curtain', 'v-circle', 'v-bottom'];
 const io = new IntersectionObserver(es => es.forEach(en => {
   if (en.isIntersecting) { en.target.classList.add('wx-in'); io.unobserve(en.target); }
 }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+const ioV = new IntersectionObserver(es => es.forEach(en => {
+  if (en.isIntersecting) { en.target.classList.add('wx-in'); ioV.unobserve(en.target); }
+}), { threshold: 0, rootMargin: '0px 0px -20% 0px' });
 
 // En-tête
 const h1 = document.querySelector('.hero h1');
@@ -1590,7 +1593,7 @@ document.querySelectorAll('.hero .sub,.hero-ctas,.trust').forEach((e, i) => {
   e.classList.remove('reveal'); e.classList.add('b-blur'); e.style.transitionDelay = (.5 + i * .15) + 's'; io.observe(e);
 });
 const st = document.querySelector('.stage');
-if (st) { st.classList.remove('reveal'); st.classList.add('v-circle'); io.observe(st); }
+if (st) { st.classList.remove('reveal'); st.classList.add('v-circle'); ioV.observe(st); }
 
 // Chaque section a son propre style d'animation
 [...document.querySelectorAll('section')].filter(s => !inside(s)).forEach((sec, i) => {
@@ -1600,7 +1603,7 @@ if (st) { st.classList.remove('reveal'); st.classList.add('v-circle'); io.observ
     if (inside(e)) return;
     e.classList.remove('reveal'); e.classList.add(bf[k % bf.length]); e.style.transitionDelay = ((k % 4) * 0.12) + 's'; io.observe(e);
   });
-  sec.querySelectorAll('.ba,.show-frame-wrap,.compare').forEach((v, k) => { v.classList.add(visFx[(i + k) % visFx.length]); io.observe(v); });
+  sec.querySelectorAll('.ba,.show-frame-wrap,.compare').forEach((v, k) => { v.classList.add(visFx[(i + k) % visFx.length]); ioV.observe(v); });
 });
 
 if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
