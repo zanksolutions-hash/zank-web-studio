@@ -368,99 +368,103 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
   .js .reveal{opacity:1;transform:none}
 }
 
-/* ================= STYLE CLAIR (inspiré apple.com) ================= */
+/* ================= STYLE CLAIR (inspiré notion.com) ================= */
 :root{
-  --bg:#fff; --bg-2:#f5f5f7; --surface:#fff; --surface-2:#f5f5f7;
-  --line:rgba(0,0,0,.08); --line-2:rgba(0,0,0,.14);
-  --text:#1d1d1f; --muted:#6e6e73; --dim:#86868b;
-  --indigo:#0071e3; --violet:#0071e3; --cyan:#0071e3; --lime:#0071e3;
-  --grad:linear-gradient(#0071e3,#0071e3);
+  --bg:#fff; --bg-2:#f6f5f4; --surface:#fff; --surface-2:#f6f5f4;
+  --line:rgba(0,0,0,.1); --line-2:rgba(0,0,0,.16);
+  --text:#191918; --muted:#615d59; --dim:#8f8a85;
+  --indigo:#0075de; --violet:#0075de; --cyan:#0075de; --lime:#0075de;
+  --grad:linear-gradient(#0075de,#0075de);
   --radius:28px;
-  --display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Inter,sans-serif;
+  --display:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Inter,sans-serif;background:#fff;color:var(--text)}
-h1,h2,h3{font-weight:600!important;letter-spacing:-.025em}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:var(--text)}
+h1,h2,h3{font-weight:700!important;letter-spacing:-.035em}
 h2{font-weight:600}
-.grad-text{background:none;color:#86868b}
-.eyebrow{color:#bf4800;letter-spacing:.02em;text-transform:none;font-size:17px;font-weight:600}
+.grad-text{background:linear-gradient(transparent 62%,#ffe58a 62%);color:inherit;-webkit-text-fill-color:currentColor;padding:0 .08em}
+.eyebrow{color:#615d59;letter-spacing:0;text-transform:none;font-size:15px;font-weight:600;background:#f1efed;padding:4px 10px;border-radius:6px}
 .eyebrow::before{display:none}
-section:nth-of-type(even){background:#f5f5f7}
-.btn{border-radius:980px;padding:14px 26px;font-weight:500}
-.btn-primary{background:#0071e3;color:#fff;box-shadow:none}
-.btn-primary:hover{background:#0077ed;transform:none;box-shadow:none}
-.btn-ghost{border:1px solid #0071e3;background:transparent;color:#0071e3}
-.btn-ghost:hover{background:#0071e3;color:#fff;border-color:#0071e3}
-.icon-tile{background:#f5f5f7;border:0;box-shadow:none;color:#1d1d1f}
-nav#nav.scrolled,nav#nav.open{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+section:nth-of-type(even){background:#f6f5f4}
+.btn{border-radius:8px;padding:12px 20px;font-weight:600}
+.btn-primary{background:#0075de;color:#fff;box-shadow:none}
+.btn-primary:hover{background:#005bab;transform:none;box-shadow:none}
+.btn-ghost{border:0;background:#f1efed;color:#191918}
+.btn-ghost:hover{background:#e6e3e0;color:#191918}
+.icon-tile{background:#fff;border:1px solid var(--line);box-shadow:none;color:#191918}
+nav#nav.scrolled,nav#nav.open{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
 .logo-mark{filter:invert(1)}
 .burger{border-color:var(--line)}
 .hero-bg{display:none}
-.badge-pill{background:#f5f5f7;border:0;color:var(--muted)}
-.badge-pill b{background:none;color:#bf4800;padding:3px 0}
-.browser{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 30px 60px -20px rgba(0,0,0,.25);transform:none}
+.badge-pill{background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:8px}
+.badge-pill b{background:#fdecc8;color:#7a4b00;padding:2px 8px;border-radius:5px}
+.browser{box-shadow:0 0 0 1px rgba(0,0,0,.1),0 18px 40px -18px rgba(0,0,0,.18);transform:none;border-radius:12px}
 .stage:hover .browser{transform:none}
-.phone{background:#1d1d1f;box-shadow:0 30px 60px -15px rgba(0,0,0,.35)}
-.phone .notch{background:#1d1d1f}
+.phone{background:#191918;box-shadow:0 30px 60px -15px rgba(0,0,0,.35)}
+.phone .notch{background:#191918}
 .float-card{background:rgba(255,255,255,.85);border:1px solid var(--line);box-shadow:0 12px 30px -8px rgba(0,0,0,.18);color:var(--text)}
-.fc1 .fi{background:rgba(0,113,227,.1);color:#0071e3}
+.fc1 .fi{background:#dbeddb;color:#2b6b3f}
 .theme-dots button{background:#d2d2d7}
-.theme-dots button.on{background:#1d1d1f}
+.theme-dots button.on{background:#191918}
 .marquee{background:#fff;border-color:var(--line)}
 .marquee span{color:#86868b;font-weight:600}
 .marquee span::after{background:#d2d2d7;opacity:1}
 .ba{border:0;box-shadow:0 30px 60px -25px rgba(0,0,0,.3)}
 .tab:hover{background:rgba(0,0,0,.03)}
 .tab.on{background:#fff;border-color:var(--line);box-shadow:0 4px 14px -6px rgba(0,0,0,.12)}
-.tab .ti{background:#f5f5f7;border:0}
-.tab.on .ti{background:#1d1d1f;color:#fff}
+.tab .ti{background:#f6f5f4;border:0}
+.tab.on .ti{background:#191918;color:#fff}
 .device-toggle{background:#e8e8ed;border:0}
 .device-toggle button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .show-frame-wrap{background:#fff;border:0}
 .show-frame{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 24px 50px -20px rgba(0,0,0,.25)}
-.show-frame.is-m{box-shadow:0 0 0 9px #1d1d1f,0 24px 50px -20px rgba(0,0,0,.3)}
-.card{background:#fff;border:0}
-section:nth-of-type(odd) .card{background:#f5f5f7}
+.show-frame.is-m{box-shadow:0 0 0 9px #191918,0 24px 50px -20px rgba(0,0,0,.3)}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px}
+section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .card::before{display:none}
 .card:hover{transform:none}
 .domain{background:#fff;border:1px solid var(--line)}
 .domain .dot{background:#34c759;box-shadow:none}
-.domain small{color:#1d1d1f}
+.domain small{color:#191918}
 .chip{background:#fff;border:1px solid var(--line)}
-.chip.ok{color:#0071e3;border-color:rgba(0,113,227,.25);background:rgba(0,113,227,.05)}
-.gauge .val{color:#1d1d1f}
-.bubble.them{background:#e9e9eb;border:0;color:#1d1d1f}
-.bubble.me{background:#0071e3;color:#fff}
+.chip.ok{color:#2b6b3f;border-color:transparent;background:#dbeddb}
+.gauge .val{color:#191918}
+.bubble.them{background:#e9e9eb;border:0;color:#191918}
+.bubble.me{background:#0075de;color:#fff}
 .serp{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 10px 30px -12px rgba(0,0,0,.2)}
 .steps::before{background:#d2d2d7;opacity:1}
 .step .n{background:#fff;border:1px solid var(--line);box-shadow:none}
-.step .n span{background:none;color:#1d1d1f}
-.step .when{color:#0071e3;background:rgba(0,113,227,.07);border:0}
+.step .n span{background:none;color:#191918}
+.step .when{color:#7a4b00;background:#fdecc8;border:0;border-radius:5px}
 .billing-inner{background:#e8e8ed;border:0}
-.billing button.on{background:#fff;color:#1d1d1f;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-.billing .save,.billing button.on .save{background:rgba(0,113,227,.1);color:#0071e3}
-.plan{background:#fff;border:1px solid var(--line)}
+.billing button.on{background:#fff;color:#191918;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.billing .save,.billing button.on .save{background:rgba(0,117,222,.1);color:#0075de}
+.plan{background:#fff;border:1px solid var(--line);border-radius:14px}
 .plan.hot{background:#fff}
-.plan.hot::before{background:#0071e3;padding:2px}
-.plan.hot::after{box-shadow:0 24px 50px -20px rgba(0,113,227,.25)}
-.plan-tag{background:#0071e3;color:#fff}
-.setup em{color:#0071e3}
-.plan li::before{background:rgba(0,113,227,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
+.plan.hot::before{background:#0075de;padding:2px;border-radius:15px}
+.plan.hot::after{box-shadow:none}
+.plan-tag{background:#0075de;color:#fff;border-radius:6px}
+.setup em{color:#0075de}
+.plan li::before{background:rgba(0,117,222,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
 .plan li.off::before{background-color:rgba(0,0,0,.04)}
 .promise{background:var(--line);border-color:var(--line)}
 .promise>div{background:#fff}
-.crow>div:nth-child(3){background:rgba(0,113,227,.04)}
-.crow.head>div:nth-child(3){color:#0071e3}
-.faq details[open] summary .pm{background:#f5f5f7}
-.cta-box{background:#fff;border:0;box-shadow:0 0 0 1px rgba(0,0,0,.05)}
-#lead-form{background:#f5f5f7;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
-#lead-form input,#lead-form select{background:#fff;border:1px solid #d2d2d7;color:#1d1d1f}
-#lead-form select option{background:#fff;color:#1d1d1f}
-#lead-form input:focus,#lead-form select:focus{border-color:#0071e3;background:#fff;box-shadow:0 0 0 3px rgba(0,113,227,.15)}
+.crow>div:nth-child(3){background:rgba(0,117,222,.04)}
+.crow.head>div:nth-child(3){color:#0075de}
+.faq details[open] summary .pm{background:#f6f5f4}
+.cta-box{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:none}
+#lead-form{background:#f6f5f4;border:0;border-radius:12px;backdrop-filter:none;-webkit-backdrop-filter:none}
+#lead-form input,#lead-form select{background:#fff;border:1px solid rgba(0,0,0,.15);color:#191918;border-radius:6px}
+#lead-form select option{background:#fff;color:#191918}
+#lead-form input:focus,#lead-form select:focus{border-color:#0075de;background:#fff;box-shadow:0 0 0 3px rgba(0,117,222,.15)}
 .form-ok{background:#e8f5ec;color:#1d7f3a}
-.direct a{color:#0071e3}
-footer{background:#f5f5f7;border-top:0;margin-top:0}
+.direct a{color:#0075de}
+footer{background:#fff;border-top:1px solid var(--line);margin-top:0}
 footer .foot p,footer .foot-bottom{color:#6e6e73}
-@media (max-width:860px){.nav-links{background:rgba(255,255,255,.97)}}
+@media (max-width:860px){.nav-links{background:#fff}}
+nav#nav.scrolled{border-color:var(--line)}
+.tab.on{border-radius:10px}
+.ba{border-radius:14px}
+.show-frame-wrap{border-radius:16px;border:1px solid var(--line)}
 @media (prefers-color-scheme:dark){html{color-scheme:light}}
 </style>
 
@@ -950,7 +954,7 @@ footer .foot p,footer .foot-bottom{color:#6e6e73}
         <h3>Ultra rapide</h3>
         <p>Pas de WordPress lourd ni d'extensions : vos pages s'affichent presque instantanément.</p>
         <div class="viz gauge">
-          <svg class="ring" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#0071e3"/><stop offset="1" stop-color="#2997ff"/></linearGradient></defs><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"/></svg>
+          <svg class="ring" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#0075de"/><stop offset="1" stop-color="#0075de"/></linearGradient></defs><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"/></svg>
           <div class="val"><svg class="ic"><use href="#i-zap"/></svg></div>
         </div>
       </div>
