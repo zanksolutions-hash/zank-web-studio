@@ -1,0 +1,1569 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zank Solutions | Sites web pour commerçants, artisans et indépendants</title>
+<meta name="description" content="Votre site professionnel en ligne en 7 jours, dès 25 € HTVA/mois : création, hébergement, nom de domaine à votre nom et modifications inclus. Maquette offerte avant de signer.">
+<link rel="canonical" href="https://webstudio.zanksolutions.be/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://webstudio.zanksolutions.be/">
+<meta property="og:title" content="Zank Solutions · Votre site pro dès 25 € HTVA/mois">
+<meta property="og:description" content="Création, hébergement, nom de domaine et modifications inclus. Maquette offerte avant de signer.">
+<meta property="og:locale" content="fr_BE">
+<meta name="theme-color" content="#15110e">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --bg:#15110e; --bg-2:#1c1714; --surface:#241e19; --surface-2:#2c251f;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --text:#f5ede3; --muted:#b8a999; --dim:#887b6d;
+  --indigo:#d9774b; --violet:#e2a54e; --cyan:#9db88f; --lime:#a9c48f;
+  --grad:linear-gradient(100deg,#e08a5e 0%,#e8b468 45%,#9db88f 100%);
+  --radius:20px;
+  --display:'Bricolage Grotesque',Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.ic{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:120px 0;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--grad);border-radius:2px}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.03em;line-height:1.05}
+h2{font-size:clamp(34px,5vw,60px);font-weight:800;max-width:820px}
+.sec-head{margin-bottom:64px}
+.sec-head p{color:var(--muted);font-size:19px;max-width:620px;margin-top:20px}
+.sec-head.center{text-align:center}
+.sec-head.center h2,.sec-head.center p{margin-left:auto;margin-right:auto}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:14px;font-weight:600;font-size:16px;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;white-space:nowrap}
+.btn .ic{font-size:18px}
+.btn-primary{background:#fff;color:#1a1511;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 10px 40px -10px rgba(224,138,94,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,255,255,.3),0 18px 50px -10px rgba(226,165,78,.8)}
+.btn-primary .ic{transition:transform .2s}
+.btn-primary:hover .ic{transform:translateX(4px)}
+.btn-ghost{border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+.icon-tile{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line-2);color:#c7d2fe;font-size:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s!important}.d2{transition-delay:.16s!important}.d3{transition-delay:.24s!important}.d4{transition-delay:.32s!important}
+
+/* ---------- NAV ---------- */
+nav#nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+nav#nav.scrolled{background:rgba(21,17,14,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-color:var(--line)}
+nav#nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.02em}
+.logo-mark{width:38px;height:38px;display:block;flex:none;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a:not(.btn){color:var(--muted);font-size:15px;font-weight:500;transition:color .2s}
+.nav-links a:not(.btn):hover{color:var(--text)}
+.nav-links .btn{padding:11px 20px;font-size:15px}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);position:relative}
+.burger span{position:absolute;left:12px;right:12px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+.burger span:nth-child(1){top:16px}.burger span:nth-child(2){top:26px}
+nav#nav.open .burger span:nth-child(1){top:21px;transform:rotate(45deg)}
+nav#nav.open .burger span:nth-child(2){top:21px;transform:rotate(-45deg)}
+
+/* ---------- HERO ---------- */
+.hero{padding:170px 0 120px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.hero-bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 30%,#000 30%,transparent 75%)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:float 18s ease-in-out infinite}
+.blob.b1{width:560px;height:560px;background:#b85f36;top:-180px;left:-120px}
+.blob.b2{width:480px;height:480px;background:#c98a3f;top:40px;right:-160px;animation-delay:-6s}
+.blob.b3{width:380px;height:380px;background:#6f8a63;bottom:-160px;left:35%;animation-delay:-12s;opacity:.4}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-30px,30px) scale(.95)}}
+.hero .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.badge-pill{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 8px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.04);font-size:14px;color:var(--muted);margin-bottom:28px}
+.badge-pill b{background:var(--grad);color:#1a1511;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.hero h1{font-size:clamp(44px,5.4vw,70px);font-weight:800;margin-bottom:26px}
+.hero .sub{font-size:20px;color:var(--muted);max-width:540px;margin-bottom:38px}
+.hero .sub strong{color:var(--text);font-weight:600}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px}
+.trust{display:flex;gap:26px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.trust span{display:flex;align-items:center;gap:8px}
+.trust .ic{color:var(--lime);font-size:16px;stroke-width:2.4}
+
+/* hero visual */
+.stage{position:relative;height:540px}
+.browser{position:absolute;inset:0 44px 64px 0;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 40px 100px -20px rgba(0,0,0,.8),0 0 120px -30px rgba(224,138,94,.6);transform:perspective(1600px) rotateY(-7deg) rotateX(3deg);transition:transform .6s}
+.stage:hover .browser{transform:perspective(1600px) rotateY(-2deg) rotateX(1deg)}
+.chrome{height:34px;background:#f1f3f7;display:flex;align-items:center;gap:7px;padding:0 14px;border-bottom:1px solid #e3e6ee;position:relative;z-index:2}
+.chrome i{width:10px;height:10px;border-radius:50%;display:block}
+.chrome i:nth-child(1){background:#ff5f57}.chrome i:nth-child(2){background:#febc2e}.chrome i:nth-child(3){background:#28c840}
+.chrome .url{flex:1;max-width:280px;margin:0 auto;background:#fff;border:1px solid #e3e6ee;border-radius:7px;font-size:11.5px;color:#64748b;padding:3px 12px;font-family:Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;justify-content:center;gap:6px}
+.chrome .url .ic{font-size:11px;stroke-width:2.2}
+.screen{position:absolute;inset:34px 0 0;overflow:hidden;transition:opacity .45s}
+.screen.fade,.pscreen.fade{opacity:0}
+.phone{position:absolute;right:0;bottom:0;width:176px;height:362px;border-radius:30px;background:#17130f;padding:8px;box-shadow:0 0 0 1px rgba(255,255,255,.18),0 30px 70px -10px rgba(0,0,0,.9);transform:rotate(4deg);transition:transform .6s;z-index:3}
+.stage:hover .phone{transform:rotate(1deg) translateY(-6px)}
+.phone .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:56px;height:15px;background:#17130f;border-radius:10px;z-index:3}
+.pscreen{position:relative;width:100%;height:100%;border-radius:23px;overflow:hidden;background:#fff;transition:opacity .45s}
+.float-card{position:absolute;z-index:4;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;background:rgba(18,21,42,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line-2);box-shadow:0 20px 40px -10px rgba(0,0,0,.6);font-size:13px;animation:bob 6s ease-in-out infinite}
+.float-card .fi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px}
+.float-card b{display:block;font-size:13px}
+.float-card small{color:var(--muted);font-size:12px}
+.fc1{right:150px;top:-28px}
+.fc1 .fi{background:rgba(169,196,143,.14);color:var(--lime)}
+.fc2{left:30px;bottom:18px;animation-delay:-3s}
+.fc2 .fi{background:rgba(250,204,21,.14);color:#facc15}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.theme-dots{position:absolute;left:0;right:44px;bottom:-36px;display:flex;justify-content:center;gap:8px}
+.theme-dots button{width:8px;height:8px;border-radius:99px;background:var(--line-2);transition:.3s}
+.theme-dots button.on{width:28px;background:var(--grad)}
+
+/* ---------- MARQUEE ---------- */
+.marquee{border-block:1px solid var(--line);padding:26px 0;overflow:hidden;background:var(--bg-2)}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:scroll 40s linear infinite}
+.marquee span{font-family:var(--display);font-size:24px;font-weight:700;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:48px}
+.marquee span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--violet);opacity:.7}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- AVANT / APRÈS ---------- */
+.ba{position:relative;height:560px;border-radius:24px;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 40px 100px -30px rgba(0,0,0,.8);user-select:none;-webkit-user-select:none;background:#fff}
+.ba-pane{position:absolute;inset:0;overflow:hidden}
+.ba-after{clip-path:inset(0 0 0 var(--pos,50%))}
+.ba-label{position:absolute;top:18px;z-index:3;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em}
+.ba-label.l{left:18px;background:#000;color:#ff0}
+.ba-label.r{right:18px;background:#fff;color:#1a1511}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;z-index:4;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 20px rgba(0,0,0,.4)}
+.ba-knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:#fff;color:#1a1511;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.ba-knob .ic{stroke-width:2}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:5;margin:0}
+.old{height:100%;background:#c0c0c0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='4' height='4' fill='%23b4b4b4'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%23b4b4b4'/%3E%3C/svg%3E");font-family:'Times New Roman',Times,serif;color:#000;padding:20px;font-size:15px}
+.old-box{background:#ffffcc;border:3px outset #999;padding:16px;max-width:620px}
+.old h5{font-family:'Comic Sans MS','Comic Sans',cursive;font-size:30px;color:#c00;text-align:center;text-shadow:2px 2px #ff0;margin-bottom:8px}
+.old .scroll{background:#000080;color:#ff0;padding:4px;font-weight:bold;overflow:hidden;white-space:nowrap;margin-bottom:12px}
+.old .scroll span{display:inline-block;animation:oldscroll 9s linear infinite}
+@keyframes oldscroll{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+.old a{color:#00e;text-decoration:underline}
+.old table{border-collapse:collapse;margin:10px 0;width:100%}
+.old td{border:2px inset #888;padding:6px;background:#fff;font-size:14px}
+.old .counter{font-family:monospace;background:#000;color:#0f0;padding:2px 6px;letter-spacing:2px}
+.old .construct{text-align:center;margin-top:12px;font-weight:bold;color:#f60;text-decoration:blink}
+
+/* ---------- SHOWCASE ---------- */
+.show{display:grid;grid-template-columns:290px 1fr;gap:40px;align-items:start}
+.tabs{display:flex;flex-direction:column;gap:8px}
+.tab{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;border-radius:16px;border:1px solid transparent;transition:.25s;color:var(--muted)}
+.tab .ti{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:20px;flex:none;transition:.25s;color:var(--muted)}
+.tab b{display:block;color:var(--text);font-size:16px;font-weight:600}
+.tab small{font-size:13px}
+.tab:hover{background:rgba(255,255,255,.03)}
+.tab.on{background:var(--surface);border-color:var(--line-2)}
+.tab.on .ti{background:#fff;color:#1a1511;border-color:#fff}
+.device-toggle{display:inline-flex;padding:5px;border-radius:12px;background:var(--surface);border:1px solid var(--line);margin-bottom:18px}
+.device-toggle button{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);transition:.2s}
+.device-toggle button .ic{font-size:16px}
+.device-toggle button.on{background:var(--surface-2);color:var(--text);box-shadow:0 0 0 1px var(--line-2)}
+.show-frame-wrap{display:flex;justify-content:center;padding:28px;border-radius:24px;background:radial-gradient(600px 300px at 50% 0%,rgba(224,138,94,.18),transparent),var(--bg-2);border:1px solid var(--line)}
+.show-frame{width:100%;height:520px;border-radius:12px;overflow:hidden;background:#fff;position:relative;transition:width .5s cubic-bezier(.2,.7,.2,1),border-radius .5s;box-shadow:0 30px 80px -20px rgba(0,0,0,.8)}
+.show-frame.is-m{width:300px;height:600px;border-radius:34px;box-shadow:0 0 0 9px #17130f,0 0 0 10px rgba(255,255,255,.18),0 30px 80px -20px rgba(0,0,0,.8)}
+.show-frame.is-m .chrome{display:none}
+.show-frame.is-m .screen{inset:0}
+.show-frame .screen{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin}
+.show-note{margin-top:18px;color:var(--dim);font-size:14px;text-align:center}
+
+/* ---------- BENTO ---------- */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.card{position:relative;background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--radius);padding:30px;overflow:hidden;transition:border-color .3s,transform .3s}
+.card:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),rgba(224,138,94,.12),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.card:hover::before{opacity:1}
+.card h3{font-size:24px;font-weight:700;margin-bottom:10px}
+.card p{color:var(--muted);font-size:15px;max-width:440px}
+.card .icon-tile{margin-bottom:22px}
+.c-a{grid-column:span 4}.c-b{grid-column:span 2}.c-c{grid-column:span 2}.c-d{grid-column:span 2}.c-e{grid-column:span 2}.c-f{grid-column:span 3}.c-g{grid-column:span 3}
+.viz{margin-top:26px}
+.domain{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);max-width:460px}
+.domain .dot{width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}
+.domain code{font-family:ui-monospace,Menlo,monospace;font-size:16px;flex:1}
+.domain small{color:var(--lime);font-weight:600;font-size:13px}
+.domain-meta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:13px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted)}
+.chip.ok{color:var(--lime);border-color:rgba(169,196,143,.3);background:rgba(169,196,143,.08)}
+.chip .ic{stroke-width:2.2}
+.gauge{width:120px;height:120px;position:relative}
+.gauge svg.ring{transform:rotate(-90deg)}
+.gauge .val{position:absolute;inset:0;display:grid;place-items:center;font-size:34px;color:#c7d2fe}
+.gauge circle.p{stroke-dasharray:314;stroke-dashoffset:314;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+.in .gauge circle.p{stroke-dashoffset:16}
+.chat{display:flex;flex-direction:column;gap:10px}
+.bubble{max-width:85%;padding:11px 15px;border-radius:16px;font-size:14px;line-height:1.4}
+.bubble.them{background:var(--surface-2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bubble.me{align-self:flex-end;background:linear-gradient(135deg,#d9774b,#c98a3f);border-bottom-right-radius:4px}
+.bubble small{display:flex;align-items:center;gap:4px;opacity:.65;font-size:11px;margin-top:3px}
+.bubble.me small{justify-content:flex-end}
+.serp{background:#fff;border-radius:14px;padding:16px 18px;color:#202124;font-family:Arial,sans-serif;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.serp .q{display:flex;align-items:center;gap:10px;border:1px solid #dfe1e5;border-radius:999px;padding:8px 14px;font-size:13px;margin-bottom:14px;color:#4d5156}
+.serp .q .ic{color:#9aa0a6;font-size:15px;stroke-width:2}
+.serp .site{font-size:12px;color:#4d5156;display:flex;align-items:center;gap:8px}
+.serp .site i{width:18px;height:18px;border-radius:50%;background:#14110f;display:block}
+.serp .t{color:#1a0dab;font-size:17px;margin:4px 0 2px}
+.serp .d{font-size:13px;color:#4d5156;display:flex;align-items:center;gap:6px}
+.serp .st{color:#e37400;display:inline-flex;gap:1px;font-size:12px}
+
+/* ---------- PROCESS ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.steps::before{content:"";position:absolute;top:31px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--indigo),var(--violet),var(--cyan),transparent);opacity:.5}
+.step{position:relative;text-align:center;padding:0 10px}
+.step .n{width:64px;height:64px;margin:0 auto 26px;border-radius:20px;background:var(--bg);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--display);font-size:24px;font-weight:800;position:relative;box-shadow:0 0 0 8px var(--bg)}
+.step .n span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.step h3{font-size:21px;margin-bottom:10px;font-weight:700}
+.step p{color:var(--muted);font-size:15px}
+.step .when{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;color:var(--cyan);padding:4px 10px;border-radius:999px;background:rgba(157,184,143,.08);border:1px solid rgba(157,184,143,.2)}
+
+/* ---------- PRICING ---------- */
+.billing{display:flex;justify-content:center;margin-bottom:56px}
+.billing-inner{display:inline-flex;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.billing button{padding:10px 20px;border-radius:10px;font-size:15px;font-weight:600;color:var(--muted);transition:.25s;display:flex;align-items:center;gap:8px}
+.billing button.on{background:#fff;color:#1a1511}
+.billing .save{font-size:11px;padding:2px 8px;border-radius:99px;background:rgba(169,196,143,.15);color:var(--lime)}
+.billing button.on .save{background:#1a1511;color:var(--lime)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.plan{position:relative;border-radius:24px;padding:36px 32px;background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);display:flex;flex-direction:column}
+.plan.hot{background:linear-gradient(180deg,#1b1d3d,#12142b)}
+.plan.hot::before{content:"";position:absolute;inset:-1px;border-radius:25px;padding:1px;background:var(--grad);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.plan.hot::after{content:"";position:absolute;inset:0;border-radius:24px;box-shadow:0 30px 80px -20px rgba(226,165,78,.45);pointer-events:none}
+.plan-tag{position:absolute;top:-13px;left:32px;padding:5px 12px;border-radius:999px;background:var(--grad);color:#1a1511;font-size:12px;font-weight:700}
+.plan h3{font-size:24px;font-weight:700}
+.plan .for{color:var(--muted);font-size:15px;margin:6px 0 26px;min-height:46px}
+.price{display:flex;align-items:baseline;gap:6px;font-family:var(--display)}
+.price b{font-size:62px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.price span{color:var(--muted);font-family:Inter,sans-serif;font-size:15px}
+.setup{font-size:14px;color:var(--muted);margin:12px 0 28px;min-height:21px}
+.setup em{font-style:normal;color:var(--lime);font-weight:600}
+.plan ul{list-style:none;display:grid;gap:13px;margin-bottom:34px;flex:1}
+.plan li{display:flex;gap:12px;font-size:15px;align-items:flex-start}
+.plan li::before{content:"";flex:none;width:20px;height:20px;border-radius:50%;margin-top:1px;background:rgba(224,138,94,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a5b4fc' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
+.plan li.off{color:var(--dim)}
+.plan li.off::before{background:rgba(255,255,255,.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7194' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 12h10'/%3E%3C/svg%3E") center/11px no-repeat}
+.plan .btn{width:100%}
+.price-foot{text-align:center;color:var(--dim);font-size:14px;margin-top:34px}
+
+/* ---------- PROMESSES ---------- */
+.promise{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.promise>div{background:var(--bg);padding:34px 28px}
+.promise .icon-tile{margin-bottom:22px}
+.promise h3{font-size:20px;margin-bottom:8px;font-weight:700}
+.promise p{color:var(--muted);font-size:15px}
+
+/* ---------- COMPARE ---------- */
+.compare{max-width:900px;margin:0 auto;border-radius:24px;border:1px solid var(--line);overflow:hidden}
+.crow{display:grid;grid-template-columns:1.1fr 1fr 1fr;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0}
+.crow>div{padding:18px 24px;font-size:15px}
+.crow>div:nth-child(2){color:var(--dim)}
+.crow>div:nth-child(3){background:rgba(224,138,94,.06);font-weight:600}
+.crow.head>div{font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.crow.head>div:nth-child(3){color:#f0cfa0}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:820px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:26px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:19px;font-weight:600;font-family:var(--display);letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pm{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;transition:transform .3s,background .3s;font-size:16px;color:var(--muted)}
+.faq details[open] summary .pm{transform:rotate(45deg);background:var(--surface-2);color:var(--text)}
+.faq details p{color:var(--muted);padding:0 50px 26px 0;font-size:16px}
+
+/* ---------- CONTACT ---------- */
+.cta-box{position:relative;border-radius:32px;padding:72px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;border:1px solid var(--line-2);background:radial-gradient(700px 400px at 0% 0%,rgba(217,119,75,.35),transparent 60%),radial-gradient(600px 400px at 100% 100%,rgba(157,184,143,.18),transparent 60%),var(--bg-2)}
+.cta-box h2{font-size:clamp(34px,4.4vw,54px)}
+.cta-box .lead{color:var(--muted);font-size:18px;margin:20px 0 30px}
+.cta-list{list-style:none;display:grid;gap:14px}
+.cta-list li{display:flex;gap:14px;align-items:center}
+.direct{margin-top:28px;color:var(--muted);font-size:15px}
+.direct a{color:var(--text);text-decoration:underline;text-underline-offset:3px}
+.cta-list .icon-tile{width:36px;height:36px;border-radius:10px;font-size:17px}
+#lead-form{background:rgba(21,17,14,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line-2);border-radius:24px;padding:32px;display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#lead-form label{display:grid;gap:7px;font-size:13px;font-weight:600;color:var(--muted)}
+#lead-form input,#lead-form select{font:inherit;font-size:15px;padding:13px 15px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--text);width:100%;transition:border-color .2s,background .2s}
+#lead-form select option{background:var(--surface);color:var(--text)}
+#lead-form input::placeholder{color:var(--dim)}
+#lead-form input:focus,#lead-form select:focus{outline:none;border-color:#e08a5e;background:rgba(224,138,94,.06)}
+#lead-form .btn{width:100%;margin-top:4px}
+.form-ok{display:none;padding:14px;border-radius:12px;background:rgba(169,196,143,.12);color:var(--lime);font-weight:600;text-align:center}
+.form-note{font-size:12px;color:var(--dim);text-align:center}
+.form-note a{text-decoration:underline}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+.foot p{color:var(--dim);font-size:14px;margin-top:14px;max-width:340px}
+.foot-links{display:flex;gap:28px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.foot-links a:hover{color:var(--text)}
+.foot-bottom{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);color:var(--dim);font-size:13px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1060px){
+  .hero .wrap{grid-template-columns:1fr;gap:80px}
+  .stage{max-width:640px;width:100%;margin:0 auto}
+  .show{grid-template-columns:1fr}
+  .tabs{flex-direction:row;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none}
+  .tab small{display:none}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .c-a,.c-f,.c-g{grid-column:span 2}.c-b,.c-c,.c-d,.c-e{grid-column:span 1}
+  .plans{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+  .promise{grid-template-columns:repeat(2,1fr)}
+  .cta-box{grid-template-columns:minmax(0,1fr);padding:48px}
+  .cta-box>*,.row2>*{min-width:0}
+}
+@media (max-width:860px){
+  .nav-links{position:fixed;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:12px 24px 24px;background:rgba(21,17,14,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);transform:translateY(-10px);opacity:0;pointer-events:none;transition:.25s}
+  nav#nav.open .nav-links{transform:none;opacity:1;pointer-events:auto}
+  .nav-links a:not(.btn){padding:14px 0;border-bottom:1px solid var(--line);font-size:17px}
+  .nav-links .btn{margin-top:16px;padding:14px}
+  .burger{display:block}
+  nav#nav.open{background:rgba(21,17,14,.96)}
+  .steps{grid-template-columns:repeat(2,1fr);row-gap:48px}
+  .steps::before{display:none}
+}
+@media (max-width:600px){
+  section{padding:84px 0}
+  .wrap{padding:0 16px}
+  .hero{padding:130px 0 90px}
+  .hero-ctas .btn{width:100%}
+  .stage{height:400px}
+  .browser{inset:0 24px 50px 0}
+  .phone{width:130px;height:268px;border-radius:24px;padding:6px}
+  .pscreen{border-radius:18px}
+  .phone .notch{top:11px;width:42px;height:11px}
+  .fc1{right:30px;top:-24px}
+  .fc2{display:none}
+  .ba{height:480px}
+  .old{padding:12px;font-size:13px}
+  .old h5{font-size:22px}
+  .show-frame-wrap{padding:14px}
+  .show-frame{height:460px}
+  .show-frame.is-m{width:260px;height:520px}
+  .bento{grid-template-columns:1fr}
+  .c-a,.c-b,.c-c,.c-d,.c-e,.c-f,.c-g{grid-column:span 1}
+  .steps{grid-template-columns:1fr}
+  .promise{grid-template-columns:1fr}
+  .crow>div{padding:14px 12px;font-size:13px}
+  .cta-box{padding:32px 18px;border-radius:24px}
+  #lead-form{padding:22px}
+  .row2{grid-template-columns:1fr}
+  .faq details p{padding-right:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* ================= STYLE CLAIR (inspiré notion.com) ================= */
+:root{
+  --bg:#fff; --bg-2:#f6f5f4; --surface:#fff; --surface-2:#f6f5f4;
+  --line:rgba(0,0,0,.1); --line-2:rgba(0,0,0,.16);
+  --text:#191918; --muted:#615d59; --dim:#8f8a85;
+  --indigo:#0075de; --violet:#0075de; --cyan:#0075de; --lime:#0075de;
+  --grad:linear-gradient(#0075de,#0075de);
+  --radius:6px;
+  --display:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:var(--text)}
+h1,h2,h3{font-weight:700!important;letter-spacing:-.035em}
+h2{font-weight:600}
+.grad-text{background:linear-gradient(transparent 62%,#ffe58a 62%);color:inherit;-webkit-text-fill-color:currentColor;padding:0 .08em}
+.eyebrow{color:#615d59;letter-spacing:0;text-transform:none;font-size:15px;font-weight:600;background:#f1efed;padding:4px 10px;border-radius:3px}
+.eyebrow::before{display:none}
+section:nth-of-type(even){background:#f6f5f4}
+.btn{border-radius:4px;padding:12px 20px;font-weight:600}
+.btn-primary{background:#0075de;color:#fff;box-shadow:none}
+.btn-primary:hover{background:#005bab;transform:none;box-shadow:none}
+.btn-ghost{border:0;background:#f1efed;color:#191918}
+.btn-ghost:hover{background:#e6e3e0;color:#191918}
+.icon-tile{background:#fff;border:1px solid var(--line);box-shadow:none;color:#191918}
+nav#nav.scrolled,nav#nav.open{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+.logo-mark{filter:invert(1)}
+.burger{border-color:var(--line)}
+.hero-bg{display:none}
+.badge-pill{background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:4px}
+.badge-pill b{background:#fdecc8;color:#7a4b00;padding:2px 8px;border-radius:5px}
+.browser{box-shadow:0 0 0 1px rgba(0,0,0,.1),0 18px 40px -18px rgba(0,0,0,.18);transform:none;border-radius:6px}
+.stage:hover .browser{transform:none}
+.phone{background:#191918;box-shadow:0 30px 60px -15px rgba(0,0,0,.35)}
+.phone .notch{background:#191918}
+.float-card{background:rgba(255,255,255,.85);border:1px solid var(--line);box-shadow:0 12px 30px -8px rgba(0,0,0,.18);color:var(--text)}
+.fc1 .fi{background:#dbeddb;color:#2b6b3f}
+.theme-dots button{background:#d2d2d7}
+.theme-dots button.on{background:#191918}
+.marquee{background:#fff;border-color:var(--line)}
+.marquee span{color:#86868b;font-weight:600}
+.marquee span::after{background:#d2d2d7;opacity:1}
+.ba{border:0;box-shadow:0 30px 60px -25px rgba(0,0,0,.3)}
+.tab:hover{background:rgba(0,0,0,.03)}
+.tab.on{background:#fff;border-color:var(--line);box-shadow:0 4px 14px -6px rgba(0,0,0,.12)}
+.tab .ti{background:#f6f5f4;border:0}
+.tab.on .ti{background:#191918;color:#fff}
+.device-toggle{background:#e8e8ed;border:0}
+.device-toggle button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.show-frame-wrap{background:#fff;border:0}
+.show-frame{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 24px 50px -20px rgba(0,0,0,.25)}
+.show-frame.is-m{box-shadow:0 0 0 9px #191918,0 24px 50px -20px rgba(0,0,0,.3)}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px}
+section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
+.card::before{display:none}
+.card:hover{transform:none}
+.domain{background:#fff;border:1px solid var(--line)}
+.domain .dot{background:#34c759;box-shadow:none}
+.domain small{color:#191918}
+.chip{background:#fff;border:1px solid var(--line)}
+.chip.ok{color:#2b6b3f;border-color:transparent;background:#dbeddb}
+.gauge .val{color:#191918}
+.bubble.them{background:#e9e9eb;border:0;color:#191918}
+.bubble.me{background:#0075de;color:#fff}
+.serp{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 10px 30px -12px rgba(0,0,0,.2)}
+.steps::before{background:#d2d2d7;opacity:1}
+.step .n{background:#fff;border:1px solid var(--line);box-shadow:none}
+.step .n span{background:none;color:#191918}
+.step .when{color:#7a4b00;background:#fdecc8;border:0;border-radius:5px}
+.billing-inner{background:#e8e8ed;border:0}
+.billing button.on{background:#fff;color:#191918;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.billing .save,.billing button.on .save{background:rgba(0,117,222,.1);color:#0075de}
+.plan{background:#fff;border:1px solid var(--line);border-radius:6px}
+.plan.hot{background:#fff}
+.plan.hot::before{background:#0075de;padding:2px;border-radius:7px}
+.plan.hot::after{box-shadow:none}
+.plan-tag{background:#0075de;color:#fff;border-radius:3px}
+.setup em{color:#0075de}
+.plan li::before{background:rgba(0,117,222,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
+.plan li.off::before{background-color:rgba(0,0,0,.04)}
+.promise{background:var(--line);border-color:var(--line)}
+.promise>div{background:#fff}
+.crow>div:nth-child(3){background:rgba(0,117,222,.04)}
+.crow.head>div:nth-child(3){color:#0075de}
+.faq details[open] summary .pm{background:#f6f5f4}
+.cta-box{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:none}
+#lead-form{background:#f6f5f4;border:0;border-radius:6px;backdrop-filter:none;-webkit-backdrop-filter:none}
+#lead-form input,#lead-form select{background:#fff;border:1px solid rgba(0,0,0,.15);color:#191918;border-radius:3px}
+#lead-form select option{background:#fff;color:#191918}
+#lead-form input:focus,#lead-form select:focus{border-color:#0075de;background:#fff;box-shadow:0 0 0 3px rgba(0,117,222,.15)}
+.form-ok{background:#e8f5ec;color:#1d7f3a}
+.direct a{color:#0075de}
+footer{background:#fff;border-top:1px solid var(--line);margin-top:0}
+footer .foot p,footer .foot-bottom{color:#6e6e73}
+@media (max-width:860px){.nav-links{background:#fff}}
+nav#nav.scrolled{border-color:var(--line)}
+.tab.on{border-radius:5px}
+.ba{border-radius:6px}
+.show-frame-wrap{border-radius:8px;border:1px solid var(--line)}
+@media (prefers-color-scheme:dark){html{color-scheme:light}}
+/* coins réduits */
+.icon-tile,.tab .ti,.float-card,.float-card .fi,.domain,.billing-inner,.device-toggle,.device-toggle button,.billing button,.step .n,.serp,.serp .q{border-radius:5px}
+.chip,.badge-pill b,.step .when,.billing .save{border-radius:3px}
+.show-frame{border-radius:4px}.compare,.promise,.faq summary .pm{border-radius:6px}
+.burger{border-radius:5px}.plan-tag{border-radius:3px}
+
+/* ===== Animations façon Wix ===== */
+#wx-progress{position:fixed;top:0;left:0;height:3px;width:100%;background:#0075de;transform-origin:0 50%;transform:scaleX(0);z-index:999}
+.wx-w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.wx-w>span{display:inline-block;transform:translateY(105%) rotate(4deg);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.wx-in .wx-w>span{transform:none}
+.grad-text .wx-w>span{background:inherit}
+.wx-up{opacity:0;transform:translateY(60px) scale(.97);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.wx-up.wx-in{opacity:1;transform:none}
+.wx-clip{clip-path:inset(18% 10% 18% 10% round 24px);transition:clip-path 1.2s cubic-bezier(.2,.8,.2,1)}
+.wx-clip.wx-in{clip-path:inset(0 0 0 0 round 0px)}
+.wx-tilt{transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;will-change:transform}
+.btn{will-change:transform}
+.js .reveal{opacity:1!important;transform:none!important}
+@media (prefers-reduced-motion:reduce){.wx-w>span,.wx-up,.wx-clip{transform:none!important;opacity:1!important;clip-path:none!important;transition:none!important}}
+</style>
+
+<!-- ================================================================
+     SITES DE DÉMONSTRATION
+     Pages complètes dessinées en taille réelle (1280 px / 390 px)
+     puis réduites dans les cadres avec la propriété CSS « zoom ».
+     ================================================================ -->
+<style>
+.ms{width:1280px;position:relative;font-family:Inter,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+.ms.m{width:390px}
+.ms img{display:block;width:100%;height:100%;object-fit:cover}
+.ms a{cursor:default}
+.ms .mb{display:none}
+.ms.m .mb{display:grid;place-items:center;width:44px;height:44px;font-size:24px}
+.ms.m .dsk{display:none!important}
+.ms .st{display:inline-flex;gap:2px}
+
+/* ---- RESTAURANT ---- */
+.t-resto{background:#14110f;color:#f3ead8}
+.r-hero{position:relative;height:780px;display:flex;flex-direction:column;overflow:hidden}
+.r-hero>img{position:absolute;inset:0}
+.r-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 48%,rgba(20,17,15,.55),transparent 75%),linear-gradient(180deg,rgba(20,17,15,.78) 0%,rgba(20,17,15,.6) 40%,rgba(20,17,15,.96) 100%)}
+.r-hero>*:not(img){position:relative;z-index:2}
+.r-nav{display:flex;align-items:center;justify-content:space-between;padding:34px 64px}
+.r-logo i{display:block;font-family:Fraunces,serif;font-style:italic;font-size:31px;font-weight:500;line-height:1}
+.r-logo span{font-size:10.5px;letter-spacing:.42em;text-transform:uppercase;color:#c8a46a}
+.r-links{display:flex;gap:42px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,234,216,.85)}
+.r-book{border:1px solid #c8a46a;color:#e9d3a8;padding:13px 26px;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.r-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 40px}
+.r-kicker{display:flex;align-items:center;gap:18px;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:#c8a46a;margin-bottom:30px}
+.r-kicker span{width:48px;height:1px;background:#c8a46a}
+.r-center h1{font-family:Fraunces,serif;font-weight:350;font-size:108px;line-height:.96;letter-spacing:-.025em}
+.r-center h1 em{font-style:italic;color:#e9d3a8;font-weight:300}
+.r-lead{max-width:520px;margin:28px auto 0;font-size:19px;color:rgba(243,234,216,.78)}
+.r-ctas{display:flex;gap:30px;align-items:center;margin-top:42px}
+.r-btn{background:#c8a46a;color:#14110f;padding:19px 36px;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.r-link{display:inline-flex;gap:10px;align-items:center;font-size:15px;border-bottom:1px solid rgba(243,234,216,.4);padding-bottom:5px}
+.r-info{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(200,164,106,.28);margin:0 64px}
+.r-info>div{display:flex;gap:16px;align-items:center;padding:30px 0;font-size:15px;color:rgba(243,234,216,.9)}
+.r-info .ic{font-size:22px;color:#c8a46a}
+.r-info b{display:block;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#c8a46a;font-weight:600;margin-bottom:3px}
+.r-menu{display:grid;grid-template-columns:1fr 1fr;gap:88px;padding:130px 64px 110px;align-items:center}
+.r-photo{height:640px;overflow:hidden;position:relative}
+.r-photo::after{content:"";position:absolute;inset:18px;border:1px solid rgba(233,211,168,.45)}
+.r-eyebrow{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#c8a46a}
+.r-eyebrow::before{content:"";width:40px;height:1px;background:#c8a46a}
+.r-list h2{font-family:Fraunces,serif;font-weight:350;font-size:66px;line-height:1;letter-spacing:-.02em;margin:20px 0 46px}
+.r-list h2 em{font-style:italic;color:#e9d3a8;font-weight:300}
+.r-row{display:flex;align-items:baseline;gap:14px;padding:18px 0;border-bottom:1px solid rgba(243,234,216,.08)}
+.r-row span{font-size:18px}
+.r-row small{display:block;font-size:13.5px;color:rgba(243,234,216,.5);margin-top:2px}
+.r-row i{flex:1;border-bottom:1px dotted rgba(243,234,216,.28);transform:translateY(-6px)}
+.r-row b{font-family:Fraunces,serif;font-weight:500;font-size:22px;color:#e9d3a8}
+.r-list .r-link{margin-top:40px}
+.r-reviews{display:flex;align-items:center;justify-content:center;gap:18px;padding:48px 64px;border-top:1px solid rgba(200,164,106,.2);font-size:16px;color:rgba(243,234,216,.8)}
+.r-reviews .st{color:#c8a46a;font-size:15px}
+.r-reviews em{font-family:Fraunces,serif;font-style:italic;font-size:21px;color:#f3ead8}
+.ms.m .r-nav{padding:22px 20px}
+.ms.m .r-logo i{font-size:24px}
+.ms.m .r-logo span{font-size:9px}
+.ms.m .r-hero{height:760px}
+.ms.m .r-center{padding:0 22px}
+.ms.m .r-kicker{font-size:9.5px;gap:10px;letter-spacing:.26em}
+.ms.m .r-kicker span{width:22px}
+.ms.m .r-center h1{font-size:54px}
+.ms.m .r-lead{font-size:16px}
+.ms.m .r-ctas{flex-direction:column;gap:22px;margin-top:34px}
+.ms.m .r-info{grid-template-columns:1fr;margin:0 22px}
+.ms.m .r-info>div{padding:13px 0;font-size:14px}
+.ms.m .r-menu{grid-template-columns:1fr;gap:44px;padding:70px 22px}
+.ms.m .r-photo{height:320px}
+.ms.m .r-list h2{font-size:42px}
+.ms.m .r-row span{font-size:16px}
+.ms.m .r-reviews{flex-direction:column;gap:8px;text-align:center;padding:36px 22px}
+
+/* ---- BEAUTÉ ---- */
+.t-beaute{background:#f5efe7;color:#1f2a24}
+.b-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:32px 64px;font-size:14.5px}
+.b-links{display:flex;gap:36px;color:#4a4f47}
+.b-logo{font-family:Fraunces,serif;font-size:31px;font-weight:400;letter-spacing:-.01em}
+.b-logo i{color:#b5683f}
+.b-right{display:flex;justify-content:flex-end;align-items:center;gap:30px;color:#4a4f47}
+.b-btn{display:inline-flex;align-items:center;gap:10px;background:#1f2a24;color:#f5efe7;padding:13px 24px;border-radius:999px;font-weight:500}
+.b-btn.lg{padding:19px 34px;font-size:16px}
+.b-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;padding:56px 64px 110px;align-items:center}
+.b-eyebrow{font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:#b5683f;margin-bottom:28px;font-weight:600}
+.b-copy h1{font-family:Fraunces,serif;font-weight:300;font-size:100px;line-height:.96;letter-spacing:-.035em}
+.b-copy h1 em{font-style:italic;color:#b5683f;font-weight:350}
+.b-lead{font-size:19px;color:#5b5f57;max-width:470px;margin:30px 0 42px}
+.b-ctas{display:flex;gap:32px;align-items:center}
+.b-more{border-bottom:1px solid #1f2a24;padding-bottom:4px;font-weight:500}
+.b-proof{display:flex;align-items:center;gap:16px;margin-top:60px;padding-top:30px;border-top:1px solid rgba(31,42,36,.12);font-size:14.5px;color:#5b5f57;max-width:470px}
+.b-proof b{color:#1f2a24}
+.b-avatars{display:flex}
+.b-avatars span{width:38px;height:38px;border-radius:50%;border:2px solid #f5efe7;margin-left:-11px;overflow:hidden}
+.b-avatars span:first-child{margin-left:0}
+.b-visual{position:relative;height:660px}
+.b-arch{position:absolute;right:0;top:0;width:430px;height:620px;border-radius:215px 215px 0 0;overflow:hidden}
+.b-thumb{position:absolute;left:10px;bottom:0;width:210px;height:250px;border-radius:105px 105px 0 0;overflow:hidden;outline:9px solid #f5efe7}
+.b-slot{position:absolute;left:0;top:130px;z-index:2;background:#fff;padding:18px 22px;border-radius:18px;display:flex;gap:14px;align-items:center;box-shadow:0 24px 50px -20px rgba(31,42,36,.35)}
+.b-slot .ic{font-size:26px;color:#b5683f}
+.b-slot small{display:block;color:#8a8a80;font-size:12.5px}
+.b-slot b{font-size:16px;font-weight:600}
+.b-services{display:grid;grid-template-columns:repeat(3,1fr);margin:0 64px;border-top:1px solid rgba(31,42,36,.15);padding-bottom:110px}
+.b-service{padding:44px 40px 0 0}
+.b-service+.b-service{padding-left:40px;border-left:1px solid rgba(31,42,36,.15)}
+.b-num{font-family:Fraunces,serif;font-size:15px;color:#b5683f}
+.b-service .ic{display:block;font-size:32px;margin:24px 0 20px;stroke-width:1.3}
+.b-service h3{font-family:Fraunces,serif;font-size:30px;font-weight:400;letter-spacing:-.01em;margin-bottom:10px}
+.b-service p{color:#6d6a60;font-size:15.5px}
+.b-service b{display:block;margin-top:18px;font-size:15px;color:#b5683f;font-weight:600}
+.ms.m .b-nav{grid-template-columns:1fr auto;padding:20px}
+.ms.m .b-logo{font-size:25px}
+.ms.m .b-hero{grid-template-columns:1fr;gap:44px;padding:24px 20px 64px}
+.ms.m .b-copy h1{font-size:56px}
+.ms.m .b-lead{font-size:16px;margin:22px 0 30px}
+.ms.m .b-ctas{flex-direction:column;align-items:flex-start;gap:20px}
+.ms.m .b-proof{margin-top:36px}
+.ms.m .b-visual{height:450px}
+.ms.m .b-arch{width:270px;height:420px;border-radius:135px 135px 0 0}
+.ms.m .b-thumb{width:130px;height:160px;left:0}
+.ms.m .b-slot{top:56px;padding:12px 16px}
+.ms.m .b-services{grid-template-columns:1fr;margin:0 20px;padding-bottom:60px}
+.ms.m .b-service,.ms.m .b-service+.b-service{padding:30px 0;border-left:0;border-bottom:1px solid rgba(31,42,36,.15)}
+
+/* ---- ARTISAN ---- */
+.t-artisan{background:#f3f2ee;color:#0f1b2d;font-family:'Bricolage Grotesque',Inter,sans-serif}
+.a-top{background:#0f1b2d;color:#cfd6e2;display:flex;justify-content:space-between;padding:11px 64px;font-size:13px;font-family:Inter,sans-serif}
+.a-top span{display:flex;gap:8px;align-items:center}
+.a-top .ic{color:#ff6a2b;font-size:15px}
+.a-nav{display:flex;align-items:center;justify-content:space-between;padding:22px 64px;background:#fff;border-bottom:1px solid #e6e4dd}
+.a-logo{display:flex;gap:12px;align-items:center}
+.a-mark{width:46px;height:46px;background:#ff6a2b;color:#fff;display:grid;place-items:center;font-weight:800;font-size:23px;border-radius:11px}
+.a-logo b{font-size:21px;font-weight:800;letter-spacing:.05em;display:block;line-height:1}
+.a-logo small{font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:#5d6675;font-family:Inter,sans-serif}
+.a-links{display:flex;gap:36px;font-family:Inter,sans-serif;font-size:15px;font-weight:500;color:#36404f}
+.a-btn{display:inline-flex;gap:10px;align-items:center;background:#ff6a2b;color:#fff;padding:14px 22px;border-radius:11px;font-weight:700;font-size:15px}
+.a-btn.lg{padding:19px 30px;font-size:17px}
+.a-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;padding:76px 64px 100px;align-items:center}
+.a-chip{display:inline-flex;gap:10px;align-items:center;background:#fff;border:1px solid #e6e4dd;padding:9px 16px;border-radius:999px;font-size:14px;font-family:Inter,sans-serif;font-weight:500}
+.a-chip i{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.a-copy h1{font-size:86px;font-weight:800;line-height:.97;letter-spacing:-.04em;margin:28px 0}
+.a-copy h1 span{color:#ff6a2b}
+.a-copy>p{font-family:Inter,sans-serif;font-size:19px;color:#5d6675;max-width:520px}
+.a-ctas{display:flex;gap:28px;align-items:center;margin-top:40px}
+.a-call{display:flex;gap:10px;align-items:center;font-weight:700;font-size:18px}
+.a-call .ic{color:#ff6a2b}
+.a-stats{display:flex;gap:48px;margin-top:58px;padding-top:32px;border-top:1px solid #dedbd2}
+.a-stats b{font-size:36px;font-weight:800;display:block;line-height:1.1;letter-spacing:-.02em}
+.a-stats small{font-family:Inter,sans-serif;color:#5d6675;font-size:14px}
+.a-visual{position:relative;height:620px}
+.a-img{position:absolute;inset:0 0 0 44px;border-radius:28px;overflow:hidden}
+.a-card{position:absolute;left:0;bottom:52px;background:#0f1b2d;color:#fff;padding:20px 24px;border-radius:18px;display:flex;gap:14px;align-items:center;box-shadow:0 24px 50px -20px rgba(15,27,45,.6)}
+.a-card .ic{color:#ff6a2b;font-size:32px}
+.a-card b{font-size:17px;display:block}
+.a-card small{color:#9fb0c8;font-family:Inter,sans-serif;font-size:13px}
+.a-rate{position:absolute;right:24px;top:24px;background:#fff;border-radius:16px;padding:14px 20px;text-align:center;box-shadow:0 18px 40px -16px rgba(15,27,45,.4)}
+.a-rate b{font-size:30px;font-weight:800;line-height:1;display:block}
+.a-rate .st{color:#ff6a2b;font-size:13px;margin:5px 0 2px}
+.a-rate small{display:block;font-family:Inter,sans-serif;font-size:12px;color:#5d6675}
+.a-services{background:#0f1b2d;color:#fff;padding:104px 64px}
+.a-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:54px}
+.a-head h2{font-size:58px;font-weight:800;line-height:1;letter-spacing:-.035em}
+.a-head p{color:#9fb0c8;font-family:Inter,sans-serif;max-width:370px;font-size:17px}
+.a-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.a-svc{background:#16243a;border:1px solid #23344f;border-radius:22px;padding:32px}
+.a-ico{width:56px;height:56px;border-radius:15px;background:rgba(255,106,43,.12);color:#ff6a2b;display:grid;place-items:center;font-size:27px;margin-bottom:28px}
+.a-svc h3{font-size:23px;font-weight:700;line-height:1.15;margin-bottom:10px;letter-spacing:-.01em}
+.a-svc p{font-family:Inter,sans-serif;font-size:14.5px;color:#9fb0c8}
+.a-svc a{display:inline-flex;gap:8px;align-items:center;margin-top:24px;color:#ff6a2b;font-weight:700;font-size:15px}
+.ms.m .a-top{padding:9px 18px;font-size:11.5px}
+.ms.m .a-nav{padding:14px 18px}
+.ms.m .a-hero{grid-template-columns:1fr;gap:40px;padding:36px 18px 60px}
+.ms.m .a-copy h1{font-size:48px;margin:22px 0}
+.ms.m .a-copy>p{font-size:16px}
+.ms.m .a-ctas{flex-direction:column;align-items:flex-start;gap:18px;margin-top:30px}
+.ms.m .a-stats{gap:22px;margin-top:38px}
+.ms.m .a-stats b{font-size:25px}
+.ms.m .a-stats small{font-size:12px}
+.ms.m .a-visual{height:400px}
+.ms.m .a-img{inset:0}
+.ms.m .a-card{left:12px;bottom:12px;padding:14px 16px}
+.ms.m .a-rate{right:12px;top:12px}
+.ms.m .a-services{padding:64px 18px}
+.ms.m .a-head{display:block;margin-bottom:34px}
+.ms.m .a-head h2{font-size:38px;margin-bottom:14px}
+.ms.m .a-grid{grid-template-columns:1fr}
+
+/* ---- CAVE ---- */
+.t-cave{background:#f2ebe0;color:#1d1512}
+.c-nav{display:flex;justify-content:space-between;align-items:center;padding:30px 64px;border-bottom:1px solid rgba(29,21,18,.12)}
+.c-logo{font-family:Fraunces,serif;font-size:29px;font-weight:600;letter-spacing:-.015em}
+.c-logo i{font-weight:350;color:#5a1220}
+.c-links{display:flex;gap:38px;font-size:15px;color:#3b302b}
+.c-open{display:flex;gap:10px;align-items:center;font-size:14px;color:#6f6359}
+.c-open i{width:8px;height:8px;border-radius:50%;background:#3f8f4f;box-shadow:0 0 0 4px rgba(63,143,79,.15)}
+.c-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:64px;padding:72px 64px 84px}
+.c-issue{display:flex;justify-content:space-between;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:#5a1220;font-weight:600;padding-bottom:22px;border-bottom:1px solid rgba(29,21,18,.2);margin-bottom:38px}
+.c-copy h1{font-family:Fraunces,serif;font-weight:500;font-size:122px;line-height:.9;letter-spacing:-.045em}
+.c-copy h1 em{font-weight:300;font-style:italic;color:#5a1220}
+.c-row{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;margin-top:52px}
+.c-row p{font-size:18px;color:#6f6359;max-width:400px}
+.c-btn{display:inline-flex;gap:12px;align-items:center;background:#5a1220;color:#f2ebe0;padding:19px 30px;font-weight:600;font-size:15px}
+.c-img{position:relative;min-height:620px;overflow:hidden}
+.c-img img{position:absolute;inset:0}
+.c-caption{position:absolute;left:0;bottom:0;background:#f2ebe0;padding:16px 22px 0 0;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#5a1220;font-weight:600}
+.c-band{display:flex;justify-content:center;align-items:center;gap:30px;padding:28px;background:#5a1220;color:#f2ebe0;font-family:Fraunces,serif;font-style:italic;font-size:27px;font-weight:300}
+.c-band i{width:6px;height:6px;border-radius:50%;background:#b08d57}
+.c-picks{padding:110px 64px}
+.c-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.c-head h2{font-family:Fraunces,serif;font-size:64px;font-weight:500;line-height:1;letter-spacing:-.035em}
+.c-head h2 em{font-style:italic;font-weight:300;color:#5a1220}
+.c-head a{display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1d1512;padding-bottom:4px;font-weight:500}
+.c-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.c-cover{height:380px;position:relative;overflow:hidden}
+.c-label{height:100%;display:grid;place-items:center;text-align:center}
+.c-label div{border:1px solid currentColor;outline:1px solid currentColor;outline-offset:7px;padding:38px 34px;min-width:230px}
+.c-label small{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase}
+.c-label strong{display:block;font-family:Fraunces,serif;font-size:34px;font-weight:500;margin:12px 0 6px;letter-spacing:-.01em}
+.c-label span{font-family:Fraunces,serif;font-style:italic;font-size:17px}
+.c-label.wine{background:#5a1220;color:#e9d7b5}
+.c-label.green{background:#1f3a2e;color:#e6dcc4}
+.c-meta{padding:22px 2px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(29,21,18,.15)}
+.c-meta small{display:block;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6f6359;margin-bottom:4px}
+.c-meta h3{font-family:Fraunces,serif;font-size:25px;font-weight:500}
+.c-meta b{font-family:Fraunces,serif;font-size:25px;font-weight:500;color:#5a1220}
+.ms.m .c-nav{padding:18px 20px}
+.ms.m .c-logo{font-size:23px}
+.ms.m .c-hero{grid-template-columns:1fr;gap:34px;padding:30px 20px 50px}
+.ms.m .c-issue{font-size:10px;margin-bottom:26px}
+.ms.m .c-copy h1{font-size:62px}
+.ms.m .c-row{grid-template-columns:1fr;gap:24px;margin-top:30px}
+.ms.m .c-row p{font-size:16px}
+.ms.m .c-img{min-height:400px}
+.ms.m .c-band{font-size:18px;gap:12px;flex-wrap:wrap;padding:20px}
+.ms.m .c-picks{padding:64px 20px}
+.ms.m .c-head{display:block;margin-bottom:30px}
+.ms.m .c-head h2{font-size:42px;margin-bottom:16px}
+.ms.m .c-cards{grid-template-columns:1fr}
+.ms.m .c-cover{height:300px}
+
+/* ---- INDÉPENDANT (architecte d'intérieur) ---- */
+.t-archi{background:#f4f1ec;color:#161513}
+.z-nav{display:flex;justify-content:space-between;align-items:center;padding:30px 64px}
+.z-logo{font-family:'Bricolage Grotesque',Inter,sans-serif;font-weight:600;font-size:19px;letter-spacing:.2em}
+.z-logo span{display:block;font-family:Inter,sans-serif;font-weight:400;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#6b665e;margin-top:3px}
+.z-links{display:flex;gap:42px;font-size:15px;color:#3a3833}
+.z-cta{display:inline-flex;gap:10px;align-items:center;background:#161513;color:#f4f1ec;padding:14px 24px;font-size:14.5px;font-weight:500}
+.z-cta.lg{padding:19px 30px;font-size:16px;margin-top:44px}
+.z-hero{padding:40px 64px 0}
+.z-top{display:grid;grid-template-columns:1.6fr 1fr;gap:60px;align-items:end;padding-bottom:50px}
+.z-top h1{font-family:'Bricolage Grotesque',Inter,sans-serif;font-weight:400;font-size:114px;line-height:.92;letter-spacing:-.055em}
+.t-archi em{font-family:Fraunces,serif;font-style:italic;font-weight:300;letter-spacing:-.03em;color:#9a7b56}
+.z-intro p{font-size:18px;color:#6b665e;max-width:360px}
+.z-link{display:inline-flex;gap:10px;align-items:center;margin-top:26px;border-bottom:1px solid #161513;padding-bottom:4px;font-weight:500}
+.z-wide{position:relative;height:620px;overflow:hidden}
+.z-tag{position:absolute;left:28px;bottom:28px;background:#f4f1ec;padding:18px 24px}
+.z-tag small{display:block;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#6b665e;margin-bottom:3px}
+.z-tag b{font-size:17px;font-weight:500}
+.z-count{position:absolute;right:28px;bottom:30px;color:#fff;font-size:13px;letter-spacing:.24em;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+.z-facts{display:grid;grid-template-columns:repeat(4,1fr);margin:0 64px;border-bottom:1px solid rgba(22,21,19,.14)}
+.z-facts>div{padding:42px 0 42px 30px;border-left:1px solid rgba(22,21,19,.14)}
+.z-facts>div:first-child{border-left:0;padding-left:0}
+.z-facts b{display:block;font-family:'Bricolage Grotesque',Inter,sans-serif;font-weight:400;font-size:50px;letter-spacing:-.045em;line-height:1;margin-bottom:8px}
+.z-facts span{color:#6b665e;font-size:14.5px}
+.z-projects{padding:112px 64px}
+.z-eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#9a7b56;font-weight:600;margin-bottom:18px}
+.z-head{margin-bottom:54px}
+.z-head h2,.z-steps h2{font-family:'Bricolage Grotesque',Inter,sans-serif;font-weight:400;font-size:66px;line-height:1;letter-spacing:-.045em}
+.z-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:end}
+.z-grid figure{margin:0}
+.ms .z-p1 img{height:580px}
+.ms .z-p2 img{height:450px}
+.z-grid figcaption{display:flex;justify-content:space-between;padding-top:16px;font-size:15px}
+.z-grid figcaption span{color:#6b665e}
+.z-method{display:grid;grid-template-columns:1fr 1fr;gap:90px;padding:0 64px 120px;align-items:center}
+.z-mimg{height:640px;overflow:hidden}
+.z-steps ol{list-style:none;margin-top:44px;border-top:1px solid rgba(22,21,19,.14)}
+.z-steps li{display:flex;gap:30px;padding:26px 0;border-bottom:1px solid rgba(22,21,19,.14)}
+.z-steps li>span{font-family:Fraunces,serif;font-style:italic;color:#9a7b56;font-size:21px;line-height:1.3}
+.z-steps li b{font-size:20px;font-weight:600;display:block;margin-bottom:4px}
+.z-steps li p{color:#6b665e;font-size:15.5px}
+.ms.m .z-nav{padding:20px}
+.ms.m .z-logo{font-size:15px}
+.ms.m .z-logo span{font-size:9.5px}
+.ms.m .z-hero{padding:22px 20px 0}
+.ms.m .z-top{grid-template-columns:1fr;gap:24px;padding-bottom:34px}
+.ms.m .z-top h1{font-size:60px}
+.ms.m .z-intro p{font-size:16px}
+.ms.m .z-wide{height:440px}
+.ms.m .z-tag{left:14px;bottom:14px;padding:12px 16px}
+.ms.m .z-tag b{font-size:14px}
+.ms.m .z-count{top:16px;bottom:auto;right:16px}
+.ms.m .z-facts{grid-template-columns:1fr 1fr;margin:0 20px}
+.ms.m .z-facts>div{padding:24px 0 24px 18px}
+.ms.m .z-facts>div:nth-child(odd){border-left:0;padding-left:0}
+.ms.m .z-facts>div:nth-child(-n+2){border-bottom:1px solid rgba(22,21,19,.14)}
+.ms.m .z-facts b{font-size:36px}
+.ms.m .z-projects{padding:66px 20px}
+.ms.m .z-head{margin-bottom:34px}
+.ms.m .z-head h2,.ms.m .z-steps h2{font-size:42px}
+.ms.m .z-grid{grid-template-columns:1fr;gap:34px}
+.ms.m .z-p1 img,.ms.m .z-p2 img{height:330px}
+.ms.m .z-grid figcaption{flex-direction:column;gap:2px}
+.ms.m .z-method{grid-template-columns:1fr;gap:40px;padding:0 20px 70px}
+.ms.m .z-mimg{height:300px}
+.ms.m .z-cta.lg{margin-top:32px}
+</style>
+</head>
+<body>
+
+<!-- ============ ICÔNES ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrows" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 7.6 5.3a2.4 2.4 0 0 0 2.8 0L21 7"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.54L12 17.5l-5.87 3.08 1.12-6.54L2.5 9.41l6.56-.95z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="11" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.5-4.5"/></symbol>
+  <symbol id="i-phone-device" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.6 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 5.9 7.5 9.5 7.5 9.5z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h4.5"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2.5 4 13.5h7l-1 8 9-11h-7z"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 9.3-9.3M17 6l3 3M14.5 8.5l2 2"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3.5 10h17"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21v-.5a6.5 6.5 0 0 1 6.5-6.5h2a6.5 6.5 0 0 1 6.5 6.5v.5"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4.5" rx="1"/><path d="M12 8v13.5M19.5 12.5v7a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l3.5 2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M21 16.5v3a2 2 0 0 1-2.2 2A19 19 0 0 1 2.5 5.2 2 2 0 0 1 4.5 3h3a2 2 0 0 1 2 1.7c.13.95.37 1.88.7 2.77a2 2 0 0 1-.45 2.1L8.5 10.8a16 16 0 0 0 4.7 4.7l1.23-1.25a2 2 0 0 1 2.1-.45c.9.33 1.82.57 2.77.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19.5 10c0 5.5-7.5 11.5-7.5 11.5S4.5 15.5 4.5 10a7.5 7.5 0 0 1 15 0z"/><circle cx="12" cy="10" r="2.8"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M5 2.5v6.5a2.5 2.5 0 0 0 5 0V2.5M7.5 2.5v19M19 15V2.5c-2.5 1-4 3.5-4 7v4.5c0 .55.45 1 1 1h3zm0 0v6.5"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20.5 4 8.2 16.2M14.5 14.5l6 6M8.2 7.8 12 11.6"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5.5 7.5h13l1 14h-15z"/><path d="M8.5 7.5V6a3.5 3.5 0 0 1 7 0v1.5"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2.5 21.5c0-3 1.9-5.4 5.1-6 2.4-.5 4.9-2 5.9-3"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M19 15.5c.25 1.8.95 2.5 2.5 2.75-1.55.25-2.25.95-2.5 2.75-.25-1.8-.95-2.5-2.5-2.75 1.55-.25 2.25-.95 2.5-2.75z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 21.5a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 12.5 5 14.5a7 7 0 0 0 7 7z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-bath" viewBox="0 0 24 24"><path d="M3 12h18v2.5a5.5 5.5 0 0 1-5.5 5.5h-7A5.5 5.5 0 0 1 3 14.5z"/><path d="M6 12V5.5a2.5 2.5 0 0 1 4.6-1.4M7 20l-1 2M17 20l1 2"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="6"/><path d="m8.6 13.5-1.6 8 5-3 5 3-1.6-8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
+  <symbol id="i-wine" viewBox="0 0 24 24"><path d="M8 21.5h8M12 15v6.5M7.5 2.5h9c.6 2 1 3.9 1 6a5.5 5.5 0 0 1-11 0c0-2.1.4-4 1-6z"/><path d="M7 8h10"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4A8.5 8.5 0 1 1 20.5 11.5z"/></symbol>
+  <symbol id="i-double-check" viewBox="0 0 24 24"><path d="M2 12.5 6.5 17 16 7.5M12 15.5l1.5 1.5L23 7.5"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M3.5 16.5 16.5 3.5l4 4-13 13z"/><path d="m7.5 12.5 2 2M10.5 9.5l2 2M13.5 6.5l2 2"/></symbol>
+</svg>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="logo"><img class="logo-mark" src="logo-zk.png" alt="" width="38" height="38">Zank Solutions</a>
+    <div class="nav-links" id="nav-links">
+      <a href="#realisations">Réalisations</a>
+      <a href="#avantages">Avantages</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="btn btn-primary">Ma maquette offerte</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="wrap">
+    <div>
+      <div class="badge-pill reveal"><b>Offert</b> Votre maquette en 48 h, avant de signer</div>
+      <h1 class="reveal d1">Le site que votre entreprise <span class="grad-text">mérite vraiment.</span></h1>
+      <p class="sub reveal d2">Design sur mesure, en ligne en 7 jours, entretenu chaque mois. <strong>Dès 25 € HTVA/mois, tout compris.</strong> Vous gérez votre activité, on s'occupe du reste.</p>
+      <div class="hero-ctas reveal d3">
+        <a href="#contact" class="btn btn-primary">Recevoir ma maquette gratuite <svg class="ic"><use href="#i-arrow"/></svg></a>
+        <a href="#realisations" class="btn btn-ghost">Voir des exemples</a>
+      </div>
+      <div class="trust reveal d4">
+        <span><svg class="ic"><use href="#i-check"/></svg>Domaine à votre nom</span>
+        <span><svg class="ic"><use href="#i-check"/></svg>Engagement 12 mois max</span>
+        <span><svg class="ic"><use href="#i-check"/></svg>Modifications incluses</span>
+      </div>
+    </div>
+
+    <div class="stage reveal d2" aria-hidden="true">
+      <div class="browser">
+        <div class="chrome"><i></i><i></i><i></i><div class="url"><svg class="ic"><use href="#i-lock"/></svg><span id="hero-url"></span></div></div>
+        <div class="screen" id="hero-screen"></div>
+      </div>
+      <div class="phone"><div class="notch"></div><div class="pscreen" id="hero-phone"></div></div>
+      <div class="float-card fc1"><div class="fi"><svg class="ic"><use href="#i-mail"/></svg></div><div><b>Nouvelle demande de devis</b><small>via votre formulaire · à l'instant</small></div></div>
+      <div class="float-card fc2"><div class="fi"><svg class="ic"><use href="#i-star"/></svg></div><div><b>Vos avis Google mis en avant</b><small>directement sur votre site</small></div></div>
+      <div class="theme-dots" id="hero-dots"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Restaurants</span><span>Coiffeurs</span><span>Plombiers</span><span>Instituts de beauté</span><span>Boulangeries</span><span>Électriciens</span><span>Coachs</span><span>Cavistes</span><span>Thérapeutes</span><span>Menuisiers</span><span>Fleuristes</span><span>Photographes</span>
+    <span>Restaurants</span><span>Coiffeurs</span><span>Plombiers</span><span>Instituts de beauté</span><span>Boulangeries</span><span>Électriciens</span><span>Coachs</span><span>Cavistes</span><span>Thérapeutes</span><span>Menuisiers</span><span>Fleuristes</span><span>Photographes</span>
+  </div>
+</div>
+
+<!-- ============ AVANT / APRÈS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Avant / après</div>
+      <h2>Votre site actuel vous fait-il <span class="grad-text">perdre des clients ?</span></h2>
+      <p>Un site daté fait fuir les visiteurs en quelques secondes. Faites glisser le curseur pour voir la différence.</p>
+    </div>
+    <div class="ba reveal" id="ba">
+      <span class="ba-label l">AVANT</span>
+      <span class="ba-label r">APRÈS</span>
+      <div class="ba-pane">
+        <div class="old">
+          <div class="old-box">
+            <h5>~ Bienvenue au Bistrot ~</h5>
+            <div class="scroll"><span>*** NOUVEAU : nous sommes ouvert le dimanche midi !!! *** Merci de votre visite ***</span></div>
+            <p>Bonjour et bienvenue sur notre site internet. Cliquez <a href="#" onclick="return false">ICI</a> pour voir notre carte (PDF 8 Mo).</p>
+            <table>
+              <tr><td><a href="#" onclick="return false">Accueil</a></td><td><a href="#" onclick="return false">La carte</a></td><td><a href="#" onclick="return false">Livre d'or</a></td></tr>
+            </table>
+            <p>Pour réserver merci de téléphoner aux heures d'ouverture.<br>Dernière mise à jour : 14/03/2011</p>
+            <p style="margin-top:10px">Vous êtes le <span class="counter">004521</span>ème visiteur</p>
+            <p class="construct">*** Page en construction ***</p>
+          </div>
+        </div>
+      </div>
+      <div class="ba-pane ba-after" id="ba-after"></div>
+      <div class="ba-handle"><span class="ba-knob"><svg class="ic"><use href="#i-arrows"/></svg></span></div>
+      <input type="range" min="0" max="100" value="50" id="ba-range" aria-label="Comparer avant et après">
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOWCASE ============ -->
+<section id="realisations" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Modèles par métier</div>
+      <h2>Un design pensé pour <span class="grad-text">votre activité.</span></h2>
+      <p>Chaque métier a ses besoins : réserver une table, prendre rendez-vous, demander un devis. Choisissez le vôtre, puis faites défiler le site.</p>
+    </div>
+    <div class="show">
+      <div class="tabs reveal" id="tabs" role="tablist"></div>
+      <div class="reveal d1">
+        <div style="text-align:center">
+          <div class="device-toggle" role="group" aria-label="Type d'écran">
+            <button class="on" data-dev="d"><svg class="ic"><use href="#i-monitor"/></svg>Ordinateur</button>
+            <button data-dev="m"><svg class="ic"><use href="#i-phone-device"/></svg>Mobile</button>
+          </div>
+        </div>
+        <div class="show-frame-wrap">
+          <div class="show-frame" id="show-frame">
+            <div class="chrome"><i></i><i></i><i></i><div class="url"><svg class="ic"><use href="#i-lock"/></svg><span id="show-url"></span></div></div>
+            <div class="screen" id="show-screen"></div>
+          </div>
+        </div>
+        <p class="show-note">Exemples fictifs de mise en page. Votre site est personnalisé avec vos couleurs, vos photos et vos textes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENTO ============ -->
+<section id="avantages" style="background:var(--bg-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">Tout est inclus</div>
+      <h2>Un site qui travaille pour vous, <span class="grad-text">sans rien gérer.</span></h2>
+    </div>
+    <div class="bento">
+      <div class="card c-a reveal">
+        <h3>Votre nom de domaine vous appartient</h3>
+        <p>Il est enregistré à votre nom, pas au nôtre. C'est votre adresse sur internet : vous la gardez quoi qu'il arrive.</p>
+        <div class="viz">
+          <div class="domain"><span class="dot"></span><code>www.votre-entreprise.be</code><small>Titulaire : vous</small></div>
+          <div class="domain-meta"><span class="chip ok"><svg class="ic"><use href="#i-lock"/></svg>HTTPS actif</span><span class="chip ok"><svg class="ic"><use href="#i-check"/></svg>Renouvellement inclus</span><span class="chip">Hébergement inclus</span></div>
+        </div>
+      </div>
+      <div class="card c-b reveal d1">
+        <h3>Ultra rapide</h3>
+        <p>Pas de WordPress lourd ni d'extensions : vos pages s'affichent presque instantanément.</p>
+        <div class="viz gauge">
+          <svg class="ring" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#0075de"/><stop offset="1" stop-color="#0075de"/></linearGradient></defs><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"/></svg>
+          <div class="val"><svg class="ic"><use href="#i-zap"/></svg></div>
+        </div>
+      </div>
+      <div class="card c-c reveal">
+        <div class="icon-tile"><svg class="ic"><use href="#i-phone-device"/></svg></div>
+        <h3>Parfait sur mobile</h3>
+        <p>La majorité de vos clients vous cherchent depuis leur téléphone. Votre site s'adapte à tous les écrans.</p>
+      </div>
+      <div class="card c-d reveal d1">
+        <div class="icon-tile"><svg class="ic"><use href="#i-shield"/></svg></div>
+        <h3>Sécurisé et sauvegardé</h3>
+        <p>Certificat HTTPS, sauvegardes et surveillance : aucune mise à jour à faire de votre côté.</p>
+      </div>
+      <div class="card c-e reveal d2">
+        <div class="icon-tile"><svg class="ic"><use href="#i-doc"/></svg></div>
+        <h3>Conforme</h3>
+        <p>Mentions légales, politique de confidentialité, formulaire respectueux du RGPD : c'est prévu.</p>
+      </div>
+      <div class="card c-f reveal">
+        <h3>Une modification ? Un simple message.</h3>
+        <p>Pas d'interface compliquée à apprendre. Vous nous écrivez, on s'en occupe.</p>
+        <div class="viz chat">
+          <div class="bubble them">Bonjour ! Vous pouvez mettre nos horaires de Noël sur le site ?<small>Vous · 9:12</small></div>
+          <div class="bubble me">C'est en ligne. J'ai aussi ajouté un bandeau sur la page d'accueil.<small>Zank Solutions · 10:47 <svg class="ic"><use href="#i-double-check"/></svg></small></div>
+        </div>
+      </div>
+      <div class="card c-g reveal d1">
+        <h3>Trouvé sur Google, dans votre ville</h3>
+        <p>Référencement local, fiche Google Business optimisée, déclaration à Google : on fait le nécessaire pour que vos clients vous trouvent.</p>
+        <div class="viz serp">
+          <div class="q"><svg class="ic"><use href="#i-search"/></svg>restaurant fait maison près de moi</div>
+          <div class="site"><i></i>bistrot-du-marche.be</div>
+          <div class="t">Le Bistrot du Marché · Cuisine maison</div>
+          <div class="d"><span class="st"><svg class="ic"><use href="#i-star"/></svg><svg class="ic"><use href="#i-star"/></svg><svg class="ic"><use href="#i-star"/></svg><svg class="ic"><use href="#i-star"/></svg><svg class="ic"><use href="#i-star"/></svg></span>4,8 · Ouvert jusqu'à 22 h · Réservation en ligne</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">Comment ça marche</div>
+      <h2>En ligne en <span class="grad-text">7 jours.</span> Sans effort.</h2>
+      <p>Vous voyez votre site avant de payer quoi que ce soit.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n"><span>1</span></div><h3>On fait connaissance</h3><p>15 minutes au téléphone pour comprendre votre activité et vos clients.</p><span class="when">Jour 1</span></div>
+      <div class="step reveal d1"><div class="n"><span>2</span></div><h3>Maquette offerte</h3><p>On vous envoie l'aperçu de votre page d'accueil. Elle ne vous plaît pas ? Vous ne payez rien.</p><span class="when">Sous 48 h</span></div>
+      <div class="step reveal d2"><div class="n"><span>3</span></div><h3>On construit</h3><p>Vous nous envoyez vos photos et infos, on s'occupe des textes, du design et de Google.</p><span class="when">Jours 3 à 6</span></div>
+      <div class="step reveal d3"><div class="n"><span>4</span></div><h3>Vous êtes en ligne</h3><p>Votre site est publié. Ensuite, on le fait vivre avec vous chaque mois.</p><span class="when">Jour 7</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="tarifs" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">Tarifs</div>
+      <h2>Un prix clair. <span class="grad-text">Tout compris.</span></h2>
+      <p>Hébergement, nom de domaine, sécurité et modifications : jamais de frais cachés.</p>
+    </div>
+    <div class="billing reveal">
+      <div class="billing-inner" role="group" aria-label="Durée d'engagement">
+        <button class="on" data-term="12">Engagement 12 mois</button>
+        <button data-term="24">24 mois <span class="save">Frais offerts</span></button>
+      </div>
+    </div>
+    <div class="plans">
+      <div class="plan reveal">
+        <h3>Essentiel</h3>
+        <p class="for">Pour être présent sur internet, simplement et proprement.</p>
+        <div class="price"><b>25 €</b><span>HTVA / mois</span></div>
+        <p class="setup" data-setup></p>
+        <ul>
+          <li>Site jusqu'à 5 pages</li>
+          <li>Nom de domaine à votre nom</li>
+          <li>Hébergement, HTTPS, sauvegardes</li>
+          <li>Adapté mobile et tablette</li>
+          <li>Formulaire de contact</li>
+          <li>1 modification par mois</li>
+          <li class="off">Optimisation fiche Google</li>
+          <li class="off">Réservation / prise de RDV</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Choisir Essentiel</a>
+      </div>
+      <div class="plan hot reveal d1">
+        <span class="plan-tag">Le plus choisi</span>
+        <h3>Pro</h3>
+        <p class="for">Pour attirer de nouveaux clients grâce à Google.</p>
+        <div class="price"><b>45 €</b><span>HTVA / mois</span></div>
+        <p class="setup" data-setup></p>
+        <ul>
+          <li>Site jusqu'à 10 pages</li>
+          <li>Tout le pack Essentiel</li>
+          <li>Référencement local complet</li>
+          <li>Optimisation fiche Google Business</li>
+          <li>Réservation, prise de RDV ou menu</li>
+          <li>3 modifications par mois</li>
+          <li>Rapport de visites trimestriel</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Choisir Pro <svg class="ic"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="plan reveal d2">
+        <h3>Premium</h3>
+        <p class="for">Pour les entreprises qui veulent prendre de l'avance.</p>
+        <div class="price"><b>79 €</b><span>HTVA / mois</span></div>
+        <p class="setup" data-setup></p>
+        <ul>
+          <li>Pages illimitées</li>
+          <li>Tout le pack Pro</li>
+          <li>Blog / actualités</li>
+          <li>Site multilingue</li>
+          <li>Modifications illimitées*</li>
+          <li>Suivi SEO + rapport mensuel</li>
+          <li>Traitement prioritaire</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost">Choisir Premium</a>
+      </div>
+    </div>
+    <p class="price-foot">Après la période d'engagement : sans engagement, préavis d'un mois. Petite entreprise soumise au régime de la franchise de la taxe : TVA non applicable, le prix affiché est le prix payé. *Dans la limite d'un usage raisonnable.</p>
+  </div>
+</section>
+
+<!-- ============ PROMESSES ============ -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Nos engagements</div>
+      <h2>Ce qui nous différencie des <span class="grad-text" style="white-space:nowrap">«&nbsp;sites à petit prix&nbsp;».</span></h2>
+    </div>
+    <div class="promise reveal">
+      <div><div class="icon-tile"><svg class="ic"><use href="#i-key"/></svg></div><h3>Vous restez propriétaire</h3><p>Domaine à votre nom, vos contenus restent les vôtres, et vous pouvez racheter votre site si vous partez.</p></div>
+      <div><div class="icon-tile"><svg class="ic"><use href="#i-eye"/></svg></div><h3>Vous voyez avant de payer</h3><p>Maquette offerte : vous ne signez que si le résultat vous plaît.</p></div>
+      <div><div class="icon-tile"><svg class="ic"><use href="#i-calendar"/></svg></div><h3>Engagement court</h3><p>12 mois maximum, là où beaucoup imposent 24 à 48 mois.</p></div>
+      <div><div class="icon-tile"><svg class="ic"><use href="#i-user"/></svg></div><h3>Un vrai interlocuteur</h3><p>Une personne joignable qui connaît votre site. Réponse sous 3 jours ouvrés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">Comparatif</div>
+      <h2>Pourquoi un abonnement ?</h2>
+    </div>
+    <div class="compare reveal">
+      <div class="crow head"><div></div><div>Site classique</div><div>Zank Solutions</div></div>
+      <div class="crow"><div>Coût de départ</div><div>1 500 à 5 000 €</div><div>0 à 149 €</div></div>
+      <div class="crow"><div>Hébergement et domaine</div><div>À gérer vous-même</div><div>Inclus</div></div>
+      <div class="crow"><div>Modifications</div><div>Facturées à chaque fois</div><div>Incluses chaque mois</div></div>
+      <div class="crow"><div>Sécurité et mises à jour</div><div>À votre charge</div><div>Incluses</div></div>
+      <div class="crow"><div>En cas de problème</div><div>Débrouillez-vous</div><div>On s'en occupe</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Vos questions</h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>La maquette est-elle vraiment gratuite ?<span class="pm">+</span></summary><p>Oui. Nous préparons un aperçu de votre page d'accueil sous 48 h. S'il ne vous plaît pas, vous ne payez rien et vous ne signez rien.</p></details>
+      <details><summary>À qui appartient mon site ?<span class="pm">+</span></summary><p>Le nom de domaine est enregistré à votre nom : il est à vous. Vos textes, photos et logo restent les vôtres. Si vous partez, vous pouvez racheter une copie complète de votre site.</p></details>
+      <details><summary>Que se passe-t-il après la période d'engagement ?<span class="pm">+</span></summary><p>Votre abonnement continue de mois en mois, et vous pouvez l'arrêter à tout moment avec un mois de préavis.</p></details>
+      <details><summary>Comment je demande une modification ?<span class="pm">+</span></summary><p>Par e-mail ou WhatsApp, tout simplement. Nous la réalisons sous 3 jours ouvrés, plus vite avec la formule Premium.</p></details>
+      <details><summary>Qu'est-ce que je dois fournir ?<span class="pm">+</span></summary><p>Votre logo si vous en avez un, quelques photos et les informations de base (horaires, prestations, tarifs). On vous guide pas à pas, et on peut rédiger les textes pour vous en option.</p></details>
+      <details><summary>Mon site sera-t-il visible sur Google ?<span class="pm">+</span></summary><p>Oui. Chaque site est optimisé pour Google dès sa création et déclaré à Google. Les formules Pro et Premium incluent un vrai travail de référencement local (fiche Google, mots-clés de votre ville).</p></details>
+      <details><summary>Je peux changer de formule ?<span class="pm">+</span></summary><p>Oui, vous pouvez passer à la formule supérieure à tout moment, sans frais.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" style="padding-top:20px">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div>
+        <div class="eyebrow">Maquette offerte</div>
+        <h2>Voyez votre futur site <span class="grad-text">avant de décider.</span></h2>
+        <p class="lead">Laissez vos coordonnées : on vous rappelle sous 24 h, puis on vous envoie l'aperçu de votre site sous 48 h.</p>
+        <ul class="cta-list">
+          <li><span class="icon-tile"><svg class="ic"><use href="#i-gift"/></svg></span>100 % gratuit, sans engagement</li>
+          <li><span class="icon-tile"><svg class="ic"><use href="#i-clock"/></svg></span>Aperçu de votre site sous 48 h</li>
+          <li><span class="icon-tile"><svg class="ic"><use href="#i-phone"/></svg></span>Un échange de 15 minutes, pas plus</li>
+        </ul>
+        <p class="direct">Vous préférez écrire directement ? <a href="https://wa.me/32499469864" target="_blank" rel="noopener">WhatsApp</a> · <a href="tel:+32499469864">+32 499 469 864</a> · <a href="mailto:info@zanksolutions.be">info@zanksolutions.be</a></p>
+      </div>
+      <!-- Formulaire : envoi via Web3Forms vers info@zanksolutions.be -->
+      <form id="lead-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="ca573daa-5c5d-423a-a326-e7cd9fdf5202">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="subject" value="Nouvelle demande de maquette">
+        <div class="row2">
+          <label>Votre nom<input name="nom" required autocomplete="name" placeholder="Marie Dupont"></label>
+          <label>Entreprise<input name="entreprise" required autocomplete="organization" placeholder="Atelier Dupont"></label>
+        </div>
+        <label>Votre activité
+          <select name="activite" required>
+            <option value="">Choisissez…</option>
+            <option>Restaurant / bar</option>
+            <option>Beauté / bien-être</option>
+            <option>Artisan / BTP</option>
+            <option>Commerce</option>
+            <option>Indépendant / profession libérale</option>
+            <option>Autre</option>
+          </select>
+        </label>
+        <div class="row2">
+          <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel" placeholder="0470 12 34 56"></label>
+          <label>E-mail<input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.fr"></label>
+        </div>
+        <label>Votre site actuel (facultatif)<input name="site_actuel" type="url" placeholder="https://"></label>
+        <button class="btn btn-primary" type="submit">Je veux ma maquette gratuite <svg class="ic"><use href="#i-arrow"/></svg></button>
+        <p class="form-ok" id="form-ok">Merci ! On vous rappelle sous 24 h.</p>
+        <p class="form-note">Vos données servent uniquement à vous recontacter. <a href="mentions-legales.html#donnees">Politique de confidentialité</a></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#" class="logo"><img class="logo-mark" src="logo-zk.png" alt="" width="38" height="38">Zank Solutions</a>
+        <p>Sites internet sur abonnement pour commerçants, artisans et indépendants.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#realisations">Réalisations</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="y"></span> Zank Solutions · TVA BE 1033.509.066 · <a href="https://zanksolutions.be">Dépannage & réparation</a></span>
+      <span><a href="mentions-legales.html">Mentions légales</a> · <a href="mentions-legales.html#donnees">Confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Outils ---------- */
+const I = (n, c='') => `<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
+const STARS = `<span class="st">${I('star').repeat(5)}</span>`;
+// Photos libres de droits (Unsplash) : remplacez-les par celles de vos clients
+const P = (id, w=1400) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
+const IMG = (id, w, alt) => `<img src="${P(id,w)}" alt="${alt}" decoding="async">`;
+
+/* ---------- Les 5 sites de démonstration ---------- */
+const SITES = {
+  resto: { icon:'utensils', label:'Restaurant', sub:'Menu, réservation, horaires', url:'bistrot-du-marche.be',
+    html: () => `
+    <div class="r-hero">
+      ${IMG('1517248135467-4c7edcad34c4',1800,'Salle du restaurant')}
+      <div class="r-nav">
+        <div class="r-logo"><i>Le Bistrot</i><span>du Marché</span></div>
+        <div class="r-links dsk"><a>La carte</a><a>Le lieu</a><a>Événements</a><a>Accès</a></div>
+        <a class="r-book dsk">Réserver</a><span class="mb">${I('menu')}</span>
+      </div>
+      <div class="r-center">
+        <p class="r-kicker"><span></span>Cuisine de saison · Depuis 2009<span></span></p>
+        <h1>Le goût du marché,<br><em>chaque matin.</em></h1>
+        <p class="r-lead">Une cuisine française sincère, avec des produits choisis à l'aube chez nos producteurs.</p>
+        <div class="r-ctas"><a class="r-btn">Réserver une table</a><a class="r-link">Découvrir la carte ${I('arrow')}</a></div>
+      </div>
+      <div class="r-info">
+        <div>${I('clock')}<span><b>Horaires</b>Mar – Sam · 12h–14h · 19h–22h30</span></div>
+        <div>${I('pin')}<span><b>Adresse</b>12 place du Marché</span></div>
+        <div>${I('phone')}<span><b>Réservation</b>065 12 34 56</span></div>
+      </div>
+    </div>
+    <section class="r-menu">
+      <div class="r-photo">${IMG('1414235077428-338989a2e8c0',1100,'Assiette du chef')}</div>
+      <div class="r-list">
+        <p class="r-eyebrow">La carte du moment</p>
+        <h2>Simple, de saison,<br><em>fait maison.</em></h2>
+        <div class="r-row"><span>Œuf parfait, crème de cèpes<small>noisettes torréfiées, cerfeuil</small></span><i></i><b>9</b></div>
+        <div class="r-row"><span>Pavé de cabillaud, beurre blanc<small>poireaux fondants, citron confit</small></span><i></i><b>21</b></div>
+        <div class="r-row"><span>Joue de bœuf confite au vin rouge<small>purée maison, carottes glacées</small></span><i></i><b>19</b></div>
+        <div class="r-row"><span>Tarte fine aux pommes<small>glace vanille de Madagascar</small></span><i></i><b>8</b></div>
+        <a class="r-link">Voir toute la carte ${I('arrow')}</a>
+      </div>
+    </section>
+    <div class="r-reviews">${STARS}<span><b>4,8</b> · 312 avis Google</span><em>« La meilleure joue de bœuf du quartier. »</em></div>` },
+
+  beaute: { icon:'scissors', label:'Beauté & bien-être', sub:'Prestations, prise de RDV', url:'maison-alma.be',
+    html: () => `
+    <div class="b-nav">
+      <div class="b-links dsk"><a>Prestations</a><a>Tarifs</a><a>L'équipe</a></div>
+      <div class="b-logo">Maison <i>Alma</i></div>
+      <div class="b-right dsk"><a>Journal</a><a class="b-btn">Prendre rendez-vous</a></div>
+      <span class="mb">${I('menu')}</span>
+    </div>
+    <section class="b-hero">
+      <div class="b-copy">
+        <p class="b-eyebrow">Coiffure · Soins · Couleur végétale</p>
+        <h1>La beauté,<br>sans <em>précipitation.</em></h1>
+        <p class="b-lead">Un salon pensé comme une parenthèse : diagnostic personnalisé, produits naturels et tout le temps qu'il faut.</p>
+        <div class="b-ctas"><a class="b-btn lg">Réserver en ligne ${I('arrow')}</a><a class="b-more">Nos prestations</a></div>
+        <div class="b-proof">
+          <div class="b-avatars"><span>${IMG('1522337360788-8b13dee7a37e',120,'')}</span><span style="background:#d9b8a3"></span><span style="background:#8c9a8a"></span></div>
+          <div><b>4,9 / 5</b> · 187 avis Google</div>
+        </div>
+      </div>
+      <div class="b-visual">
+        <div class="b-arch">${IMG('1600948836101-f9ffda59d250',1000,'Intérieur du salon')}</div>
+        <div class="b-slot">${I('calendar')}<div><small>Prochain créneau disponible</small><b>Aujourd'hui · 15h30</b></div></div>
+        <div class="b-thumb">${IMG('1522337360788-8b13dee7a37e',500,'Cliente du salon')}</div>
+      </div>
+    </section>
+    <section class="b-services">
+      <div class="b-service"><span class="b-num">01</span>${I('scissors')}<h3>Coupe & coiffage</h3><p>Diagnostic, shampoing soin, coupe sur mesure et brushing.</p><b>dès 38 €</b></div>
+      <div class="b-service"><span class="b-num">02</span>${I('leaf')}<h3>Couleur végétale</h3><p>Des pigments naturels qui respectent vos cheveux et votre cuir chevelu.</p><b>dès 65 €</b></div>
+      <div class="b-service"><span class="b-num">03</span>${I('sparkle')}<h3>Soins & rituels</h3><p>Massage crânien, soin profond et mise en beauté pour les grandes occasions.</p><b>dès 45 €</b></div>
+    </section>` },
+
+  artisan: { icon:'wrench', label:'Artisan & BTP', sub:'Réalisations, demande de devis', url:'durand-renovation.be',
+    html: () => `
+    <div class="a-top"><span>${I('zap')} Dépannage urgent 7j/7</span><span class="dsk">${I('pin')} Intervention dans un rayon de 30 km</span><span>${I('phone')} 0470 12 34 56</span></div>
+    <div class="a-nav">
+      <div class="a-logo"><span class="a-mark">D</span><div><b>DURAND</b><small>Rénovation</small></div></div>
+      <div class="a-links dsk"><a>Services</a><a>Réalisations</a><a>Zone d'intervention</a><a>Avis</a></div>
+      <a class="a-btn dsk">Devis gratuit ${I('arrow')}</a><span class="mb">${I('menu')}</span>
+    </div>
+    <section class="a-hero">
+      <div class="a-copy">
+        <span class="a-chip"><i></i>Disponible cette semaine</span>
+        <h1>Votre salle de bain refaite en <span>10 jours.</span></h1>
+        <p>Plomberie, chauffage et rénovation complète. Un seul interlocuteur, un prix ferme, un chantier propre.</p>
+        <div class="a-ctas"><a class="a-btn lg">Demander un devis gratuit ${I('arrow')}</a><a class="a-call">${I('phone')} 0470 12 34 56</a></div>
+        <div class="a-stats"><div><b>15 ans</b><small>d'expérience</small></div><div><b>24 h</b><small>pour votre devis</small></div><div><b>10 ans</b><small>garantie décennale</small></div></div>
+      </div>
+      <div class="a-visual">
+        <div class="a-img">${IMG('1620626011761-996317b8d101',1100,'Salle de bain rénovée')}</div>
+        <div class="a-card">${I('award')}<div><b>Artisan certifié RGE</b><small>Éligible aux aides à la rénovation</small></div></div>
+        <div class="a-rate"><b>4,9</b>${STARS}<small>96 avis Google</small></div>
+      </div>
+    </section>
+    <section class="a-services">
+      <div class="a-head"><h2>Ce que nous faisons<br>le mieux.</h2><p>Du simple dépannage à la rénovation complète, avec la même exigence de qualité.</p></div>
+      <div class="a-grid">
+        <div class="a-svc"><div class="a-ico">${I('drop')}</div><h3>Plomberie & dépannage</h3><p>Fuite, robinetterie, chauffe-eau : intervention rapide, 7 jours sur 7.</p><a>En savoir plus ${I('arrow')}</a></div>
+        <div class="a-svc"><div class="a-ico">${I('flame')}</div><h3>Chauffage & chaudière</h3><p>Installation, remplacement et entretien de votre système de chauffage.</p><a>En savoir plus ${I('arrow')}</a></div>
+        <div class="a-svc"><div class="a-ico">${I('bath')}</div><h3>Salle de bain clé en main</h3><p>De la conception à la pose, un seul interlocuteur pour tout le chantier.</p><a>En savoir plus ${I('arrow')}</a></div>
+        <div class="a-svc"><div class="a-ico">${I('wrench')}</div><h3>Entretien annuel</h3><p>Un contrat simple pour ne plus jamais penser à votre chaudière.</p><a>En savoir plus ${I('arrow')}</a></div>
+      </div>
+    </section>` },
+
+  cave: { icon:'wine', label:'Commerce', sub:'Produits, horaires, événements', url:'la-cave-da-cote.be',
+    html: () => `
+    <div class="c-nav">
+      <div class="c-logo">La Cave <i>d'à Côté</i></div>
+      <div class="c-links dsk"><a>Sélections</a><a>Dégustations</a><a>Coffrets</a><a>La boutique</a></div>
+      <div class="c-open dsk"><i></i>Ouvert aujourd'hui · 10h – 20h</div><span class="mb">${I('menu')}</span>
+    </div>
+    <section class="c-hero">
+      <div class="c-copy">
+        <p class="c-issue"><span>N° 12 — Sélection d'automne</span><span class="dsk">Caviste indépendant</span></p>
+        <h1>Le bon vin,<br><em>à deux pas</em><br>de chez vous.</h1>
+        <div class="c-row"><p>Plus de 400 références choisies chez des vignerons indépendants. Et des conseils, toujours.</p><a class="c-btn">Découvrir la sélection ${I('arrow')}</a></div>
+      </div>
+      <div class="c-img">${IMG('1474722883778-792e7990302f',900,'Bouteilles de vin')}<span class="c-caption">Dégustation tous les samedis · 16h</span></div>
+    </section>
+    <div class="c-band"><span>Vins nature</span><i></i><span>Champagnes</span><i></i><span>Bières artisanales</span><i></i><span>Épicerie fine</span></div>
+    <section class="c-picks">
+      <div class="c-head"><h2>Les coups de cœur<br><em>du moment</em></h2><a>Toute la sélection ${I('arrow')}</a></div>
+      <div class="c-cards">
+        <div><div class="c-cover">${IMG('1568213816046-0ee1c42bd559',800,'Dégustation')}</div><div class="c-meta"><div><small>Atelier · Samedi 16h</small><h3>Dégustation d'automne</h3></div><b>25 €</b></div></div>
+        <div><div class="c-cover"><div class="c-label wine"><div><small>Côtes-du-Rhône</small><strong>Clos Saint-Roch</strong><span>Rouge · 2022</span></div></div></div><div class="c-meta"><div><small>Fruité · Épicé</small><h3>Clos Saint-Roch</h3></div><b>14,50 €</b></div></div>
+        <div><div class="c-cover"><div class="c-label green"><div><small>Bourgogne</small><strong>Domaine des Pierres</strong><span>Chablis · 2021</span></div></div></div><div class="c-meta"><div><small>Minéral · Frais</small><h3>Chablis</h3></div><b>22 €</b></div></div>
+      </div>
+    </section>` },
+
+  archi: { icon:'ruler', label:'Indépendant', sub:'Architectes, photographes, libéraux', url:'lea-moreau-interieurs.be',
+    html: () => `
+    <div class="z-nav">
+      <div class="z-logo">LÉA MOREAU<span>Architecture intérieure</span></div>
+      <div class="z-links dsk"><a>Projets</a><a>Méthode</a><a>Studio</a><a>Journal</a></div>
+      <a class="z-cta dsk">Prendre rendez-vous ${I('arrow')}</a><span class="mb">${I('menu')}</span>
+    </div>
+    <section class="z-hero">
+      <div class="z-top">
+        <h1>Des intérieurs<br>qui vous <em>ressemblent.</em></h1>
+        <div class="z-intro"><p>Rénovation, aménagement et décoration d'appartements et de maisons. De la première esquisse au dernier coussin.</p><a class="z-link">Voir les projets ${I('arrow')}</a></div>
+      </div>
+      <div class="z-wide">${IMG('1618221195710-dd6b41faaea6',2000,'Salon rénové')}<div class="z-tag"><small>Projet récent</small><b>Appartement familial · 92 m²</b></div><div class="z-count">01 / 12</div></div>
+    </section>
+    <div class="z-facts">
+      <div><b>120+</b><span>projets livrés</span></div>
+      <div><b>3D</b><span>votre intérieur avant les travaux</span></div>
+      <div><b>1</b><span>interlocutrice du début à la fin</span></div>
+      <div><b>12 sem.</b><span>durée moyenne d'un projet</span></div>
+    </div>
+    <section class="z-projects">
+      <div class="z-head"><p class="z-eyebrow">Projets choisis</p><h2>Chaque lieu raconte<br><em>une histoire.</em></h2></div>
+      <div class="z-grid">
+        <figure class="z-p1">${IMG('1617806118233-18e1de247200',1400,'Salle à manger')}<figcaption><b>Salle à manger · Maison de ville</b><span>Rénovation complète · 2025</span></figcaption></figure>
+        <figure class="z-p2">${IMG('1586023492125-27b2c045efd7',1000,'Coin lecture')}<figcaption><b>Coin lecture · Loft</b><span>Décoration · 2024</span></figcaption></figure>
+      </div>
+    </section>
+    <section class="z-method">
+      <div class="z-mimg">${IMG('1503387762-592deb58ef4e',1200,'Plans en cours de dessin')}</div>
+      <div class="z-steps">
+        <p class="z-eyebrow">Méthode</p>
+        <h2>Un projet clair,<br><em>étape par étape.</em></h2>
+        <ol>
+          <li><span>01</span><div><b>Rencontre & visite</b><p>Un premier échange offert, chez vous ou en visio.</p></div></li>
+          <li><span>02</span><div><b>Esquisse & 3D</b><p>Vous visualisez votre futur intérieur avant le début des travaux.</p></div></li>
+          <li><span>03</span><div><b>Suivi de chantier</b><p>Je coordonne les artisans jusqu'à la remise des clés.</p></div></li>
+        </ol>
+        <a class="z-cta lg">Réserver un premier échange ${I('arrow')}</a>
+      </div>
+    </section>` }
+};
+const KEYS = Object.keys(SITES);
+
+/* Monte un site dans un conteneur et l'ajuste à sa largeur (zoom) */
+function mount(el, key, mobile){
+  el.innerHTML = `<div class="ms-zoom"><div class="ms t-${key}${mobile?' m':''}">${SITES[key].html()}</div></div>`;
+  fit(el);
+}
+function fit(el){
+  const z = el.querySelector('.ms-zoom'); if(!z) return;
+  const design = z.firstElementChild.classList.contains('m') ? 390 : 1280;
+  z.style.zoom = (el.clientWidth || design) / design;
+}
+const ro = new ResizeObserver(entries => entries.forEach(e => fit(e.target)));
+
+/* ---------- Hero : rotation des modèles ---------- */
+const heroScreen = document.getElementById('hero-screen');
+const heroPhone = document.getElementById('hero-phone');
+const heroUrl = document.getElementById('hero-url');
+const heroDots = document.getElementById('hero-dots');
+const HERO = ['resto','beaute','artisan','archi','cave'];
+let hi = 0, heroTimer;
+HERO.forEach((k,i)=>{
+  const b = document.createElement('button'); b.setAttribute('aria-label','Modèle '+SITES[k].label);
+  b.onclick = () => setHero(i,true);
+  heroDots.appendChild(b);
+});
+function paintHero(i){
+  const k = HERO[i];
+  mount(heroScreen,k,false); mount(heroPhone,k,true);
+  heroUrl.textContent = SITES[k].url;
+  [...heroDots.children].forEach((d,n)=>d.classList.toggle('on',n===i));
+}
+function setHero(i,manual){
+  hi = i;
+  heroScreen.classList.add('fade'); heroPhone.classList.add('fade');
+  setTimeout(()=>{ paintHero(i); heroScreen.classList.remove('fade'); heroPhone.classList.remove('fade'); },350);
+  if(manual){ clearInterval(heroTimer); startHero(); }
+}
+function startHero(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  heroTimer = setInterval(()=>setHero((hi+1)%HERO.length),4500);
+}
+ro.observe(heroScreen); ro.observe(heroPhone);
+paintHero(0); startHero();
+
+/* ---------- Avant / après ---------- */
+const baAfter = document.getElementById('ba-after');
+mount(baAfter,'resto',false); ro.observe(baAfter);
+const ba = document.getElementById('ba');
+const setBA = v => ba.style.setProperty('--pos', v+'%');
+document.getElementById('ba-range').addEventListener('input', e=>setBA(e.target.value));
+setBA(50);
+
+/* ---------- Showcase ---------- */
+const tabsEl = document.getElementById('tabs');
+const showScreen = document.getElementById('show-screen');
+const showUrl = document.getElementById('show-url');
+const showFrame = document.getElementById('show-frame');
+let cur = 0, mobile = false;
+KEYS.forEach((k,i)=>{
+  const t = SITES[k], b = document.createElement('button');
+  b.className = 'tab'+(i===0?' on':''); b.setAttribute('role','tab');
+  b.innerHTML = `<span class="ti">${I(t.icon)}</span><span><b>${t.label}</b><small>${t.sub}</small></span>`;
+  b.onclick = () => { cur=i; [...tabsEl.children].forEach((x,n)=>x.classList.toggle('on',n===i)); renderShow(true); };
+  tabsEl.appendChild(b);
+});
+function renderShow(anim){
+  const go = () => { mount(showScreen,KEYS[cur],mobile); showScreen.scrollTop = 0; showUrl.textContent = SITES[KEYS[cur]].url; showScreen.classList.remove('fade'); };
+  if(anim){ showScreen.classList.add('fade'); setTimeout(go,250); } else go();
+}
+document.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-dev]').forEach(x=>x.classList.toggle('on',x===b));
+  mobile = b.dataset.dev==='m';
+  showFrame.classList.toggle('is-m',mobile);
+  renderShow(true);
+});
+ro.observe(showScreen);
+renderShow(false);
+
+/* ---------- Tarifs : durée d'engagement ---------- */
+function setTerm(term){
+  document.querySelectorAll('[data-term]').forEach(b=>b.classList.toggle('on',b.dataset.term===term));
+  document.querySelectorAll('[data-setup]').forEach(p=>{
+    p.innerHTML = term==='24'
+      ? '<em>Frais de mise en service offerts</em> · engagement 24 mois'
+      : '+ 149 € HTVA de mise en service · engagement 12 mois';
+  });
+}
+document.querySelectorAll('[data-term]').forEach(b=>b.onclick=()=>setTerm(b.dataset.term));
+setTerm('12');
+
+/* ---------- Nav ---------- */
+const nav = document.getElementById('nav');
+const burger = document.getElementById('burger');
+const onScroll = ()=>nav.classList.toggle('scrolled', scrollY>20);
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+burger.onclick = ()=>{ const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded',o); };
+document.querySelectorAll('#nav-links a').forEach(a=>a.addEventListener('click',()=>{ nav.classList.remove('open'); burger.setAttribute('aria-expanded',false); }));
+
+/* ---------- Animations au défilement ---------- */
+const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- Halo qui suit la souris sur les cartes ---------- */
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointermove',e=>{
+  const r=c.getBoundingClientRect();
+  c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px');
+}));
+
+/* ---------- Formulaire ---------- */
+document.getElementById('y').textContent = new Date().getFullYear();
+const form = document.getElementById('lead-form');
+form.addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn = form.querySelector('button[type=submit]');
+  const label = btn.innerHTML;
+  btn.disabled = true; btn.textContent = 'Envoi…';
+  try{
+    const res = await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+    if(!res.ok) throw new Error();
+    form.reset();
+    document.getElementById('form-ok').style.display='block';
+    btn.textContent='Envoyé';
+  }catch{
+    btn.disabled=false; btn.innerHTML=label;
+    alert("L'envoi a échoué. Réessayez dans un instant ou appelez-nous.");
+  }
+});
+</script>
+
+<div id="wx-progress"></div>
+<script>
+(()=>{
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const outside=e=>!e.closest('.ms,.screen,.pscreen,.show-frame');
+// 1. Titres mot par mot
+const split=el=>{const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.append(w);return}const o=document.createElement('span');o.className='wx-w';const i=document.createElement('span');i.textContent=w;o.append(i);f.append(o)});c.replaceWith(f)}else if(c.nodeType===1&&!c.classList.contains('wx-w'))walk(c)})};walk(el);el.querySelectorAll('.wx-w>span').forEach((s,k)=>s.style.transitionDelay=(k*0.06)+'s')};
+document.querySelectorAll('h1,h2').forEach(h=>{if(outside(h)){h.classList.remove('reveal');split(h);h.classList.add('wx-split')}});
+// 2. Blocs qui montent en cascade
+const groups=['.hero .sub','.hero-ctas','.trust','.sec-head p','.card','.plan','.step','.promise>div','.crow','.faq details','.tab','.cta-list li','#lead-form','.billing'];
+groups.forEach(g=>document.querySelectorAll(g).forEach((e,i)=>{if(!outside(e))return;e.classList.add('wx-up');e.style.transitionDelay=((i%4)*0.1)+'s'}));
+// 3. Révélation en rideau des grands visuels
+document.querySelectorAll('.ba,.show-frame-wrap,.stage,.compare').forEach(e=>e.classList.add('wx-clip'));
+// Observateur
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('wx-in');io.unobserve(en.target)}}),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.wx-split,.wx-up,.wx-clip').forEach(e=>io.observe(e));
+if(reduce)return;
+// 4. Parallaxe + barre de progression + vitesse du bandeau
+const stage=document.querySelector('.stage'),bar=document.getElementById('wx-progress'),track=document.querySelector('.marquee-track');
+let last=scrollY,vel=0,x=0;
+const tick=()=>{const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(y/h)+')';
+ if(stage&&stage.classList.contains('wx-in')){stage.style.transform='translateY('+(y*-0.12)+'px) rotate('+(y*0.004)+'deg)'}
+ vel+=(Math.abs(y-last)-vel)*.1;last=y;if(track){x-=0.6+vel*0.35;const w=track.scrollWidth/2;if(-x>w)x+=w;track.style.transform='translateX('+x+'px)'}
+ requestAnimationFrame(tick)};
+if(track)track.style.animation='none';
+requestAnimationFrame(tick);
+// 5. Compteurs des prix
+document.querySelectorAll('.price b').forEach(b=>{const m=b.textContent.match(/\d+/);if(!m)return;const to=+m[0];const ob=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;ob.disconnect();const t0=performance.now();const run=t=>{const p=Math.min(1,(t-t0)/1200),v=Math.round(to*(1-Math.pow(1-p,3)));b.textContent=b.textContent.replace(/\d+/,v);if(p<1)requestAnimationFrame(run)};run(t0)});ob.observe(b)});
+// 6. Boutons magnétiques + cartes qui s'inclinent
+if(matchMedia('(hover:hover)').matches){
+ document.querySelectorAll('.btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.25)+'px,'+((e.clientY-r.top-r.height/2)*.35)+'px)'});b.addEventListener('mouseleave',()=>b.style.transform='')});
+ document.querySelectorAll('.card,.plan').forEach(c=>{c.classList.add('wx-tilt');c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(px*6)+'deg) rotateX('+(-py*6)+'deg) translateY(-4px)'});c.addEventListener('mouseleave',()=>c.style.transform='')});
+}
+})();
+</script>
+</body>
+</html>
