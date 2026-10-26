@@ -373,8 +373,8 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
   --bg:#fff; --bg-2:#f6f5f4; --surface:#fff; --surface-2:#f6f5f4;
   --line:rgba(0,0,0,.1); --line-2:rgba(0,0,0,.16);
   --text:#191918; --muted:#615d59; --dim:#8f8a85;
-  --indigo:#0075de; --violet:#0075de; --cyan:#0075de; --lime:#0075de;
-  --grad:linear-gradient(#0075de,#0075de);
+  --indigo:#e8590c; --violet:#e8590c; --cyan:#e8590c; --lime:#e8590c;
+  --grad:linear-gradient(#e8590c,#e8590c);
   --radius:6px;
   --display:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
@@ -386,8 +386,8 @@ h2{font-weight:600}
 .eyebrow::before{display:none}
 section:nth-of-type(even){background:#f6f5f4}
 .btn{border-radius:4px;padding:12px 20px;font-weight:600}
-.btn-primary{background:#0075de;color:#fff;box-shadow:none}
-.btn-primary:hover{background:#005bab;transform:none;box-shadow:none}
+.btn-primary{background:#e8590c;color:#fff;box-shadow:none}
+.btn-primary:hover{background:#c44a08;transform:none;box-shadow:none}
 .btn-ghost{border:0;background:#f1efed;color:#191918}
 .btn-ghost:hover{background:#e6e3e0;color:#191918}
 .icon-tile{background:#fff;border:1px solid var(--line);box-shadow:none;color:#191918}
@@ -429,7 +429,7 @@ section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .chip.ok{color:#2b6b3f;border-color:transparent;background:#dbeddb}
 .gauge .val{color:#191918}
 .bubble.them{background:#e9e9eb;border:0;color:#191918}
-.bubble.me{background:#0075de;color:#fff}
+.bubble.me{background:#e8590c;color:#fff}
 .serp{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 10px 30px -12px rgba(0,0,0,.2)}
 .steps::before{background:#d2d2d7;opacity:1}
 .step .n{background:#fff;border:1px solid var(--line);box-shadow:none}
@@ -437,27 +437,27 @@ section:nth-of-type(odd) .card{background:#f6f5f4;border-color:transparent}
 .step .when{color:#7a4b00;background:#fdecc8;border:0;border-radius:5px}
 .billing-inner{background:#e8e8ed;border:0}
 .billing button.on{background:#fff;color:#191918;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-.billing .save,.billing button.on .save{background:rgba(0,117,222,.1);color:#0075de}
+.billing .save,.billing button.on .save{background:rgba(232,89,12,.1);color:#e8590c}
 .plan{background:#fff;border:1px solid var(--line);border-radius:6px}
 .plan.hot{background:#fff}
-.plan.hot::before{background:#0075de;padding:2px;border-radius:7px}
+.plan.hot::before{background:#e8590c;padding:2px;border-radius:7px}
 .plan.hot::after{box-shadow:none}
-.plan-tag{background:#0075de;color:#fff;border-radius:3px}
-.setup em{color:#0075de}
-.plan li::before{background:rgba(0,117,222,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
+.plan-tag{background:#e8590c;color:#fff;border-radius:3px}
+.setup em{color:#e8590c}
+.plan li::before{background:rgba(232,89,12,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230071e3' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/11px no-repeat}
 .plan li.off::before{background-color:rgba(0,0,0,.04)}
 .promise{background:var(--line);border-color:var(--line)}
 .promise>div{background:#fff}
-.crow>div:nth-child(3){background:rgba(0,117,222,.04)}
-.crow.head>div:nth-child(3){color:#0075de}
+.crow>div:nth-child(3){background:rgba(232,89,12,.04)}
+.crow.head>div:nth-child(3){color:#e8590c}
 .faq details[open] summary .pm{background:#f6f5f4}
 .cta-box{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:none}
 #lead-form{background:#f6f5f4;border:0;border-radius:6px;backdrop-filter:none;-webkit-backdrop-filter:none}
 #lead-form input,#lead-form select{background:#fff;border:1px solid rgba(0,0,0,.15);color:#191918;border-radius:3px}
 #lead-form select option{background:#fff;color:#191918}
-#lead-form input:focus,#lead-form select:focus{border-color:#0075de;background:#fff;box-shadow:0 0 0 3px rgba(0,117,222,.15)}
+#lead-form input:focus,#lead-form select:focus{border-color:#e8590c;background:#fff;box-shadow:0 0 0 3px rgba(232,89,12,.15)}
 .form-ok{background:#e8f5ec;color:#1d7f3a}
-.direct a{color:#0075de}
+.direct a{color:#e8590c}
 footer{background:#fff;border-top:1px solid var(--line);margin-top:0}
 footer .foot p,footer .foot-bottom{color:#6e6e73}
 @media (max-width:860px){.nav-links{background:#fff}}
@@ -473,7 +473,7 @@ nav#nav.scrolled{border-color:var(--line)}
 .burger{border-radius:5px}.plan-tag{border-radius:3px}
 
 /* ===== Animations variées façon Wix ===== */
-#wx-progress{position:fixed;top:0;left:0;height:3px;width:100%;background:#0075de;transform-origin:0 50%;transform:scaleX(0);z-index:999}
+#wx-progress{position:fixed;top:0;left:0;height:3px;width:100%;background:#e8590c;transform-origin:0 50%;transform:scaleX(0);z-index:999}
 .js .reveal{opacity:1!important;transform:none!important}
 .u{display:inline-block;transition:transform 1s cubic-bezier(.2,.8,.2,1),opacity 1s cubic-bezier(.2,.8,.2,1),filter 1s cubic-bezier(.2,.8,.2,1),clip-path 1s cubic-bezier(.2,.8,.2,1)}
 .m{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
@@ -992,7 +992,7 @@ nav#nav.scrolled{border-color:var(--line)}
         <h3>Ultra rapide</h3>
         <p>Pas de WordPress lourd ni d'extensions : vos pages s'affichent presque instantanément.</p>
         <div class="viz gauge">
-          <svg class="ring" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#0075de"/><stop offset="1" stop-color="#0075de"/></linearGradient></defs><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"/></svg>
+          <svg class="ring" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#e8590c"/><stop offset="1" stop-color="#e8590c"/></linearGradient></defs><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle class="p" cx="60" cy="60" r="50" fill="none" stroke="url(#gg)" stroke-width="10" stroke-linecap="round"/></svg>
           <div class="val"><svg class="ic"><use href="#i-zap"/></svg></div>
         </div>
       </div>
