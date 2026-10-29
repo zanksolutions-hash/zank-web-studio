@@ -1,7 +1,7 @@
 /*
  * Suivi des visites des maquettes (sans cookie, sans adresse IP).
  * Envoie la maquette consultée, la page, la durée de lecture et le type
- * d'appareil au script Google de Zank Solutions.
+ * d'appareil au service de suivi de Zank Solutions (Cloudflare).
  *
  * Pour ne pas compter vos propres visites : ouvrez une fois n'importe quelle
  * maquette avec ?moi à la fin de l'adresse, dans chaque navigateur que vous
@@ -9,7 +9,7 @@
  * ?moi=0 réactive le comptage dans ce navigateur.
  */
 (function () {
-  var URL_SUIVI = 'A_REMPLACER_PAR_L_URL_DU_SCRIPT_GOOGLE';
+  var URL_SUIVI = 'https://suivi-maquettes.zank-solutions.workers.dev';
   if (URL_SUIVI.indexOf('https://') !== 0) return;
 
   try {
