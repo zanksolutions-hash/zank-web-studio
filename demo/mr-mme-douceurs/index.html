@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-fam="commerce">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <!-- ============ À PERSONNALISER : référencement ============ -->
+<script>(function(){var r=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;r.classList.add('anim');setTimeout(function(){if(!r.classList.contains('pret'))r.classList.remove('anim')},3000)})()</script>
 <title>Mr & Mme Douceurs · Boulangerie à Charleroi</title>
 <meta name="description" content="Boulangerie à Monceau-sur-Sambre : croissants, viennoiseries et baguettes, dès 6 h 30.">
 <meta property="og:type" content="website">
@@ -15,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%235a1220'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='17' fill='%23f2ebe0' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -28,7 +29,7 @@
 }
 </script>
 <style>
-:root{--paper:#f7f0ec;--paper2:#efe0d8;--ink:#2a1a18;--muted:#6e5a55;--wine:#a03a4a;--gold:#e2b06a;--green:#1f3a2e;--line:rgba(29,21,18,.14);--serif:'Fraunces',Georgia,serif}
+:root{--paper:#f7f0ec;--paper2:#efe0d8;--ink:#2a1a18;--muted:#6e5a55;--wine:#a03a4a;--gold:#e2b06a;--green:#1f3a2e;--line:rgba(29,21,18,.14);--serif:'Lora',Georgia,serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -232,6 +233,7 @@ body{padding-bottom:44px}
   footer{padding:40px 0 24px}
 }
 </style>
+<link rel="stylesheet" href="/demo/anim.css">
 </head>
 <body>
 
@@ -385,6 +387,8 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
 document.getElementById('y').textContent=new Date().getFullYear();
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Mr & Mme Douceurs par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<script src="/demo/motion-14.9.0.js"></script>
+<script src="/demo/anim.js"></script>
 <script src="/demo/suivi.js" defer></script>
 </body>
 </html>
