@@ -56,7 +56,10 @@ h3{font-size:24px;margin-bottom:6px}
 .sos-call strong{display:block;font-size:17px}
 .sos-call b{flex:none;font:800 32px var(--display);font-feature-settings:"lnum";color:#c0271d}
 .sos-more{display:block;margin-top:4px;padding:12px 14px;border-top:1px solid var(--soft);font-size:15px;color:var(--blue)}
-header{position:sticky;top:0;z-index:20;background:var(--blue)}
+/* Fondu progressif du bleu vers le blanc, sans bord visible en bas */
+:root{--fade:linear-gradient(180deg,#073b5e 0%,#073b5e 34%,#0b4a72 48%,#1a6592 60%,#3f86b0 70%,#78abcb 79%,#aecde1 86%,#d9e8f2 93%,#f4f9fc 97.5%,#fff 100%)}
+/* Menu posé sur le fondu : le bleu uni ne revient qu'au défilement (.stuck) */
+header{position:sticky;top:0;z-index:20;margin-bottom:-72px;background:transparent;transition:background .25s,margin-bottom .25s,box-shadow .25s}
 .head{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
 .brand{font:600 23px/1.1 var(--display);color:#fff;text-decoration:none}
 nav ul{display:flex;gap:4px}
@@ -71,7 +74,7 @@ nav a[aria-current=page]{background:var(--blue2)}
 .menu a:hover{background:var(--soft)}
 .menu a[aria-current=page]{color:var(--blue);background:var(--soft)}
 .view{padding:0 0 clamp(48px,7vw,84px);animation:appear .3s ease-out}
-.pagehead{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--blue) 0%,var(--blue) 45%,#14618f 70%,#8fc0de 90%,#fff 100%);color:#fff;padding:clamp(40px,6vw,68px) 0 clamp(110px,12vw,150px)}
+.pagehead{position:relative;overflow:hidden;background:var(--fade);color:#fff;padding:calc(72px + clamp(40px,6vw,68px)) 0 clamp(110px,12vw,150px)}
 .pagehead .wrap{position:relative;z-index:1}
 .pagehead .ecg{bottom:clamp(30px,4vw,50px)}
 .pagehead h1{color:#fff}
@@ -79,7 +82,7 @@ nav a[aria-current=page]{background:var(--blue2)}
 .wi{display:inline-block}
 .prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:#5db4e8;transform:scaleX(0);transform-origin:left}
 .veil{position:fixed;inset:0;z-index:40;background:var(--blue);transform:scaleY(0);pointer-events:none}
-header.stuck{box-shadow:0 6px 18px rgba(7,59,94,.16)}
+header.stuck{margin-bottom:-58px;background:var(--blue);box-shadow:0 6px 18px rgba(7,59,94,.16)}
 header.stuck .head{min-height:58px}
 .head{transition:min-height .25s}
 .pagehead .lead{color:#d9e7f1}
@@ -92,7 +95,7 @@ header.stuck .head{min-height:58px}
 .btn.alt{background:transparent;color:var(--blue)}
 .btn.alt:hover{background:var(--soft)}
 .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--blue) 0%,var(--blue) 42%,#14618f 66%,#6fb0d8 86%,#fff 100%);padding:clamp(56px,8vw,96px) 0 clamp(200px,20vw,260px);text-align:center}
+.hero{position:relative;overflow:hidden;background:var(--fade);padding:calc(72px + clamp(56px,8vw,96px)) 0 clamp(200px,20vw,260px);text-align:center}
 .hero .wrap{position:relative;z-index:1}
 .halo{position:absolute;border-radius:50%;background:#2f97dc;opacity:.35;filter:blur(70px);pointer-events:none;animation:drift 16s ease-in-out infinite alternate}
 .halo.a{width:440px;height:440px;left:-120px;top:-60px}
@@ -169,7 +172,12 @@ strong{font-weight:700}
 .rows b{font-weight:600;color:var(--blue)}
 .cols{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(24px,4vw,48px)}
 .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:clamp(20px,3vw,30px)}
-.photo{display:flex;align-items:center;justify-content:center;min-height:240px;padding:20px;text-align:center;background:var(--soft);border:1px dashed #8fa9c0;border-radius:12px;color:var(--muted);font-size:16px}
+.cols.bio{grid-template-columns:minmax(0,340px) 1fr;align-items:start}
+.portrait{position:relative;z-index:1;aspect-ratio:4/5;margin-top:calc(-1*clamp(110px,14vw,170px));overflow:hidden;border:6px solid #fff;border-radius:16px;background:var(--soft);box-shadow:0 22px 50px rgba(7,59,94,.26)}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.portrait svg{position:absolute;left:50%;bottom:0;width:78%;transform:translateX(-50%);fill:var(--steel)}
+.portrait .todo{position:absolute;left:12px;right:12px;top:14px;text-align:center;font-size:15px}
+@media(max-width:820px){.cols.bio{grid-template-columns:1fr}.portrait{width:min(280px,78%);margin-inline:auto}}
 .hours{width:100%;border-collapse:collapse;background:var(--white)}
 .hours caption{text-align:left;font:500 24px var(--display);color:var(--blue);margin-bottom:10px}
 .hours th,.hours td{border:1px solid var(--line);padding:11px 12px;text-align:left;font-size:16px}
@@ -308,8 +316,12 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <p class="lead">Médecin généraliste. <span class="todo">[titres légaux à compléter]</span></p>
   </div></div>
   <div class="wrap">
-    <div class="cols block">
-      <div class="photo">Portrait sobre du Dr Zanca, à fournir</div>
+    <div class="cols bio block">
+      <!-- Photo fournie : remplacer le svg et le span par <img src="dr-zanca.jpg" alt="Portrait du Dr Lucas Zanca"> -->
+      <figure class="portrait">
+        <svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>
+        <span class="todo">[photo du Dr Zanca à fournir]</span>
+      </figure>
       <ul class="rows">
         <li class="row"><b>Parcours</b><span class="todo">[formation et expérience]</span></li>
         <li class="row"><b>Soins proposés</b><span class="todo">[liste des soins]</span></li>
@@ -601,7 +613,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     });
   }
 
-  var sel='.lead,.bar a,.plate,.rows li,.hours tr,.card,.alert,.photo,.note,form,.cta .wrap>*,.legal h2,.legal p,.legal li,.block>h2,.block>p';
+  var sel='.lead,.bar a,.plate,.rows li,.hours tr,.card,.alert,.portrait,.note,form,.cta .wrap>*,.legal h2,.legal p,.legal li,.block>h2,.block>p';
   function reveal(view){
     [].filter.call(view.querySelectorAll(sel),function(el){
       return !el.parentElement.closest(sel);
