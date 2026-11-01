@@ -58,6 +58,20 @@ h3{font-size:24px;margin-bottom:6px}
 .sos-more{display:block;margin-top:4px;padding:12px 14px;border-top:1px solid var(--soft);font-size:15px;color:var(--blue)}
 /* Fondu progressif du bleu vers le blanc, sans bord visible en bas */
 :root{--fade:linear-gradient(180deg,#073b5e 0%,#073b5e 34%,#0b4a72 48%,#1a6592 60%,#3f86b0 70%,#78abcb 79%,#aecde1 86%,#d9e8f2 93%,#f4f9fc 97.5%,#fff 100%)}
+/* Cookies : la carte Google ne se charge qu'après accord (html.maps-on) */
+.ck{position:fixed;z-index:29;left:16px;bottom:16px;width:min(520px,calc(100vw - 32px));padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-size:16px;line-height:1.45;box-shadow:0 18px 44px rgba(7,59,94,.26)}
+.ck[hidden]{display:none}
+.ck b{display:block;margin-bottom:4px;font:700 19px var(--display);color:var(--blue)}
+.ck-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.ck-btns .btn{flex:1 1 150px;min-height:46px;padding:8px 16px}
+.ck-open{padding:0;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}
+@media(max-width:760px){.ck{bottom:84px}}
+.mapgate{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;padding:64px 24px 24px;background:repeating-linear-gradient(0deg,transparent 0 47px,rgba(156,195,222,.35) 47px 48px),repeating-linear-gradient(90deg,transparent 0 47px,rgba(156,195,222,.35) 47px 48px),var(--soft);color:var(--blue);font-size:16px}
+.mapgate>div{width:min(340px,100%);padding:20px 22px;border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(7,59,94,.14)}
+.mapgate .btn{width:100%;min-height:46px;margin-top:12px;padding:8px 16px}
+.maps-on .mapgate{display:none}
+html:not(.maps-on) .pin{display:none}
+@media(min-width:821px){.mapgate{justify-content:flex-end;padding-right:max(32px,calc(50vw - 520px))}}
 /* Menu posé sur le fondu : le bleu uni ne revient qu'au défilement (.stuck) */
 header{position:sticky;top:0;z-index:20;margin-bottom:-72px;background:transparent;transition:background .25s,margin-bottom .25s,box-shadow .25s}
 .head{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
@@ -214,6 +228,15 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 <a class="skip" href="#main">Aller au contenu</a>
 <div class="demo-bar" role="note">Maquette de démonstration réalisée pour le cabinet du Dr Lucas Zanca par Zank Solutions. Ce n'est pas le site officiel : les zones surlignées restent à fournir. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 
+<div class="ck" id="ck" role="region" aria-label="Choix des cookies" hidden>
+  <b>Cookies</b>
+  <p>Ce site n'utilise aucun cookie de mesure d'audience ni de publicité. Seule la carte Google peut en déposer, si vous l'acceptez. <a href="#legal">En savoir plus</a></p>
+  <div class="ck-btns">
+    <button class="btn" type="button" data-consent="yes">Accepter la carte</button>
+    <button class="btn" type="button" data-consent="no">Refuser</button>
+  </div>
+</div>
+
 <div class="sos" id="sos">
   <div class="sos-panel" id="sos-panel" hidden>
     <a class="sos-call" href="tel:112"><span><strong>Urgence vitale</strong>Ambulance et pompiers</span><b>112</b></a>
@@ -302,7 +325,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <div class="block">
       <h2>Nous trouver</h2>
       <div class="map">
-        <div class="mapframe"><iframe src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
+        <div class="mapframe"><iframe data-src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="mapgate"><div><p>La carte est fournie par Google, qui peut déposer des cookies. Elle ne se charge qu'avec votre accord.</p><button class="btn" type="button" data-consent="yes">Afficher la carte</button></div></div><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
         <div class="over"><b>Le centre pluridisciplinaire</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a><a class="btn alt" href="#acces">Voir l'accès</a></div></div>
       </div>
     </div>
@@ -445,7 +468,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   </div></div>
   <div class="wrap">
     <div class="map block">
-      <div class="mapframe"><iframe src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
+      <div class="mapframe"><iframe data-src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="mapgate"><div><p>La carte est fournie par Google, qui peut déposer des cookies. Elle ne se charge qu'avec votre accord.</p><button class="btn" type="button" data-consent="yes">Afficher la carte</button></div></div><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
       <div class="over"><b>Le centre pluridisciplinaire</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><br><a href="tel:+32494144118">0494 14 41 18</a><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a></div></div>
     </div>
     <div class="block">
@@ -510,7 +533,13 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <li>Réclamation : Autorité de protection des données.</li>
     </ul>
     <h2>Cookies</h2>
-    <p><span class="todo">[à compléter selon les outils retenus : prise de rendez-vous, carte, mesure d'audience]</span></p>
+    <p>Ce site ne dépose aucun cookie de mesure d'audience ni de publicité.</p>
+    <ul>
+      <li>Carte Google : avec votre accord uniquement, la carte se charge depuis Google, qui reçoit votre adresse IP et peut déposer ses propres cookies. Sans accord, elle n'est pas chargée et le lien « Itinéraire » reste disponible.</li>
+      <li>Votre choix : il reste dans votre navigateur pendant 6 mois et n'est envoyé à personne. Les cookies déjà déposés par Google se suppriment dans les réglages du navigateur.</li>
+      <li>Prise de rendez-vous : Progenda s'ouvre sur son propre site, avec ses propres règles.</li>
+    </ul>
+    <p><button class="ck-open" type="button" data-ck-open>Modifier mon choix</button></p>
   </div>
 </section>
 </main>
@@ -533,6 +562,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <li>Urgence vitale : <a href="tel:112">112</a></li>
         <li>Médecin de garde : <a href="tel:1733">1733</a></li>
         <li><a href="#legal">Mentions légales et confidentialité</a></li>
+        <li><button class="ck-open" type="button" data-ck-open>Gérer les cookies</button></li>
       </ul>
     </div>
     <p class="credit">Site réalisé par <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">Zank Solutions</a></p>
@@ -693,6 +723,35 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   history.scrollRestoration='manual';
   window.addEventListener('load',function(){window.scrollTo(0,0)});
   show();
+
+  var ck=document.getElementById('ck'),CK='cabinet-zanca-cookies',CK_MAX=183*864e5;
+  function ckRead(){
+    try{
+      var c=JSON.parse(localStorage.getItem(CK));
+      return c&&Date.now()-c.t<CK_MAX?c.v:null;
+    }catch(e){return null}
+  }
+  function ckApply(v){
+    var on=v==='yes';
+    document.documentElement.classList.toggle('maps-on',on);
+    [].forEach.call(document.querySelectorAll('.mapframe iframe'),function(f){
+      if(on){if(f.getAttribute('src')!==f.dataset.src)f.src=f.dataset.src}
+      else if(f.hasAttribute('src'))f.src='about:blank';
+    });
+  }
+  function ckSet(v){
+    try{localStorage.setItem(CK,JSON.stringify({v:v,t:Date.now()}))}catch(e){}
+    ckApply(v);
+    ck.hidden=true;
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-consent]');
+    if(b)ckSet(b.dataset.consent);
+    if(e.target.closest('[data-ck-open]')){ck.hidden=false;ck.querySelector('button').focus()}
+  });
+  var ckChoice=ckRead();
+  ckApply(ckChoice);
+  ck.hidden=!!ckChoice;
 
   var sos=document.getElementById('sos'),sosBtn=document.getElementById('sos-btn'),sosPanel=document.getElementById('sos-panel');
   function sosToggle(open){
