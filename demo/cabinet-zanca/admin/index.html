@@ -48,7 +48,7 @@ main{padding:28px clamp(16px,3vw,32px) 72px;min-width:0}
 .full{grid-column:1/-1}
 label.f{display:block;font-weight:600;font-size:15px}
 label.f small{display:block;font-weight:400;color:var(--muted)}
-input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=time],select,textarea{display:block;width:100%;min-height:44px;margin-top:5px;padding:8px 10px;border:1px solid #aab9c8;border-radius:7px;background:#fff;color:var(--ink);font:inherit;font-weight:400}
+input[type=text],input[type=password],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=time],select,textarea{display:block;width:100%;min-height:44px;margin-top:5px;padding:8px 10px;border:1px solid #aab9c8;border-radius:7px;background:#fff;color:var(--ink);font:inherit;font-weight:400}
 textarea{min-height:92px;resize:vertical}
 input[readonly]{background:var(--bg);color:var(--muted)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px;border:1px solid var(--blue);border-radius:7px;background:var(--blue);color:#fff;font:600 15px 'Public Sans',sans-serif;text-decoration:none;cursor:pointer}
@@ -106,6 +106,7 @@ input[readonly]{background:var(--bg);color:var(--muted)}
 .acc[disabled] b{color:var(--muted)}
 .acc span{font-size:14px;color:var(--muted)}
 .sep{margin:22px 0 4px;padding-top:18px;border-top:1px solid var(--line);font-weight:600}
+code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
 #toast{position:fixed;z-index:9;left:50%;bottom:20px;max-width:calc(100vw - 32px);padding:11px 18px;border-radius:8px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;transform:translateX(-50%);box-shadow:0 10px 28px rgba(7,31,48,.3)}
 #toast.err{background:var(--red)}
 @media(max-width:860px){
@@ -128,12 +129,12 @@ input[readonly]{background:var(--bg);color:var(--muted)}
 </style>
 </head>
 <body>
-<div class="demo">Maquette de l'administration : les données restent dans ce navigateur et n'arrivent pas sur le site public.</div>
+<div class="demo">Maquette de l'administration : les données restent dans ce navigateur et n'arrivent pas sur le site public. N'y saisissez aucun vrai mot de passe.</div>
 <div id="app"></div>
 <div id="toast" role="status" hidden></div>
 <script>
 (function(){
-  var KEY='cmm-admin-demo',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
+  var KEY='cmm-admin-demo-2',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
   var DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
   var ROLE={admin:'Administrateur',super:'Superviseur',pro:'Praticien'};
   var SIL='<svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>';
@@ -153,10 +154,10 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     var pm=[['16:45','18:30'],['15:00','18:00'],['16:45','18:30'],['15:00','18:00'],['16:45','18:00'],['','']];
     return{
       users:[
-        {id:'u-admin',name:'Zank Solutions',email:'admin@exemple.be',role:'admin',pro:null,active:true},
-        {id:'u-zanca',name:'Dr Lucas Zanca',email:'lucas.zanca@exemple.be',role:'super',pro:'zanca',active:true},
-        {id:'u-putton',name:'Dr Charline Putton',email:'charline.putton@exemple.be',role:'pro',pro:'putton',active:true},
-        {id:'u-cann',name:'M. Dario Cannistraro',email:'dario.cannistraro@exemple.be',role:'pro',pro:'cannistraro',active:true}
+        {id:'u-admin',name:'Zank Solutions',login:'admin',pw:'demo',role:'admin',pro:null,active:true},
+        {id:'u-zanca',name:'Dr Lucas Zanca',login:'lzanca',pw:'demo',role:'super',pro:'zanca',active:true},
+        {id:'u-putton',name:'Dr Charline Putton',login:'cputton',pw:'demo',role:'pro',pro:'putton',active:true},
+        {id:'u-cann',name:'M. Dario Cannistraro',login:'dcannistraro',pw:'demo',role:'pro',pro:'cannistraro',active:true}
       ],
       pros:{
         zanca:{name:'Dr Lucas Zanca',job:'Médecin généraliste',photo:'../dr-zanca.jpg',phone:'0494 14 41 18',rdv:'https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities',soins:'',visible:true,
@@ -173,7 +174,7 @@ input[readonly]{background:var(--bg);color:var(--muted)}
   }
   function load(){try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&s.users)return s}catch(e){}return seed()}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
-  var st=load(),uidCur=null,curPro=null,sent=null;
+  var st=load(),uidCur=null,curPro=null,tempPw=null;
   try{uidCur=sessionStorage.getItem(KEY+'-user')}catch(e){}
 
   function me(){return st.users.filter(function(u){return u.id===uidCur&&u.active})[0]||null}
@@ -196,6 +197,7 @@ input[readonly]{background:var(--bg);color:var(--muted)}
   }
   function nav(){
     var u=me(),g=[];
+    if(u.mustChange)return [['Mon compte',[['compte','Mon mot de passe']]]];
     var mine=[['fiche','Fiche'],['horaires','Horaires'],['absences','Absences'],['messages','Messages'],['demarches','Démarches']];
     if(u.role==='admin'){
       g.push(['Gestion',[['utilisateurs','Utilisateurs'],['praticiens','Praticiens du site'],['historique','Historique']]]);
@@ -208,6 +210,7 @@ input[readonly]{background:var(--bg);color:var(--muted)}
       g.push(['Mon espace',mine]);
       g.push(['Suivi',[['historique','Historique']]]);
     }
+    g.push(['Mon compte',[['compte','Mon mot de passe']]]);
     return g;
   }
   function allowed(){var a=[];nav().forEach(function(g){g[1].forEach(function(i){a.push(i[0])})});return a}
@@ -248,12 +251,10 @@ input[readonly]{background:var(--bg);color:var(--muted)}
   /* ---------- Écrans ---------- */
   function vLogin(){
     var accs=st.users.map(function(u){
-      return '<button class="acc" type="button" data-act="login" data-id="'+u.id+'"'+(u.active?'':' disabled')+'><b>'+esc(u.name)+'</b><span>'+ROLE[u.role]+(u.active?'':' · compte désactivé')+'</span></button>';
+      return '<button class="acc" type="button" data-act="fill" data-id="'+esc(u.login)+'"'+(u.active?'':' disabled')+'><b>'+esc(u.name)+'</b><span>'+ROLE[u.role]+' · identifiant : '+esc(u.login)+(u.active?'':' · compte désactivé')+'</span></button>';
     }).join('');
-    var form=sent?
-      '<div class="notice">Lien de connexion envoyé à <b>'+esc(sent.email)+'</b> (simulation).</div><div class="acts"><button class="btn" type="button" data-act="login" data-id="'+sent.id+'">Ouvrir le lien</button></div>':
-      '<form data-form="magic" class="acts" style="display:block"><label class="f">Votre adresse e-mail<input type="email" name="email" required autocomplete="email"></label><div class="acts"><button class="btn">Recevoir un lien de connexion</button></div></form>';
-    return '<div class="login"><div><img src="../logo-cmm.png" width="114" height="44" alt=""><h1 tabindex="-1">Administration</h1><p class="lead">Centre Médical de Manage</p>'+form+'<p class="sep">Comptes de démonstration</p>'+accs+'</div></div>';
+    var form='<form data-form="signin" style="margin-top:18px"><label class="f">Identifiant<input type="text" name="login" required autocomplete="username" autocapitalize="none" spellcheck="false"></label><label class="f" style="margin-top:14px">Mot de passe<input type="password" name="password" required autocomplete="current-password"></label><p class="small" style="margin-top:8px">Mot de passe oublié : demandez-en un nouveau à l\'administrateur.</p><div class="acts"><button class="btn">Se connecter</button></div></form>';
+    return '<div class="login"><div><img src="../logo-cmm.png" width="114" height="44" alt=""><h1 tabindex="-1">Administration</h1><p class="lead">Centre Médical de Manage</p>'+form+'<p class="sep">Comptes de démonstration</p><p class="small">Mot de passe : demo. Cliquez sur un compte pour remplir l\'identifiant.</p>'+accs+'</div></div>';
   }
   function proPicker(){
     var u=me();if(u.role==='pro')return '';
@@ -357,17 +358,17 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     var rows=st.users.map(function(x){
       var self=x.id===u.id;
       var roleSel=self?'':'<label class="small">Rôle <select data-change="role" data-id="'+x.id+'" style="display:inline-block;width:auto;min-height:38px;margin:0 0 0 4px;padding:4px 8px"><option value="pro"'+(x.role==='pro'?' selected':'')+'>Praticien</option><option value="super"'+(x.role==='super'?' selected':'')+'>Superviseur</option></select></label>';
-      return '<div class="item"><div class="main"><b>'+esc(x.name)+'</b><span class="sub">'+esc(x.email)+(x.pro&&st.pros[x.pro]?' · fiche : '+esc(st.pros[x.pro].name):'')+'</span></div><div class="btns">'+
+      return '<div class="item"><div class="main"><b>'+esc(x.name)+'</b><span class="sub">Identifiant : '+esc(x.login)+(x.pro&&st.pros[x.pro]?' · fiche : '+esc(st.pros[x.pro].name):'')+'</span></div><div class="btns">'+
         (self?'<span class="tag">Administrateur</span>':roleSel+(x.active?'<span class="tag on">Actif</span>':'<span class="tag off">Désactivé</span>')+
-        '<button class="btn alt small" type="button" data-act="resend" data-id="'+x.id+'"'+(x.active?'':' disabled')+'>Renvoyer le lien</button>'+
+        '<button class="btn alt small" type="button" data-act="resetPw" data-id="'+x.id+'"'+(x.active?'':' disabled')+'>Nouveau mot de passe</button>'+
         '<button class="btn '+(x.active?'bad':'alt')+' small" type="button" data-act="toggleUser" data-id="'+x.id+'">'+(x.active?'Désactiver':'Réactiver')+'</button>')+'</div></div>';
     }).join('');
     var opts=Object.keys(st.pros).filter(function(k){return !st.users.some(function(x){return x.pro===k})}).map(function(k){return '<option value="'+k+'">'+esc(st.pros[k].name)+'</option>'}).join('');
-    return '<h1 tabindex="-1">Utilisateurs</h1><p class="lead">Chaque personne a son propre compte et se connecte par un lien reçu par e-mail.</p>'+
+    return '<h1 tabindex="-1">Utilisateurs</h1><p class="lead">Chaque personne a son propre identifiant et son propre mot de passe.</p>'+pwNotice()+
       '<section class="card"><h2>Comptes</h2><div class="list">'+rows+'</div></section>'+
-      '<form class="card" data-form="addUser"><h2>Créer un compte</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom<input type="text" name="name" required></label><label class="f">E-mail<input type="email" name="email" required></label>'+
+      '<form class="card" data-form="addUser"><h2>Créer un compte</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom<input type="text" name="name" required></label><label class="f">Identifiant<small>Lettres minuscules, chiffres, point ou tiret</small><input type="text" name="login" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>'+
       '<label class="f">Rôle<select name="role"><option value="pro">Praticien</option><option value="super">Superviseur</option></select></label>'+
-      '<label class="f">Fiche liée<select name="pro"><option value="">Aucune</option>'+opts+'</select></label></div><div class="acts"><button class="btn">Créer et envoyer le lien</button></div></form>';
+      '<label class="f">Fiche liée<select name="pro"><option value="">Aucune</option>'+opts+'</select></label></div><div class="acts"><button class="btn">Créer le compte</button></div></form>';
   }
   function vPros(){
     var rows=Object.keys(st.pros).map(function(k){
@@ -378,7 +379,25 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     return '<h1 tabindex="-1">Praticiens du site</h1><p class="lead">Ajoutez ou retirez une personne de l\'équipe affichée.</p><section class="card"><div class="list" style="margin-top:0">'+rows+'</div></section>'+
       '<form class="card" data-form="addPro"><h2>Ajouter un praticien</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom affiché<input type="text" name="name" required></label><label class="f">Profession<input type="text" name="job" required></label></div><div class="acts"><button class="btn">Ajouter</button></div></form>';
   }
-  var VIEWS={equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,praticiens:vPros};
+  function pwNotice(){
+    if(!tempPw)return '';
+    var h='<div class="notice warn" role="status"><b>Mot de passe provisoire de '+esc(tempPw.name)+' :</b> <code>'+esc(tempPw.pw)+'</code><br>Identifiant : '+esc(tempPw.login)+'. Transmettez-le en personne. Il devra être changé à la première connexion et ne sera plus affiché.</div>';
+    tempPw=null;
+    return h;
+  }
+  function vCompte(){
+    var u=me();
+    return '<h1 tabindex="-1">Mon mot de passe</h1><p class="lead">Identifiant : '+esc(u.login)+'</p>'+(u.mustChange?'<div class="notice warn">Choisissez votre mot de passe personnel pour continuer.</div>':'')+
+      '<form class="card" data-form="password"><div class="grid2"><label class="f full">Mot de passe actuel<input type="password" name="cur" required autocomplete="current-password"></label>'+
+      '<label class="f">Nouveau mot de passe<small>10 caractères minimum</small><input type="password" name="next" required minlength="10" autocomplete="new-password"></label><label class="f">Confirmer<small>Le même mot de passe</small><input type="password" name="again" required minlength="10" autocomplete="new-password"></label></div><div class="acts"><button class="btn">Enregistrer</button></div></form>';
+  }
+  function tempPassword(){
+    var a='abcdefghjkmnpqrstuvwxyzACDEFGHJKLMNPQRTUVWXYZ2345679',r=new Uint32Array(12),o='';
+    crypto.getRandomValues(r);
+    r.forEach(function(n){o+=a[n%a.length]});
+    return o;
+  }
+  var VIEWS={compte:vCompte,equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,praticiens:vPros};
 
   function render(focus){
     var u=me();
@@ -403,12 +422,23 @@ input[readonly]{background:var(--bg);color:var(--muted)}
   function setUser(id){uidCur=id;try{sessionStorage.setItem(KEY+'-user',id||'')}catch(e){}}
   function datesOk(a,b){if(a>b){toast('La date de fin doit suivre la date de début.',true);return false}return true}
   var FORMS={
-    magic:function(d){
-      var u=st.users.filter(function(x){return x.email.toLowerCase()===d.email.trim().toLowerCase()&&x.active})[0];
-      // Même réponse que le compte existe ou non : on ne révèle pas qui a un accès
-      sent=u||{id:null,email:d.email.trim()};
-      render(false);
-      if(!u){app.querySelector('.login .acts').hidden=true}
+    signin:function(d,f){
+      // Même réponse dans tous les cas d'échec : on ne révèle pas quels comptes existent.
+      // Version réelle : mots de passe hachés et limite d'essais, côté serveur uniquement.
+      var u=st.users.filter(function(x){return x.login===d.login.toLowerCase()&&x.active&&x.pw===f.elements.password.value})[0];
+      if(!u){f.elements.password.value='';return toast('Identifiant ou mot de passe incorrect.',true)}
+      ACTS.login(u.id);
+    },
+    password:function(d,f){
+      var u=me(),next=f.elements.next.value;
+      if(f.elements.cur.value!==u.pw)return toast('Mot de passe actuel incorrect.',true);
+      if(next!==f.elements.again.value)return toast('Les deux mots de passe ne correspondent pas.',true);
+      if(next===u.pw)return toast('Choisissez un mot de passe différent.',true);
+      var forced=u.mustChange;
+      u.pw=next;u.mustChange=false;save();
+      toast('Mot de passe modifié.');
+      if(forced)history.replaceState(null,'',location.pathname+location.search);
+      render();
     },
     fiche:function(d){var id=target();if(!can('editPro',id))return;commit('Fiche modifiée',id,function(){var p=st.pros[id];if(me().role!=='pro'){p.name=d.name;p.job=d.job}p.phone=d.phone;p.rdv=d.rdv;p.soins=d.soins})},
     horaires:function(d){
@@ -429,10 +459,14 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     centre:function(d){if(!can('center'))return;commit('Infos du centre modifiées','center',function(){st.center=d})},
     addUser:function(d){
       if(!can('users'))return;
-      if(st.users.some(function(x){return x.email.toLowerCase()===d.email.trim().toLowerCase()}))return toast('Cette adresse a déjà un compte.',true);
+      var login=d.login.toLowerCase();
+      if(!/^[a-z0-9._-]{3,}$/.test(login))return toast('Identifiant invalide : 3 caractères minimum, sans espace.',true);
+      if(st.users.some(function(x){return x.login===login}))return toast('Cet identifiant existe déjà.',true);
       if(d.role==='pro'&&!d.pro)return toast('Un praticien doit être lié à une fiche.',true);
-      commit('Compte créé : '+d.name,'users',function(){st.users.push({id:uid(),name:d.name,email:d.email.trim(),role:d.role,pro:d.pro||null,active:true})});
-      toast('Compte créé. Lien envoyé à '+d.email.trim()+' (simulation).');
+      var pw=tempPassword();
+      tempPw={name:d.name,login:login,pw:pw};
+      commit('Compte créé : '+d.name,'users',function(){st.users.push({id:uid(),name:d.name,login:login,pw:pw,mustChange:true,role:d.role,pro:d.pro||null,active:true})});
+      window.scrollTo(0,0);
     },
     addPro:function(d){
       if(!can('users'))return;
@@ -440,8 +474,9 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     }
   };
   var ACTS={
-    login:function(id){var u=st.users.filter(function(x){return x.id===id})[0];if(!u||!u.active)return;setUser(id);sent=null;curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
-    logout:function(){setUser(null);sent=null;curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
+    fill:function(login){var f=document.querySelector('[data-form=signin]');f.elements.login.value=login;f.elements.password.focus()},
+    login:function(id){var u=st.users.filter(function(x){return x.id===id})[0];if(!u||!u.active)return;setUser(id);curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
+    logout:function(){setUser(null);curPro=null;tempPw=null;history.replaceState(null,'',location.pathname+location.search);render()},
     reset:function(){if(!confirm('Effacer les modifications de cette démonstration ?'))return;try{localStorage.removeItem(KEY)}catch(e){}st=seed();setUser(null);curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
     edit:function(id){curPro=id;location.hash==='#fiche'?render():location.hash='fiche'},
     copyMonday:function(id,b){
@@ -460,7 +495,13 @@ input[readonly]{background:var(--bg);color:var(--muted)}
       else{if(!can('editPro',l.tgt))return;commit('Retour à une version précédente',l.tgt,function(){st.pros[l.tgt]=clone(l.snap)})}
     },
     toggleUser:function(id){if(!can('users')||id===uidCur)return;var u=st.users.filter(function(x){return x.id===id})[0];commit((u.active?'Compte désactivé : ':'Compte réactivé : ')+u.name,'users',function(){u.active=!u.active})},
-    resend:function(id){var u=st.users.filter(function(x){return x.id===id})[0];toast('Lien renvoyé à '+u.email+' (simulation).')},
+    resetPw:function(id){
+      if(!can('users')||id===uidCur)return;
+      var u=st.users.filter(function(x){return x.id===id})[0],pw=tempPassword();
+      tempPw={name:u.name,login:u.login,pw:pw};
+      commit('Mot de passe réinitialisé : '+u.name,'users',function(){u.pw=pw;u.mustChange=true});
+      window.scrollTo(0,0);
+    },
     togglePro:function(id){if(!can('users'))return;var p=st.pros[id];commit((p.visible?'Retiré du site : ':'Remis sur le site : ')+p.name,'users',function(){p.visible=!p.visible})}
   };
   document.addEventListener('click',function(e){
@@ -471,7 +512,7 @@ input[readonly]{background:var(--bg);color:var(--muted)}
     var f=e.target.closest('[data-form]');if(!f)return;
     e.preventDefault();
     var d={};new FormData(f).forEach(function(v,k){d[k]=typeof v==='string'?v.trim():v});
-    FORMS[f.dataset.form](d);
+    FORMS[f.dataset.form](d,f);
   });
   document.addEventListener('change',function(e){
     var c=e.target.dataset.change;
