@@ -218,6 +218,19 @@ strong{font-weight:700}
 .avatar svg{position:absolute;left:50%;bottom:0;width:72%;transform:translateX(-50%);fill:var(--steel)}
 .avatar .todo{position:absolute;left:10px;right:10px;top:10px;text-align:center;font-size:15px}
 @media(max-width:820px){.cols.team{grid-template-columns:1fr}.avatar{max-width:240px}}
+.pros{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.pro{display:flex;align-items:center;gap:14px;width:100%;min-height:92px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s}
+.pro:hover{border-color:var(--blue2);background:var(--soft)}
+.pro[aria-pressed=true]{border-color:var(--blue);background:var(--soft);box-shadow:inset 0 0 0 1px var(--blue)}
+.pro-pic{position:relative;flex:none;width:66px;height:66px;overflow:hidden;border-radius:8px;background:var(--soft)}
+.pro[aria-pressed=true] .pro-pic,.pro:hover .pro-pic{background:#fff}
+.pro-pic img{display:block;width:100%;height:100%;object-fit:cover}
+.pro-pic svg{position:absolute;left:50%;bottom:0;width:72%;transform:translateX(-50%);fill:var(--steel)}
+.pro-txt b{display:block;font:600 19px/1.2 var(--display);color:var(--blue)}
+.pro-txt span{display:block;margin-top:3px;font-size:15px;color:var(--muted)}
+.pro-panel:focus{outline:none}
+@media(max-width:820px){.pros{grid-template-columns:1fr;gap:10px}}
+@media(prefers-reduced-motion:reduce){.pro{transition:none}}
 .portrait svg{position:absolute;left:50%;bottom:0;width:78%;transform:translateX(-50%);fill:var(--steel)}
 .portrait .todo{position:absolute;left:12px;right:12px;top:14px;text-align:center;font-size:15px}
 @media(max-width:820px){.cols.bio{grid-template-columns:1fr}.portrait{width:min(280px,78%);margin-inline:auto}}
@@ -390,7 +403,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <li class="row"><b>N° INAMI</b><span>10955207005</span></li>
       </ul>
     </div>
-    <div class="btns"><a class="btn" href="#consultations">Voir les horaires</a> <a class="btn alt" href="#equipe">Toute l'équipe</a></div>
+    <div class="btns"><a class="btn" href="#consultations" data-pro="zanca">Voir les horaires</a> <a class="btn alt" href="#equipe">Toute l'équipe</a></div>
   </div>
 </section>
 
@@ -398,40 +411,95 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 <section class="view" id="consultations" data-title="Consultations">
   <div class="pagehead"><div class="wrap">
     <h1 tabindex="-1">Consultations</h1>
-    <p class="lead">Horaires et démarches du Dr Lucas Zanca. Chaque praticien gère ses propres rendez-vous.</p>
+    <p class="lead">Chaque praticien gère ses propres rendez-vous. Choisissez celui que vous souhaitez consulter pour voir ses horaires et ses démarches.</p>
   </div></div>
   <div class="wrap">
     <div class="block">
-      <table class="hours">
-        <caption>Horaires du Dr Zanca</caption>
-        <thead><tr><th scope="col">Jour</th><th scope="col">Matin</th><th scope="col">Après-midi</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Lundi</th><td>08:00 – 11:00</td><td>16:45 – 18:30</td></tr>
-          <tr><th scope="row">Mardi</th><td>08:00 – 11:00</td><td>15:00 – 18:00</td></tr>
-          <tr><th scope="row">Mercredi</th><td>08:00 – 11:00</td><td>16:45 – 18:30</td></tr>
-          <tr><th scope="row">Jeudi</th><td>08:00 – 11:00</td><td>15:00 – 18:00</td></tr>
-          <tr><th scope="row">Vendredi</th><td>08:00 – 11:00</td><td>16:45 – 18:00</td></tr>
-        </tbody>
-      </table>
+      <h2>Choisissez un professionnel de santé</h2>
+      <div class="pros" role="group" aria-label="Professionnel de santé">
+        <button class="pro" type="button" data-pro="zanca" aria-pressed="false"><span class="pro-pic"><img src="dr-zanca.jpg" width="900" height="900" alt=""></span><span class="pro-txt"><b>Dr Lucas Zanca</b><span>Médecin généraliste</span></span></button>
+        <button class="pro" type="button" data-pro="putton" aria-pressed="false"><span class="pro-pic"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg></span><span class="pro-txt"><b>Dr Charline Putton</b><span>Médecin généraliste</span></span></button>
+        <button class="pro" type="button" data-pro="cannistraro" aria-pressed="false"><span class="pro-pic"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg></span><span class="pro-txt"><b>M. Dario Cannistraro</b><span>Kinésithérapeute</span></span></button>
+      </div>
     </div>
-    <div class="block">
-      <h2>Absences et remplacement</h2>
-      <p class="note"><span class="todo">[congés, formations et médecin remplaçant : zone à tenir à jour]</span></p>
+    <div class="pro-panel" data-panel="zanca" tabindex="-1" hidden>
+      <div class="block">
+        <table class="hours">
+          <caption>Horaires du Dr Zanca</caption>
+          <thead><tr><th scope="col">Jour</th><th scope="col">Matin</th><th scope="col">Après-midi</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Lundi</th><td>08:00 – 11:00</td><td>16:45 – 18:30</td></tr>
+            <tr><th scope="row">Mardi</th><td>08:00 – 11:00</td><td>15:00 – 18:00</td></tr>
+            <tr><th scope="row">Mercredi</th><td>08:00 – 11:00</td><td>16:45 – 18:30</td></tr>
+            <tr><th scope="row">Jeudi</th><td>08:00 – 11:00</td><td>15:00 – 18:00</td></tr>
+            <tr><th scope="row">Vendredi</th><td>08:00 – 11:00</td><td>16:45 – 18:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="block">
+        <h2>Absences et remplacement</h2>
+        <p class="note"><span class="todo">[congés, formations et médecin remplaçant : zone à tenir à jour]</span></p>
+      </div>
+      <div class="block">
+        <h2>Vos démarches</h2>
+        <ul class="rows">
+          <li class="row"><b>Prendre rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a> ou au <a href="tel:+32494144118">0494 14 41 18</a></span></li>
+          <li class="row"><b>Annuler un rendez-vous</b><span>Sur la <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170?locale=fr" target="_blank" rel="noopener">page Progenda du Dr Zanca</a>, lien « J'ai oublié mon rendez-vous ». <span class="todo">[délai à préciser]</span></span></li>
+          <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
+          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
+          <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
+          <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
+          <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
+          <li class="row"><b>Prises de sang</b><span class="todo">[au centre ou ailleurs]</span></li>
+          <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
+          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
+        </ul>
+      </div>
     </div>
-    <div class="block">
-      <h2>Vos démarches</h2>
-      <ul class="rows">
-        <li class="row"><b>Prendre rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a> ou au <a href="tel:+32494144118">0494 14 41 18</a></span></li>
-        <li class="row"><b>Annuler un rendez-vous</b><span>Sur la <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170?locale=fr" target="_blank" rel="noopener">page Progenda du Dr Zanca</a>, lien « J'ai oublié mon rendez-vous ». <span class="todo">[délai à préciser]</span></span></li>
-        <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
-        <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
-        <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
-        <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
-        <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
-        <li class="row"><b>Prises de sang</b><span class="todo">[au centre ou ailleurs]</span></li>
-        <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
-        <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
-      </ul>
+    <div class="pro-panel" data-panel="putton" tabindex="-1" hidden>
+      <div class="block">
+        <h2>Horaires du Dr Putton</h2>
+        <p class="note"><span class="todo">[horaires à fournir]</span></p>
+      </div>
+      <div class="block">
+        <h2>Absences et remplacement</h2>
+        <p class="note"><span class="todo">[congés, formations et remplaçant : zone à tenir à jour]</span></p>
+      </div>
+      <div class="block">
+        <h2>Vos démarches</h2>
+        <ul class="rows">
+          <li class="row"><b>Prendre rendez-vous</b><span class="todo">[lien ou téléphone]</span></li>
+          <li class="row"><b>Annuler un rendez-vous</b><span class="todo">[démarche et délai]</span></li>
+          <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
+          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
+          <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
+          <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
+          <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
+          <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
+          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pro-panel" data-panel="cannistraro" tabindex="-1" hidden>
+      <div class="block">
+        <h2>Horaires de M. Cannistraro</h2>
+        <p class="note"><span class="todo">[horaires à fournir]</span></p>
+      </div>
+      <div class="block">
+        <h2>Absences et remplacement</h2>
+        <p class="note"><span class="todo">[congés, formations et remplaçant : zone à tenir à jour]</span></p>
+      </div>
+      <div class="block">
+        <h2>Vos démarches</h2>
+        <ul class="rows">
+          <li class="row"><b>Prendre rendez-vous</b><span class="todo">[lien ou téléphone]</span></li>
+          <li class="row"><b>Annuler un rendez-vous</b><span class="todo">[démarche et délai]</span></li>
+          <li class="row"><b>Soins à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
+          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
+          <li class="row"><b>À apporter</b><span class="todo">[prescription et documents à présenter]</span></li>
+          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -451,7 +519,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <ul class="rows block" style="margin-top:20px">
           <li class="row"><b>Téléphone</b><span><a href="tel:+32494144118">0494 14 41 18</a></span></li>
           <li class="row"><b>Rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a></span></li>
-          <li class="row"><b>Horaires</b><span><a href="#consultations">Voir les horaires</a></span></li>
+          <li class="row"><b>Horaires</b><span><a href="#consultations" data-pro="zanca">Voir les horaires</a></span></li>
         </ul>
       </article>
       <article class="card">
@@ -675,6 +743,26 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     });
   }
 
+  // Consultations : les horaires et démarches n'apparaissent qu'une fois le praticien choisi
+  function proSelect(k){
+    [].forEach.call(document.querySelectorAll('.pro'),function(b){b.setAttribute('aria-pressed',b.dataset.pro===k?'true':'false')});
+    var panel=null;
+    [].forEach.call(document.querySelectorAll('.pro-panel'),function(el){
+      el.hidden=el.dataset.panel!==k;
+      if(!el.hidden)panel=el;
+    });
+    return panel;
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-pro]');
+    if(!b)return;
+    var panel=proSelect(b.dataset.pro);
+    if(!b.classList.contains('pro')||!panel)return;
+    panel.focus({preventScroll:true});
+    var top=panel.getBoundingClientRect().top;
+    if(top>innerHeight*.6)window.scrollTo({top:scrollY+top-header.offsetHeight-12,behavior:still?'auto':'smooth'});
+  });
+
   function split(node){
     [].slice.call(node.childNodes).forEach(function(n){
       if(n.nodeType===1)return split(n);
@@ -690,7 +778,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     });
   }
 
-  var sel='.lead,.bar a,.plate,.rows li,.hours tr,.card,.alert,.portrait,.note,form,.cta .wrap>*,.legal h2,.legal p,.legal li,.block>h2,.block>p';
+  var sel='.lead,.bar a,.plate,.rows li,.hours tr,.card,.pro,.alert,.portrait,.note,form,.cta .wrap>*,.legal h2,.legal p,.legal li,.block>h2,.block>p';
   function reveal(view){
     [].filter.call(view.querySelectorAll(sel),function(el){
       return !el.parentElement.closest(sel);
