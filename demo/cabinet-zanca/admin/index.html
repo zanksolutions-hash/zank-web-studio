@@ -134,11 +134,11 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
 <div id="toast" role="status" hidden></div>
 <script>
 (function(){
-  var KEY='cmm-admin-demo-3',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
+  var KEY='cmm-admin-demo-4',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
   var DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
   var ROLE={admin:'Admin',superuser:'Superuser',user:'User'};
   var SIL='<svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>';
-  var STEPS_MED=['Prendre rendez-vous','Annuler un rendez-vous','Visites à domicile','Nouveaux patients','Ordonnances','Certificats',"Résultats d'analyses",'À apporter','Paiement'];
+  var STEPS_MED=['Prendre rendez-vous','Annuler un rendez-vous','Visites à domicile','Nouveaux patients','Ordonnances','Certificats',"Résultats d'analyses",'Prises de sang','À apporter','Paiement'];
   var STEPS_KINE=['Prendre rendez-vous','Annuler un rendez-vous','Soins à domicile','Nouveaux patients','À apporter','Paiement'];
 
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -160,14 +160,18 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
         {id:'u-cann',name:'M. Dario Cannistraro',login:'dcannistraro',pw:'demo',role:'user',pro:'cannistraro',active:true}
       ],
       pros:{
-        zanca:{name:'Dr Lucas Zanca',job:'Médecin généraliste',photo:'../dr-zanca.jpg',phone:'0494 14 41 18',rdv:'https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities',soins:'',visible:true,
+        zanca:{name:'Dr Lucas Zanca',job:'Médecin généraliste',photo:'../dr-zanca.jpg',phone:'0494 14 41 18',rdv:'https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities',soins:'',titres:'',inami:'10955207005',ordre:'',conv:'Conventionné',tiers:'',langues:'Français, anglais, néerlandais',parcours:'',visible:true,
           hours:DAYS.map(function(d,i){return{am:i<5?['08:00','11:00']:['',''],pm:pm[i]}}),absences:[],
           messages:[{id:'m1',text:"Exemple de message : le cabinet ferme exceptionnellement à 17 h ce vendredi.",level:'info',start:plus(0),end:plus(14)}],
           steps:steps(STEPS_MED,{'Prendre rendez-vous':'En ligne via Progenda ou au 0494 14 41 18','Annuler un rendez-vous':"Sur la page Progenda, lien « J'ai oublié mon rendez-vous »"})},
         putton:{name:'Dr Charline Putton',job:'Médecin généraliste',photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_MED)},
         cannistraro:{name:'M. Dario Cannistraro',job:'Kinésithérapeute',photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_KINE)}
       },
-      center:{name:'Centre Médical de Manage',address:'Rue Saint-Hubert 58G, 7170 Manage',phone:'',email:'',legal:'',bce:''},
+      center:{name:'Centre Médical de Manage',short:'CMM',address:'Rue Saint-Hubert 58G, 7170 Manage',phone:'',email:'',secretariat:'',formEmail:'',
+        lead:'Nos professionnels de santé travaillent ensemble pour vous proposer une prise en charge complète, de proximité et attentive à vos besoins.',introTitle:'Un centre médical au cœur de Manage',introText:"Le Centre Médical de Manage (CMM) est né de la volonté d'offrir un lieu de soins accessible, moderne et chaleureux. Notre priorité : vous accueillir avec écoute et vous proposer des soins de qualité, grâce à une équipe de professionnels réunis autour du patient.",
+        parking:'',transports:'',pmr:'',batiment:'',maps:'',
+        urgence:'112',urgenceText:'Appelez sans attendre, sans passer par le centre.',garde:'1733',gardeHours:'',poste:'',pharmacies:'',apresGarde:'Donnez le nom de votre médecin traitant pour faciliter le suivi.',
+        legal:'',responsable:'',legalEmail:'',legalPhone:'',bce:'',hebergeur:'',traitement:'',duree:'',droits:''},
       siteMsgs:[],
       log:[]
     };
@@ -203,7 +207,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       g.push(['Gestion',[['utilisateurs','Utilisateurs'],['fiches','Fiches du site'],['historique','Historique']]]);
       if(curPro)g.push(['Dépannage',mine.filter(function(m){return m[0]!=='messages'})]);
     }else if(u.role==='superuser'){
-      g.push(['Le centre',[['equipe','Vue du centre'],['centre','Infos du centre'],['site','Messages du site']]]);
+      g.push(['Le centre',[['equipe','Vue du centre'],['centre','Infos du centre'],['textes','Textes du site'],['acces','Accès'],['garde','Garde et urgences'],['legal','Mentions légales'],['site','Messages du site']]]);
       g.push(['User',mine]);
       g.push(['Suivi',[['historique','Historique']]]);
     }else{
@@ -243,7 +247,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
   }
   function face(p,big){return '<div class="face'+(big?' big':'')+'">'+(p.photo?'<img src="'+esc(p.photo)+'" alt="">':SIL)+'</div>'}
   function completion(p){
-    var f=[p.phone,p.rdv,p.soins,p.photo].concat(p.steps.map(function(s){return s.v}));
+    var f=[p.phone,p.rdv,p.soins,p.photo,p.inami,p.langues,p.parcours,p.conv].concat(p.steps.map(function(s){return s.v}));
     f.push(p.hours.some(function(h){return h.am[0]||h.pm[0]})?'1':'');
     return Math.round(f.filter(Boolean).length/f.length*100);
   }
@@ -278,15 +282,20 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     return '<h1 tabindex="-1">Vue du centre</h1><p class="lead">L\'état de chaque user et ce qui reste à compléter.</p><div class="team">'+cards+'</div>'+
       '<section class="card"><h2>Messages du site</h2>'+(st.siteMsgs.filter(function(m){return period(m.start,m.end)!=='done'}).length?msgList(st.siteMsgs,'site'):'<p class="empty">Aucun message en cours.</p>')+'<div class="acts"><a class="btn alt small" href="#site">Gérer les messages</a></div></section>';
   }
+  function field(name,label,val,type,hint,attrs){
+    var h=hint?'<small>'+esc(hint)+'</small>':'';
+    if(type==='area')return '<label class="f full">'+label+h+'<textarea name="'+name+'"'+(attrs||'')+'>'+esc(val)+'</textarea></label>';
+    return '<label class="f">'+label+h+'<input type="'+(type||'text')+'" name="'+name+'" value="'+esc(val)+'"'+(attrs||'')+'></label>';
+  }
+  function group(t,body,first){return '<h2'+(first?'':' style="margin-top:26px"')+'>'+esc(t)+'</h2><div class="grid2" style="margin-top:12px">'+body+'</div>'}
   function vFiche(){
-    var id=target(),p=st.pros[id],lock=me().role==='user';
+    var id=target(),p=st.pros[id],lock=me().role==='user'?' readonly':'';
+    var conv=['','Conventionné','Partiellement conventionné','Non conventionné'].map(function(o){return '<option value="'+o+'"'+((p.conv||'')===o?' selected':'')+'>'+(o||'À préciser')+'</option>'}).join('');
     return '<h1 tabindex="-1">Fiche</h1><p class="lead">Ce que les patients voient sur la page de l\'équipe.</p>'+proPicker()+
       '<form class="card" data-form="fiche"><div class="head" style="margin-bottom:18px">'+face(p,true)+'<div><button class="btn alt small" type="button" disabled>Changer la photo</button><p class="small" style="margin-top:6px">Disponible dans la version réelle.</p></div></div>'+
-      '<div class="grid2"><label class="f">Nom affiché<input type="text" name="name" required value="'+esc(p.name)+'"'+(lock?' readonly':'')+'></label>'+
-      '<label class="f">Profession<input type="text" name="job" required value="'+esc(p.job)+'"'+(lock?' readonly':'')+'></label>'+
-      '<label class="f">Téléphone<input type="tel" name="phone" value="'+esc(p.phone)+'"></label>'+
-      '<label class="f">Lien de prise de rendez-vous<input type="url" name="rdv" value="'+esc(p.rdv)+'" placeholder="https://"></label>'+
-      '<label class="f full">Soins proposés<textarea name="soins">'+esc(p.soins)+'</textarea></label></div>'+
+      group('Identité',field('name','Nom affiché',p.name,'text','',' required'+lock)+field('job','Profession',p.job,'text','',' required'+lock)+field('titres','Titres légaux',p.titres,'text','Diplômes et qualifications à mentionner')+field('langues','Langues parlées',p.langues),true)+
+      group('Informations professionnelles',field('inami','Numéro INAMI',p.inami,'text','11 chiffres',' inputmode="numeric"')+field('ordre',"Ordre et province d'inscription",p.ordre,'text','Si la profession le prévoit')+'<label class="f">Conventionnement<select name="conv">'+conv+'</select></label>'+field('tiers','Tiers payant',p.tiers,'text','Conditions, si applicable')+field('parcours','Parcours',p.parcours,'area','Formation et expérience')+field('soins','Soins proposés',p.soins,'area'))+
+      group('Contact',field('phone','Téléphone',p.phone,'tel')+field('rdv','Lien de prise de rendez-vous',p.rdv,'url','',' placeholder="https://"'))+
       '<div class="acts"><button class="btn">Enregistrer</button></div></form>';
   }
   function vHoraires(){
@@ -334,11 +343,26 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     return '<h1 tabindex="-1">Démarches</h1><p class="lead">Les informations pratiques de la page Consultations.</p>'+proPicker()+
       '<form class="card" data-form="demarches"><div class="grid2">'+f+'</div><div class="acts"><button class="btn">Enregistrer</button></div></form>';
   }
-  function vCentre(){
-    var c=st.center;
-    function fld(n,l,t){return '<label class="f">'+l+'<input type="'+(t||'text')+'" name="'+n+'" value="'+esc(c[n])+'"></label>'}
-    return '<h1 tabindex="-1">Infos du centre</h1><p class="lead">Coordonnées générales et mentions légales.</p>'+
-      '<form class="card" data-form="centre"><div class="grid2">'+fld('name','Nom')+fld('address','Adresse')+fld('phone','Téléphone du centre','tel')+fld('email','E-mail du centre','email')+fld('legal','Forme juridique')+fld('bce','Numéro BCE')+'</div><div class="acts"><button class="btn">Enregistrer</button></div></form>';
+  var PAGES={
+    centre:{t:'Infos du centre',l:'Le nom et les coordonnées affichés sur le site.',g:[
+      ['Identité',[['name','Nom'],['short','Sigle'],['address','Adresse']]],
+      ['Contact',[['phone','Téléphone du centre','tel'],['email','E-mail du centre','email'],['secretariat','Horaires du secrétariat'],['formEmail','E-mail qui reçoit le formulaire de contact','email','Ne sera jamais affiché sur le site']]]]},
+    textes:{t:'Textes du site',l:"Les textes de présentation de la page d'accueil.",g:[
+      ['Accueil',[['lead',"Phrase d'accroche",'area'],['introTitle','Titre de la présentation'],['introText','Présentation du centre','area']]]]},
+    acces:{t:'Accès',l:'Comment venir au centre.',g:[
+      ['Sur place',[['parking','Parking','area'],['transports','Transports en commun','area'],['pmr','Accès PMR','area'],['batiment','Dans le bâtiment','area','Étage, entrée, salle d\'attente']]],
+      ['Carte',[['maps',"Lien de l'itinéraire",'url']]]]},
+    garde:{t:'Garde et urgences',l:'Que faire quand le centre est fermé.',g:[
+      ['Numéros',[['urgence','Urgence vitale','text','Numéro national, à ne changer que s\'il change officiellement'],['urgenceText','Consigne pour une urgence'],['garde','Médecin de garde','text','Numéro national, à ne changer que s\'il change officiellement'],['gardeHours','Plages de la garde']]],
+      ['Autres informations',[['poste','Poste de garde','area','Adresse et horaires'],['pharmacies','Lien des pharmacies de garde','url'],['apresGarde','Après une garde','area']]]]},
+    legal:{t:'Mentions légales',l:'À faire valider avant la mise en ligne réelle.',g:[
+      ['Éditeur du site',[['legal','Forme juridique'],['bce','Numéro BCE'],['responsable','Responsable de la publication'],['legalEmail','E-mail','email'],['legalPhone','Téléphone','tel'],['hebergeur','Hébergeur']]],
+      ['Données personnelles',[['traitement','Responsable du traitement'],['duree','Durée de conservation'],['droits','E-mail pour exercer ses droits','email']]]]}
+  };
+  function vPage(k){
+    var pg=PAGES[k],c=st.center;
+    var body=pg.g.map(function(g,i){return group(g[0],g[1].map(function(f){return field(f[0],f[1],c[f[0]],f[2],f[3])}).join(''),i===0)}).join('');
+    return '<h1 tabindex="-1">'+esc(pg.t)+'</h1><p class="lead">'+esc(pg.l)+'</p><form class="card" data-form="page" data-page="'+k+'">'+body+'<div class="acts"><button class="btn">Enregistrer</button></div></form>';
   }
   function vHistorique(){
     var u=me();
@@ -397,7 +421,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     r.forEach(function(n){o+=a[n%a.length]});
     return o;
   }
-  var VIEWS={compte:vCompte,equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,fiches:vPros};
+  var VIEWS={compte:vCompte,equipe:vEquipe,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,fiches:vPros};
 
   function render(focus){
     var u=me();
@@ -417,6 +441,8 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     window.scrollTo(0,0);
     var t=app.querySelector('main h1');if(t)t.focus({preventScroll:true});
   }
+
+  Object.keys(PAGES).forEach(function(k){VIEWS[k]=function(){return vPage(k)}});
 
   /* ---------- Actions ---------- */
   function setUser(id){uidCur=id;try{sessionStorage.setItem(KEY+'-user',id||'')}catch(e){}}
@@ -440,7 +466,17 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       if(forced)history.replaceState(null,'',location.pathname+location.search);
       render();
     },
-    fiche:function(d){var id=target();if(!can('editPro',id))return;commit('Fiche modifiée',id,function(){var p=st.pros[id];if(me().role!=='user'){p.name=d.name;p.job=d.job}p.phone=d.phone;p.rdv=d.rdv;p.soins=d.soins})},
+    fiche:function(d){
+      var id=target();if(!can('editPro',id))return;
+      var inami=d.inami.replace(/\D/g,'');
+      if(d.inami&&inami.length!==11)return toast('Le numéro INAMI doit compter 11 chiffres.',true);
+      commit('Fiche modifiée',id,function(){
+        var p=st.pros[id];
+        if(me().role!=='user'){p.name=d.name;p.job=d.job}
+        ['titres','langues','ordre','conv','tiers','parcours','soins','phone','rdv'].forEach(function(k){p[k]=d[k]});
+        p.inami=inami;
+      });
+    },
     horaires:function(d){
       var id=target();if(!can('editPro',id))return;
       var h=[],bad=null;
@@ -456,7 +492,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     msgPro:function(d){var id=target();if(!can('msgPro',id)||!datesOk(d.start,d.end))return;commit('Message publié',id,function(){st.pros[id].messages.push({id:uid(),text:d.text,level:d.level,start:d.start,end:d.end})})},
     msgSite:function(d){if(!can('msgSite')||!datesOk(d.start,d.end))return;commit('Message publié sur tout le site','center',function(){st.siteMsgs.push({id:uid(),text:d.text,level:d.level,start:d.start,end:d.end})})},
     demarches:function(d){var id=target();if(!can('editPro',id))return;commit('Démarches modifiées',id,function(){st.pros[id].steps.forEach(function(s,i){s.v=d['s'+i]})})},
-    centre:function(d){if(!can('center'))return;commit('Infos du centre modifiées','center',function(){st.center=d})},
+    page:function(d,f){var pg=PAGES[f.dataset.page];if(!can('center')||!pg)return;commit(pg.t+' : modification','center',function(){Object.keys(d).forEach(function(k){st.center[k]=d[k]})})},
     addUser:function(d){
       if(!can('users'))return;
       var login=d.login.toLowerCase();
