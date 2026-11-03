@@ -5,20 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <!-- ============ À PERSONNALISER : référencement ============ -->
-<title>Dr Lucas Zanca · Médecin généraliste à Manage</title>
-<meta name="description" content="Cabinet du Dr Lucas Zanca, médecin généraliste à Manage : horaires, rendez-vous, garde, accès et praticiens du centre pluridisciplinaire.">
+<title>Centre Médical de Manage · Médecins généralistes et kinésithérapeute</title>
+<meta name="description" content="Centre Médical de Manage (CMM), rue Saint-Hubert 58G : médecins généralistes et kinésithérapeute, rendez-vous, horaires, garde et accès.">
 <meta name="theme-color" content="#073b5e">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23073b5e'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='bold' font-size='19' fill='%23fff' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23073b5e'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='bold' font-size='19' fill='%23fff' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Physician",
-  "name": "Dr Lucas Zanca",
-  "telephone": "+32494144118",
-  "knowsLanguage": ["fr", "en", "nl"],
+  "@type": "MedicalClinic",
+  "name": "Centre Médical de Manage",
+  "alternateName": "CMM",
   "address": { "@type": "PostalAddress", "streetAddress": "Rue Saint-Hubert 58G", "postalCode": "7170", "addressLocality": "Manage", "addressCountry": "BE" }
 }
 </script>
@@ -91,7 +90,10 @@ html:not(.maps-on) .pin{display:none}
 /* Menu posé sur le fondu : le bleu uni ne revient qu'au défilement (.stuck) */
 header{position:sticky;top:0;z-index:20;margin-bottom:-72px;background:transparent;transition:background .25s,margin-bottom .25s,box-shadow .25s}
 .head{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:72px}
-.brand{font:600 23px/1.1 var(--display);color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;gap:12px;font:600 23px/1.1 var(--display);color:#fff;text-decoration:none}
+.brand-logo{flex:none;padding:4px 7px;border-radius:8px;background:#fff}
+.brand-logo img{display:block;width:auto;height:32px}
+@media(max-width:820px){.brand{gap:10px;font-size:19px}.brand-logo img{height:26px}}
 nav ul{display:flex;gap:4px}
 nav a{display:block;padding:9px 11px;color:#fff;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;border-radius:6px}
 nav a:hover{background:#17527a}
@@ -197,6 +199,8 @@ strong{font-weight:700}
 .rows a:hover{padding-left:22px}
 .rows a:hover::before{transform:scaleX(1)}
 .rows a:hover::after{transform:translateX(6px)}
+.rows li.row a,.rows li.row a:hover{display:inline;overflow:visible;padding:0;border:0;color:var(--blue2);text-decoration:underline}
+.rows li.row a::before,.rows li.row a::after{content:none}
 .hours tr.today th,.hours tr.today td{background:var(--soft)}
 .hours tr.today small{display:block;color:var(--blue2);font-size:13px;font-weight:600}
 .rows b{font-weight:600;color:var(--blue)}
@@ -205,6 +209,15 @@ strong{font-weight:700}
 .cols.bio{grid-template-columns:minmax(0,340px) 1fr;align-items:start}
 .portrait{position:relative;z-index:1;aspect-ratio:4/5;margin-top:calc(-1*clamp(110px,14vw,170px));overflow:hidden;border:6px solid #fff;border-radius:16px;background:var(--soft);box-shadow:0 22px 50px rgba(7,59,94,.26)}
 .portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.cmm{display:block;width:166px;height:auto;margin-bottom:16px}
+.cols.team{grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,24px)}
+.team .rows li.row{grid-template-columns:1fr}
+.team h2{font-size:clamp(22px,2.3vw,28px)}
+.avatar{position:relative;aspect-ratio:1;margin-bottom:18px;overflow:hidden;border-radius:8px;background:var(--soft)}
+.avatar img{display:block;width:100%;height:100%;object-fit:cover}
+.avatar svg{position:absolute;left:50%;bottom:0;width:72%;transform:translateX(-50%);fill:var(--steel)}
+.avatar .todo{position:absolute;left:10px;right:10px;top:10px;text-align:center;font-size:15px}
+@media(max-width:820px){.cols.team{grid-template-columns:1fr}.avatar{max-width:240px}}
 .portrait svg{position:absolute;left:50%;bottom:0;width:78%;transform:translateX(-50%);fill:var(--steel)}
 .portrait .todo{position:absolute;left:12px;right:12px;top:14px;text-align:center;font-size:15px}
 @media(max-width:820px){.cols.bio{grid-template-columns:1fr}.portrait{width:min(280px,78%);margin-inline:auto}}
@@ -242,7 +255,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
-<div class="demo-bar" role="note">Maquette de démonstration réalisée pour le cabinet du Dr Lucas Zanca par Zank Solutions. Ce n'est pas le site officiel : les zones surlignées restent à fournir. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<div class="demo-bar" role="note">Maquette de démonstration réalisée pour le Centre Médical de Manage par Zank Solutions. Ce n'est pas le site officiel : les zones surlignées restent à fournir. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 
 <div class="ck" id="ck" role="region" aria-label="Choix des cookies" hidden>
   <div class="ck-pane" data-ck-pane="main">
@@ -268,7 +281,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 <div class="sos" id="sos">
   <div class="sos-panel" id="sos-panel" hidden>
     <a class="sos-call" href="tel:112"><span><strong>Urgence vitale</strong>Ambulance et pompiers</span><b>112</b></a>
-    <a class="sos-call" href="tel:1733"><span><strong>Médecin de garde</strong>Quand le cabinet est fermé</span><b>1733</b></a>
+    <a class="sos-call" href="tel:1733"><span><strong>Médecin de garde</strong>Quand le centre est fermé</span><b>1733</b></a>
     <a class="sos-more" href="#garde">Tout savoir sur la garde</a>
   </div>
   <button class="sos-btn" id="sos-btn" type="button" aria-expanded="false" aria-controls="sos-panel"><i></i>Urgence ?</button>
@@ -276,11 +289,10 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 
 <header>
   <div class="wrap head">
-    <a class="brand" href="#accueil">Cabinet du Dr Lucas Zanca</a>
+    <a class="brand" href="#accueil"><span class="brand-logo"><img src="logo-cmm.png" width="639" height="246" alt=""></span>Centre Médical de Manage</a>
     <nav class="full" aria-label="Navigation principale"><ul>
-      <li><a href="#dr-zanca">Dr Zanca</a></li>
+      <li><a href="#equipe">L'équipe</a></li>
       <li><a href="#consultations">Consultations</a></li>
-      <li><a href="#cabinets">Le centre</a></li>
       <li><a href="#garde">Garde</a></li>
       <li><a href="#acces">Accès</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -288,9 +300,8 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <details class="menu">
       <summary>Menu</summary>
       <nav aria-label="Navigation mobile"><ul>
-        <li><a href="#dr-zanca">Dr Zanca</a></li>
+        <li><a href="#equipe">L'équipe</a></li>
         <li><a href="#consultations">Consultations</a></li>
-        <li><a href="#cabinets">Le centre</a></li>
         <li><a href="#garde">Garde et urgences</a></li>
         <li><a href="#acces">Accès</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -310,32 +321,32 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <path class="spark" pathLength="1" d="M0 60h60l14-8 14 8h22l9 12 15-58 17 68 11-22h26l20-12 20 12h60h60l14-8 14 8h22l9 12 15-58 17 68 11-22h26l20-12 20 12h60h60l14-8 14 8h22l9 12 15-58 17 68 11-22h26l20-12 20 12h60h60l14-8 14 8h22l9 12 15-58 17 68 11-22h26l20-12 20 12h60h60l14-8 14 8h22l9 12 15-58 17 68 11-22h26l20-12 20 12h60"/>
     </svg>
     <div class="wrap" id="heroText">
-      <h1 tabindex="-1">Cabinet du <span class="nom">Dr&nbsp;Lucas Zanca</span></h1>
-      <p class="lead">Médecin généraliste à Manage, au sein d'un centre pluridisciplinaire de trois cabinets, <strong>rue Saint-Hubert 58G</strong>.</p>
+      <h1 tabindex="-1">Centre Médical <span class="nom">de&nbsp;Manage</span></h1>
+      <p class="lead">Nos professionnels de santé travaillent ensemble pour vous proposer une prise en charge complète, de proximité et attentive à vos besoins.</p>
     </div>
   </div>
   <div class="wrap">
     <div class="bar">
-      <a href="tel:+32494144118"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span><b>Contacter le cabinet</b>0494 14 41 18</span></a>
-      <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span><b>Prendre rendez-vous</b>En ligne via Progenda</span></a>
-      <a href="#garde"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Cabinet fermé ?</b><i class="dot"></i>Médecin de garde : 1733</span></a>
+      <a href="#equipe"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span><b>Prendre rendez-vous</b>Choisir un praticien</span></a>
+      <a href="#acces"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span><b>Nous trouver</b>Rue Saint-Hubert 58G, Manage</span></a>
+      <a href="#garde"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Centre fermé ?</b><i class="dot"></i>Médecin de garde : 1733</span></a>
     </div>
 
     <div class="block">
-      <h2>Le centre pluridisciplinaire</h2>
-      <p><span class="todo">[nom du centre]</span></p>
+      <h2>Un centre médical au cœur de Manage</h2>
+      <p>Le Centre Médical de Manage (CMM) est né de la volonté d'offrir un lieu de soins accessible, moderne et chaleureux. Notre priorité : vous accueillir avec écoute et vous proposer des soins de qualité, grâce à une équipe de professionnels réunis autour du patient.</p>
       <div class="board">
-        <a class="plate" href="#dr-zanca"><small>Cabinet 1</small><strong>Dr Lucas Zanca</strong><span>Médecin généraliste</span></a>
-        <a class="plate" href="#cabinets"><small>Cabinet 2</small><strong class="todo">[nom du praticien]</strong><span class="todo">[profession]</span></a>
-        <a class="plate" href="#cabinets"><small>Cabinet 3</small><strong class="todo">[nom du praticien]</strong><span class="todo">[profession]</span></a>
+        <a class="plate" href="#equipe"><strong>Dr Lucas Zanca</strong><span>Médecin généraliste</span></a>
+        <a class="plate" href="#equipe"><strong>Dr Charline Putton</strong><span>Médecin généraliste</span></a>
+        <a class="plate" href="#equipe"><strong>M. Dario Cannistraro</strong><span>Kinésithérapeute</span></a>
       </div>
     </div>
   </div>
 
   <div class="cta">
     <div class="wrap">
-      <h2>Besoin d'un rendez-vous avec le Dr Zanca ?</h2>
-      <a class="btn" href="#consultations">Voir les horaires</a>
+      <h2>Besoin d'un rendez-vous ?</h2>
+      <a class="btn" href="#equipe">Choisir un praticien</a>
     </div>
   </div>
 
@@ -343,10 +354,10 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <div class="block">
       <h2>Vous cherchez</h2>
       <ul class="rows">
-        <li><a href="#consultations"><b>Un rendez-vous</b><span>Horaires, prise de rendez-vous et visites à domicile</span></a></li>
+        <li><a href="#equipe"><b>Un rendez-vous</b><span>Nos praticiens, leurs horaires et leurs rendez-vous</span></a></li>
         <li><a href="#consultations"><b>Une ordonnance</b><span>Renouvellements, certificats et résultats d'analyses</span></a></li>
         <li><a href="#garde"><b>Un médecin le soir ou le week-end</b><span>Garde, urgences et pharmacies de garde</span></a></li>
-        <li><a href="#acces"><b>Le cabinet</b><span>Plan, parking, transports et accès PMR</span></a></li>
+        <li><a href="#acces"><b>Le centre</b><span>Plan, parking, transports et accès PMR</span></a></li>
       </ul>
     </div>
 
@@ -354,7 +365,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <h2>Nous trouver</h2>
       <div class="map">
         <div class="mapframe"><iframe data-src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="mapgate"><div><p>La carte est fournie par Google, qui peut déposer des cookies. Elle ne se charge qu'avec votre accord.</p><button class="btn" type="button" data-consent="yes">Afficher la carte</button></div></div><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
-        <div class="over"><b>Le centre pluridisciplinaire</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a><a class="btn alt" href="#acces">Voir l'accès</a></div></div>
+        <div class="over"><b>Centre Médical de Manage</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a><a class="btn alt" href="#acces">Voir l'accès</a></div></div>
       </div>
     </div>
   </div>
@@ -368,10 +379,8 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   </div></div>
   <div class="wrap">
     <div class="cols bio block">
-      <!-- Photo fournie : remplacer le svg et le span par <img src="dr-zanca.jpg" alt="Portrait du Dr Lucas Zanca"> -->
       <figure class="portrait">
-        <svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>
-        <span class="todo">[photo du Dr Zanca à fournir]</span>
+        <img src="dr-zanca.jpg" width="900" height="900" alt="Portrait du Dr Lucas Zanca">
       </figure>
       <ul class="rows">
         <li class="row"><b>Parcours</b><span class="todo">[formation et expérience]</span></li>
@@ -381,7 +390,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <li class="row"><b>N° INAMI</b><span>10955207005</span></li>
       </ul>
     </div>
-    <div class="btns"><a class="btn" href="#consultations">Voir les horaires</a></div>
+    <div class="btns"><a class="btn" href="#consultations">Voir les horaires</a> <a class="btn alt" href="#equipe">Toute l'équipe</a></div>
   </div>
 </section>
 
@@ -389,12 +398,12 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 <section class="view" id="consultations" data-title="Consultations">
   <div class="pagehead"><div class="wrap">
     <h1 tabindex="-1">Consultations</h1>
-    <p class="lead">Horaires et démarches pour le cabinet du Dr Zanca. Les autres praticiens gèrent leurs propres rendez-vous.</p>
+    <p class="lead">Horaires et démarches du Dr Lucas Zanca. Chaque praticien gère ses propres rendez-vous.</p>
   </div></div>
   <div class="wrap">
     <div class="block">
       <table class="hours">
-        <caption>Horaires</caption>
+        <caption>Horaires du Dr Zanca</caption>
         <thead><tr><th scope="col">Jour</th><th scope="col">Matin</th><th scope="col">Après-midi</th></tr></thead>
         <tbody>
           <tr><th scope="row">Lundi</th><td>08:00 – 11:00</td><td>16:45 – 18:30</td></tr>
@@ -413,13 +422,13 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <h2>Vos démarches</h2>
       <ul class="rows">
         <li class="row"><b>Prendre rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a> ou au <a href="tel:+32494144118">0494 14 41 18</a></span></li>
-        <li class="row"><b>Annuler un rendez-vous</b><span>Sur la <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170?locale=fr" target="_blank" rel="noopener">page Progenda du cabinet</a>, lien « J'ai oublié mon rendez-vous ». <span class="todo">[délai à préciser]</span></span></li>
+        <li class="row"><b>Annuler un rendez-vous</b><span>Sur la <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170?locale=fr" target="_blank" rel="noopener">page Progenda du Dr Zanca</a>, lien « J'ai oublié mon rendez-vous ». <span class="todo">[délai à préciser]</span></span></li>
         <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
         <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
         <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
         <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
         <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
-        <li class="row"><b>Prises de sang</b><span class="todo">[au cabinet ou ailleurs]</span></li>
+        <li class="row"><b>Prises de sang</b><span class="todo">[au centre ou ailleurs]</span></li>
         <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
         <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
       </ul>
@@ -427,18 +436,28 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   </div>
 </section>
 
-<!-- ============ AUTRES CABINETS ============ -->
-<section class="view" id="cabinets" data-title="Le centre pluridisciplinaire">
+<!-- ============ ÉQUIPE ============ -->
+<section class="view" id="equipe" data-title="Notre équipe">
   <div class="pagehead"><div class="wrap">
-    <h1 tabindex="-1">Le centre pluridisciplinaire</h1>
-    <p class="lead">Ces praticiens exercent de manière indépendante au sein du centre. Contactez-les directement.</p>
+    <h1 tabindex="-1">Notre équipe</h1>
+    <p class="lead">Chaque praticien gère ses propres rendez-vous : contactez directement celui que vous souhaitez consulter.</p>
   </div></div>
   <div class="wrap">
-    <div class="cols block">
+    <div class="cols team block">
       <article class="card">
-        <h2>Cabinet 2</h2>
-        <h3 class="todo">[nom du praticien]</h3>
-        <p><span class="todo">[profession et soins proposés]</span></p>
+        <figure class="avatar"><img src="dr-zanca.jpg" width="900" height="900" alt="Portrait du Dr Lucas Zanca"></figure>
+        <h2>Dr Lucas Zanca</h2>
+        <p>Médecin généraliste. <a href="#dr-zanca">Voir sa page</a></p>
+        <ul class="rows block" style="margin-top:20px">
+          <li class="row"><b>Téléphone</b><span><a href="tel:+32494144118">0494 14 41 18</a></span></li>
+          <li class="row"><b>Rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a></span></li>
+          <li class="row"><b>Horaires</b><span><a href="#consultations">Voir les horaires</a></span></li>
+        </ul>
+      </article>
+      <article class="card">
+        <figure class="avatar"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg><span class="todo">[photo à fournir]</span></figure>
+        <h2>Dr Charline Putton</h2>
+        <p>Médecin généraliste. <span class="todo">[soins proposés]</span></p>
         <ul class="rows block" style="margin-top:20px">
           <li class="row"><b>Téléphone</b><span class="todo">[téléphone]</span></li>
           <li class="row"><b>Rendez-vous</b><span class="todo">[lien ou démarche]</span></li>
@@ -446,9 +465,9 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         </ul>
       </article>
       <article class="card">
-        <h2>Cabinet 3</h2>
-        <h3 class="todo">[nom du praticien]</h3>
-        <p><span class="todo">[profession et soins proposés]</span></p>
+        <figure class="avatar"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg><span class="todo">[photo à fournir]</span></figure>
+        <h2>M. Dario Cannistraro</h2>
+        <p>Kinésithérapeute. <span class="todo">[soins proposés]</span></p>
         <ul class="rows block" style="margin-top:20px">
           <li class="row"><b>Téléphone</b><span class="todo">[téléphone]</span></li>
           <li class="row"><b>Rendez-vous</b><span class="todo">[lien ou démarche]</span></li>
@@ -469,12 +488,12 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <div class="alert">
         <h2>Urgence vitale</h2>
         <a class="big" href="tel:112">112</a>
-        <p>Appelez sans attendre, sans passer par le cabinet.</p>
+        <p>Appelez sans attendre, sans passer par le centre.</p>
       </div>
       <div class="alert" style="border-color:var(--blue2)">
         <h2 style="color:var(--blue)">Médecin de garde</h2>
         <a class="big" style="color:var(--blue)" href="tel:1733">1733</a>
-        <p>Quand le cabinet est fermé : <span class="todo">[plages horaires à confirmer]</span></p>
+        <p>Quand le centre est fermé : <span class="todo">[plages horaires à confirmer]</span></p>
       </div>
     </div>
     <div class="block">
@@ -497,7 +516,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   <div class="wrap">
     <div class="map block">
       <div class="mapframe"><iframe data-src="https://www.google.com/maps?q=Rue+Saint-Hubert+58G,+7170+Manage&amp;output=embed" title="Carte : Rue Saint-Hubert 58G, 7170 Manage" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="mapgate"><div><p>La carte est fournie par Google, qui peut déposer des cookies. Elle ne se charge qu'avec votre accord.</p><button class="btn" type="button" data-consent="yes">Afficher la carte</button></div></div><div class="pin" aria-hidden="true"><i></i><i></i><svg viewBox="0 0 40 52"><path d="M20 1C9.5 1 1 9.5 1 20c0 13.5 19 31 19 31s19-17.5 19-31C39 9.5 30.5 1 20 1z"/><circle cx="20" cy="20" r="7"/></svg></div></div>
-      <div class="over"><b>Le centre pluridisciplinaire</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><br><a href="tel:+32494144118">0494 14 41 18</a><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a></div></div>
+      <div class="over"><b>Centre Médical de Manage</b><strong>Rue Saint-Hubert 58G, 7170 Manage</strong><div class="over-btns"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rue+Saint-Hubert+58G,+7170+Manage" target="_blank" rel="noopener">Itinéraire</a></div></div>
     </div>
     <div class="block">
       <ul class="rows">
@@ -519,7 +538,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <div class="cols block">
       <div>
         <ul class="rows">
-          <li class="row"><b>Téléphone</b><span><a href="tel:+32494144118">0494 14 41 18</a></span></li>
+          <li class="row"><b>Téléphone</b><span>Dr Zanca : <a href="tel:+32494144118">0494 14 41 18</a><br><span class="todo">[numéro du centre, s'il y en a un]</span></span></li>
           <li class="row"><b>E-mail</b><span class="todo">[e-mail]</span></li>
           <li class="row"><b>Secrétariat</b><span class="todo">[horaires]</span></li>
           <li class="row"><b>Adresse</b><span><strong>Rue Saint-Hubert 58G, 7170 Manage</strong></span></li>
@@ -534,7 +553,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <div><label for="msg">Message</label><textarea id="msg" name="msg" rows="4" required></textarea></div>
         <label class="check"><input type="checkbox" required><span>J'accepte que ces données servent à répondre à ma demande (<a href="#legal">confidentialité</a>).</span></label>
         <button class="btn" type="submit">Envoyer</button>
-        <p class="note" id="ok" role="status" hidden>Ceci est une maquette : le formulaire sera relié au cabinet à la mise en ligne.</p>
+        <p class="note" id="ok" role="status" hidden>Ceci est une maquette : le formulaire sera relié au centre à la mise en ligne.</p>
       </form>
     </div>
   </div>
@@ -548,8 +567,8 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   </div></div>
   <div class="wrap">
     <h2>Éditeur du site</h2>
-    <p>Rue Saint-Hubert 58G, 7170 Manage, <a href="tel:+32494144118">0494 14 41 18</a>. <span class="todo">[dénomination, e-mail, BCE si applicable]</span></p>
-    <p>Dr Lucas Zanca, médecin généraliste, N° INAMI 10955207005. <span class="todo">[Ordre et province d'inscription]</span></p>
+    <p>Centre Médical de Manage (CMM), rue Saint-Hubert 58G, 7170 Manage. <span class="todo">[forme juridique, responsable, e-mail, téléphone, BCE si applicable]</span></p>
+    <p>Dr Lucas Zanca, médecin généraliste, N° INAMI 10955207005. <span class="todo">[Ordre et province d'inscription ; mêmes mentions pour Dr Putton et M. Cannistraro]</span></p>
     <h2>Hébergement</h2>
     <p><span class="todo">[hébergeur retenu]</span></p>
     <h2>Données personnelles</h2>
@@ -576,13 +595,13 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   <div class="wrap">
     <div class="grid">
       <div>
-        <b>Cabinet du Dr Lucas Zanca</b>
+        <img class="cmm" src="logo-cmm.png" width="166" height="64" alt="">
+        <b>Centre Médical de Manage (CMM)</b>
         <p><strong>Rue Saint-Hubert 58G, 7170 Manage</strong></p>
-        <p style="margin-top:8px"><a href="tel:+32494144118">0494 14 41 18</a></p>
       </div>
       <ul>
+        <li><a href="#equipe">L'équipe</a></li>
         <li><a href="#consultations">Consultations</a></li>
-        <li><a href="#cabinets">Le centre</a></li>
         <li><a href="#garde">Garde et urgences</a></li>
         <li><a href="#acces">Accès</a></li>
       </ul>
@@ -706,7 +725,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       if(a.getAttribute('href')==='#'+view.id)a.setAttribute('aria-current','page');
       else a.removeAttribute('aria-current');
     });
-    document.title=view.dataset.title+' · Cabinet du Dr Lucas Zanca';
+    document.title=view.dataset.title+' · Centre Médical de Manage';
     menu.open=false;
     window.scrollTo(0,0);
     if(id)view.querySelector('h1').focus({preventScroll:true});
