@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Administration · Centre Médical de Manage</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--white:#fff;--bg:#f4f8fb;--ink:#1c2b3a;--blue:#073b5e;--blue2:#1f78b4;--soft:#eaf3f9;--muted:#4a5a6e;--line:#d6e0ea;--red:#b3261e;--redbg:#fbeceb;--steel:#9cc3de;--green:#1c6b45;--greenbg:#e6f4ec;--amber:#fdf0c4;--display:'Raleway','Public Sans',system-ui,sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 'Public Sans',system-ui,sans-serif}
+a{color:var(--blue2)}
+h1,h2,h3{margin:0;font-family:var(--display);color:var(--blue);line-height:1.2;font-feature-settings:"lnum"}
+h1{font-size:clamp(26px,3.4vw,34px);font-weight:600}
+h1:focus{outline:none}
+h2{font-size:21px;font-weight:600}
+p{margin:0}
+:focus-visible{outline:3px solid var(--blue2);outline-offset:2px}
+[hidden]{display:none!important}
+.demo{padding:7px 16px;background:#14283a;color:#fff;font-size:14px;text-align:center}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:10px clamp(16px,3vw,28px);background:var(--blue);color:#fff}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0;font:600 19px/1.15 var(--display)}
+.brand img{flex:none;display:block;width:auto;height:30px}
+.who{text-align:right;font-size:14px;line-height:1.25}
+.who b{display:block;font-weight:600}
+.who span{color:#cfe2ef}
+.topbtn{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:6px 12px;border:1px solid rgba(255,255,255,.45);border-radius:7px;background:none;color:#fff;font:600 14px 'Public Sans',sans-serif;text-decoration:none;cursor:pointer}
+.topbtn:hover{background:rgba(255,255,255,.12)}
+.topbtn:focus-visible{outline-color:#fff}
+.shell{display:grid;grid-template-columns:240px minmax(0,1fr);align-items:start;max-width:1240px;margin:0 auto}
+.side{position:sticky;top:61px;padding:24px 14px 24px clamp(14px,2vw,24px)}
+.side h3{margin:18px 10px 6px;font:700 12px 'Public Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.side h3:first-child{margin-top:0}
+.side a{display:block;padding:9px 10px;border-radius:7px;color:var(--ink);font-weight:600;font-size:15px;text-decoration:none}
+.side a:hover{background:var(--soft)}
+.side a[aria-current=page]{background:var(--blue);color:#fff}
+.reset{margin:18px 10px 0;padding:0;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
+main{padding:28px clamp(16px,3vw,32px) 72px;min-width:0}
+.lead{margin-top:6px;color:var(--muted)}
+.card{margin-top:20px;padding:clamp(16px,2.4vw,24px);border:1px solid var(--line);border-radius:10px;background:var(--white)}
+.card>h2+p{margin-top:4px;color:var(--muted);font-size:15px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.full{grid-column:1/-1}
+label.f{display:block;font-weight:600;font-size:15px}
+label.f small{display:block;font-weight:400;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=time],select,textarea{display:block;width:100%;min-height:44px;margin-top:5px;padding:8px 10px;border:1px solid #aab9c8;border-radius:7px;background:#fff;color:var(--ink);font:inherit;font-weight:400}
+textarea{min-height:92px;resize:vertical}
+input[readonly]{background:var(--bg);color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 16px;border:1px solid var(--blue);border-radius:7px;background:var(--blue);color:#fff;font:600 15px 'Public Sans',sans-serif;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--blue2);border-color:var(--blue2)}
+.btn.alt{background:#fff;color:var(--blue)}
+.btn.alt:hover{background:var(--soft);border-color:var(--blue)}
+.btn.bad{background:#fff;border-color:var(--red);color:var(--red)}
+.btn.bad:hover{background:var(--redbg)}
+.btn.small{min-height:38px;padding:5px 12px;font-size:14px}
+.btn[disabled]{border-color:var(--line);background:var(--bg);color:var(--muted);cursor:not-allowed}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.tag{display:inline-block;padding:2px 9px;border-radius:12px;background:var(--soft);color:var(--blue);font-size:13px;font-weight:600;white-space:nowrap}
+.tag.on{background:var(--greenbg);color:var(--green)}
+.tag.off{background:#e8ecf0;color:var(--muted)}
+.tag.red{background:var(--redbg);color:var(--red)}
+.tag.todo{background:var(--amber);color:#5c4700}
+.notice{margin-top:16px;padding:11px 14px;border-left:4px solid var(--blue2);border-radius:0 7px 7px 0;background:var(--soft);font-size:15px}
+.notice.warn{border-color:#c89b00;background:var(--amber)}
+.picker{margin-top:16px;max-width:360px}
+.item{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;padding:14px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:0}
+.item:last-child{padding-bottom:0}
+.item .main{flex:1 1 260px;min-width:0;overflow-wrap:anywhere}
+.item b{font-weight:600}
+.item .sub{display:block;color:var(--muted);font-size:14px}
+.item .btns{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.list{margin-top:16px}
+.empty{margin-top:14px;color:var(--muted)}
+.hr{display:grid;grid-template-columns:100px 1fr 1fr;gap:16px;align-items:end;padding:12px 0;border-top:1px solid var(--line)}
+.hr:first-of-type{border-top:0}
+.hr b{padding-bottom:10px;font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pair label{font-size:14px;font-weight:600;color:var(--muted)}
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:20px}
+.team .card{margin:0}
+.face{position:relative;width:64px;height:64px;overflow:hidden;border-radius:8px;background:var(--soft)}
+.face.big{width:112px;height:112px}
+.face img{display:block;width:100%;height:100%;object-fit:cover}
+.face svg{position:absolute;left:50%;bottom:0;width:72%;transform:translateX(-50%);fill:var(--steel)}
+.head{display:flex;align-items:center;gap:14px}
+.head b{display:block;font:600 19px/1.2 var(--display);color:var(--blue)}
+.head span{font-size:15px;color:var(--muted)}
+.meter{height:7px;margin:14px 0 5px;border-radius:4px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--blue2)}
+.small{font-size:14px;color:var(--muted)}
+.msg{padding:11px 14px;border-radius:7px;background:var(--soft);color:var(--blue);font-weight:600}
+.msg.important{background:var(--redbg);color:var(--red)}
+.login{display:grid;place-items:center;min-height:calc(100vh - 42px);padding:24px 16px}
+.login>div{width:min(460px,100%);padding:clamp(20px,4vw,32px);border:1px solid var(--line);border-radius:12px;background:#fff}
+.login img{display:block;height:44px;margin-bottom:14px}
+.acc{display:block;width:100%;margin-top:8px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.acc:hover{border-color:var(--blue2);background:var(--soft)}
+.acc[disabled]{background:var(--bg);color:var(--muted);cursor:not-allowed}
+.acc b{display:block;font-weight:600;color:var(--blue)}
+.acc[disabled] b{color:var(--muted)}
+.acc span{font-size:14px;color:var(--muted)}
+.sep{margin:22px 0 4px;padding-top:18px;border-top:1px solid var(--line);font-weight:600}
+#toast{position:fixed;z-index:9;left:50%;bottom:20px;max-width:calc(100vw - 32px);padding:11px 18px;border-radius:8px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;transform:translateX(-50%);box-shadow:0 10px 28px rgba(7,31,48,.3)}
+#toast.err{background:var(--red)}
+@media(max-width:860px){
+  .shell{display:block}
+  .side{position:static;display:flex;gap:4px;padding:8px 16px;overflow-x:auto;border-bottom:1px solid var(--line);background:#fff}
+  .side h3{display:none}
+  .side a{flex:none;padding:8px 12px}
+  .reset{flex:none;margin:0 0 0 8px}
+  .brand span{display:none}
+  .who span{display:none}
+}
+@media(max-width:560px){
+  .grid2{grid-template-columns:1fr}
+  .hr{grid-template-columns:1fr;gap:8px}
+  .hr b{padding:0}
+  .brand{flex:none;margin:0}
+  .who{flex:1;min-width:0}
+  .top a.topbtn{display:none}
+}
+</style>
+</head>
+<body>
+<div class="demo">Maquette de l'administration : les données restent dans ce navigateur et n'arrivent pas sur le site public.</div>
+<div id="app"></div>
+<div id="toast" role="status" hidden></div>
+<script>
+(function(){
+  var KEY='cmm-admin-demo',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
+  var DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var ROLE={admin:'Administrateur',super:'Superviseur',pro:'Praticien'};
+  var SIL='<svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>';
+  var STEPS_MED=['Prendre rendez-vous','Annuler un rendez-vous','Visites à domicile','Nouveaux patients','Ordonnances','Certificats',"Résultats d'analyses",'À apporter','Paiement'];
+  var STEPS_KINE=['Prendre rendez-vous','Annuler un rendez-vous','Soins à domicile','Nouveaux patients','À apporter','Paiement'];
+
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function clone(o){return JSON.parse(JSON.stringify(o))}
+  function iso(d){d=d||new Date();return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
+  function plus(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+  function frDate(s){return s?s.split('-').reverse().join('/'):''}
+  function uid(){return 'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function steps(list,known){return list.map(function(k){return{k:k,v:(known||{})[k]||''}})}
+  function emptyHours(){return DAYS.map(function(){return{am:['',''],pm:['','']}})}
+
+  function seed(){
+    var pm=[['16:45','18:30'],['15:00','18:00'],['16:45','18:30'],['15:00','18:00'],['16:45','18:00'],['','']];
+    return{
+      users:[
+        {id:'u-admin',name:'Zank Solutions',email:'admin@exemple.be',role:'admin',pro:null,active:true},
+        {id:'u-zanca',name:'Dr Lucas Zanca',email:'lucas.zanca@exemple.be',role:'super',pro:'zanca',active:true},
+        {id:'u-putton',name:'Dr Charline Putton',email:'charline.putton@exemple.be',role:'pro',pro:'putton',active:true},
+        {id:'u-cann',name:'M. Dario Cannistraro',email:'dario.cannistraro@exemple.be',role:'pro',pro:'cannistraro',active:true}
+      ],
+      pros:{
+        zanca:{name:'Dr Lucas Zanca',job:'Médecin généraliste',photo:'../dr-zanca.jpg',phone:'0494 14 41 18',rdv:'https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities',soins:'',visible:true,
+          hours:DAYS.map(function(d,i){return{am:i<5?['08:00','11:00']:['',''],pm:pm[i]}}),absences:[],
+          messages:[{id:'m1',text:"Exemple de message : le cabinet ferme exceptionnellement à 17 h ce vendredi.",level:'info',start:plus(0),end:plus(14)}],
+          steps:steps(STEPS_MED,{'Prendre rendez-vous':'En ligne via Progenda ou au 0494 14 41 18','Annuler un rendez-vous':"Sur la page Progenda, lien « J'ai oublié mon rendez-vous »"})},
+        putton:{name:'Dr Charline Putton',job:'Médecin généraliste',photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_MED)},
+        cannistraro:{name:'M. Dario Cannistraro',job:'Kinésithérapeute',photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_KINE)}
+      },
+      center:{name:'Centre Médical de Manage',address:'Rue Saint-Hubert 58G, 7170 Manage',phone:'',email:'',legal:'',bce:''},
+      siteMsgs:[],
+      log:[]
+    };
+  }
+  function load(){try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&s.users)return s}catch(e){}return seed()}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+  var st=load(),uidCur=null,curPro=null,sent=null;
+  try{uidCur=sessionStorage.getItem(KEY+'-user')}catch(e){}
+
+  function me(){return st.users.filter(function(u){return u.id===uidCur&&u.active})[0]||null}
+  function isOwn(id){var u=me();return u&&u.pro===id}
+  // Les mêmes règles seront appliquées côté serveur dans la version réelle
+  function can(act,id){
+    var u=me();if(!u)return false;
+    switch(act){
+      case 'editPro':return u.role==='admin'||u.role==='super'||isOwn(id);
+      case 'msgPro':return u.role==='super'||isOwn(id);
+      case 'msgSite':case 'center':return u.role==='super';
+      case 'users':return u.role==='admin';
+    }
+    return false;
+  }
+  function target(){
+    var u=me();
+    if(curPro&&st.pros[curPro]&&can('editPro',curPro))return curPro;
+    return u.pro||Object.keys(st.pros)[0];
+  }
+  function nav(){
+    var u=me(),g=[];
+    var mine=[['fiche','Fiche'],['horaires','Horaires'],['absences','Absences'],['messages','Messages'],['demarches','Démarches']];
+    if(u.role==='admin'){
+      g.push(['Gestion',[['utilisateurs','Utilisateurs'],['praticiens','Praticiens du site'],['historique','Historique']]]);
+      if(curPro)g.push(['Dépannage',mine.filter(function(m){return m[0]!=='messages'})]);
+    }else if(u.role==='super'){
+      g.push(['Le centre',[['equipe','Vue du centre'],['centre','Infos du centre'],['site','Messages du site']]]);
+      g.push(['Praticien',mine]);
+      g.push(['Suivi',[['historique','Historique']]]);
+    }else{
+      g.push(['Mon espace',mine]);
+      g.push(['Suivi',[['historique','Historique']]]);
+    }
+    return g;
+  }
+  function allowed(){var a=[];nav().forEach(function(g){g[1].forEach(function(i){a.push(i[0])})});return a}
+  function viewName(){var v=location.hash.slice(1),a=allowed();return a.indexOf(v)>-1?v:a[0]}
+
+  // Toute modification passe ici : l'historique garde qui a fait quoi et la version précédente
+  function commit(what,tgt,fn){
+    var snap=null;
+    if(tgt==='center')snap=clone({center:st.center,siteMsgs:st.siteMsgs});
+    else if(tgt&&st.pros[tgt])snap=clone(st.pros[tgt]);
+    fn();
+    var u=me();
+    st.log.unshift({id:uid(),t:Date.now(),who:u.name,role:u.role,what:what,tgt:tgt,snap:snap});
+    st.log=st.log.slice(0,60);
+    save();
+    toast('Enregistré');
+    render(false);
+  }
+  function toast(t,err){
+    toastEl.textContent=t;
+    toastEl.className=err?'err':'';
+    toastEl.hidden=false;
+    clearTimeout(toastT);
+    toastT=setTimeout(function(){toastEl.hidden=true},3200);
+  }
+  function period(a,b){var t=iso();return a&&t<a?'planned':b&&t>b?'done':'on'}
+  function periodTag(a,b){
+    var p=period(a,b);
+    return p==='on'?'<span class="tag on">En cours</span>':p==='planned'?'<span class="tag">Programmé</span>':'<span class="tag off">Terminé</span>';
+  }
+  function face(p,big){return '<div class="face'+(big?' big':'')+'">'+(p.photo?'<img src="'+esc(p.photo)+'" alt="">':SIL)+'</div>'}
+  function completion(p){
+    var f=[p.phone,p.rdv,p.soins,p.photo].concat(p.steps.map(function(s){return s.v}));
+    f.push(p.hours.some(function(h){return h.am[0]||h.pm[0]})?'1':'');
+    return Math.round(f.filter(Boolean).length/f.length*100);
+  }
+
+  /* ---------- Écrans ---------- */
+  function vLogin(){
+    var accs=st.users.map(function(u){
+      return '<button class="acc" type="button" data-act="login" data-id="'+u.id+'"'+(u.active?'':' disabled')+'><b>'+esc(u.name)+'</b><span>'+ROLE[u.role]+(u.active?'':' · compte désactivé')+'</span></button>';
+    }).join('');
+    var form=sent?
+      '<div class="notice">Lien de connexion envoyé à <b>'+esc(sent.email)+'</b> (simulation).</div><div class="acts"><button class="btn" type="button" data-act="login" data-id="'+sent.id+'">Ouvrir le lien</button></div>':
+      '<form data-form="magic" class="acts" style="display:block"><label class="f">Votre adresse e-mail<input type="email" name="email" required autocomplete="email"></label><div class="acts"><button class="btn">Recevoir un lien de connexion</button></div></form>';
+    return '<div class="login"><div><img src="../logo-cmm.png" width="114" height="44" alt=""><h1 tabindex="-1">Administration</h1><p class="lead">Centre Médical de Manage</p>'+form+'<p class="sep">Comptes de démonstration</p>'+accs+'</div></div>';
+  }
+  function proPicker(){
+    var u=me();if(u.role==='pro')return '';
+    var id=target();
+    var opts=Object.keys(st.pros).map(function(k){return '<option value="'+k+'"'+(k===id?' selected':'')+'>'+esc(st.pros[k].name)+'</option>'}).join('');
+    var note='';
+    if(u.role==='admin')note='<div class="notice warn">Mode dépannage : chaque modification apparaît dans l\'historique du centre.</div>';
+    else if(!isOwn(id))note='<div class="notice">Vous modifiez les informations de '+esc(st.pros[id].name)+'. La modification apparaîtra dans l\'historique.</div>';
+    return note+'<label class="f picker">Praticien<select data-change="pro">'+opts+'</select></label>';
+  }
+  function vEquipe(){
+    var cards=Object.keys(st.pros).map(function(k){
+      var p=st.pros[k],c=completion(p);
+      var abs=p.absences.filter(function(a){return period(a.from,a.to)==='on'})[0];
+      var live=p.messages.filter(function(m){return period(m.start,m.end)==='on'}).length;
+      return '<article class="card"><div class="head">'+face(p)+'<div><b>'+esc(p.name)+'</b><span>'+esc(p.job)+'</span></div></div>'+
+        '<div class="meter"><i style="width:'+c+'%"></i></div><p class="small">Fiche complétée à '+c+' %</p>'+
+        '<p class="small" style="margin-top:8px">'+(abs?'<span class="tag red">Absent jusqu\'au '+frDate(abs.to)+'</span>':'<span class="tag on">Présent</span>')+' '+(live?'<span class="tag">'+live+' message'+(live>1?'s':'')+'</span>':'')+(p.visible?'':' <span class="tag off">Retiré du site</span>')+'</p>'+
+        '<div class="acts"><button class="btn alt small" type="button" data-act="edit" data-id="'+k+'">Modifier</button></div></article>';
+    }).join('');
+    return '<h1 tabindex="-1">Vue du centre</h1><p class="lead">L\'état de chaque praticien et ce qui reste à compléter.</p><div class="team">'+cards+'</div>'+
+      '<section class="card"><h2>Messages du site</h2>'+(st.siteMsgs.filter(function(m){return period(m.start,m.end)!=='done'}).length?msgList(st.siteMsgs,'site'):'<p class="empty">Aucun message en cours.</p>')+'<div class="acts"><a class="btn alt small" href="#site">Gérer les messages</a></div></section>';
+  }
+  function vFiche(){
+    var id=target(),p=st.pros[id],lock=me().role==='pro';
+    return '<h1 tabindex="-1">Fiche</h1><p class="lead">Ce que les patients voient sur la page de l\'équipe.</p>'+proPicker()+
+      '<form class="card" data-form="fiche"><div class="head" style="margin-bottom:18px">'+face(p,true)+'<div><button class="btn alt small" type="button" disabled>Changer la photo</button><p class="small" style="margin-top:6px">Disponible dans la version réelle.</p></div></div>'+
+      '<div class="grid2"><label class="f">Nom affiché<input type="text" name="name" required value="'+esc(p.name)+'"'+(lock?' readonly':'')+'></label>'+
+      '<label class="f">Profession<input type="text" name="job" required value="'+esc(p.job)+'"'+(lock?' readonly':'')+'></label>'+
+      '<label class="f">Téléphone<input type="tel" name="phone" value="'+esc(p.phone)+'"></label>'+
+      '<label class="f">Lien de prise de rendez-vous<input type="url" name="rdv" value="'+esc(p.rdv)+'" placeholder="https://"></label>'+
+      '<label class="f full">Soins proposés<textarea name="soins">'+esc(p.soins)+'</textarea></label></div>'+
+      '<div class="acts"><button class="btn">Enregistrer</button></div></form>';
+  }
+  function vHoraires(){
+    var id=target(),p=st.pros[id];
+    function pair(i,slot,label,v){
+      return '<fieldset style="border:0;margin:0;padding:0;min-width:0"><legend class="small" style="padding:0;font-weight:600">'+label+'</legend><div class="pair">'+
+        '<label>De<input type="time" name="'+slot+i+'s" value="'+esc(v[0])+'"></label><label>À<input type="time" name="'+slot+i+'e" value="'+esc(v[1])+'"></label></div></fieldset>';
+    }
+    var rows=DAYS.map(function(d,i){return '<div class="hr"><b>'+d+'</b>'+pair(i,'am','Matin',p.hours[i].am)+pair(i,'pm','Après-midi',p.hours[i].pm)+'</div>'}).join('');
+    return '<h1 tabindex="-1">Horaires</h1><p class="lead">Laissez une plage vide si le cabinet est fermé.</p>'+proPicker()+
+      '<form class="card" data-form="horaires">'+rows+'<div class="acts"><button class="btn">Enregistrer</button><button class="btn alt" type="button" data-act="copyMonday">Copier le lundi sur la semaine</button></div></form>';
+  }
+  function vAbsences(){
+    var id=target(),p=st.pros[id];
+    var items=p.absences.slice().sort(function(a,b){return a.from<b.from?1:-1}).map(function(a){
+      return '<div class="item"><div class="main"><b>Du '+frDate(a.from)+' au '+frDate(a.to)+'</b><span class="sub">'+(a.repl?'Remplacement : '+esc(a.repl):'Pas de remplaçant indiqué')+'</span>'+(a.note?'<span class="sub">'+esc(a.note)+'</span>':'')+'</div><div class="btns">'+periodTag(a.from,a.to)+'<button class="btn bad small" type="button" data-act="delAbs" data-id="'+a.id+'">Supprimer</button></div></div>';
+    }).join('');
+    return '<h1 tabindex="-1">Absences</h1><p class="lead">L\'absence s\'affiche sur le site aux dates choisies, puis disparaît seule.</p>'+proPicker()+
+      '<form class="card" data-form="absence"><h2>Ajouter une absence</h2><div class="grid2" style="margin-top:14px"><label class="f">Du<input type="date" name="from" required min="'+iso()+'"></label><label class="f">Au<input type="date" name="to" required min="'+iso()+'"></label>'+
+      '<label class="f">Remplaçant<input type="text" name="repl"></label><label class="f">Précision<input type="text" name="note" placeholder="Reprise des consultations, urgences..."></label></div><div class="acts"><button class="btn">Ajouter</button></div></form>'+
+      '<section class="card"><h2>Absences enregistrées</h2>'+(items?'<div class="list">'+items+'</div>':'<p class="empty">Aucune absence enregistrée.</p>')+'</section>';
+  }
+  function msgList(list,scope){
+    return '<div class="list">'+list.slice().sort(function(a,b){return a.start<b.start?1:-1}).map(function(m){
+      return '<div class="item"><div class="main"><p class="msg'+(m.level==='important'?' important':'')+'">'+esc(m.text)+'</p><span class="sub" style="margin-top:6px">Du '+frDate(m.start)+' au '+frDate(m.end)+'</span></div><div class="btns">'+periodTag(m.start,m.end)+'<button class="btn bad small" type="button" data-act="delMsg" data-scope="'+scope+'" data-id="'+m.id+'">Supprimer</button></div></div>';
+    }).join('')+'</div>';
+  }
+  function msgForm(form){
+    return '<form class="card" data-form="'+form+'"><h2>Nouveau message</h2><div class="grid2" style="margin-top:14px"><label class="f full">Texte<textarea name="text" required maxlength="280"></textarea></label>'+
+      '<label class="f">Du<input type="date" name="start" required value="'+iso()+'"></label><label class="f">Au<input type="date" name="end" required value="'+plus(7)+'"></label>'+
+      '<label class="f">Niveau<select name="level"><option value="info">Normal</option><option value="important">Important</option></select></label></div><div class="acts"><button class="btn">Publier</button></div></form>';
+  }
+  function vMessages(){
+    var id=target(),p=st.pros[id];
+    return '<h1 tabindex="-1">Messages</h1><p class="lead">Ces messages s\'affichent sur la page de '+esc(p.name)+', aux dates choisies.</p>'+proPicker()+msgForm('msgPro')+
+      '<section class="card"><h2>Messages enregistrés</h2>'+(p.messages.length?msgList(p.messages,'pro'):'<p class="empty">Aucun message.</p>')+'</section>';
+  }
+  function vSite(){
+    return '<h1 tabindex="-1">Messages du site</h1><p class="lead">Affichés sur toutes les pages du site, aux dates choisies.</p>'+msgForm('msgSite')+
+      '<section class="card"><h2>Messages enregistrés</h2>'+(st.siteMsgs.length?msgList(st.siteMsgs,'site'):'<p class="empty">Aucun message.</p>')+'</section>';
+  }
+  function vDemarches(){
+    var id=target(),p=st.pros[id];
+    var f=p.steps.map(function(s,i){return '<label class="f full">'+esc(s.k)+'<textarea name="s'+i+'" style="min-height:64px" placeholder="À compléter">'+esc(s.v)+'</textarea></label>'}).join('');
+    return '<h1 tabindex="-1">Démarches</h1><p class="lead">Les informations pratiques de la page Consultations.</p>'+proPicker()+
+      '<form class="card" data-form="demarches"><div class="grid2">'+f+'</div><div class="acts"><button class="btn">Enregistrer</button></div></form>';
+  }
+  function vCentre(){
+    var c=st.center;
+    function fld(n,l,t){return '<label class="f">'+l+'<input type="'+(t||'text')+'" name="'+n+'" value="'+esc(c[n])+'"></label>'}
+    return '<h1 tabindex="-1">Infos du centre</h1><p class="lead">Coordonnées générales et mentions légales.</p>'+
+      '<form class="card" data-form="centre"><div class="grid2">'+fld('name','Nom')+fld('address','Adresse')+fld('phone','Téléphone du centre','tel')+fld('email','E-mail du centre','email')+fld('legal','Forme juridique')+fld('bce','Numéro BCE')+'</div><div class="acts"><button class="btn">Enregistrer</button></div></form>';
+  }
+  function vHistorique(){
+    var u=me();
+    var rows=st.log.filter(function(l){
+      if(u.role==='pro')return l.tgt===u.pro;
+      return u.role==='admin'||l.tgt!=='users';
+    });
+    var html=rows.map(function(l,i){
+      var name=l.tgt==='center'?'Le centre':l.tgt==='users'?'Utilisateurs':st.pros[l.tgt]?st.pros[l.tgt].name:'';
+      var okBack=l.snap&&(l.tgt==='center'?can('center'):can('editPro',l.tgt));
+      return '<div class="item"><div class="main"><b>'+esc(l.what)+'</b><span class="sub">'+esc(name)+' · par '+esc(l.who)+(l.role==='admin'?' (dépannage)':'')+' · '+new Date(l.t).toLocaleString('fr-BE',{dateStyle:'short',timeStyle:'short'})+'</span></div>'+(okBack?'<div class="btns"><button class="btn alt small" type="button" data-act="restore" data-id="'+l.id+'">Revenir à la version d\'avant</button></div>':'')+'</div>';
+    }).join('');
+    return '<h1 tabindex="-1">Historique</h1><p class="lead">'+(u.role==='pro'?'Les modifications de vos informations.':'Toutes les modifications.')+'</p><section class="card">'+(html?'<div class="list" style="margin-top:0">'+html+'</div>':'<p class="empty" style="margin:0">Aucune modification pour l\'instant.</p>')+'</section>';
+  }
+  function vUsers(){
+    var u=me();
+    var rows=st.users.map(function(x){
+      var self=x.id===u.id;
+      var roleSel=self?'':'<label class="small">Rôle <select data-change="role" data-id="'+x.id+'" style="display:inline-block;width:auto;min-height:38px;margin:0 0 0 4px;padding:4px 8px"><option value="pro"'+(x.role==='pro'?' selected':'')+'>Praticien</option><option value="super"'+(x.role==='super'?' selected':'')+'>Superviseur</option></select></label>';
+      return '<div class="item"><div class="main"><b>'+esc(x.name)+'</b><span class="sub">'+esc(x.email)+(x.pro&&st.pros[x.pro]?' · fiche : '+esc(st.pros[x.pro].name):'')+'</span></div><div class="btns">'+
+        (self?'<span class="tag">Administrateur</span>':roleSel+(x.active?'<span class="tag on">Actif</span>':'<span class="tag off">Désactivé</span>')+
+        '<button class="btn alt small" type="button" data-act="resend" data-id="'+x.id+'"'+(x.active?'':' disabled')+'>Renvoyer le lien</button>'+
+        '<button class="btn '+(x.active?'bad':'alt')+' small" type="button" data-act="toggleUser" data-id="'+x.id+'">'+(x.active?'Désactiver':'Réactiver')+'</button>')+'</div></div>';
+    }).join('');
+    var opts=Object.keys(st.pros).filter(function(k){return !st.users.some(function(x){return x.pro===k})}).map(function(k){return '<option value="'+k+'">'+esc(st.pros[k].name)+'</option>'}).join('');
+    return '<h1 tabindex="-1">Utilisateurs</h1><p class="lead">Chaque personne a son propre compte et se connecte par un lien reçu par e-mail.</p>'+
+      '<section class="card"><h2>Comptes</h2><div class="list">'+rows+'</div></section>'+
+      '<form class="card" data-form="addUser"><h2>Créer un compte</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom<input type="text" name="name" required></label><label class="f">E-mail<input type="email" name="email" required></label>'+
+      '<label class="f">Rôle<select name="role"><option value="pro">Praticien</option><option value="super">Superviseur</option></select></label>'+
+      '<label class="f">Fiche liée<select name="pro"><option value="">Aucune</option>'+opts+'</select></label></div><div class="acts"><button class="btn">Créer et envoyer le lien</button></div></form>';
+  }
+  function vPros(){
+    var rows=Object.keys(st.pros).map(function(k){
+      var p=st.pros[k];
+      return '<div class="item"><div class="main head">'+face(p)+'<div><b>'+esc(p.name)+'</b><span>'+esc(p.job)+'</span></div></div><div class="btns">'+(p.visible?'<span class="tag on">Sur le site</span>':'<span class="tag off">Retiré</span>')+
+        '<button class="btn alt small" type="button" data-act="edit" data-id="'+k+'">Dépanner</button><button class="btn '+(p.visible?'bad':'alt')+' small" type="button" data-act="togglePro" data-id="'+k+'">'+(p.visible?'Retirer du site':'Remettre sur le site')+'</button></div></div>';
+    }).join('');
+    return '<h1 tabindex="-1">Praticiens du site</h1><p class="lead">Ajoutez ou retirez une personne de l\'équipe affichée.</p><section class="card"><div class="list" style="margin-top:0">'+rows+'</div></section>'+
+      '<form class="card" data-form="addPro"><h2>Ajouter un praticien</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom affiché<input type="text" name="name" required></label><label class="f">Profession<input type="text" name="job" required></label></div><div class="acts"><button class="btn">Ajouter</button></div></form>';
+  }
+  var VIEWS={equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,praticiens:vPros};
+
+  function render(focus){
+    var u=me();
+    if(!u){app.innerHTML=vLogin();var h=app.querySelector('h1');if(focus!==false&&h)h.focus({preventScroll:true});return}
+    var v=viewName();
+    var side=nav().map(function(g){
+      return '<h3>'+esc(g[0])+'</h3>'+g[1].map(function(i){return '<a href="#'+i[0]+'"'+(i[0]===v?' aria-current="page"':'')+'>'+i[1]+'</a>'}).join('');
+    }).join('');
+    var y=window.scrollY,prev=app.querySelector('.side'),navX=prev?prev.scrollLeft:0;
+    app.innerHTML='<header class="top"><div class="brand"><img src="../logo-cmm-clair.png" width="78" height="30" alt=""><span>Centre Médical de Manage</span></div><div class="who"><b>'+esc(u.name)+'</b><span>'+ROLE[u.role]+'</span></div><a class="topbtn" href="../" target="_blank" rel="noopener">Voir le site</a><button class="topbtn" type="button" data-act="logout">Déconnexion</button></header>'+
+      '<div class="shell"><nav class="side" aria-label="Administration">'+side+'<button class="reset" type="button" data-act="reset">Réinitialiser la démo</button></nav><main>'+VIEWS[v]()+'</main></div>';
+    // Sur mobile, le menu défile : l'entrée active doit rester visible
+    var bar=app.querySelector('.side'),cur=bar.querySelector('[aria-current]');
+    bar.scrollLeft=navX;
+    if(bar.scrollWidth>bar.clientWidth&&cur)bar.scrollLeft=cur.offsetLeft-bar.offsetLeft-16;
+    if(focus===false){window.scrollTo(0,y);return}
+    window.scrollTo(0,0);
+    var t=app.querySelector('main h1');if(t)t.focus({preventScroll:true});
+  }
+
+  /* ---------- Actions ---------- */
+  function setUser(id){uidCur=id;try{sessionStorage.setItem(KEY+'-user',id||'')}catch(e){}}
+  function datesOk(a,b){if(a>b){toast('La date de fin doit suivre la date de début.',true);return false}return true}
+  var FORMS={
+    magic:function(d){
+      var u=st.users.filter(function(x){return x.email.toLowerCase()===d.email.trim().toLowerCase()&&x.active})[0];
+      // Même réponse que le compte existe ou non : on ne révèle pas qui a un accès
+      sent=u||{id:null,email:d.email.trim()};
+      render(false);
+      if(!u){app.querySelector('.login .acts').hidden=true}
+    },
+    fiche:function(d){var id=target();if(!can('editPro',id))return;commit('Fiche modifiée',id,function(){var p=st.pros[id];if(me().role!=='pro'){p.name=d.name;p.job=d.job}p.phone=d.phone;p.rdv=d.rdv;p.soins=d.soins})},
+    horaires:function(d){
+      var id=target();if(!can('editPro',id))return;
+      var h=[],bad=null;
+      DAYS.forEach(function(day,i){
+        var r={am:[d['am'+i+'s'],d['am'+i+'e']],pm:[d['pm'+i+'s'],d['pm'+i+'e']]};
+        ['am','pm'].forEach(function(k){if(!!r[k][0]!==!!r[k][1]||(r[k][0]&&r[k][0]>=r[k][1]))bad=bad||day});
+        h.push(r);
+      });
+      if(bad)return toast('Vérifiez les heures du '+bad.toLowerCase()+'.',true);
+      commit('Horaires modifiés',id,function(){st.pros[id].hours=h});
+    },
+    absence:function(d){var id=target();if(!can('editPro',id)||!datesOk(d.from,d.to))return;commit('Absence ajoutée, du '+frDate(d.from)+' au '+frDate(d.to),id,function(){st.pros[id].absences.push({id:uid(),from:d.from,to:d.to,repl:d.repl,note:d.note})})},
+    msgPro:function(d){var id=target();if(!can('msgPro',id)||!datesOk(d.start,d.end))return;commit('Message publié',id,function(){st.pros[id].messages.push({id:uid(),text:d.text,level:d.level,start:d.start,end:d.end})})},
+    msgSite:function(d){if(!can('msgSite')||!datesOk(d.start,d.end))return;commit('Message publié sur tout le site','center',function(){st.siteMsgs.push({id:uid(),text:d.text,level:d.level,start:d.start,end:d.end})})},
+    demarches:function(d){var id=target();if(!can('editPro',id))return;commit('Démarches modifiées',id,function(){st.pros[id].steps.forEach(function(s,i){s.v=d['s'+i]})})},
+    centre:function(d){if(!can('center'))return;commit('Infos du centre modifiées','center',function(){st.center=d})},
+    addUser:function(d){
+      if(!can('users'))return;
+      if(st.users.some(function(x){return x.email.toLowerCase()===d.email.trim().toLowerCase()}))return toast('Cette adresse a déjà un compte.',true);
+      if(d.role==='pro'&&!d.pro)return toast('Un praticien doit être lié à une fiche.',true);
+      commit('Compte créé : '+d.name,'users',function(){st.users.push({id:uid(),name:d.name,email:d.email.trim(),role:d.role,pro:d.pro||null,active:true})});
+      toast('Compte créé. Lien envoyé à '+d.email.trim()+' (simulation).');
+    },
+    addPro:function(d){
+      if(!can('users'))return;
+      commit('Praticien ajouté : '+d.name,'users',function(){st.pros[uid()]={name:d.name,job:d.job,photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_MED)}});
+    }
+  };
+  var ACTS={
+    login:function(id){var u=st.users.filter(function(x){return x.id===id})[0];if(!u||!u.active)return;setUser(id);sent=null;curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
+    logout:function(){setUser(null);sent=null;curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
+    reset:function(){if(!confirm('Effacer les modifications de cette démonstration ?'))return;try{localStorage.removeItem(KEY)}catch(e){}st=seed();setUser(null);curPro=null;history.replaceState(null,'',location.pathname+location.search);render()},
+    edit:function(id){curPro=id;location.hash==='#fiche'?render():location.hash='fiche'},
+    copyMonday:function(id,b){
+      var f=b.closest('form');
+      DAYS.forEach(function(d,i){if(i===0||i>4)return;['am','pm'].forEach(function(k){['s','e'].forEach(function(e){f.elements[k+i+e].value=f.elements[k+'0'+e].value})})});
+      toast('Copié du mardi au vendredi. Pensez à enregistrer.');
+    },
+    delAbs:function(id){var t=target();if(!can('editPro',t))return;commit('Absence supprimée',t,function(){st.pros[t].absences=st.pros[t].absences.filter(function(a){return a.id!==id})})},
+    delMsg:function(id,b){
+      if(b.dataset.scope==='site'){if(!can('msgSite'))return;commit('Message du site supprimé','center',function(){st.siteMsgs=st.siteMsgs.filter(function(m){return m.id!==id})});return}
+      var t=target();if(!can('msgPro',t))return;commit('Message supprimé',t,function(){st.pros[t].messages=st.pros[t].messages.filter(function(m){return m.id!==id})});
+    },
+    restore:function(id){
+      var l=st.log.filter(function(x){return x.id===id})[0];if(!l||!l.snap)return;
+      if(l.tgt==='center'){if(!can('center'))return;commit('Retour à une version précédente','center',function(){st.center=clone(l.snap.center);st.siteMsgs=clone(l.snap.siteMsgs)})}
+      else{if(!can('editPro',l.tgt))return;commit('Retour à une version précédente',l.tgt,function(){st.pros[l.tgt]=clone(l.snap)})}
+    },
+    toggleUser:function(id){if(!can('users')||id===uidCur)return;var u=st.users.filter(function(x){return x.id===id})[0];commit((u.active?'Compte désactivé : ':'Compte réactivé : ')+u.name,'users',function(){u.active=!u.active})},
+    resend:function(id){var u=st.users.filter(function(x){return x.id===id})[0];toast('Lien renvoyé à '+u.email+' (simulation).')},
+    togglePro:function(id){if(!can('users'))return;var p=st.pros[id];commit((p.visible?'Retiré du site : ':'Remis sur le site : ')+p.name,'users',function(){p.visible=!p.visible})}
+  };
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]');
+    if(b&&ACTS[b.dataset.act])ACTS[b.dataset.act](b.dataset.id,b);
+  });
+  document.addEventListener('submit',function(e){
+    var f=e.target.closest('[data-form]');if(!f)return;
+    e.preventDefault();
+    var d={};new FormData(f).forEach(function(v,k){d[k]=typeof v==='string'?v.trim():v});
+    FORMS[f.dataset.form](d);
+  });
+  document.addEventListener('change',function(e){
+    var c=e.target.dataset.change;
+    if(c==='pro'){curPro=e.target.value;render(false)}
+    if(c==='role'&&can('users')){var u=st.users.filter(function(x){return x.id===e.target.dataset.id})[0],r=e.target.value;if(r==='pro'&&!u.pro){toast('Un praticien doit être lié à une fiche.',true);return render(false)}commit('Rôle modifié : '+u.name+', '+ROLE[r],'users',function(){u.role=r})}
+  });
+  window.addEventListener('hashchange',function(){if(me())render()});
+  render(false);
+})();
+</script>
+</body>
+</html>
