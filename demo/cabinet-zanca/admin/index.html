@@ -134,9 +134,9 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
 <div id="toast" role="status" hidden></div>
 <script>
 (function(){
-  var KEY='cmm-admin-demo-2',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
+  var KEY='cmm-admin-demo-3',app=document.getElementById('app'),toastEl=document.getElementById('toast'),toastT;
   var DAYS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  var ROLE={admin:'Administrateur',super:'Superviseur',pro:'Praticien'};
+  var ROLE={admin:'Admin',superuser:'Superuser',user:'User'};
   var SIL='<svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg>';
   var STEPS_MED=['Prendre rendez-vous','Annuler un rendez-vous','Visites à domicile','Nouveaux patients','Ordonnances','Certificats',"Résultats d'analyses",'À apporter','Paiement'];
   var STEPS_KINE=['Prendre rendez-vous','Annuler un rendez-vous','Soins à domicile','Nouveaux patients','À apporter','Paiement'];
@@ -155,9 +155,9 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     return{
       users:[
         {id:'u-admin',name:'Zank Solutions',login:'admin',pw:'demo',role:'admin',pro:null,active:true},
-        {id:'u-zanca',name:'Dr Lucas Zanca',login:'lzanca',pw:'demo',role:'super',pro:'zanca',active:true},
-        {id:'u-putton',name:'Dr Charline Putton',login:'cputton',pw:'demo',role:'pro',pro:'putton',active:true},
-        {id:'u-cann',name:'M. Dario Cannistraro',login:'dcannistraro',pw:'demo',role:'pro',pro:'cannistraro',active:true}
+        {id:'u-zanca',name:'Dr Lucas Zanca',login:'lzanca',pw:'demo',role:'superuser',pro:'zanca',active:true},
+        {id:'u-putton',name:'Dr Charline Putton',login:'cputton',pw:'demo',role:'user',pro:'putton',active:true},
+        {id:'u-cann',name:'M. Dario Cannistraro',login:'dcannistraro',pw:'demo',role:'user',pro:'cannistraro',active:true}
       ],
       pros:{
         zanca:{name:'Dr Lucas Zanca',job:'Médecin généraliste',photo:'../dr-zanca.jpg',phone:'0494 14 41 18',rdv:'https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities',soins:'',visible:true,
@@ -183,9 +183,9 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
   function can(act,id){
     var u=me();if(!u)return false;
     switch(act){
-      case 'editPro':return u.role==='admin'||u.role==='super'||isOwn(id);
-      case 'msgPro':return u.role==='super'||isOwn(id);
-      case 'msgSite':case 'center':return u.role==='super';
+      case 'editPro':return u.role==='admin'||u.role==='superuser'||isOwn(id);
+      case 'msgPro':return u.role==='superuser'||isOwn(id);
+      case 'msgSite':case 'center':return u.role==='superuser';
       case 'users':return u.role==='admin';
     }
     return false;
@@ -202,7 +202,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     if(u.role==='admin'){
       g.push(['Gestion',[['utilisateurs','Utilisateurs'],['praticiens','Praticiens du site'],['historique','Historique']]]);
       if(curPro)g.push(['Dépannage',mine.filter(function(m){return m[0]!=='messages'})]);
-    }else if(u.role==='super'){
+    }else if(u.role==='superuser'){
       g.push(['Le centre',[['equipe','Vue du centre'],['centre','Infos du centre'],['site','Messages du site']]]);
       g.push(['Praticien',mine]);
       g.push(['Suivi',[['historique','Historique']]]);
@@ -253,11 +253,11 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     var accs=st.users.map(function(u){
       return '<button class="acc" type="button" data-act="fill" data-id="'+esc(u.login)+'"'+(u.active?'':' disabled')+'><b>'+esc(u.name)+'</b><span>'+ROLE[u.role]+' · identifiant : '+esc(u.login)+(u.active?'':' · compte désactivé')+'</span></button>';
     }).join('');
-    var form='<form data-form="signin" style="margin-top:18px"><label class="f">Identifiant<input type="text" name="login" required autocomplete="username" autocapitalize="none" spellcheck="false"></label><label class="f" style="margin-top:14px">Mot de passe<input type="password" name="password" required autocomplete="current-password"></label><p class="small" style="margin-top:8px">Mot de passe oublié : demandez-en un nouveau à l\'administrateur.</p><div class="acts"><button class="btn">Se connecter</button></div></form>';
+    var form='<form data-form="signin" style="margin-top:18px"><label class="f">Identifiant<input type="text" name="login" required autocomplete="username" autocapitalize="none" spellcheck="false"></label><label class="f" style="margin-top:14px">Mot de passe<input type="password" name="password" required autocomplete="current-password"></label><p class="small" style="margin-top:8px">Mot de passe oublié : demandez-en un nouveau à l\'admin.</p><div class="acts"><button class="btn">Se connecter</button></div></form>';
     return '<div class="login"><div><img src="../logo-cmm.png" width="114" height="44" alt=""><h1 tabindex="-1">Administration</h1><p class="lead">Centre Médical de Manage</p>'+form+'<p class="sep">Comptes de démonstration</p><p class="small">Mot de passe : demo. Cliquez sur un compte pour remplir l\'identifiant.</p>'+accs+'</div></div>';
   }
   function proPicker(){
-    var u=me();if(u.role==='pro')return '';
+    var u=me();if(u.role==='user')return '';
     var id=target();
     var opts=Object.keys(st.pros).map(function(k){return '<option value="'+k+'"'+(k===id?' selected':'')+'>'+esc(st.pros[k].name)+'</option>'}).join('');
     var note='';
@@ -279,7 +279,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       '<section class="card"><h2>Messages du site</h2>'+(st.siteMsgs.filter(function(m){return period(m.start,m.end)!=='done'}).length?msgList(st.siteMsgs,'site'):'<p class="empty">Aucun message en cours.</p>')+'<div class="acts"><a class="btn alt small" href="#site">Gérer les messages</a></div></section>';
   }
   function vFiche(){
-    var id=target(),p=st.pros[id],lock=me().role==='pro';
+    var id=target(),p=st.pros[id],lock=me().role==='user';
     return '<h1 tabindex="-1">Fiche</h1><p class="lead">Ce que les patients voient sur la page de l\'équipe.</p>'+proPicker()+
       '<form class="card" data-form="fiche"><div class="head" style="margin-bottom:18px">'+face(p,true)+'<div><button class="btn alt small" type="button" disabled>Changer la photo</button><p class="small" style="margin-top:6px">Disponible dans la version réelle.</p></div></div>'+
       '<div class="grid2"><label class="f">Nom affiché<input type="text" name="name" required value="'+esc(p.name)+'"'+(lock?' readonly':'')+'></label>'+
@@ -343,7 +343,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
   function vHistorique(){
     var u=me();
     var rows=st.log.filter(function(l){
-      if(u.role==='pro')return l.tgt===u.pro;
+      if(u.role==='user')return l.tgt===u.pro;
       return u.role==='admin'||l.tgt!=='users';
     });
     var html=rows.map(function(l,i){
@@ -351,15 +351,15 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       var okBack=l.snap&&(l.tgt==='center'?can('center'):can('editPro',l.tgt));
       return '<div class="item"><div class="main"><b>'+esc(l.what)+'</b><span class="sub">'+esc(name)+' · par '+esc(l.who)+(l.role==='admin'?' (dépannage)':'')+' · '+new Date(l.t).toLocaleString('fr-BE',{dateStyle:'short',timeStyle:'short'})+'</span></div>'+(okBack?'<div class="btns"><button class="btn alt small" type="button" data-act="restore" data-id="'+l.id+'">Revenir à la version d\'avant</button></div>':'')+'</div>';
     }).join('');
-    return '<h1 tabindex="-1">Historique</h1><p class="lead">'+(u.role==='pro'?'Les modifications de vos informations.':'Toutes les modifications.')+'</p><section class="card">'+(html?'<div class="list" style="margin-top:0">'+html+'</div>':'<p class="empty" style="margin:0">Aucune modification pour l\'instant.</p>')+'</section>';
+    return '<h1 tabindex="-1">Historique</h1><p class="lead">'+(u.role==='user'?'Les modifications de vos informations.':'Toutes les modifications.')+'</p><section class="card">'+(html?'<div class="list" style="margin-top:0">'+html+'</div>':'<p class="empty" style="margin:0">Aucune modification pour l\'instant.</p>')+'</section>';
   }
   function vUsers(){
     var u=me();
     var rows=st.users.map(function(x){
       var self=x.id===u.id;
-      var roleSel=self?'':'<label class="small">Rôle <select data-change="role" data-id="'+x.id+'" style="display:inline-block;width:auto;min-height:38px;margin:0 0 0 4px;padding:4px 8px"><option value="pro"'+(x.role==='pro'?' selected':'')+'>Praticien</option><option value="super"'+(x.role==='super'?' selected':'')+'>Superviseur</option></select></label>';
+      var roleSel=self?'':'<label class="small">Rôle <select data-change="role" data-id="'+x.id+'" style="display:inline-block;width:auto;min-height:38px;margin:0 0 0 4px;padding:4px 8px"><option value="user"'+(x.role==='user'?' selected':'')+'>User</option><option value="superuser"'+(x.role==='superuser'?' selected':'')+'>Superuser</option></select></label>';
       return '<div class="item"><div class="main"><b>'+esc(x.name)+'</b><span class="sub">Identifiant : '+esc(x.login)+(x.pro&&st.pros[x.pro]?' · fiche : '+esc(st.pros[x.pro].name):'')+'</span></div><div class="btns">'+
-        (self?'<span class="tag">Administrateur</span>':roleSel+(x.active?'<span class="tag on">Actif</span>':'<span class="tag off">Désactivé</span>')+
+        (self?'<span class="tag">Admin</span>':roleSel+(x.active?'<span class="tag on">Actif</span>':'<span class="tag off">Désactivé</span>')+
         '<button class="btn alt small" type="button" data-act="resetPw" data-id="'+x.id+'"'+(x.active?'':' disabled')+'>Nouveau mot de passe</button>'+
         '<button class="btn '+(x.active?'bad':'alt')+' small" type="button" data-act="toggleUser" data-id="'+x.id+'">'+(x.active?'Désactiver':'Réactiver')+'</button>')+'</div></div>';
     }).join('');
@@ -367,7 +367,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     return '<h1 tabindex="-1">Utilisateurs</h1><p class="lead">Chaque personne a son propre identifiant et son propre mot de passe.</p>'+pwNotice()+
       '<section class="card"><h2>Comptes</h2><div class="list">'+rows+'</div></section>'+
       '<form class="card" data-form="addUser"><h2>Créer un compte</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom<input type="text" name="name" required></label><label class="f">Identifiant<small>Lettres minuscules, chiffres, point ou tiret</small><input type="text" name="login" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>'+
-      '<label class="f">Rôle<select name="role"><option value="pro">Praticien</option><option value="super">Superviseur</option></select></label>'+
+      '<label class="f">Rôle<select name="role"><option value="user">User</option><option value="superuser">Superuser</option></select></label>'+
       '<label class="f">Fiche liée<select name="pro"><option value="">Aucune</option>'+opts+'</select></label></div><div class="acts"><button class="btn">Créer le compte</button></div></form>';
   }
   function vPros(){
@@ -440,7 +440,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       if(forced)history.replaceState(null,'',location.pathname+location.search);
       render();
     },
-    fiche:function(d){var id=target();if(!can('editPro',id))return;commit('Fiche modifiée',id,function(){var p=st.pros[id];if(me().role!=='pro'){p.name=d.name;p.job=d.job}p.phone=d.phone;p.rdv=d.rdv;p.soins=d.soins})},
+    fiche:function(d){var id=target();if(!can('editPro',id))return;commit('Fiche modifiée',id,function(){var p=st.pros[id];if(me().role!=='user'){p.name=d.name;p.job=d.job}p.phone=d.phone;p.rdv=d.rdv;p.soins=d.soins})},
     horaires:function(d){
       var id=target();if(!can('editPro',id))return;
       var h=[],bad=null;
@@ -462,7 +462,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       var login=d.login.toLowerCase();
       if(!/^[a-z0-9._-]{3,}$/.test(login))return toast('Identifiant invalide : 3 caractères minimum, sans espace.',true);
       if(st.users.some(function(x){return x.login===login}))return toast('Cet identifiant existe déjà.',true);
-      if(d.role==='pro'&&!d.pro)return toast('Un praticien doit être lié à une fiche.',true);
+      if(d.role==='user'&&!d.pro)return toast('Un user doit être lié à une fiche.',true);
       var pw=tempPassword();
       tempPw={name:d.name,login:login,pw:pw};
       commit('Compte créé : '+d.name,'users',function(){st.users.push({id:uid(),name:d.name,login:login,pw:pw,mustChange:true,role:d.role,pro:d.pro||null,active:true})});
@@ -517,7 +517,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
   document.addEventListener('change',function(e){
     var c=e.target.dataset.change;
     if(c==='pro'){curPro=e.target.value;render(false)}
-    if(c==='role'&&can('users')){var u=st.users.filter(function(x){return x.id===e.target.dataset.id})[0],r=e.target.value;if(r==='pro'&&!u.pro){toast('Un praticien doit être lié à une fiche.',true);return render(false)}commit('Rôle modifié : '+u.name+', '+ROLE[r],'users',function(){u.role=r})}
+    if(c==='role'&&can('users')){var u=st.users.filter(function(x){return x.id===e.target.dataset.id})[0],r=e.target.value;if(r==='user'&&!u.pro){toast('Un user doit être lié à une fiche.',true);return render(false)}commit('Rôle modifié : '+u.name+', '+ROLE[r],'users',function(){u.role=r})}
   });
   window.addEventListener('hashchange',function(){if(me())render()});
   render(false);
