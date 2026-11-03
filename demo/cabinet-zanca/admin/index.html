@@ -200,11 +200,11 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     if(u.mustChange)return [['Mon compte',[['compte','Mon mot de passe']]]];
     var mine=[['fiche','Fiche'],['horaires','Horaires'],['absences','Absences'],['messages','Messages'],['demarches','Démarches']];
     if(u.role==='admin'){
-      g.push(['Gestion',[['utilisateurs','Utilisateurs'],['praticiens','Praticiens du site'],['historique','Historique']]]);
+      g.push(['Gestion',[['utilisateurs','Utilisateurs'],['fiches','Fiches du site'],['historique','Historique']]]);
       if(curPro)g.push(['Dépannage',mine.filter(function(m){return m[0]!=='messages'})]);
     }else if(u.role==='superuser'){
       g.push(['Le centre',[['equipe','Vue du centre'],['centre','Infos du centre'],['site','Messages du site']]]);
-      g.push(['Praticien',mine]);
+      g.push(['User',mine]);
       g.push(['Suivi',[['historique','Historique']]]);
     }else{
       g.push(['Mon espace',mine]);
@@ -263,7 +263,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     var note='';
     if(u.role==='admin')note='<div class="notice warn">Mode dépannage : chaque modification apparaît dans l\'historique du centre.</div>';
     else if(!isOwn(id))note='<div class="notice">Vous modifiez les informations de '+esc(st.pros[id].name)+'. La modification apparaîtra dans l\'historique.</div>';
-    return note+'<label class="f picker">Praticien<select data-change="pro">'+opts+'</select></label>';
+    return note+'<label class="f picker">User<select data-change="pro">'+opts+'</select></label>';
   }
   function vEquipe(){
     var cards=Object.keys(st.pros).map(function(k){
@@ -275,7 +275,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
         '<p class="small" style="margin-top:8px">'+(abs?'<span class="tag red">Absent jusqu\'au '+frDate(abs.to)+'</span>':'<span class="tag on">Présent</span>')+' '+(live?'<span class="tag">'+live+' message'+(live>1?'s':'')+'</span>':'')+(p.visible?'':' <span class="tag off">Retiré du site</span>')+'</p>'+
         '<div class="acts"><button class="btn alt small" type="button" data-act="edit" data-id="'+k+'">Modifier</button></div></article>';
     }).join('');
-    return '<h1 tabindex="-1">Vue du centre</h1><p class="lead">L\'état de chaque praticien et ce qui reste à compléter.</p><div class="team">'+cards+'</div>'+
+    return '<h1 tabindex="-1">Vue du centre</h1><p class="lead">L\'état de chaque user et ce qui reste à compléter.</p><div class="team">'+cards+'</div>'+
       '<section class="card"><h2>Messages du site</h2>'+(st.siteMsgs.filter(function(m){return period(m.start,m.end)!=='done'}).length?msgList(st.siteMsgs,'site'):'<p class="empty">Aucun message en cours.</p>')+'<div class="acts"><a class="btn alt small" href="#site">Gérer les messages</a></div></section>';
   }
   function vFiche(){
@@ -376,8 +376,8 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
       return '<div class="item"><div class="main head">'+face(p)+'<div><b>'+esc(p.name)+'</b><span>'+esc(p.job)+'</span></div></div><div class="btns">'+(p.visible?'<span class="tag on">Sur le site</span>':'<span class="tag off">Retiré</span>')+
         '<button class="btn alt small" type="button" data-act="edit" data-id="'+k+'">Dépanner</button><button class="btn '+(p.visible?'bad':'alt')+' small" type="button" data-act="togglePro" data-id="'+k+'">'+(p.visible?'Retirer du site':'Remettre sur le site')+'</button></div></div>';
     }).join('');
-    return '<h1 tabindex="-1">Praticiens du site</h1><p class="lead">Ajoutez ou retirez une personne de l\'équipe affichée.</p><section class="card"><div class="list" style="margin-top:0">'+rows+'</div></section>'+
-      '<form class="card" data-form="addPro"><h2>Ajouter un praticien</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom affiché<input type="text" name="name" required></label><label class="f">Profession<input type="text" name="job" required></label></div><div class="acts"><button class="btn">Ajouter</button></div></form>';
+    return '<h1 tabindex="-1">Fiches du site</h1><p class="lead">Ajoutez ou retirez une personne de l\'équipe affichée.</p><section class="card"><div class="list" style="margin-top:0">'+rows+'</div></section>'+
+      '<form class="card" data-form="addPro"><h2>Ajouter une fiche</h2><div class="grid2" style="margin-top:14px"><label class="f">Nom affiché<input type="text" name="name" required></label><label class="f">Profession<input type="text" name="job" required></label></div><div class="acts"><button class="btn">Ajouter</button></div></form>';
   }
   function pwNotice(){
     if(!tempPw)return '';
@@ -397,7 +397,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     r.forEach(function(n){o+=a[n%a.length]});
     return o;
   }
-  var VIEWS={compte:vCompte,equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,praticiens:vPros};
+  var VIEWS={compte:vCompte,equipe:vEquipe,centre:vCentre,site:vSite,fiche:vFiche,horaires:vHoraires,absences:vAbsences,messages:vMessages,demarches:vDemarches,historique:vHistorique,utilisateurs:vUsers,fiches:vPros};
 
   function render(focus){
     var u=me();
@@ -470,7 +470,7 @@ code{padding:1px 6px;border-radius:4px;background:#fff;font-size:15px}
     },
     addPro:function(d){
       if(!can('users'))return;
-      commit('Praticien ajouté : '+d.name,'users',function(){st.pros[uid()]={name:d.name,job:d.job,photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_MED)}});
+      commit('Fiche ajoutée : '+d.name,'users',function(){st.pros[uid()]={name:d.name,job:d.job,photo:'',phone:'',rdv:'',soins:'',visible:true,hours:emptyHours(),absences:[],messages:[],steps:steps(STEPS_MED)}});
     }
   };
   var ACTS={
