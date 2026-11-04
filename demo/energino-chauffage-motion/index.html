@@ -50,7 +50,7 @@ section,.hero,.ruban{position:relative;z-index:1}
 .sous h1{font-size:clamp(30px,4vw,58px)}
 .sous p{margin:14px 0 22px;font-size:clamp(17px,1.5vw,20px);color:#34373b;max-width:27em}
 .ctas{display:flex;flex-wrap:wrap;gap:12px}
-.van{overflow:hidden;aspect-ratio:16/8;border-radius:6px;background:var(--ligne)}
+.van{overflow:hidden;aspect-ratio:16/8;border-radius:22px;background:var(--ligne)}
 .van img{width:100%;height:100%;object-fit:cover;object-position:60% 62%}
 
 .ruban{overflow:hidden;background:var(--encre);color:var(--papier);border-top:6px solid var(--vert);padding:12px 0}
@@ -64,27 +64,29 @@ section,.hero,.ruban{position:relative;z-index:1}
 
 /* Les métiers défilent à l'horizontale pendant que la page est tenue */
 .horiz{background:var(--encre);color:var(--papier)}
-.anim .horiz{height:420vh}
-.tenu{padding:50px 0}
-.anim .tenu{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:74px 0 30px}
+.tenu{padding:clamp(50px,7vw,90px) 0}
 .entete{display:flex;justify-content:space-between;align-items:baseline;gap:20px;width:min(1180px,100% - 56px);margin:0 auto 18px}
 .entete span{font:400 clamp(20px,2.4vw,30px) Anton,sans-serif;color:var(--feu)}
+.commandes{display:flex;align-items:center;gap:12px}
+.fleche{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--papier);background:transparent;color:var(--papier);font:700 20px/1 Manrope,sans-serif;cursor:pointer;transition:background .2s,color .2s,opacity .2s}
+.fleche:hover{background:var(--papier);color:var(--encre)}
+.fleche:disabled{opacity:.3;cursor:default;background:transparent;color:var(--papier)}
 .entete b{font:400 clamp(20px,2.4vw,30px) Anton,sans-serif;text-transform:uppercase;letter-spacing:.03em}
-.piste{display:grid;gap:30px;padding-inline:28px}
-.anim .piste{display:flex;gap:clamp(16px,3vw,44px);width:max-content;padding-inline:max(28px,calc((100vw - 1180px)/2));will-change:transform}
-.pan{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(16px,3vw,44px);align-items:center;width:auto}
-.anim .pan{width:min(1000px,calc(100vw - 56px));flex:none}
-.photo{position:relative;overflow:hidden;aspect-ratio:4/3;background:#2a2d31}
-.anim .photo{height:min(62svh,560px);aspect-ratio:auto}
+.piste{--marge:max(28px,calc((100% - 1180px)/2));display:flex;gap:clamp(16px,3vw,44px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--marge);padding-inline:var(--marge);padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;touch-action:pan-x pan-y}
+.piste::-webkit-scrollbar{display:none}
+.piste.prise{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.piste img{-webkit-user-drag:none;user-select:none}
+.pan{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(16px,3vw,44px);align-items:center;flex:none;width:min(1000px,calc(100% - 56px));scroll-snap-align:start}
+.photo{position:relative;overflow:hidden;aspect-ratio:4/3;background:#2a2d31;border-radius:22px}
 .photo img{width:116%;max-width:none;height:100%;object-fit:cover}
-.photo small{position:absolute;left:0;bottom:12px;background:var(--papier);color:var(--encre);padding:3px 10px;font-size:13px}
+.photo small{position:absolute;left:12px;bottom:12px;background:var(--papier);color:var(--encre);padding:3px 10px;font-size:13px;border-radius:99px}
 .pan h3{font-size:clamp(36px,5.2vw,76px)}
 .pan p{margin:14px 0 0;color:#d6d3cc;font-size:clamp(16px,1.4vw,18px)}
 
 .chantier{padding:clamp(90px,12vw,170px) 0}
 .chantier .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,80px);align-items:center}
 .chantier p{color:var(--gris);font-size:18px;margin:18px 0 0}
-.voile{overflow:hidden;aspect-ratio:4/3}
+.voile{overflow:hidden;aspect-ratio:4/3;border-radius:22px}
 .voile img{width:100%;height:100%;object-fit:cover}
 .fig{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
 .fig b{display:block;font:400 clamp(58px,8vw,112px)/1 Anton,sans-serif;color:var(--cuivre-t)}
@@ -111,8 +113,14 @@ label{display:grid;gap:5px;font-weight:700;font-size:14.5px}
 input,select,textarea{width:100%;padding:12px 14px;border:1px solid #a9a397;background:#fff;color:var(--encre);font:400 16px Manrope,sans-serif}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--cuivre-t);outline-offset:1px}
 .ok{background:#fbe7dc;padding:12px 14px;font-size:15px;margin:0}
-footer{background:var(--encre);color:#d6d3cc;border-top:1px solid #33363a;padding:24px 0 62px;font-size:15px;position:relative;z-index:1}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer{background:var(--encre);color:#d6d3cc;border-top:1px solid #33363a;padding:34px 0 70px;font-size:15px;position:relative;z-index:1}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px}
+footer b{display:block;font:400 26px/1.1 Anton,sans-serif;text-transform:uppercase;color:var(--papier);margin-bottom:6px;letter-spacing:.01em}
+footer h3{font:700 13px Manrope,sans-serif;letter-spacing:.12em;color:#f0a273;margin-bottom:8px}
+footer a{display:block;text-decoration:none;padding:2px 0;overflow-wrap:anywhere}
+footer a:hover{color:#fff;text-decoration:underline}
+footer p{margin:0}
+footer .bas{grid-column:1 / -1;border-top:1px solid #33363a;padding-top:14px;font-size:13.5px}
 
 .demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center;box-shadow:0 -8px 24px -12px rgba(0,0,0,.5)}
 .demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
@@ -120,15 +128,17 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 @media (max-width:900px){
   .sous,.chantier .wrap,.contact .wrap{grid-template-columns:1fr}
   .pan{grid-template-columns:1fr}
-  .anim .photo{height:38svh}
   .pan h3{font-size:clamp(34px,10vw,60px)}
   .trois{grid-template-columns:1fr}
+  footer .wrap{grid-template-columns:1fr 1fr}
+  footer .wrap > div:first-child{grid-column:1 / -1}
 }
 @media (max-width:640px){
-  body{font-size:16px;padding-bottom:32px}
+  body{font-size:16px}
   .wrap,.entete{width:calc(100% - 44px)}
   nav .wrap{height:66px}
   nav img{height:48px}
+  footer .wrap{grid-template-columns:1fr}
   #cuivre{stroke-width:5}
   .hero{min-height:calc(100svh - 66px);justify-content:flex-start;padding-top:20px}
   .van{aspect-ratio:16/10}
@@ -173,8 +183,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
   <section class="horiz" id="metiers">
     <div class="tenu">
-      <div class="entete"><b>Nos métiers</b><span id="compte">01 / 05</span></div>
-      <div class="piste" id="piste">
+      <div class="entete"><b>Nos métiers</b><div class="commandes"><span id="compte">01 / 05</span><button class="fleche" id="prec" type="button" aria-label="Métier précédent">←</button><button class="fleche" id="suiv" type="button" aria-label="Métier suivant">→</button></div></div>
+      <div class="piste" id="piste" tabindex="0" aria-label="Métiers, faites glisser pour en voir plus">
         <article class="pan"><div class="photo"><img src="../energino-chauffage/pellets.jpg" alt="Chaudière à pellets dans une cave"></div><div><h3>Pellets</h3><p>Chaudières et poêles à pellets : la spécialité d'Energino, avec installation ÖkoFEN et silos de stockage.</p></div></article>
         <article class="pan"><div class="photo"><img src="../energino-chauffage/gaz1.jpg" alt="Chaudière murale Bosch à Ressaix" loading="lazy"></div><div><h3>Chauffage</h3><p>Du remplacement de votre chaudière à la mise en service, avec des raccords soignés.</p></div></article>
         <article class="pan"><div class="photo"><img src="../energino-chauffage/clim.jpg" alt="Unité extérieure de climatisation sur un mur en briques" loading="lazy"></div><div><h3>Climatisation</h3><p>Le confort en été comme en hiver, avec une unité posée proprement sur votre façade.</p></div></article>
@@ -236,13 +246,36 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   </div>
 </section>
 
-<footer><div class="wrap"><span>Energino Chauffage · Binche</span><span id="y"></span></div></footer>
+<footer>
+  <div class="wrap">
+    <div><b>Energino Chauffage</b><p>Installateur à Binche et environs, du lundi au samedi.</p></div>
+    <div><h3>Contact</h3><a href="tel:+32499356398">0499 35 63 98</a><a href="mailto:energino89@gmail.com">energino89@gmail.com</a><a href="https://www.facebook.com/people/Energino-chauffage/100087146265018/" target="_blank" rel="noopener">Facebook</a></div>
+    <div><h3>La page</h3><a href="#metiers">Nos métiers</a><a href="#contact">Demander un devis</a></div>
+    <p class="bas">© <span id="y"></span> Energino Chauffage</p>
+  </div>
+</footer>
 
 <script>
 document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
   e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
 }));
 document.getElementById('y').textContent=new Date().getFullYear();
+/* Glissement des métiers : doigt, souris, flèches et clavier */
+(function(){
+  const piste=document.getElementById('piste'),pans=[...piste.children],compte=document.getElementById('compte'),prec=document.getElementById('prec'),suiv=document.getElementById('suiv');
+  const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const actuel=()=>{const g=piste.getBoundingClientRect().left+parseFloat(getComputedStyle(piste).paddingLeft);let m=0,d=1e9;pans.forEach((p,i)=>{const e=Math.abs(p.getBoundingClientRect().left-g);if(e<d){d=e;m=i}});return m};
+  const aller=i=>{const k=Math.max(0,Math.min(pans.length-1,i));piste.scrollTo({left:pans[k].offsetLeft-pans[0].offsetLeft,behavior:reduit?'auto':'smooth'})};
+  const maj=()=>{const i=actuel();compte.textContent='0'+(i+1)+' / 0'+pans.length;prec.disabled=piste.scrollLeft<4;suiv.disabled=piste.scrollLeft>=piste.scrollWidth-piste.clientWidth-4};
+  piste.addEventListener('scroll',maj,{passive:true});addEventListener('resize',maj);maj();
+  prec.onclick=()=>aller(actuel()-1);suiv.onclick=()=>aller(actuel()+1);
+  piste.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();aller(actuel()+1)}if(e.key==='ArrowLeft'){e.preventDefault();aller(actuel()-1)}});
+  let x0=null,s0=0;
+  piste.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;x0=e.clientX;s0=piste.scrollLeft;piste.classList.add('prise');piste.setPointerCapture(e.pointerId)});
+  piste.addEventListener('pointermove',e=>{if(x0===null)return;piste.scrollLeft=s0-(e.clientX-x0)});
+  const lache=e=>{if(x0===null)return;const v=x0-e.clientX,i=actuel();x0=null;piste.classList.remove('prise');aller(Math.abs(v)>60&&i===actuel()?i:actuel())};
+  piste.addEventListener('pointerup',lache);piste.addEventListener('pointercancel',lache);
+})();
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Energino Chauffage par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 <script src="/demo/motion-14.9.0.js"></script>
@@ -278,17 +311,12 @@ document.getElementById('y').textContent=new Date().getFullYear();
   const els=[...ph.children];
   scroll(p=>{const t=p*(els.length+3);els.forEach((e,i)=>{e.style.opacity=Math.min(1,Math.max(.12,t-i))})},{target:ph.closest('section'),offset:['start .8','end .55']});
 
-  /* Les métiers glissent à l'horizontale */
-  const piste=$('#piste'),pans=$$('.pan'),compte=$('#compte'),images=$$('.pan .photo img');
-  let dist=0;
-  const mesure=()=>{dist=Math.max(0,piste.scrollWidth-innerWidth)};
-  mesure();addEventListener('resize',mesure);
-  addEventListener('load',mesure);
+  /* Les photos se décalent légèrement pendant le glissement */
+  const piste=$('#piste'),pans=$$('.pan'),images=$$('.pan .photo img');
   scroll(p=>{
-    piste.style.transform='translate3d('+(-p*dist)+'px,0,0)';
     images.forEach((im,i)=>{const d=p*(pans.length-1)-i;im.style.transform='translateX('+(-7+Math.max(-1,Math.min(1,d))*-7)+'%)'});
-    compte.textContent='0'+(Math.min(pans.length-1,Math.round(p*(pans.length-1)))+1)+' / 0'+pans.length;
-  },{target:$('.horiz'),offset:['start start','end end']});
+  },{container:piste,axis:'x'});
+  inView('.pan',el=>{animate(el.querySelector('.photo'),{scale:[.94,1],opacity:[.4,1]},{duration:.7,ease:doux})},{root:piste,amount:.5});
 
   /* Apparitions au défilement */
   $$('[data-entre]').forEach(e=>{e.style.opacity=0});
