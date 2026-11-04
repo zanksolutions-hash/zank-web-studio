@@ -82,25 +82,44 @@ input,select,textarea{width:100%;padding:10px 12px;background:#fff;border:1px so
 .barre h2{font-size:24px}
 .barre div{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .pro{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;padding-bottom:56px}
-.grille{background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;overflow:hidden}
-.g-tetes,.g-corps{display:grid;grid-template-columns:48px repeat(var(--n),minmax(0,1fr))}
-.g-tete{padding:9px 4px;text-align:center;font-size:13.5px;border-left:1px solid var(--ligne);border-bottom:1px solid var(--ligne);color:var(--gris);line-height:1.25}
-.g-tete b{display:block;color:var(--encre);font-size:16px}
-.g-tete.auj b{color:var(--vert);text-decoration:underline;text-underline-offset:3px}
-.g-coin{border-bottom:1px solid var(--ligne)}
-.g-heures{position:relative}
-.g-heures span{position:absolute;right:6px;font-size:12px;color:var(--gris);transform:translateY(-50%)}
-.g-col{position:relative;border-left:1px solid var(--ligne);background-image:linear-gradient(var(--ligne) 1px,transparent 1px);background-size:100% var(--h)}
-.g-col.ferme{background-color:#f1eee6}
-.ev{position:absolute;left:3px;right:3px;border:0;border-left:3px solid var(--vert);background:var(--clair);border-radius:5px;padding:3px 6px;text-align:left;font-size:12.5px;line-height:1.25;overflow:hidden;color:var(--encre)}
-.ev b{display:block;font-weight:600}
-.ev:hover{filter:brightness(.96)}
-.ev.tel{border-left-color:var(--ocre);background:var(--ocre-clair)}
-.ev.bloc{border-left-color:#8a8678;background:var(--bloc);color:var(--gris)}
-.ev.absente{border-left-color:var(--rouge);background:var(--rouge-clair);text-decoration:line-through}
-.maint{position:absolute;left:0;right:0;border-top:2px solid var(--rouge);z-index:2;pointer-events:none}
-.legende{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gris);margin:10px 0 0}
+.semaine{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:10px}
+.jc{display:grid;gap:7px;align-content:start;text-align:left;padding:14px 12px;min-height:178px;border:1px solid var(--ligne);border-radius:12px;background:var(--blanc);--c:var(--vert)}
+.jc:hover{border-color:var(--encre)}
+.jc .nom{font-size:14px;color:var(--gris)}
+.jc .nom b{display:block;font:500 25px/1.1 Fraunces,Georgia,serif;color:var(--encre)}
+.jc.auj{box-shadow:inset 0 0 0 2px var(--encre)}
+.pct{font:500 34px/1 Fraunces,Georgia,serif}
+.jauge{display:block;height:8px;background:rgba(31,42,38,.13);border-radius:9px;overflow:hidden}
+.jauge i{display:block;height:100%;background:var(--c);border-radius:9px}
+.jc small{font-size:13px;line-height:1.3;color:var(--encre)}
+.calme{background:var(--clair);--c:var(--vert)}
+.moyen{background:var(--ocre-clair);--c:var(--ocre)}
+.plein{background:var(--rouge-clair);--c:var(--rouge)}
+.ferme{background:#eeeae1;--c:#8a8678}
+.resume{margin:12px 0 0;font-weight:600}
+.legende{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gris);margin:8px 0 0}
 .legende span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--c)}
+.detail{background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;padding:clamp(16px,2.4vw,24px)}
+.d-tete{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:center;margin-bottom:16px;padding:14px;border-radius:10px}
+.d-tete .jauge{grid-column:1 / -1}
+.ligne{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.it{display:grid;grid-template-columns:112px 1fr;gap:10px;width:100%;text-align:left;padding:11px 12px;border:1px solid var(--ligne);border-left:4px solid var(--vert);border-radius:8px;background:var(--clair)}
+.it:hover{filter:brightness(.97)}
+.it.tel{border-left-color:var(--ocre);background:var(--ocre-clair)}
+.it.bloc{border-left-color:#8a8678;background:var(--bloc)}
+.it.libre{border-style:dashed;border-left:1px dashed var(--ligne);background:transparent;color:var(--gris)}
+.it time{font-weight:600;font-size:14.5px}
+.it small{display:block;color:var(--gris);font-size:13.5px}
+.mail{border:1px solid var(--ligne);border-radius:10px;padding:14px;margin:14px 0;font-size:14.5px;background:var(--papier)}
+.mail p{margin:0 0 6px}.mail p:last-child{margin:0}
+.mail small{display:block;color:var(--gris);margin-bottom:8px}
+#alertes{position:fixed;top:14px;right:14px;z-index:100;display:grid;gap:10px;width:min(360px,calc(100vw - 28px))}
+.alerte{background:var(--encre);color:#fff;border-radius:12px;padding:16px;box-shadow:0 14px 40px -12px rgba(0,0,0,.55)}
+.alerte b{display:block;font:500 22px Fraunces,Georgia,serif;margin-bottom:3px}
+.alerte p{margin:0 0 12px;font-size:14.5px}
+.alerte .actions{margin:0;gap:8px}
+.alerte .btn{background:#fff;color:var(--encre);border-color:#fff}
+.alerte .btn.ligne{background:transparent;color:#fff}
 .cote{display:grid;gap:16px}
 .cote .carte{padding:16px}
 .cote h3{font-size:20px;margin-bottom:10px}
@@ -123,6 +142,12 @@ dialog h2{font-size:26px;margin-bottom:14px}
   .resa,.pro{grid-template-columns:minmax(0,1fr)}
   .recap{position:static;order:-1}
   .recap dl{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .semaine{grid-template-columns:minmax(0,1fr)}
+  .jc{grid-template-columns:82px 1fr;min-height:0;align-items:center}
+  .jc .pct{grid-row:1;grid-column:2}
+  .jc .nom{grid-row:1 / span 3}
 }
 @media (max-width:640px){
   .champs{grid-template-columns:1fr}
@@ -166,13 +191,12 @@ dialog h2{font-size:26px;margin-bottom:14px}
       </div>
       <div class="pro">
         <div>
-          <div class="grille" id="grille"></div>
-          <p class="legende"><span style="--c:var(--clair)">Réservé en ligne</span><span style="--c:var(--ocre-clair)">Ajouté par l'institut</span><span style="--c:var(--bloc)">Bloqué</span><span style="--c:var(--rouge-clair)">Absente</span></p>
+          <div id="agenda"></div>
         </div>
         <div class="cote">
-          <div class="carte"><h3>Rappels de demain</h3><ul id="rappels"></ul><p class="note">Simulation : aucun message n'est envoyé.</p></div>
+          <div class="carte"><h3>E-mails de rappel de demain</h3><ul id="rappels"></ul><p class="note">Simulation : aucun e-mail n'est envoyé.</p></div>
           <div class="carte"><h3>Réglages</h3><form class="reglages" id="reglages"></form></div>
-          <div class="carte"><h3>Données</h3><div class="actions" style="margin-top:0"><button class="btn ligne petit" type="button" id="export">Exporter en CSV</button></div></div>
+          <div class="carte"><h3>Tester le pop-up</h3><p class="note" style="margin:0 0 12px">Il s'affiche 15 minutes avant un rendez-vous, si cette page est ouverte.</p><button class="btn ligne petit" type="button" id="simu">Créer un rendez-vous dans 10 minutes</button></div>
         </div>
       </div>
     </div>
@@ -181,13 +205,14 @@ dialog h2{font-size:26px;margin-bottom:14px}
 
 <dialog id="dlg"><form id="f-dlg" method="dialog" novalidate></form></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
+<div id="alertes"></div>
 
 <div class="demo-bar" role="note"><span class="long">Maquette de test, institut fictif. Les rendez-vous restent uniquement dans ce navigateur et aucun message n'est envoyé.</span><span class="short">Test, institut fictif, rien n'est envoyé ·</span> <button type="button" id="raz">Réinitialiser</button> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">Zank Solutions</a></div>
 
 <script>
 (function(){
 'use strict';
-const CLE='zank-test-agenda-v1';
+const CLE='zank-test-agenda-v2';
 const JOURS=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
 const JOURS_L=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -220,8 +245,10 @@ function initial(){
   /* Exemples répartis sur les prochains jours ouverts */
   const ouverts=[];let c=auj();
   for(let i=0;i<30&&ouverts.length<6;i++){c=plus(auj(),i+1);if(horaires[dateDe(c).getDay()])ouverts.push(c)}
-  const ex=[[0,570,'eclat','Claire D.','0470 12 34 56','en_ligne'],[0,660,'express','Sophie M.','0471 23 45 67','telephone'],[0,840,'pedi','Inès B.','0472 34 56 78','en_ligne'],[1,600,'sublime','Nadia R.','0473 45 67 89','en_ligne'],[1,900,'epil','Julie V.','0474 56 78 90','telephone'],[2,630,'eclat','Marie L.','0475 67 89 01','en_ligne'],[3,780,'express','Léa P.','0476 78 90 12','en_ligne']];
-  ex.forEach(e=>{const s=soins.find(x=>x.id===e[2]);data.rdv.push({id:id(),code:code(),date:ouverts[e[0]],debut:e[1],duree:s.duree,soin:s.id,nom:e[3],tel:e[4],email:'',source:e[5],statut:'prevu'})});
+  const ex=[[0,540,'sublime','Claire D.','en_ligne'],[0,640,'eclat','Sophie M.','telephone'],[0,710,'express','Inès B.','en_ligne'],[0,750,'pedi','Nadia R.','en_ligne'],[0,810,'eclat','Julie V.','telephone'],[0,880,'sublime','Marie L.','en_ligne'],[0,980,'eclat','Léa P.','en_ligne'],[0,1050,'express','Emma C.','en_ligne'],
+    [1,600,'sublime','Alice G.','en_ligne'],[1,840,'eclat','Laura T.','telephone'],[1,930,'pedi','Sarah K.','en_ligne'],[1,1020,'express','Camille F.','en_ligne'],[1,1060,'eclat','Nina O.','en_ligne'],
+    [2,630,'eclat','Manon H.','en_ligne'],[2,780,'express','Zoé A.','telephone'],[3,600,'pedi','Lucie W.','en_ligne']];
+  ex.forEach((e,i)=>{const s=soins.find(x=>x.id===e[2]);data.rdv.push({id:id(),code:code(),date:ouverts[e[0]],debut:e[1],duree:s.duree,soin:s.id,nom:e[3],tel:'0470 12 34 '+pad(10+i),email:e[4]==='en_ligne'?'cliente'+(i+1)+'@exemple.be':'',source:e[4],statut:'prevu'})});
   data.blocs.push({id:id(),date:ouverts[1],debut:720,duree:60,motif:'Pause'});
   return data;
 }
@@ -253,8 +280,7 @@ function rendreCliente(){
   const e=$('#etape');
   if(R.fait){
     const r=R.fait,lien='#annuler='+r.code;
-    e.innerHTML=`<div class="ok"><b>C'est réservé.</b>${esc(s?s.nom:'')}, ${dateTxt(r.date)} à ${hm(r.debut)}.</div><p>Votre code de rendez-vous : <strong>${r.code}</strong>. Dans la vraie version, il arriverait par e-mail, avec un rappel la veille.</p><div class="actions"><button class="btn ligne" type="button" id="ics">Ajouter à mon agenda</button><a class="btn danger" href="${lien}">Annuler ce rendez-vous</a><button class="btn" type="button" id="encore">Nouveau rendez-vous</button></div>`;
-    $('#ics').onclick=()=>telechargerIcs(r);
+    e.innerHTML=`<div class="ok"><b>C'est réservé.</b>${esc(s?s.nom:'')}, ${dateTxt(r.date)} à ${hm(r.debut)}.</div><div class="mail"><small>Aperçu de l'e-mail de confirmation pour ${esc(r.email)} (non envoyé pendant le test)</small><p><strong>Votre rendez-vous est confirmé</strong></p><p>${esc(s?s.nom:'')}, ${dateTxt(r.date)} à ${hm(r.debut)}, à l'Institut Aurore.</p><p>Vous recevrez un rappel par e-mail la veille. Pour annuler, utilisez le lien de cet e-mail jusqu'à 24 h avant.</p></div><div class="actions"><a class="btn danger" href="${lien}">Annuler ce rendez-vous</a><button class="btn" type="button" id="encore">Nouveau rendez-vous</button></div>`;
     $('#encore').onclick=()=>{Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null,erreur:''});rendreCliente()};
     return;
   }
@@ -294,11 +320,6 @@ function rendreCliente(){
     };
   }
 }
-function telechargerIcs(r){
-  const s=soinDe(r.soin),t=(d,m)=>d.replace(/-/g,'')+'T'+pad(Math.floor(m/60))+pad(m%60)+'00';
-  const txt=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Zank Solutions//Test agenda//FR','BEGIN:VEVENT','UID:'+r.id+'@test-agenda','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART:'+t(r.date,r.debut),'DTEND:'+t(r.date,r.debut+r.duree),'SUMMARY:'+(s?s.nom:'Rendez-vous').replace(/[,;]/g,' ')+' - Institut Aurore','END:VEVENT','END:VCALENDAR'].join('\r\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/calendar'}));a.download='rendez-vous.ics';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
 /* Lien d'annulation envoyé à la cliente */
 function lireLien(){
   const m=location.hash.match(/^#annuler=([A-Z0-9]+)$/);if(!m)return;
@@ -315,38 +336,91 @@ function lireLien(){
 }
 
 /* ---------- Côté institut ---------- */
-let curseur=auj();
-const etroit=matchMedia('(max-width:760px)');
-const PX=1.05;
+let curseur=auj(),detail=false;
+const ALERTE_MIN=15;
+function charge(j){
+  const h=D.horaires[dateDe(j).getDay()];
+  const rd=D.rdv.filter(r=>r.date===j&&r.statut!=='annule'),bl=D.blocs.filter(b=>b.date===j);
+  const pris=rd.reduce((t,r)=>t+r.duree,0)+bl.reduce((t,b)=>t+b.duree,0);
+  const nb=rd.length,txtNb=nb+(nb>1?' rendez-vous':' rendez-vous');
+  if(!h)return{ferme:true,nb,txtNb,pct:0,cl:'ferme',lib:'Fermé',pris,dispo:0};
+  const dispo=h[1]-h[0],pct=Math.min(100,Math.round(pris/dispo*100));
+  const cl=pct>=80?'plein':pct>=50?'moyen':'calme';
+  const lib=pct>=100?'Complet':pct>=80?'Presque complet':pct>=50?'Bien rempli':'Calme';
+  return{ferme:false,nb,txtNb,pct,cl,lib,pris,dispo};
+}
+function joursSemaine(){
+  return Array.from({length:7},(_,i)=>plus(lundi(curseur),i)).filter(j=>dateDe(j).getDay()!==0||D.horaires[0]||D.rdv.some(r=>r.date===j&&r.statut!=='annule'));
+}
 function rendreAgenda(){
-  const jours=etroit.matches?[curseur]:Array.from({length:7},(_,i)=>plus(lundi(curseur),i)).filter(j=>dateDe(j).getDay()!==0);
-  const pl=D.horaires,ouv=Object.values(pl).filter(Boolean);
-  const hMin=Math.floor(Math.min(...ouv.map(x=>x[0]),540)/60),hMax=Math.ceil(Math.max(...ouv.map(x=>x[1]),1080)/60);
-  const haut=(hMax-hMin)*60*PX,now=new Date(),nowM=now.getHours()*60+now.getMinutes();
-  const a=dateDe(jours[0]),b=dateDe(jours[jours.length-1]);
-  $('#periode').textContent=jours.length===1?dateTxt(jours[0]):a.getDate()+(a.getMonth()!==b.getMonth()?' '+MOIS[a.getMonth()]:'')+' au '+b.getDate()+' '+MOIS[b.getMonth()];
-  const ev=j=>{
-    const l=[];
-    D.rdv.filter(r=>r.date===j&&r.statut!=='annule').forEach(r=>{const s=soinDe(r.soin),cl=r.statut==='absente'?'absente':r.source==='telephone'?'tel':'';
-      l.push(`<button class="ev ${cl}" type="button" data-r="${r.id}" style="top:${(r.debut-hMin*60)*PX}px;height:${Math.max(r.duree*PX-2,22)}px" aria-label="${hm(r.debut)}, ${esc(r.nom)}, ${esc(s?s.nom:'')}"><b>${hm(r.debut)} ${esc(r.nom)}</b>${esc(s?s.nom:'')}</button>`)});
-    D.blocs.filter(x=>x.date===j).forEach(x=>l.push(`<button class="ev bloc" type="button" data-b="${x.id}" style="top:${(x.debut-hMin*60)*PX}px;height:${Math.max(x.duree*PX-2,22)}px"><b>${hm(x.debut)} ${esc(x.motif)}</b></button>`));
-    if(j===iso(now)&&nowM>=hMin*60&&nowM<=hMax*60)l.push(`<div class="maint" style="top:${(nowM-hMin*60)*PX}px"></div>`);
-    return l.join('');
-  };
-  const g=$('#grille');g.style.setProperty('--n',jours.length);g.style.setProperty('--h',60*PX+'px');
-  g.innerHTML=`<div class="g-tetes"><div class="g-coin"></div>${jours.map(j=>{const d=dateDe(j);return `<div class="g-tete ${j===iso(now)?'auj':''}">${JOURS[d.getDay()]}<b>${d.getDate()}</b></div>`}).join('')}</div>
-  <div class="g-corps" style="height:${haut}px"><div class="g-heures">${Array.from({length:hMax-hMin-1},(_,i)=>`<span style="top:${(i+1)*60*PX}px">${pad(hMin+i+1)}h</span>`).join('')}</div>${jours.map(j=>`<div class="g-col ${pl[dateDe(j).getDay()]?'':'ferme'}">${ev(j)}</div>`).join('')}</div>`;
-  g.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>ouvrirRdv(b.dataset.r));
-  g.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>ouvrirBloc(b.dataset.b));
+  if(detail)rendreJour();else rendreSemaine();
   const dem=plus(auj(),1),rl=D.rdv.filter(r=>r.date===dem&&r.statut==='prevu').sort((x,y)=>x.debut-y.debut);
-  $('#rappels').innerHTML=rl.length?rl.map(r=>`<li>${esc(r.nom)}, ${hm(r.debut)}<small>${r.email?'E-mail : '+esc(r.email):'SMS : '+esc(r.tel)}</small></li>`).join(''):'<li>Aucun rappel à envoyer.</li>';
+  $('#rappels').innerHTML=rl.length?rl.map(r=>`<li>${esc(r.nom)}, ${hm(r.debut)}<small>${r.email?esc(r.email):'Pas d\'e-mail : rappel impossible'}</small></li>`).join(''):'<li>Aucun rappel à envoyer.</li>';
+}
+function rendreSemaine(){
+  const jours=joursSemaine(),a=dateDe(jours[0]),b=dateDe(jours[jours.length-1]),ch=jours.map(charge);
+  $('#periode').textContent=a.getDate()+(a.getMonth()!==b.getMonth()?' '+MOIS[a.getMonth()]:'')+' au '+b.getDate()+' '+MOIS[b.getMonth()];
+  const dispo=ch.reduce((t,c)=>t+c.dispo,0),pris=ch.reduce((t,c)=>t+(c.ferme?0:c.pris),0),glob=dispo?Math.min(100,Math.round(pris/dispo*100)):0;
+  const x=$('#agenda');
+  x.innerHTML=`<div class="semaine" style="--n:${jours.length}">${jours.map((j,i)=>{const c=ch[i],d=dateDe(j);return `<button class="jc ${c.cl} ${j===auj()?'auj':''}" type="button" data-j="${j}" aria-label="${dateTxt(j)}, ${c.ferme?'fermé':c.pct+' % de charge, '+c.lib}, ${c.txtNb}. Ouvrir le détail"><span class="nom">${JOURS[d.getDay()]}<b>${d.getDate()}</b></span><span class="pct">${c.ferme?'–':c.pct+' %'}</span><span class="jauge"><i style="width:${c.pct}%"></i></span><small><strong>${c.lib}</strong><br>${c.txtNb}</small></button>`}).join('')}</div>
+  <p class="resume">Charge de la semaine : ${glob} %</p>
+  <p class="legende"><span style="--c:var(--vert)">Moins de 50 %</span><span style="--c:var(--ocre)">50 à 79 %</span><span style="--c:var(--rouge)">80 % et plus</span></p>`;
+  x.querySelectorAll('[data-j]').forEach(n=>n.onclick=()=>{curseur=n.dataset.j;detail=true;rendreAgenda();x.scrollIntoView({block:'nearest'})});
+}
+function rendreJour(){
+  const j=curseur,c=charge(j),h=D.horaires[dateDe(j).getDay()];
+  $('#periode').textContent=dateTxt(j);
+  const ev=D.rdv.filter(r=>r.date===j&&r.statut!=='annule').map(r=>({t:'r',debut:r.debut,fin:r.debut+r.duree,o:r})).concat(D.blocs.filter(b=>b.date===j).map(b=>({t:'b',debut:b.debut,fin:b.debut+b.duree,o:b}))).sort((p,q)=>p.debut-q.debut);
+  /* Les plages libres d'au moins 30 minutes */
+  const lignes=[];let pos=h?h[0]:null;
+  ev.forEach(e=>{if(h&&e.debut-pos>=30)lignes.push({t:'l',debut:pos,fin:e.debut});lignes.push(e);if(pos!==null)pos=Math.max(pos,e.fin)});
+  if(h&&h[1]-pos>=30)lignes.push({t:'l',debut:pos,fin:h[1]});
+  const it=e=>{
+    const pl=hm(e.debut)+' – '+hm(e.fin);
+    if(e.t==='l')return `<li class="it libre"><time>${pl}</time><span>Libre</span></li>`;
+    if(e.t==='b')return `<li><button class="it bloc" type="button" data-b="${e.o.id}"><time>${pl}</time><span>${esc(e.o.motif)}<small>Créneau bloqué</small></span></button></li>`;
+    const s=soinDe(e.o.soin);
+    return `<li><button class="it ${e.o.source==='telephone'?'tel':''}" type="button" data-r="${e.o.id}"><time>${pl}</time><span><strong>${esc(e.o.nom)}</strong><small>${esc(s?s.nom:'')}${e.o.tel?' · '+esc(e.o.tel):''}</small></span></button></li>`;
+  };
+  const x=$('#agenda');
+  x.innerHTML=`<div class="detail"><div class="actions" style="margin:0 0 14px"><button class="btn ligne petit" type="button" id="d-sem">← Retour à la semaine</button></div>
+  <div class="d-tete ${c.cl}"><span class="pct">${c.ferme?'–':c.pct+' %'}</span><span><strong>${c.lib}</strong><br>${c.txtNb}</span><span class="jauge"><i style="width:${c.pct}%"></i></span></div>
+  ${lignes.length?`<ol class="ligne">${lignes.map(it).join('')}</ol>`:'<p class="vide">Institut fermé ce jour-là.</p>'}</div>`;
+  $('#d-sem').onclick=()=>{detail=false;rendreAgenda()};
+  x.querySelectorAll('[data-r]').forEach(n=>n.onclick=()=>ouvrirRdv(n.dataset.r));
+  x.querySelectorAll('[data-b]').forEach(n=>n.onclick=()=>ouvrirBloc(n.dataset.b));
+}
+/* Pop-up côté institut : seulement si la page est ouverte sur l'agenda */
+function verifierAlertes(){
+  if($('#v-institut').hidden)return;
+  const n=new Date(),m=n.getHours()*60+n.getMinutes(),j=iso(n);let change=false;
+  D.rdv.filter(r=>r.date===j&&r.statut==='prevu'&&!r.alerte).forEach(r=>{
+    const reste=r.debut-m;
+    if(reste>=0&&reste<=ALERTE_MIN){r.alerte=true;change=true;afficherAlerte(r,reste)}
+  });
+  if(change)garder();
+}
+function afficherAlerte(r,reste){
+  const s=soinDe(r.soin),a=document.createElement('div');
+  a.className='alerte';a.setAttribute('role','alert');
+  a.innerHTML=`<b>Rendez-vous ${reste?'dans '+reste+' min':'maintenant'}</b><p>${hm(r.debut)}, ${esc(r.nom)}, ${esc(s?s.nom:'')}</p><div class="actions"><button class="btn petit" type="button" data-ok>Compris</button><button class="btn ligne petit" type="button" data-voir>Voir la journée</button></div>`;
+  a.querySelector('[data-ok]').onclick=()=>a.remove();
+  a.querySelector('[data-voir]').onclick=()=>{a.remove();curseur=r.date;detail=true;rendreAgenda()};
+  $('#alertes').appendChild(a);
+}
+function simuler(){
+  const n=new Date(),m=n.getHours()*60+n.getMinutes()+10,s=soinDe('express');
+  if(m+s.duree>=1440){info('Il est trop tard aujourd\'hui pour ce test.');return}
+  if(!libre(iso(n),m,s.duree,0)){info('Ce créneau est déjà occupé. Réessayez dans quelques minutes.');return}
+  D.rdv.push({id:id(),code:code(),date:iso(n),debut:m,duree:s.duree,soin:s.id,nom:'Cliente de test',tel:'0470 12 34 99',email:'',source:'telephone',statut:'prevu'});
+  garder();curseur=iso(n);detail=true;rendreAgenda();verifierAlertes();
 }
 function rendreReglages(){
   const ordre=[1,2,3,4,5,6,0];
-  $('#reglages').innerHTML=ordre.map(j=>{const h=D.horaires[j];return `<div class="lig-h"><span>${JOURS[j]}</span><input type="time" data-o="${j}" value="${h?hm(h[0]):'09:00'}" ${h?'':'disabled'} aria-label="Ouverture ${JOURS_L[j]}"><input type="time" data-f="${j}" value="${h?hm(h[1]):'18:00'}" ${h?'':'disabled'} aria-label="Fermeture ${JOURS_L[j]}"><input type="checkbox" data-c="${j}" ${h?'checked':''} aria-label="Ouvert le ${JOURS_L[j]}"></div>`}).join('')+`<label>Pause entre deux soins (minutes)<input type="number" id="r-t" min="0" max="60" step="5" value="${D.tampon}"></label><label>Délai minimum avant réservation (heures)<input type="number" id="r-d" min="0" max="72" value="${D.delai/60}"></label>`;
+  $('#reglages').innerHTML=ordre.map(j=>{const h=D.horaires[j];return `<div class="lig-h"><span>${JOURS[j]}</span><input type="time" data-o="${j}" value="${h?hm(h[0]):'09:00'}" ${h?'':'disabled'} aria-label="Ouverture ${JOURS_L[j]}"><input type="time" data-f="${j}" value="${h?hm(h[1]):'18:00'}" ${h?'':'disabled'} aria-label="Fermeture ${JOURS_L[j]}"><input type="checkbox" data-c="${j}" ${h?'checked':''} aria-label="Ouvert le ${JOURS_L[j]}"></div>`}).join('')+`<label>Pause entre deux soins (minutes)<input type="number" id="r-t" min="0" max="60" step="5" value="${D.tampon}"></label>`;
   $('#reglages').onchange=()=>{
     ordre.forEach(j=>{const c=$(`[data-c="${j}"]`).checked,o=$(`[data-o="${j}"]`).value,f=$(`[data-f="${j}"]`).value;D.horaires[j]=c&&o&&f&&enMin(o)<enMin(f)?[enMin(o),enMin(f)]:null});
-    D.tampon=Math.max(0,+$('#r-t').value||0);D.delai=Math.max(0,+$('#r-d').value||0)*60;garder();rendreReglages();rendreTout();info('Réglages enregistrés.');
+    D.tampon=Math.max(0,+$('#r-t').value||0);garder();rendreReglages();rendreTout();info('Réglages enregistrés.');
   };
 }
 function chevauche(date,debut,duree,sauf){return !libre(date,debut,duree,0,sauf)}
@@ -359,8 +433,7 @@ function ouvrirRdv(rid){
     <label>Prénom et nom<input name="nom" value="${r?esc(r.nom):''}" required maxlength="80"></label>
     <label>Téléphone<input name="tel" type="tel" value="${r?esc(r.tel):''}" maxlength="30"></label>
     <label class="large">E-mail<input name="email" type="email" value="${r?esc(r.email):''}" maxlength="120"></label>
-    ${r?`<label class="large">Statut<select name="statut"><option value="prevu" ${r.statut==='prevu'?'selected':''}>Prévu</option><option value="absente" ${r.statut==='absente'?'selected':''}>Absente</option></select></label>`:''}
-  </div>${r?`<p class="note">Code : ${r.code} · ${r.source==='telephone'?'ajouté par l\'institut':'réservé en ligne'}</p>`:''}<p class="erreur" id="d-err" role="alert" hidden></p>
+  </div>${r?`<p class="note">Code : ${r.code} · ${r.source==='telephone'?'ajouté par l\'institut':'réservé en ligne'}</p>`:''}<p class="note">Sans e-mail, pas de confirmation ni de rappel.</p><p class="erreur" id="d-err" role="alert" hidden></p>
   <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ligne" type="button" id="d-fermer">Fermer</button>${r?'<button class="btn danger" type="button" id="d-suppr">Annuler le rendez-vous</button>':''}</div>`;
   $('#d-fermer').onclick=()=>$('#dlg').close();
   if(r)$('#d-suppr').onclick=()=>{r.statut='annule';garder();$('#dlg').close();rendreTout();info('Rendez-vous annulé.')};
@@ -370,7 +443,7 @@ function ouvrirRdv(rid){
     const pb=!nom?'Indiquez le nom de la cliente.':!date||!h?'Indiquez la date et l\'heure.':chevauche(date,enMin(h),s.duree,r&&r.id)?'Ce créneau chevauche déjà un rendez-vous ou un blocage.':'';
     if(pb){err.textContent=pb;err.hidden=false;return}
     const v={soin:s.id,duree:s.duree,date,debut:enMin(h),nom,tel:f.tel.value.trim(),email:f.email.value.trim()};
-    if(r){Object.assign(r,v,{statut:f.statut.value})}else{D.rdv.push(Object.assign({id:id(),code:code(),source:'telephone',statut:'prevu'},v))}
+    if(r){Object.assign(r,v,{alerte:false})}else{D.rdv.push(Object.assign({id:id(),code:code(),source:'telephone',statut:'prevu'},v))}
     garder();curseur=date;$('#dlg').close();rendreTout();info('Rendez-vous enregistré.');
   };
   $('#dlg').showModal();
@@ -397,13 +470,6 @@ function ouvrirBloc(bid){
   };
   $('#dlg').showModal();
 }
-function exporter(){
-  const q=s=>{let t=String(s==null?'':s);if(/^[=+\-@]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'};
-  const l=[['Date','Heure','Durée','Soin','Nom','Téléphone','E-mail','Origine','Statut'].map(q).join(';')];
-  D.rdv.slice().sort((a,b)=>(a.date+hm(a.debut)).localeCompare(b.date+hm(b.debut))).forEach(r=>{const s=soinDe(r.soin);l.push([r.date,hm(r.debut),r.duree,s?s.nom:'',r.nom,r.tel,r.email,r.source==='telephone'?'Institut':'En ligne',r.statut].map(q).join(';'))});
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+l.join('\r\n')],{type:'text/csv;charset=utf-8'}));a.download='rendez-vous-test.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
-
 /* ---------- Commun ---------- */
 let tInfo;
 function info(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(tInfo);tInfo=setTimeout(()=>e.hidden=true,3200)}
@@ -412,21 +478,22 @@ function vue(n){
   const c=n==='cliente';
   $('#v-cliente').hidden=!c;$('#v-institut').hidden=c;
   $('#t-cliente').setAttribute('aria-selected',c);$('#t-institut').setAttribute('aria-selected',!c);
-  rendreTout();window.scrollTo({top:0});
+  rendreTout();window.scrollTo({top:0});verifierAlertes();
 }
 $('#t-cliente').onclick=()=>vue('cliente');
 $('#t-institut').onclick=()=>vue('institut');
-const pas=()=>etroit.matches?1:7;
+const pas=()=>detail?1:7;
 $('#prec').onclick=()=>{curseur=plus(curseur,-pas());rendreAgenda()};
 $('#suiv').onclick=()=>{curseur=plus(curseur,pas());rendreAgenda()};
 $('#auj').onclick=()=>{curseur=auj();rendreAgenda()};
 $('#ajout').onclick=()=>ouvrirRdv(null);
 $('#blocage').onclick=()=>ouvrirBloc(null);
-$('#export').onclick=exporter;
-$('#raz').onclick=()=>{if(!confirm('Effacer les rendez-vous de test et revenir aux exemples ?'))return;try{localStorage.removeItem(CLE)}catch(e){}D=initial();garder();Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null,erreur:''});curseur=auj();rendreReglages();rendreTout();info('Données de test réinitialisées.')};
-etroit.addEventListener('change',rendreAgenda);
+$('#simu').onclick=simuler;
+$('#raz').onclick=()=>{if(!confirm('Effacer les rendez-vous de test et revenir aux exemples ?'))return;try{localStorage.removeItem(CLE)}catch(e){}D=initial();garder();Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null,erreur:''});curseur=auj();detail=false;$('#alertes').innerHTML='';rendreReglages();rendreTout();info('Données de test réinitialisées.')};
 addEventListener('hashchange',lireLien);
 garder();rendreReglages();rendreTout();lireLien();
+setInterval(verifierAlertes,20000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)verifierAlertes()});
 })();
 </script>
 </body>
