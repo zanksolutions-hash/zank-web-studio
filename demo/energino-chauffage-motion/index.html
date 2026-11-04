@@ -75,6 +75,7 @@ section,.hero,.ruban{position:relative;z-index:1}
 .piste{--marge:max(28px,calc((100% - 1180px)/2));display:flex;gap:clamp(16px,3vw,44px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--marge);padding-inline:var(--marge);padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;touch-action:pan-x pan-y}
 .piste::-webkit-scrollbar{display:none}
 .piste.prise{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.piste.glisse{scroll-snap-type:none}
 .piste img{-webkit-user-drag:none;user-select:none}
 .pan{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(16px,3vw,44px);align-items:center;flex:none;width:min(1000px,calc(100% - 56px));scroll-snap-align:start}
 .photo{position:relative;overflow:hidden;aspect-ratio:4/3;background:#2a2d31;border-radius:22px}
@@ -265,13 +266,27 @@ document.getElementById('y').textContent=new Date().getFullYear();
   const piste=document.getElementById('piste'),pans=[...piste.children],compte=document.getElementById('compte'),prec=document.getElementById('prec'),suiv=document.getElementById('suiv');
   const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const actuel=()=>{const g=piste.getBoundingClientRect().left+parseFloat(getComputedStyle(piste).paddingLeft);let m=0,d=1e9;pans.forEach((p,i)=>{const e=Math.abs(p.getBoundingClientRect().left-g);if(e<d){d=e;m=i}});return m};
-  const aller=i=>{const k=Math.max(0,Math.min(pans.length-1,i));piste.scrollTo({left:pans[k].offsetLeft-pans[0].offsetLeft,behavior:reduit?'auto':'smooth'})};
+  /* Glissement piloté par Motion : l'accrochage est coupé le temps de l'animation */
+  let enCours=null;
+  const stop=()=>{if(enCours){enCours.stop();enCours=null}piste.classList.remove('glisse')};
+  const aller=i=>{
+    const k=Math.max(0,Math.min(pans.length-1,i)),but=Math.min(pans[k].offsetLeft-pans[0].offsetLeft,piste.scrollWidth-piste.clientWidth);
+    stop();
+    if(reduit||!window.Motion){piste.scrollLeft=but;return}
+    piste.classList.add('glisse');
+    const a=Motion.animate(piste.scrollLeft,but,{duration:.65,ease:[.22,1,.36,1],onUpdate:v=>{piste.scrollLeft=v}});
+    enCours=a;
+    a.then(()=>{if(enCours===a){enCours=null;piste.classList.remove('glisse')}});
+  };
   const maj=()=>{const i=actuel();compte.textContent='0'+(i+1)+' / 0'+pans.length;prec.disabled=piste.scrollLeft<4;suiv.disabled=piste.scrollLeft>=piste.scrollWidth-piste.clientWidth-4};
   piste.addEventListener('scroll',maj,{passive:true});addEventListener('resize',maj);maj();
-  prec.onclick=()=>aller(actuel()-1);suiv.onclick=()=>aller(actuel()+1);
-  piste.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();aller(actuel()+1)}if(e.key==='ArrowLeft'){e.preventDefault();aller(actuel()-1)}});
+  /* Plusieurs clics rapides avancent chacun d'un métier, même pendant le glissement */
+  let cible=null,minuteur;
+  const pas=d=>{const k=Math.max(0,Math.min(pans.length-1,(cible===null?actuel():cible)+d));cible=k;clearTimeout(minuteur);minuteur=setTimeout(()=>{cible=null},900);aller(k)};
+  prec.onclick=()=>pas(-1);suiv.onclick=()=>pas(1);
+  piste.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();pas(1)}if(e.key==='ArrowLeft'){e.preventDefault();pas(-1)}});
   let x0=null,s0=0;
-  piste.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;x0=e.clientX;s0=piste.scrollLeft;piste.classList.add('prise');piste.setPointerCapture(e.pointerId)});
+  piste.addEventListener('pointerdown',e=>{stop();if(e.pointerType!=='mouse')return;x0=e.clientX;s0=piste.scrollLeft;piste.classList.add('prise');piste.setPointerCapture(e.pointerId)});
   piste.addEventListener('pointermove',e=>{if(x0===null)return;piste.scrollLeft=s0-(e.clientX-x0)});
   const lache=e=>{if(x0===null)return;const v=x0-e.clientX,i=actuel();x0=null;piste.classList.remove('prise');aller(Math.abs(v)>60&&i===actuel()?i:actuel())};
   piste.addEventListener('pointerup',lache);piste.addEventListener('pointercancel',lache);
