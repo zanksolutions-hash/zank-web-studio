@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Institut Aurore · Test réservation et agenda</title>
+<meta name="description" content="Maquette de test : prise de rendez-vous en ligne et agenda pour un institut fictif.">
+<meta name="theme-color" content="#f7f4ee">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--papier:#f7f4ee;--blanc:#fffdf9;--encre:#1f2a26;--gris:#5c6661;--ligne:#ddd8cc;--vert:#2f5d50;--vert2:#24483e;--clair:#e4ece7;--ocre:#a4561f;--ocre-clair:#f6e7d8;--rouge:#a3312a;--rouge-clair:#f8e4e1;--bloc:#ebe7dd}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papier);color:var(--encre);font:400 16px/1.5 "Instrument Sans",system-ui,sans-serif;padding-bottom:48px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;line-height:1.12;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--vert);outline-offset:2px}
+.wrap{width:min(1180px,calc(100% - 32px));margin-inline:auto}
+.haut{background:var(--blanc);border-bottom:1px solid var(--ligne);position:sticky;top:0;z-index:20}
+.haut .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;flex-wrap:wrap;padding-block:8px}
+.marque{font:500 22px Fraunces,Georgia,serif}
+.vues{display:flex;background:var(--papier);border:1px solid var(--ligne);border-radius:99px;padding:3px}
+.vues button{border:0;background:transparent;border-radius:99px;padding:7px 16px;font-weight:600;font-size:14.5px;color:var(--gris)}
+.vues button[aria-selected=true]{background:var(--vert);color:#fff}
+.vue[hidden]{display:none}
+.titre{padding:clamp(28px,5vw,56px) 0 22px}
+.titre h1{font-size:clamp(34px,5vw,54px)}
+.titre p{margin:10px 0 0;color:var(--gris);max-width:58ch}
+
+/* Réservation */
+.etapes{display:flex;gap:6px;list-style:none;padding:0;margin:0 0 20px;font-size:14px;color:var(--gris);flex-wrap:wrap}
+.etapes li{display:flex;align-items:center;gap:7px;padding-right:10px}
+.etapes i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--ligne);background:var(--blanc);font-weight:600;font-size:13px}
+.etapes .fait{color:var(--encre)}.etapes .fait i{background:var(--vert);border-color:var(--vert);color:#fff}
+.resa{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start;padding-bottom:56px}
+.carte{background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;padding:clamp(18px,2.6vw,28px)}
+.carte h2{font-size:26px;margin-bottom:14px}
+.soins{display:grid;gap:10px}
+.soin{display:grid;grid-template-columns:1fr auto;gap:2px 16px;text-align:left;width:100%;padding:14px 16px;background:var(--papier);border:1px solid var(--ligne);border-radius:10px}
+.soin:hover{border-color:var(--vert)}
+.soin[aria-pressed=true]{background:var(--clair);border-color:var(--vert);box-shadow:inset 0 0 0 1px var(--vert)}
+.soin b{font-weight:600}.soin span{font-weight:600}
+.soin small{grid-column:1 / -1;color:var(--gris);font-size:14px}
+.jours{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
+.jour{flex:none;width:68px;padding:9px 4px;background:var(--papier);border:1px solid var(--ligne);border-radius:10px;text-align:center;line-height:1.2}
+.jour small{display:block;font-size:12.5px;color:var(--gris)}.jour b{display:block;font-size:20px;font-weight:600}
+.jour:disabled{opacity:.42;cursor:not-allowed}
+.jour:not(:disabled):hover{border-color:var(--vert)}
+.jour[aria-pressed=true]{background:var(--vert);border-color:var(--vert);color:#fff}.jour[aria-pressed=true] small{color:#dfe9e4}
+.heures{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px;margin-top:14px}
+.heure{padding:10px 4px;background:var(--blanc);border:1px solid var(--ligne);border-radius:8px;font-weight:600;font-size:15px}
+.heure:hover{border-color:var(--vert)}
+.heure[aria-pressed=true]{background:var(--vert);border-color:var(--vert);color:#fff}
+.vide{color:var(--gris);padding:14px 0;margin:0}
+.champs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:grid;gap:5px;font-weight:500;font-size:14.5px}
+label.large{grid-column:1 / -1}
+input,select,textarea{width:100%;padding:10px 12px;background:#fff;border:1px solid #b9b4a7;border-radius:8px;font-size:16px}
+.coche{display:flex;gap:9px;align-items:flex-start;font-weight:400;font-size:14px;color:var(--gris);grid-column:1 / -1}
+.coche input{width:18px;height:18px;flex:none;margin-top:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border:1px solid var(--vert);border-radius:9px;background:var(--vert);color:#fff;font-weight:600;text-decoration:none}
+.btn:hover{background:var(--vert2)}
+.btn.ligne{background:transparent;color:var(--vert)}.btn.ligne:hover{background:var(--clair)}
+.btn.danger{background:transparent;color:var(--rouge);border-color:var(--rouge)}.btn.danger:hover{background:var(--rouge-clair)}
+.btn.petit{min-height:36px;padding:6px 12px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.recap{position:sticky;top:84px}
+.recap h2{font-size:22px}
+.recap dl{margin:0;display:grid;gap:10px}
+.recap dt{font-size:13px;color:var(--gris)}.recap dd{margin:0;font-weight:600}
+.erreur{background:var(--rouge-clair);color:var(--rouge);border-radius:8px;padding:10px 12px;margin:14px 0 0;font-weight:500;font-size:14.5px}
+.ok{background:var(--clair);border-radius:10px;padding:16px;margin-bottom:16px}
+.ok b{font:500 24px Fraunces,Georgia,serif;display:block;margin-bottom:4px}
+
+/* Agenda */
+.barre{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.barre h2{font-size:24px}
+.barre div{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pro{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;padding-bottom:56px}
+.grille{background:var(--blanc);border:1px solid var(--ligne);border-radius:14px;overflow:hidden}
+.g-tetes,.g-corps{display:grid;grid-template-columns:48px repeat(var(--n),minmax(0,1fr))}
+.g-tete{padding:9px 4px;text-align:center;font-size:13.5px;border-left:1px solid var(--ligne);border-bottom:1px solid var(--ligne);color:var(--gris);line-height:1.25}
+.g-tete b{display:block;color:var(--encre);font-size:16px}
+.g-tete.auj b{color:var(--vert);text-decoration:underline;text-underline-offset:3px}
+.g-coin{border-bottom:1px solid var(--ligne)}
+.g-heures{position:relative}
+.g-heures span{position:absolute;right:6px;font-size:12px;color:var(--gris);transform:translateY(-50%)}
+.g-col{position:relative;border-left:1px solid var(--ligne);background-image:linear-gradient(var(--ligne) 1px,transparent 1px);background-size:100% var(--h)}
+.g-col.ferme{background-color:#f1eee6}
+.ev{position:absolute;left:3px;right:3px;border:0;border-left:3px solid var(--vert);background:var(--clair);border-radius:5px;padding:3px 6px;text-align:left;font-size:12.5px;line-height:1.25;overflow:hidden;color:var(--encre)}
+.ev b{display:block;font-weight:600}
+.ev:hover{filter:brightness(.96)}
+.ev.tel{border-left-color:var(--ocre);background:var(--ocre-clair)}
+.ev.bloc{border-left-color:#8a8678;background:var(--bloc);color:var(--gris)}
+.ev.absente{border-left-color:var(--rouge);background:var(--rouge-clair);text-decoration:line-through}
+.maint{position:absolute;left:0;right:0;border-top:2px solid var(--rouge);z-index:2;pointer-events:none}
+.legende{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--gris);margin:10px 0 0}
+.legende span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;background:var(--c)}
+.cote{display:grid;gap:16px}
+.cote .carte{padding:16px}
+.cote h3{font-size:20px;margin-bottom:10px}
+.cote ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:14.5px}
+.cote li small{display:block;color:var(--gris);font-size:13px}
+.reglages{display:grid;gap:10px}
+.lig-h{display:grid;grid-template-columns:42px 1fr 1fr auto;gap:6px;align-items:center;font-size:14px}
+.lig-h input[type=time]{padding:5px 4px;font-size:14px;min-width:0}
+.lig-h input[type=checkbox]{width:18px;height:18px}
+dialog{border:1px solid var(--ligne);border-radius:14px;padding:22px;width:min(480px,calc(100vw - 24px));background:var(--blanc);color:var(--encre)}
+dialog::backdrop{background:rgba(25,30,27,.45)}
+dialog h2{font-size:26px;margin-bottom:14px}
+.note{font-size:13.5px;color:var(--gris);margin:12px 0 0}
+.toast{position:fixed;left:50%;bottom:62px;transform:translateX(-50%);background:var(--encre);color:#fff;padding:10px 16px;border-radius:9px;font-size:14.5px;z-index:95;max-width:calc(100vw - 32px)}
+.toast[hidden]{display:none}
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center}
+.demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+.demo-bar button{background:transparent;border:1px solid #777;color:#fff;border-radius:5px;padding:2px 8px;font-size:12.5px}
+@media (max-width:900px){
+  .resa,.pro{grid-template-columns:minmax(0,1fr)}
+  .recap{position:static;order:-1}
+  .recap dl{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .champs{grid-template-columns:1fr}
+  .haut{position:static}
+  .haut .wrap{min-height:0}
+  .demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}
+  .demo-bar .long{display:none}
+  body{padding-bottom:64px}
+}
+@media (min-width:641px){.demo-bar .short{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="haut"><div class="wrap">
+  <span class="marque">Institut Aurore</span>
+  <div class="vues" role="tablist" aria-label="Choisir la vue">
+    <button type="button" role="tab" id="t-cliente" aria-selected="true" aria-controls="v-cliente">Côté cliente</button>
+    <button type="button" role="tab" id="t-institut" aria-selected="false" aria-controls="v-institut">Côté institut</button>
+  </div>
+</div></div>
+
+<main>
+  <section class="vue" id="v-cliente" role="tabpanel" aria-labelledby="t-cliente">
+    <div class="wrap">
+      <div class="titre"><h1>Prendre rendez-vous</h1><p>Choisissez votre soin et votre heure en moins d'une minute.</p></div>
+      <ol class="etapes" id="etapes"></ol>
+      <div class="resa">
+        <div class="carte" id="etape"></div>
+        <aside class="carte recap" aria-live="polite"><h2>Votre rendez-vous</h2><dl id="recap"></dl></aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="vue" id="v-institut" role="tabpanel" aria-labelledby="t-institut" hidden>
+    <div class="wrap">
+      <div class="titre"><h1>Votre agenda</h1><p>Dans la vraie version, cet espace serait protégé par un mot de passe.</p></div>
+      <div class="barre">
+        <div><button class="btn ligne petit" type="button" id="prec" aria-label="Période précédente">←</button><button class="btn ligne petit" type="button" id="auj">Aujourd'hui</button><button class="btn ligne petit" type="button" id="suiv" aria-label="Période suivante">→</button><h2 id="periode"></h2></div>
+        <div><button class="btn petit" type="button" id="ajout">Ajouter un rendez-vous</button><button class="btn ligne petit" type="button" id="blocage">Bloquer un créneau</button></div>
+      </div>
+      <div class="pro">
+        <div>
+          <div class="grille" id="grille"></div>
+          <p class="legende"><span style="--c:var(--clair)">Réservé en ligne</span><span style="--c:var(--ocre-clair)">Ajouté par l'institut</span><span style="--c:var(--bloc)">Bloqué</span><span style="--c:var(--rouge-clair)">Absente</span></p>
+        </div>
+        <div class="cote">
+          <div class="carte"><h3>Rappels de demain</h3><ul id="rappels"></ul><p class="note">Simulation : aucun message n'est envoyé.</p></div>
+          <div class="carte"><h3>Réglages</h3><form class="reglages" id="reglages"></form></div>
+          <div class="carte"><h3>Données</h3><div class="actions" style="margin-top:0"><button class="btn ligne petit" type="button" id="export">Exporter en CSV</button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg"><form id="f-dlg" method="dialog" novalidate></form></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<div class="demo-bar" role="note"><span class="long">Maquette de test, institut fictif. Les rendez-vous restent uniquement dans ce navigateur et aucun message n'est envoyé.</span><span class="short">Test, institut fictif, rien n'est envoyé ·</span> <button type="button" id="raz">Réinitialiser</button> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">Zank Solutions</a></div>
+
+<script>
+(function(){
+'use strict';
+const CLE='zank-test-agenda-v1';
+const JOURS=['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+const JOURS_L=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* Dates locales, au format AAAA-MM-JJ, sans passer par l'UTC */
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const dateDe=s=>{const[a,m,j]=s.split('-').map(Number);return new Date(a,m-1,j)};
+const plus=(s,n)=>{const d=dateDe(s);d.setDate(d.getDate()+n);return iso(d)};
+const auj=()=>iso(new Date());
+const hm=m=>pad(Math.floor(m/60))+':'+pad(m%60);
+const enMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
+const dateTxt=s=>{const d=dateDe(s);return JOURS_L[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()]};
+const lundi=s=>{const d=dateDe(s);return plus(s,-((d.getDay()+6)%7))};
+const id=()=>Math.random().toString(36).slice(2,10);
+const code=()=>Array.from({length:6},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
+
+function initial(){
+  const soins=[
+    {id:'eclat',nom:'Soin éclat du visage',duree:60,prix:60,txt:'Nettoyage profond, masque et hydratation.'},
+    {id:'express',nom:'Soin express',duree:30,prix:35,txt:'Nettoyage, gommage doux et crème de jour.'},
+    {id:'sublime',nom:'Soin complet',duree:90,prix:85,txt:'Soin ciblé et personnalisé, massage compris.'},
+    {id:'pedi',nom:'Soin des pieds',duree:45,prix:40,txt:'Soin complet des pieds et des ongles.'},
+    {id:'epil',nom:'Épilation demi-jambes',duree:30,prix:30,txt:'Demi-jambes, à la cire.'}
+  ];
+  const horaires={0:null,1:null,2:[540,1080],3:[540,1080],4:[540,1080],5:[540,1140],6:[540,960]};
+  const data={soins,horaires,tampon:10,delai:120,rdv:[],blocs:[]};
+  /* Exemples répartis sur les prochains jours ouverts */
+  const ouverts=[];let c=auj();
+  for(let i=0;i<30&&ouverts.length<6;i++){c=plus(auj(),i+1);if(horaires[dateDe(c).getDay()])ouverts.push(c)}
+  const ex=[[0,570,'eclat','Claire D.','0470 12 34 56','en_ligne'],[0,660,'express','Sophie M.','0471 23 45 67','telephone'],[0,840,'pedi','Inès B.','0472 34 56 78','en_ligne'],[1,600,'sublime','Nadia R.','0473 45 67 89','en_ligne'],[1,900,'epil','Julie V.','0474 56 78 90','telephone'],[2,630,'eclat','Marie L.','0475 67 89 01','en_ligne'],[3,780,'express','Léa P.','0476 78 90 12','en_ligne']];
+  ex.forEach(e=>{const s=soins.find(x=>x.id===e[2]);data.rdv.push({id:id(),code:code(),date:ouverts[e[0]],debut:e[1],duree:s.duree,soin:s.id,nom:e[3],tel:e[4],email:'',source:e[5],statut:'prevu'})});
+  data.blocs.push({id:id(),date:ouverts[1],debut:720,duree:60,motif:'Pause'});
+  return data;
+}
+function charger(){try{const b=localStorage.getItem(CLE);if(b)return JSON.parse(b)}catch(e){}return initial()}
+let D=charger();
+function garder(){try{localStorage.setItem(CLE,JSON.stringify(D))}catch(e){}}
+
+const soinDe=i=>D.soins.find(s=>s.id===i);
+const prixTxt=p=>p+' €';
+const occupations=(date,saufId)=>D.rdv.filter(r=>r.date===date&&r.statut!=='annule'&&r.id!==saufId).map(r=>({debut:r.debut,fin:r.debut+r.duree})).concat(D.blocs.filter(b=>b.date===date&&b.id!==saufId).map(b=>({debut:b.debut,fin:b.debut+b.duree})));
+/* Ce contrôle est celui que la base de données fera dans la vraie version */
+const libre=(date,debut,duree,tampon,saufId)=>occupations(date,saufId).every(o=>debut+duree+tampon<=o.debut||debut>=o.fin+tampon);
+function creneaux(date,duree){
+  const h=D.horaires[dateDe(date).getDay()];if(!h)return[];
+  const now=new Date(),limite=date===iso(now)?now.getHours()*60+now.getMinutes()+D.delai:-1;
+  if(date<iso(now))return[];
+  const out=[];
+  for(let m=h[0];m+duree<=h[1];m+=15){if(m>=limite&&libre(date,m,duree,D.tampon))out.push(m)}
+  return out;
+}
+
+/* ---------- Côté cliente ---------- */
+const R={etape:1,soin:null,date:null,heure:null,fait:null,erreur:''};
+const NOMS=['Soin','Date et heure','Vos coordonnées'];
+function rendreCliente(){
+  $('#etapes').innerHTML=NOMS.map((n,i)=>`<li class="${R.etape>i?'fait':''}"${R.etape===i+1?' aria-current="step"':''}><i>${i+1}</i>${n}</li>`).join('');
+  const s=soinDe(R.soin);
+  $('#recap').innerHTML=`<div><dt>Soin</dt><dd>${s?esc(s.nom):'À choisir'}</dd></div><div><dt>Durée et prix</dt><dd>${s?s.duree+' min · '+prixTxt(s.prix):'–'}</dd></div><div><dt>Date</dt><dd>${R.date?dateTxt(R.date):'–'}</dd></div><div><dt>Heure</dt><dd>${R.heure!=null?hm(R.heure):'–'}</dd></div>`;
+  const e=$('#etape');
+  if(R.fait){
+    const r=R.fait,lien='#annuler='+r.code;
+    e.innerHTML=`<div class="ok"><b>C'est réservé.</b>${esc(s?s.nom:'')}, ${dateTxt(r.date)} à ${hm(r.debut)}.</div><p>Votre code de rendez-vous : <strong>${r.code}</strong>. Dans la vraie version, il arriverait par e-mail, avec un rappel la veille.</p><div class="actions"><button class="btn ligne" type="button" id="ics">Ajouter à mon agenda</button><a class="btn danger" href="${lien}">Annuler ce rendez-vous</a><button class="btn" type="button" id="encore">Nouveau rendez-vous</button></div>`;
+    $('#ics').onclick=()=>telechargerIcs(r);
+    $('#encore').onclick=()=>{Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null,erreur:''});rendreCliente()};
+    return;
+  }
+  if(R.etape===1){
+    e.innerHTML=`<h2>Quel soin souhaitez-vous ?</h2><div class="soins">${D.soins.map(x=>`<button class="soin" type="button" data-s="${esc(x.id)}" aria-pressed="${x.id===R.soin}"><b>${esc(x.nom)}</b><span>${prixTxt(x.prix)}</span><small>${x.duree} min · ${esc(x.txt)}</small></button>`).join('')}</div>`;
+    e.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{R.soin=b.dataset.s;R.heure=null;R.date=null;R.etape=2;rendreCliente();e.scrollIntoView({block:'nearest'})});
+  }else if(R.etape===2){
+    const dur=s.duree,jours=[];
+    for(let i=0;i<21;i++){const j=plus(auj(),i);jours.push({j,n:creneaux(j,dur).length})}
+    if(!R.date||!jours.some(x=>x.j===R.date&&x.n)){const p=jours.find(x=>x.n);R.date=p?p.j:null}
+    const hs=R.date?creneaux(R.date,dur):[];
+    e.innerHTML=`<h2>Quand vous convient-il ?</h2><div class="jours" role="group" aria-label="Jour">${jours.map(x=>{const d=dateDe(x.j);return `<button class="jour" type="button" data-j="${x.j}" aria-pressed="${x.j===R.date}" aria-label="${dateTxt(x.j)}${x.n?'':', complet ou fermé'}" ${x.n?'':'disabled'}><small>${JOURS[d.getDay()]}</small><b>${d.getDate()}</b><small>${MOIS[d.getMonth()].slice(0,3)}.</small></button>`}).join('')}</div>
+    ${hs.length?`<div class="heures" role="group" aria-label="Heure">${hs.map(m=>`<button class="heure" type="button" data-h="${m}" aria-pressed="${m===R.heure}">${hm(m)}</button>`).join('')}</div>`:'<p class="vide">Aucun créneau libre sur les trois prochaines semaines.</p>'}
+    ${R.erreur?`<p class="erreur" role="alert">${esc(R.erreur)}</p>`:''}
+    <div class="actions"><button class="btn ligne" type="button" id="retour">Retour</button></div>`;
+    e.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{R.date=b.dataset.j;R.heure=null;R.erreur='';rendreCliente()});
+    e.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{R.heure=+b.dataset.h;R.erreur='';R.etape=3;rendreCliente()});
+    $('#retour').onclick=()=>{R.etape=1;R.erreur='';rendreCliente()};
+  }else{
+    e.innerHTML=`<h2>Vos coordonnées</h2><form id="f-resa" novalidate><div class="champs">
+      <label>Prénom et nom<input name="nom" required autocomplete="name" maxlength="80"></label>
+      <label>Téléphone<input name="tel" type="tel" required autocomplete="tel" placeholder="0470 12 34 56" maxlength="30"></label>
+      <label class="large">E-mail<input name="email" type="email" required autocomplete="email" placeholder="prenom@exemple.be" maxlength="120"></label>
+      <label class="coche"><input type="checkbox" name="ok" required><span>J'accepte que l'institut utilise ces coordonnées pour gérer mon rendez-vous.</span></label>
+    </div><p class="erreur" id="err" role="alert" hidden></p><div class="actions"><button class="btn ligne" type="button" id="retour">Retour</button><button class="btn" type="submit">Confirmer le rendez-vous</button></div></form>`;
+    $('#retour').onclick=()=>{R.etape=2;rendreCliente()};
+    $('#f-resa').onsubmit=ev=>{
+      ev.preventDefault();
+      const f=ev.target,err=$('#err'),nom=f.nom.value.trim(),tel=f.tel.value.trim(),email=f.email.value.trim();
+      const pb=!nom?'Indiquez votre nom.':tel.replace(/\D/g,'').length<9?'Indiquez un numéro de téléphone complet.':!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)?'Indiquez une adresse e-mail valide.':!f.ok.checked?'Cochez la case pour continuer.':'';
+      if(pb){err.textContent=pb;err.hidden=false;return}
+      D=charger();
+      /* Second contrôle au moment de confirmer : c'est lui qui empêche le doublon */
+      if(!creneaux(R.date,s.duree).includes(R.heure)){R.erreur='Ce créneau vient d\'être pris. Choisissez une autre heure.';R.heure=null;R.etape=2;rendreTout();return}
+      const r={id:id(),code:code(),date:R.date,debut:R.heure,duree:s.duree,soin:s.id,nom,tel,email,source:'en_ligne',statut:'prevu'};
+      D.rdv.push(r);garder();R.fait=r;rendreTout();window.scrollTo({top:0});
+    };
+  }
+}
+function telechargerIcs(r){
+  const s=soinDe(r.soin),t=(d,m)=>d.replace(/-/g,'')+'T'+pad(Math.floor(m/60))+pad(m%60)+'00';
+  const txt=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Zank Solutions//Test agenda//FR','BEGIN:VEVENT','UID:'+r.id+'@test-agenda','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART:'+t(r.date,r.debut),'DTEND:'+t(r.date,r.debut+r.duree),'SUMMARY:'+(s?s.nom:'Rendez-vous').replace(/[,;]/g,' ')+' - Institut Aurore','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/calendar'}));a.download='rendez-vous.ics';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+/* Lien d'annulation envoyé à la cliente */
+function lireLien(){
+  const m=location.hash.match(/^#annuler=([A-Z0-9]+)$/);if(!m)return;
+  history.replaceState(null,'',location.pathname+location.search);
+  D=charger();
+  const r=D.rdv.find(x=>x.code===m[1]);
+  if(!r||r.statut==='annule'){info('Ce rendez-vous n\'existe plus ou a déjà été annulé.');return}
+  const s=soinDe(r.soin),f=$('#f-dlg');
+  const tropTard=(dateDe(r.date).getTime()+r.debut*60000)-Date.now()<24*3600000;
+  f.innerHTML=`<h2>Annuler ce rendez-vous ?</h2><p>${esc(s?s.nom:'')}, ${dateTxt(r.date)} à ${hm(r.debut)}.</p>${tropTard?'<p class="erreur">Il reste moins de 24 heures : appelez l\'institut pour annuler.</p>':''}<div class="actions"><button class="btn ligne" type="button" id="d-non">Garder</button>${tropTard?'':'<button class="btn danger" type="button" id="d-oui">Annuler le rendez-vous</button>'}</div>`;
+  $('#d-non').onclick=()=>$('#dlg').close();
+  if(!tropTard)$('#d-oui').onclick=()=>{r.statut='annule';garder();$('#dlg').close();if(R.fait&&R.fait.id===r.id)Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null});rendreTout();info('Rendez-vous annulé. Le créneau est de nouveau libre.')};
+  $('#dlg').showModal();
+}
+
+/* ---------- Côté institut ---------- */
+let curseur=auj();
+const etroit=matchMedia('(max-width:760px)');
+const PX=1.05;
+function rendreAgenda(){
+  const jours=etroit.matches?[curseur]:Array.from({length:7},(_,i)=>plus(lundi(curseur),i)).filter(j=>dateDe(j).getDay()!==0);
+  const pl=D.horaires,ouv=Object.values(pl).filter(Boolean);
+  const hMin=Math.floor(Math.min(...ouv.map(x=>x[0]),540)/60),hMax=Math.ceil(Math.max(...ouv.map(x=>x[1]),1080)/60);
+  const haut=(hMax-hMin)*60*PX,now=new Date(),nowM=now.getHours()*60+now.getMinutes();
+  const a=dateDe(jours[0]),b=dateDe(jours[jours.length-1]);
+  $('#periode').textContent=jours.length===1?dateTxt(jours[0]):a.getDate()+(a.getMonth()!==b.getMonth()?' '+MOIS[a.getMonth()]:'')+' au '+b.getDate()+' '+MOIS[b.getMonth()];
+  const ev=j=>{
+    const l=[];
+    D.rdv.filter(r=>r.date===j&&r.statut!=='annule').forEach(r=>{const s=soinDe(r.soin),cl=r.statut==='absente'?'absente':r.source==='telephone'?'tel':'';
+      l.push(`<button class="ev ${cl}" type="button" data-r="${r.id}" style="top:${(r.debut-hMin*60)*PX}px;height:${Math.max(r.duree*PX-2,22)}px" aria-label="${hm(r.debut)}, ${esc(r.nom)}, ${esc(s?s.nom:'')}"><b>${hm(r.debut)} ${esc(r.nom)}</b>${esc(s?s.nom:'')}</button>`)});
+    D.blocs.filter(x=>x.date===j).forEach(x=>l.push(`<button class="ev bloc" type="button" data-b="${x.id}" style="top:${(x.debut-hMin*60)*PX}px;height:${Math.max(x.duree*PX-2,22)}px"><b>${hm(x.debut)} ${esc(x.motif)}</b></button>`));
+    if(j===iso(now)&&nowM>=hMin*60&&nowM<=hMax*60)l.push(`<div class="maint" style="top:${(nowM-hMin*60)*PX}px"></div>`);
+    return l.join('');
+  };
+  const g=$('#grille');g.style.setProperty('--n',jours.length);g.style.setProperty('--h',60*PX+'px');
+  g.innerHTML=`<div class="g-tetes"><div class="g-coin"></div>${jours.map(j=>{const d=dateDe(j);return `<div class="g-tete ${j===iso(now)?'auj':''}">${JOURS[d.getDay()]}<b>${d.getDate()}</b></div>`}).join('')}</div>
+  <div class="g-corps" style="height:${haut}px"><div class="g-heures">${Array.from({length:hMax-hMin-1},(_,i)=>`<span style="top:${(i+1)*60*PX}px">${pad(hMin+i+1)}h</span>`).join('')}</div>${jours.map(j=>`<div class="g-col ${pl[dateDe(j).getDay()]?'':'ferme'}">${ev(j)}</div>`).join('')}</div>`;
+  g.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>ouvrirRdv(b.dataset.r));
+  g.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>ouvrirBloc(b.dataset.b));
+  const dem=plus(auj(),1),rl=D.rdv.filter(r=>r.date===dem&&r.statut==='prevu').sort((x,y)=>x.debut-y.debut);
+  $('#rappels').innerHTML=rl.length?rl.map(r=>`<li>${esc(r.nom)}, ${hm(r.debut)}<small>${r.email?'E-mail : '+esc(r.email):'SMS : '+esc(r.tel)}</small></li>`).join(''):'<li>Aucun rappel à envoyer.</li>';
+}
+function rendreReglages(){
+  const ordre=[1,2,3,4,5,6,0];
+  $('#reglages').innerHTML=ordre.map(j=>{const h=D.horaires[j];return `<div class="lig-h"><span>${JOURS[j]}</span><input type="time" data-o="${j}" value="${h?hm(h[0]):'09:00'}" ${h?'':'disabled'} aria-label="Ouverture ${JOURS_L[j]}"><input type="time" data-f="${j}" value="${h?hm(h[1]):'18:00'}" ${h?'':'disabled'} aria-label="Fermeture ${JOURS_L[j]}"><input type="checkbox" data-c="${j}" ${h?'checked':''} aria-label="Ouvert le ${JOURS_L[j]}"></div>`}).join('')+`<label>Pause entre deux soins (minutes)<input type="number" id="r-t" min="0" max="60" step="5" value="${D.tampon}"></label><label>Délai minimum avant réservation (heures)<input type="number" id="r-d" min="0" max="72" value="${D.delai/60}"></label>`;
+  $('#reglages').onchange=()=>{
+    ordre.forEach(j=>{const c=$(`[data-c="${j}"]`).checked,o=$(`[data-o="${j}"]`).value,f=$(`[data-f="${j}"]`).value;D.horaires[j]=c&&o&&f&&enMin(o)<enMin(f)?[enMin(o),enMin(f)]:null});
+    D.tampon=Math.max(0,+$('#r-t').value||0);D.delai=Math.max(0,+$('#r-d').value||0)*60;garder();rendreReglages();rendreTout();info('Réglages enregistrés.');
+  };
+}
+function chevauche(date,debut,duree,sauf){return !libre(date,debut,duree,0,sauf)}
+function ouvrirRdv(rid){
+  const r=rid?D.rdv.find(x=>x.id===rid):null,f=$('#f-dlg'),jour=r?r.date:(curseur<auj()?auj():curseur);
+  f.innerHTML=`<h2>${r?'Rendez-vous':'Ajouter un rendez-vous'}</h2><div class="champs">
+    <label class="large">Soin<select name="soin">${D.soins.map(s=>`<option value="${esc(s.id)}" ${r&&r.soin===s.id?'selected':''}>${esc(s.nom)} (${s.duree} min)</option>`).join('')}</select></label>
+    <label>Date<input type="date" name="date" value="${jour}" required></label>
+    <label>Heure<input type="time" name="heure" step="300" value="${r?hm(r.debut):'10:00'}" required></label>
+    <label>Prénom et nom<input name="nom" value="${r?esc(r.nom):''}" required maxlength="80"></label>
+    <label>Téléphone<input name="tel" type="tel" value="${r?esc(r.tel):''}" maxlength="30"></label>
+    <label class="large">E-mail<input name="email" type="email" value="${r?esc(r.email):''}" maxlength="120"></label>
+    ${r?`<label class="large">Statut<select name="statut"><option value="prevu" ${r.statut==='prevu'?'selected':''}>Prévu</option><option value="absente" ${r.statut==='absente'?'selected':''}>Absente</option></select></label>`:''}
+  </div>${r?`<p class="note">Code : ${r.code} · ${r.source==='telephone'?'ajouté par l\'institut':'réservé en ligne'}</p>`:''}<p class="erreur" id="d-err" role="alert" hidden></p>
+  <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ligne" type="button" id="d-fermer">Fermer</button>${r?'<button class="btn danger" type="button" id="d-suppr">Annuler le rendez-vous</button>':''}</div>`;
+  $('#d-fermer').onclick=()=>$('#dlg').close();
+  if(r)$('#d-suppr').onclick=()=>{r.statut='annule';garder();$('#dlg').close();rendreTout();info('Rendez-vous annulé.')};
+  f.onsubmit=ev=>{
+    ev.preventDefault();
+    const s=soinDe(f.soin.value),nom=f.nom.value.trim(),date=f.date.value,h=f.heure.value,err=$('#d-err');
+    const pb=!nom?'Indiquez le nom de la cliente.':!date||!h?'Indiquez la date et l\'heure.':chevauche(date,enMin(h),s.duree,r&&r.id)?'Ce créneau chevauche déjà un rendez-vous ou un blocage.':'';
+    if(pb){err.textContent=pb;err.hidden=false;return}
+    const v={soin:s.id,duree:s.duree,date,debut:enMin(h),nom,tel:f.tel.value.trim(),email:f.email.value.trim()};
+    if(r){Object.assign(r,v,{statut:f.statut.value})}else{D.rdv.push(Object.assign({id:id(),code:code(),source:'telephone',statut:'prevu'},v))}
+    garder();curseur=date;$('#dlg').close();rendreTout();info('Rendez-vous enregistré.');
+  };
+  $('#dlg').showModal();
+}
+function ouvrirBloc(bid){
+  const b=bid?D.blocs.find(x=>x.id===bid):null,f=$('#f-dlg');
+  f.innerHTML=`<h2>${b?'Créneau bloqué':'Bloquer un créneau'}</h2><div class="champs">
+    <label class="large">Motif<input name="motif" value="${b?esc(b.motif):'Pause'}" required maxlength="40"></label>
+    <label>Date<input type="date" name="date" value="${b?b.date:(curseur<auj()?auj():curseur)}" required></label>
+    <label>Heure<input type="time" name="heure" step="300" value="${b?hm(b.debut):'12:00'}" required></label>
+    <label class="large">Durée (minutes)<input type="number" name="duree" min="5" max="600" step="5" value="${b?b.duree:60}" required></label>
+  </div><p class="erreur" id="d-err" role="alert" hidden></p>
+  <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ligne" type="button" id="d-fermer">Fermer</button>${b?'<button class="btn danger" type="button" id="d-suppr">Retirer le blocage</button>':''}</div>`;
+  $('#d-fermer').onclick=()=>$('#dlg').close();
+  if(b)$('#d-suppr').onclick=()=>{D.blocs=D.blocs.filter(x=>x.id!==b.id);garder();$('#dlg').close();rendreTout();info('Blocage retiré.')};
+  f.onsubmit=ev=>{
+    ev.preventDefault();
+    const date=f.date.value,h=f.heure.value,du=+f.duree.value,mo=f.motif.value.trim(),err=$('#d-err');
+    const pb=!mo||!date||!h||!(du>0)?'Remplissez tous les champs.':chevauche(date,enMin(h),du,b&&b.id)?'Ce créneau chevauche déjà un rendez-vous ou un blocage.':'';
+    if(pb){err.textContent=pb;err.hidden=false;return}
+    const v={date,debut:enMin(h),duree:du,motif:mo};
+    if(b)Object.assign(b,v);else D.blocs.push(Object.assign({id:id()},v));
+    garder();curseur=date;$('#dlg').close();rendreTout();info('Créneau bloqué.');
+  };
+  $('#dlg').showModal();
+}
+function exporter(){
+  const q=s=>{let t=String(s==null?'':s);if(/^[=+\-@]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'};
+  const l=[['Date','Heure','Durée','Soin','Nom','Téléphone','E-mail','Origine','Statut'].map(q).join(';')];
+  D.rdv.slice().sort((a,b)=>(a.date+hm(a.debut)).localeCompare(b.date+hm(b.debut))).forEach(r=>{const s=soinDe(r.soin);l.push([r.date,hm(r.debut),r.duree,s?s.nom:'',r.nom,r.tel,r.email,r.source==='telephone'?'Institut':'En ligne',r.statut].map(q).join(';'))});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+l.join('\r\n')],{type:'text/csv;charset=utf-8'}));a.download='rendez-vous-test.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+/* ---------- Commun ---------- */
+let tInfo;
+function info(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(tInfo);tInfo=setTimeout(()=>e.hidden=true,3200)}
+function rendreTout(){rendreCliente();rendreAgenda()}
+function vue(n){
+  const c=n==='cliente';
+  $('#v-cliente').hidden=!c;$('#v-institut').hidden=c;
+  $('#t-cliente').setAttribute('aria-selected',c);$('#t-institut').setAttribute('aria-selected',!c);
+  rendreTout();window.scrollTo({top:0});
+}
+$('#t-cliente').onclick=()=>vue('cliente');
+$('#t-institut').onclick=()=>vue('institut');
+const pas=()=>etroit.matches?1:7;
+$('#prec').onclick=()=>{curseur=plus(curseur,-pas());rendreAgenda()};
+$('#suiv').onclick=()=>{curseur=plus(curseur,pas());rendreAgenda()};
+$('#auj').onclick=()=>{curseur=auj();rendreAgenda()};
+$('#ajout').onclick=()=>ouvrirRdv(null);
+$('#blocage').onclick=()=>ouvrirBloc(null);
+$('#export').onclick=exporter;
+$('#raz').onclick=()=>{if(!confirm('Effacer les rendez-vous de test et revenir aux exemples ?'))return;try{localStorage.removeItem(CLE)}catch(e){}D=initial();garder();Object.assign(R,{etape:1,soin:null,date:null,heure:null,fait:null,erreur:''});curseur=auj();rendreReglages();rendreTout();info('Données de test réinitialisées.')};
+etroit.addEventListener('change',rendreAgenda);
+addEventListener('hashchange',lireLien);
+garder();rendreReglages();rendreTout();lireLien();
+})();
+</script>
+</body>
+</html>
