@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<script>(function(){var r=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;r.classList.add('anim');setTimeout(function(){if(!r.classList.contains('pret'))r.classList.remove('anim')},3000)})()</script>
+<title>Energino Chauffage · Chauffage, pellets, climatisation et photovoltaïque à Binche</title>
+<meta name="description" content="Installateur en chauffage, sanitaire, ventilation, climatisation et photovoltaïque à Binche. Expert en chaudières et poêles à pellets, de l'étude à la mise en service.">
+<meta name="theme-color" content="#f4f1ea">
+<link rel="icon" href="../energino-chauffage/logo-droit.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--papier:#f4f1ea;--encre:#15181c;--gris:#5c5f63;--cuivre:#b4632e;--cuivre-t:#94481b;--feu:#ee5a1f;--vert:#5eae2e;--ligne:#d8d2c6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--papier);color:var(--encre);font:400 17px/1.6 Manrope,system-ui,sans-serif;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:Anton,Impact,sans-serif;font-weight:400;margin:0;text-transform:uppercase;line-height:1.02;letter-spacing:.005em}
+h2{font-size:clamp(42px,7vw,104px)}
+.wrap{width:min(1180px,100% - 56px);margin-inline:auto}
+.tag{display:block;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--cuivre-t);margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 26px;font:700 16px Manrope,sans-serif;text-decoration:none;border:0;cursor:pointer;background:var(--feu);color:var(--encre);transition:transform .2s}
+.btn:hover{transform:translateY(-3px)}
+.btn.clair{background:transparent;box-shadow:inset 0 0 0 2px var(--encre)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--feu);outline-offset:3px}
+
+nav{position:sticky;top:0;z-index:50;background:var(--papier)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px}
+nav img{height:56px;width:auto}
+nav .btn{padding:10px 18px;font-size:15px;white-space:nowrap}
+
+/* Le tuyau de cuivre traverse toute la page, derrière le contenu */
+main{position:relative;display:block}
+#tuyau{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none;display:none}
+.anim #tuyau{display:block}
+#tuyau path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#cuivre{stroke:var(--cuivre);stroke-width:7}
+section,.hero,.ruban{position:relative;z-index:1}
+
+.hero{min-height:calc(100svh - 74px);display:flex;flex-direction:column;justify-content:center;padding:18px 0 40px;overflow:hidden}
+.nom{display:flex;align-items:flex-end;justify-content:center;font:400 clamp(70px,19.5vw,290px)/1 Anton,Impact,sans-serif;text-transform:uppercase;margin:0;letter-spacing:.005em}
+.nom .l{display:inline-block;overflow:hidden;padding-top:.04em}
+.nom .l > span{display:inline-block}
+.flamme{height:.84em;width:.34em;margin:0 .03em .06em;overflow:visible;transform-origin:50% 100%}
+.sous{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(20px,4vw,56px);align-items:center;margin-top:clamp(14px,2.4vw,30px)}
+.sous h1{font-size:clamp(30px,4vw,58px)}
+.sous p{margin:14px 0 22px;font-size:clamp(17px,1.5vw,20px);color:#34373b;max-width:27em}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.van{overflow:hidden;aspect-ratio:16/8;border-radius:22px;background:var(--ligne)}
+.van img{width:100%;height:100%;object-fit:cover;object-position:60% 62%}
+
+.ruban{overflow:hidden;background:var(--encre);color:var(--papier);border-top:6px solid var(--vert);padding:12px 0}
+.ruban .pis{display:flex;width:max-content;font:400 clamp(24px,3vw,38px)/1 Anton,sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.ruban span{padding-right:44px;white-space:nowrap}
+.ruban i{font-style:normal;color:var(--feu);padding-right:44px}
+
+.phrase{padding:clamp(90px,14vw,190px) 0}
+.phrase p{margin:0;font:400 clamp(34px,6vw,88px)/1.1 Anton,sans-serif;text-transform:uppercase}
+.phrase .m{display:inline-block;margin-right:.24em}
+
+/* Les métiers défilent à l'horizontale pendant que la page est tenue */
+.horiz{background:var(--encre);color:var(--papier)}
+.tenu{padding:clamp(50px,7vw,90px) 0}
+.entete{display:flex;justify-content:space-between;align-items:baseline;gap:20px;width:min(1180px,100% - 56px);margin:0 auto 18px}
+.entete span{font:400 clamp(20px,2.4vw,30px) Anton,sans-serif;color:var(--feu)}
+.commandes{display:flex;align-items:center;gap:12px}
+.fleche{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--papier);background:transparent;color:var(--papier);font:700 20px/1 Manrope,sans-serif;cursor:pointer;transition:background .2s,color .2s,opacity .2s}
+.fleche:hover{background:var(--papier);color:var(--encre)}
+.fleche:disabled{opacity:.3;cursor:default;background:transparent;color:var(--papier)}
+.entete b{font:400 clamp(20px,2.4vw,30px) Anton,sans-serif;text-transform:uppercase;letter-spacing:.03em}
+.piste{--marge:max(28px,calc((100% - 1180px)/2));display:flex;gap:clamp(16px,3vw,44px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--marge);padding-inline:var(--marge);padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;touch-action:pan-x pan-y}
+.piste::-webkit-scrollbar{display:none}
+.piste.prise{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.piste.glisse{scroll-snap-type:none}
+.piste img{-webkit-user-drag:none;user-select:none}
+.pan{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(16px,3vw,44px);align-items:center;flex:none;width:min(1000px,calc(100% - 56px));scroll-snap-align:start}
+.photo{position:relative;overflow:hidden;aspect-ratio:4/3;background:#2a2d31;border-radius:22px}
+.photo img{width:116%;max-width:none;height:100%;object-fit:cover}
+.photo small{position:absolute;left:12px;bottom:12px;background:var(--papier);color:var(--encre);padding:3px 10px;font-size:13px;border-radius:99px}
+.pan h3{font-size:clamp(36px,5.2vw,76px)}
+.pan p{margin:14px 0 0;color:#d6d3cc;font-size:clamp(16px,1.4vw,18px)}
+
+.chantier{padding:clamp(90px,12vw,170px) 0}
+.chantier .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,80px);align-items:center}
+.chantier p{color:var(--gris);font-size:18px;margin:18px 0 0}
+.voile{overflow:hidden;aspect-ratio:4/3;border-radius:22px}
+.voile img{width:100%;height:100%;object-fit:cover}
+.fig{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+.fig b{display:block;font:400 clamp(58px,8vw,112px)/1 Anton,sans-serif;color:var(--cuivre-t)}
+.fig > div > span{font-weight:500;font-size:15px}
+
+.etapes{padding-bottom:clamp(90px,12vw,170px)}
+.trois{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,30px);margin-top:clamp(30px,5vw,50px)}
+.trois div{background:var(--papier);border-top:5px solid var(--cuivre);padding:18px 4px}
+.trois b{font:400 54px/1 Anton,sans-serif;color:var(--feu)}
+.trois h3{font-size:30px;margin:8px 0}
+.trois p{margin:0;color:var(--gris)}
+
+.contact{background:var(--encre);color:var(--papier);padding:clamp(70px,10vw,130px) 0}
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,80px);align-items:start}
+.contact .tag{color:#f0a273}
+.note{display:flex;align-items:center;gap:18px;margin:24px 0}
+.note b{font:400 96px/1 Anton,sans-serif;color:var(--feu)}
+.lignes{display:grid;gap:8px;font-size:20px;font-weight:500}
+.lignes a{overflow-wrap:anywhere}
+.lignes span{font-size:17px;font-weight:400;color:#d6d3cc}
+form{background:var(--papier);color:var(--encre);padding:clamp(22px,3vw,34px);display:grid;gap:14px}
+form h3{font-size:34px}
+label{display:grid;gap:5px;font-weight:700;font-size:14.5px}
+input,select,textarea{width:100%;padding:12px 14px;border:1px solid #a9a397;background:#fff;color:var(--encre);font:400 16px Manrope,sans-serif}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--cuivre-t);outline-offset:1px}
+.ok{background:#fbe7dc;padding:12px 14px;font-size:15px;margin:0}
+footer{background:var(--encre);color:#d6d3cc;border-top:1px solid #33363a;padding:34px 0 70px;font-size:15px;position:relative;z-index:1}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px}
+footer b{display:block;font:400 26px/1.1 Anton,sans-serif;text-transform:uppercase;color:var(--papier);margin-bottom:6px;letter-spacing:.01em}
+footer h3{font:700 13px Manrope,sans-serif;letter-spacing:.12em;color:#f0a273;margin-bottom:8px}
+footer a{display:block;text-decoration:none;padding:2px 0;overflow-wrap:anywhere}
+footer a:hover{color:#fff;text-decoration:underline}
+footer p{margin:0}
+footer .bas{grid-column:1 / -1;border-top:1px solid #33363a;padding-top:14px;font-size:13.5px}
+
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center;box-shadow:0 -8px 24px -12px rgba(0,0,0,.5)}
+.demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+
+@media (max-width:900px){
+  .sous,.chantier .wrap,.contact .wrap{grid-template-columns:1fr}
+  .pan{grid-template-columns:1fr}
+  .pan h3{font-size:clamp(34px,10vw,60px)}
+  .trois{grid-template-columns:1fr}
+  footer .wrap{grid-template-columns:1fr 1fr}
+  footer .wrap > div:first-child{grid-column:1 / -1}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap,.entete{width:calc(100% - 44px)}
+  nav .wrap{height:66px}
+  nav img{height:48px}
+  footer .wrap{grid-template-columns:1fr}
+  #cuivre{stroke-width:5}
+  .hero{min-height:calc(100svh - 66px);justify-content:flex-start;padding-top:20px}
+  .van{aspect-ratio:16/10}
+  .demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}.demo-bar .long{display:none}
+}
+@media (min-width:641px){.demo-bar .short{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a href="#"><img src="../energino-chauffage/logo-droit.png" alt="Energino"></a>
+    <a class="btn" href="tel:+32499356398">0499 35 63 98</a>
+  </div>
+</nav>
+
+<main id="page">
+  <svg id="tuyau" aria-hidden="true"><path id="cuivre"/></svg>
+
+  <header class="hero">
+    <p class="nom" aria-label="Energino">
+      <span class="l" aria-hidden="true"><span>E</span></span><span class="l" aria-hidden="true"><span>N</span></span><span class="l" aria-hidden="true"><span>E</span></span><span class="l" aria-hidden="true"><span>R</span></span><span class="l" aria-hidden="true"><span>G</span></span>
+      <svg class="flamme" id="flamme" viewBox="0 0 40 100" aria-hidden="true"><path d="M20 0C24 22 38 38 38 62 38 84 30 100 20 100 10 100 2 84 2 62 2 46 12 36 14 22 17 30 20 16 20 0Z" fill="#a52a12"/><path d="M21 42C24 56 32 62 32 76 32 90 27 100 20 100 13 100 8 90 8 76 8 66 14 62 16 52 18 58 20 50 21 42Z" fill="#ee5a1f"/></svg>
+      <span class="l" aria-hidden="true"><span>N</span></span><span class="l" aria-hidden="true"><span>O</span></span>
+    </p>
+    <div class="wrap sous">
+      <div class="texte">
+        <h1>De l'étude à la mise en service.</h1>
+        <p>Chauffage, pellets, climatisation, sanitaire, ventilation et photovoltaïque, à Binche et environs.</p>
+        <div class="ctas"><a class="btn" href="#contact">Demander un devis</a><a class="btn clair" href="#metiers">Voir les métiers</a></div>
+      </div>
+      <div class="van"><img src="../energino-chauffage/camionnette.jpg" alt="La camionnette Energino"></div>
+    </div>
+  </header>
+
+  <div class="ruban" aria-hidden="true"><div class="pis" id="pis"><span>Chauffage</span><i>/</i><span>Pellets</span><i>/</i><span>Climatisation</span><i>/</i><span>Sanitaire</span><i>/</i><span>Ventilation</span><i>/</i><span>Tubage</span><i>/</i><span>Photovoltaïque</span><i>/</i><span>Chauffage</span><i>/</i><span>Pellets</span><i>/</i><span>Climatisation</span><i>/</i><span>Sanitaire</span><i>/</i><span>Ventilation</span><i>/</i><span>Tubage</span><i>/</i><span>Photovoltaïque</span><i>/</i></div></div>
+
+  <section class="phrase" data-tuyau>
+    <div class="wrap"><p id="phrase">Des solutions énergétiques durables, adaptées à vos besoins, pour un confort optimal et un habitat plus écologique.</p></div>
+  </section>
+
+  <section class="horiz" id="metiers">
+    <div class="tenu">
+      <div class="entete"><b>Nos métiers</b><div class="commandes"><span id="compte">01 / 05</span><button class="fleche" id="prec" type="button" aria-label="Métier précédent">←</button><button class="fleche" id="suiv" type="button" aria-label="Métier suivant">→</button></div></div>
+      <div class="piste" id="piste" tabindex="0" aria-label="Métiers, faites glisser pour en voir plus">
+        <article class="pan"><div class="photo"><img src="../energino-chauffage/pellets.jpg" alt="Chaudière à pellets dans une cave"></div><div><h3>Pellets</h3><p>Chaudières et poêles à pellets : la spécialité d'Energino, avec installation ÖkoFEN et silos de stockage.</p></div></article>
+        <article class="pan"><div class="photo"><img src="../energino-chauffage/gaz1.jpg" alt="Chaudière murale Bosch à Ressaix" loading="lazy"></div><div><h3>Chauffage</h3><p>Du remplacement de votre chaudière à la mise en service, avec des raccords soignés.</p></div></article>
+        <article class="pan"><div class="photo"><img src="../energino-chauffage/clim.jpg" alt="Unité extérieure de climatisation sur un mur en briques" loading="lazy"></div><div><h3>Climatisation</h3><p>Le confort en été comme en hiver, avec une unité posée proprement sur votre façade.</p></div></article>
+        <article class="pan"><div class="photo"><img src="../energino-chauffage/solaire.jpg" alt="Maison avec des panneaux photovoltaïques" loading="lazy"><small>Photo d'illustration</small></div><div><h3>Photovoltaïque</h3><p>Produisez une partie de votre électricité, avec le même interlocuteur que pour votre chauffage.</p></div></article>
+        <article class="pan"><div class="photo"><img src="../energino-chauffage/gaz2.jpg" alt="Raccords en cuivre et vase d'expansion" loading="lazy"></div><div><h3>Sanitaire, ventilation, tubage</h3><p>Le même souci du détail pour l'eau, l'air et les conduits de votre maison.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="chantier" data-tuyau>
+    <div class="wrap">
+      <div>
+        <span class="tag" data-entre>Encore une belle réalisation</span>
+        <h2 data-entre>Performance, confort, fiabilité.</h2>
+        <p data-entre>Une chaudière à pellets et son silo : un chauffage performant, une excellente autonomie et une solution plus respectueuse de l'environnement.</p>
+        <div class="fig">
+          <div data-entre><b><span data-compte="18">18</span> kW</b><span>Chaudière ÖkoFEN ZEROFLAME</span></div>
+          <div data-entre><b><span data-compte="4">4</span> t</b><span>Silo de stockage</span></div>
+        </div>
+      </div>
+      <div class="voile" id="voile"><img src="../energino-chauffage/pellets.jpg" alt="Chaudière à pellets installée" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="etapes" data-tuyau>
+    <div class="wrap">
+      <span class="tag" data-entre>Comment ça se passe</span>
+      <h2 data-entre>Le souci du travail bien fait.</h2>
+      <div class="trois">
+        <div data-entre><b>1</b><h3>L'étude</h3><p>On regarde votre maison et vos besoins, pour une solution adaptée.</p></div>
+        <div data-entre><b>2</b><h3>L'installation</h3><p>Le matériel est posé proprement, jusqu'au dernier raccord.</p></div>
+        <div data-entre><b>3</b><h3>La mise en service</h3><p>Votre installation est lancée et prête à tourner.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <span class="tag" data-entre>Contact</span>
+      <h2 data-entre>Parlons de votre projet.</h2>
+      <div class="note" data-entre><b data-note="5">5,0</b><span>sur Google,<br>d'après 83 avis</span></div>
+      <div class="lignes" data-entre>
+        <a href="tel:+32499356398">0499 35 63 98</a>
+        <a href="mailto:energino89@gmail.com">energino89@gmail.com</a>
+        <span>Binche et environs, du lundi au samedi</span>
+      </div>
+    </div>
+    <form data-web3 data-entre>
+      <h3>Demander un devis</h3>
+      <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
+      <label>Téléphone<input name="tel" type="tel" autocomplete="tel" required></label>
+      <label>Votre projet<select name="projet"><option>Chaudière ou poêle à pellets</option><option>Chauffage</option><option>Climatisation</option><option>Panneaux photovoltaïques</option><option>Sanitaire, ventilation ou tubage</option></select></label>
+      <label>Quelques mots<textarea name="message" rows="3"></textarea></label>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+      <p class="ok" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Energino Chauffage</b><p>Installateur à Binche et environs, du lundi au samedi.</p></div>
+    <div><h3>Contact</h3><a href="tel:+32499356398">0499 35 63 98</a><a href="mailto:energino89@gmail.com">energino89@gmail.com</a><a href="https://www.facebook.com/people/Energino-chauffage/100087146265018/" target="_blank" rel="noopener">Facebook</a></div>
+    <div><h3>La page</h3><a href="#metiers">Nos métiers</a><a href="#contact">Demander un devis</a></div>
+    <p class="bas">© <span id="y"></span> Energino Chauffage</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
+  e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
+}));
+document.getElementById('y').textContent=new Date().getFullYear();
+/* Glissement des métiers : doigt, souris, flèches et clavier */
+(function(){
+  const piste=document.getElementById('piste'),pans=[...piste.children],compte=document.getElementById('compte'),prec=document.getElementById('prec'),suiv=document.getElementById('suiv');
+  const reduit=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const actuel=()=>{const g=piste.getBoundingClientRect().left+parseFloat(getComputedStyle(piste).paddingLeft);let m=0,d=1e9;pans.forEach((p,i)=>{const e=Math.abs(p.getBoundingClientRect().left-g);if(e<d){d=e;m=i}});return m};
+  /* Glissement piloté par Motion : l'accrochage est coupé le temps de l'animation */
+  let enCours=null;
+  const stop=()=>{if(enCours){enCours.stop();enCours=null}piste.classList.remove('glisse')};
+  const aller=i=>{
+    const k=Math.max(0,Math.min(pans.length-1,i)),but=Math.min(pans[k].offsetLeft-pans[0].offsetLeft,piste.scrollWidth-piste.clientWidth);
+    stop();
+    if(reduit||!window.Motion){piste.scrollLeft=but;return}
+    piste.classList.add('glisse');
+    const a=Motion.animate(piste.scrollLeft,but,{duration:.65,ease:[.22,1,.36,1],onUpdate:v=>{piste.scrollLeft=v}});
+    enCours=a;
+    a.then(()=>{if(enCours===a){enCours=null;piste.classList.remove('glisse')}});
+  };
+  const maj=()=>{const i=actuel();compte.textContent='0'+(i+1)+' / 0'+pans.length;prec.disabled=piste.scrollLeft<4;suiv.disabled=piste.scrollLeft>=piste.scrollWidth-piste.clientWidth-4};
+  piste.addEventListener('scroll',maj,{passive:true});addEventListener('resize',maj);maj();
+  /* Plusieurs clics rapides avancent chacun d'un métier, même pendant le glissement */
+  let cible=null,minuteur;
+  const pas=d=>{const k=Math.max(0,Math.min(pans.length-1,(cible===null?actuel():cible)+d));cible=k;clearTimeout(minuteur);minuteur=setTimeout(()=>{cible=null},900);aller(k)};
+  prec.onclick=()=>pas(-1);suiv.onclick=()=>pas(1);
+  piste.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();pas(1)}if(e.key==='ArrowLeft'){e.preventDefault();pas(-1)}});
+  let x0=null,s0=0;
+  piste.addEventListener('pointerdown',e=>{stop();if(e.pointerType!=='mouse')return;x0=e.clientX;s0=piste.scrollLeft;piste.classList.add('prise');piste.setPointerCapture(e.pointerId)});
+  piste.addEventListener('pointermove',e=>{if(x0===null)return;piste.scrollLeft=s0-(e.clientX-x0)});
+  const lache=e=>{if(x0===null)return;const v=x0-e.clientX,i=actuel();x0=null;piste.classList.remove('prise');aller(Math.abs(v)>60&&i===actuel()?i:actuel())};
+  piste.addEventListener('pointerup',lache);piste.addEventListener('pointercancel',lache);
+})();
+</script>
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Energino Chauffage par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<script src="/demo/motion-14.9.0.js"></script>
+<script>
+/* Motion design, avec Motion 14.9.0 (motion.dev) */
+(function(){
+  const root=document.documentElement;
+  if(!root.classList.contains('anim'))return;
+  if(!window.Motion){root.classList.remove('anim');return}
+  const {animate,scroll,inView,stagger}=Motion;
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const doux=[.22,1,.36,1];
+
+  /* Le nom monte lettre par lettre, la flamme s'allume puis vacille */
+  animate('.nom .l > span',{y:['110%','0%']},{duration:.9,ease:doux,delay:stagger(.06)});
+  const flamme=$('#flamme');
+  animate(flamme,{scale:[0,1],opacity:[0,1]},{type:'spring',bounce:.5,duration:1,delay:.55}).then(()=>{
+    animate(flamme,{scaleY:[1,1.07,.97,1.04,1],scaleX:[1,.96,1.03,.98,1]},{duration:1.5,repeat:Infinity,ease:'easeInOut'});
+  });
+  /* La camionnette arrive de la droite */
+  animate('.van',{x:['70vw','0vw']},{type:'spring',bounce:.18,duration:1.5,delay:.5});
+  animate('.texte > *',{opacity:[0,1],y:[24,0]},{duration:.7,ease:doux,delay:stagger(.1,{startDelay:.7})});
+  /* Au défilement, la camionnette repart vers la gauche */
+  scroll(animate('.van img',{x:['0%','-6%'],scale:[1.14,1.14]},{ease:'linear'}),{target:$('.hero'),offset:['start start','end start']});
+
+  /* Le ruban tourne en continu */
+  animate('#pis',{x:['0%','-50%']},{duration:26,repeat:Infinity,ease:'linear'});
+
+  /* La phrase s'allume mot après mot */
+  const ph=$('#phrase'),mots=ph.textContent.trim().split(/\s+/);
+  ph.setAttribute('aria-label',ph.textContent.trim());
+  ph.innerHTML=mots.map(m=>'<span class="m" aria-hidden="true">'+m+'</span>').join(' ');
+  const els=[...ph.children];
+  scroll(p=>{const t=p*(els.length+3);els.forEach((e,i)=>{e.style.opacity=Math.min(1,Math.max(.12,t-i))})},{target:ph.closest('section'),offset:['start .8','end .55']});
+
+  /* Les photos se décalent légèrement pendant le glissement */
+  const piste=$('#piste'),pans=$$('.pan'),images=$$('.pan .photo img');
+  scroll(p=>{
+    images.forEach((im,i)=>{const d=p*(pans.length-1)-i;im.style.transform='translateX('+(-7+Math.max(-1,Math.min(1,d))*-7)+'%)'});
+  },{container:piste,axis:'x'});
+  inView('.pan',el=>{animate(el.querySelector('.photo'),{scale:[.94,1],opacity:[.4,1]},{duration:.7,ease:doux})},{root:piste,amount:.5});
+
+  /* Apparitions au défilement */
+  $$('[data-entre]').forEach(e=>{e.style.opacity=0});
+  inView('[data-entre]',el=>{animate(el,{opacity:[0,1],y:[34,0]},{duration:.8,ease:doux})},{amount:.2});
+  const v=$('#voile');
+  inView(v,()=>{
+    animate(v,{clipPath:['inset(100% 0 0 0)','inset(0% 0 0 0)']},{duration:1.1,ease:doux});
+    animate(v.firstElementChild,{scale:[1.25,1]},{duration:1.5,ease:doux});
+  },{amount:.25});
+
+  /* Les chiffres comptent */
+  $$('[data-compte]').forEach(el=>{const n=+el.dataset.compte;inView(el,()=>{animate(0,n,{duration:1.4,ease:doux,onUpdate:x=>{el.textContent=Math.round(x)}})},{amount:.6})});
+  const note=$('[data-note]');
+  inView(note,()=>{animate(0,5,{duration:1.4,ease:doux,onUpdate:x=>{note.textContent=x.toFixed(1).replace('.',',')}})},{amount:.6});
+
+  /* Le tuyau de cuivre se dessine au défilement, en passant par les gouttières */
+  const page=$('#page'),svg=$('#tuyau'),cuivre=$('#cuivre');
+  function trace(){
+    const H=page.offsetHeight,W=page.offsetWidth,bord=W<700?11:Math.max(14,(W-1180)/4+14),r=W<700?16:30;
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    const haut=e=>e.getBoundingClientRect().top-page.getBoundingClientRect().top;
+    const secs=$$('[data-tuyau]');
+    const G=bord,D=W-bord;
+    let cotes=[D,G,D],d='';
+    /* Départ sous le ruban, au centre, puis alternance gauche et droite */
+    const y0=haut($('.phrase'))+18;
+    d='M'+W/2+' '+y0+'H'+(D-r)+'Q'+D+' '+y0+' '+D+' '+(y0+r);
+    let x=D;
+    secs.forEach((s,i)=>{
+      const fin=haut(s)+s.offsetHeight-18;
+      if(i===secs.length-1){d+='V'+(H-6);return}
+      const autre=x===D?G:D,sens=autre>x?1:-1;
+      d+='V'+(fin-r)+'Q'+x+' '+fin+' '+(x+sens*r)+' '+fin+'H'+(autre-sens*r)+'Q'+autre+' '+fin+' '+autre+' '+(fin+r);
+      x=autre;
+    });
+    cuivre.setAttribute('d',d);
+  }
+  trace();addEventListener('resize',trace);addEventListener('load',trace);
+  scroll(animate(cuivre,{pathLength:[0,1]},{ease:'linear'}),{target:page,offset:['start .1','end end']});
+
+  root.classList.add('pret');
+})();
+</script>
+<script src="/demo/suivi.js" defer></script>
+</body>
+</html>
