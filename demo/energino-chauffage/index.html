@@ -65,7 +65,7 @@ nav .btn{padding:10px 18px;font-size:18px;white-space:nowrap}
 .panneau{display:grid;grid-template-columns:1fr 1fr;background:var(--tole);min-height:440px}
 .panneau .photo{position:relative;min-height:300px;background:var(--bleu);overflow:hidden}
 .panneau .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.panneau .sans{position:absolute;inset:0;display:grid;place-items:center;color:#fff;text-align:center;padding:24px;font:800 clamp(40px,6vw,76px)/.95 'Barlow Condensed',sans-serif;text-transform:uppercase}
+.panneau .photo small{position:absolute;left:0;bottom:12px;background:#fff;padding:3px 10px;font-size:13px}
 .panneau .txt{padding:clamp(24px,4vw,50px);align-self:center}
 .panneau h3{font-size:clamp(32px,3.8vw,48px);margin-bottom:14px}
 .panneau p{margin:0 0 16px}
@@ -249,7 +249,7 @@ const METIERS=[
  {o:'Pellets',t:'Chaudières et poêles à pellets',x:"C'est la spécialité d'Energino : une solution énergétique durable, avec une belle autonomie.",p:['Chaudières à pellets ÖkoFEN','Poêles à pellets','Silos de stockage'],i:'pellets.jpg',a:'Chaudière à pellets et ballon dans une cave'},
  {o:'Chauffage',t:'Chauffage',x:"Du remplacement de votre chaudière à la mise en service, avec des raccords soignés.",p:['Chaudières murales','Remplacement et mise en service','Tubage'],i:'gaz1.jpg',a:'Chaudière murale Bosch dans une cave'},
  {o:'Climatisation',t:'Climatisation',x:"Le confort en été comme en hiver, avec une unité extérieure posée proprement sur votre façade.",p:['Unités intérieures et extérieures','Pose en façade','Mise en service'],i:'clim.jpg',a:'Unité extérieure de climatisation LG sur un mur en briques'},
- {o:'Photovoltaïque',t:'Panneaux photovoltaïques',x:"Produisez une partie de votre électricité, avec le même interlocuteur que pour votre chauffage.",p:['Étude de votre projet','Pose des panneaux','Mise en service'],s:'Votre toit,<br>votre énergie'},
+ {o:'Photovoltaïque',t:'Panneaux photovoltaïques',x:"Produisez une partie de votre électricité, avec le même interlocuteur que pour votre chauffage.",p:['Étude de votre projet','Pose des panneaux','Mise en service'],i:'solaire.jpg',a:'Maison avec des panneaux photovoltaïques sur le toit',n:"Photo d'illustration"},
  {o:'Sanitaire',t:'Sanitaire et ventilation',x:"Le même soin du détail pour votre eau et l'air de votre maison.",p:['Sanitaire','Ventilation'],i:'gaz2.jpg',a:'Tuyauterie en cuivre et vase d\'expansion'}
 ];
 const $=id=>document.getElementById(id),ong=$('onglets');
@@ -258,7 +258,7 @@ function montre(k){
   [...ong.children].forEach((b,j)=>b.setAttribute('aria-selected',j===k));
   $('p-titre').textContent=m.t;$('p-texte').textContent=m.x;
   $('p-puces').innerHTML='';m.p.forEach(s=>{const li=document.createElement('li');li.textContent=s;$('p-puces').append(li)});
-  $('p-photo').innerHTML=m.i?'<img src="'+m.i+'" alt="'+m.a.replace(/"/g,'&quot;')+'">':'<div class="sans">'+m.s+'</div>';
+  $('p-photo').innerHTML='<img src="'+m.i+'" alt="'+m.a.replace(/"/g,'&quot;')+'">'+(m.n?'<small>'+m.n+'</small>':'');
 }
 METIERS.forEach((m,k)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=m.o;b.onclick=()=>montre(k);ong.append(b)});
 montre(0);
