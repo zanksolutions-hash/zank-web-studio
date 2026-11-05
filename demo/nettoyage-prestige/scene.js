@@ -205,7 +205,7 @@ const rideauC = document.createElement('canvas'); rideauC.width = 4; rideauC.hei
 { const g = rideauC.getContext('2d'), r = g.createLinearGradient(0, 0, 0, 128); r.addColorStop(0, 'rgba(210,228,255,.0)'); r.addColorStop(.2, 'rgba(210,228,255,.55)'); r.addColorStop(1, 'rgba(255,255,255,.14)'); g.fillStyle = r; g.fillRect(0, 0, 4, 128); }
 const rideau = new THREE.Mesh(new THREE.CircleGeometry(1.95, 48, 0, Math.PI), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(rideauC), transparent: true, opacity: .34, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, fog: false }));
 portique.add(rideau);
-const lumierePortique = new THREE.PointLight(0xdce8ff, 0, 7, 1.6); lumierePortique.position.y = 1.5; portique.add(lumierePortique);
+const lumierePortique = new THREE.PointLight(0xdce8ff, 0, 7, 1.6); lumierePortique.position.y = 1.5; scene.add(lumierePortique);
 portique.visible = false;
 
 /* La bruine soulevée par le lavage */
@@ -305,6 +305,7 @@ function etat(p) {
   /* La partie lavée est celle située en avant du portique : front=vPosM.z<limite */
   portique.visible = w > 0 && w < 1;
   portique.position.z = zL;
+  lumierePortique.position.z = zL;
   lumierePortique.intensity = 7 * Math.min(1, Math.min(w, 1 - w) * 12);
   rideau.material.opacity = .32 * Math.min(1, Math.min(w, 1 - w) * 12);
   bruine.material.opacity = .55 * Math.min(1, Math.min(w, 1 - w) * 12);
@@ -423,7 +424,10 @@ loader.load('car.glb', gltf => {
   taille();
   trajet = cles();
   etat(actuel);
+  portique.visible = bruine.visible = gouttes.visible = true;
   renderer.compile(scene, camera);
+  composer.render();
+  etat(actuel);
   composer.render();
   document.documentElement.classList.add('pret3d');
   sale = true;
