@@ -42,20 +42,15 @@ a{color:inherit}
 .anim #scene{height:680svh}
 .plateau{position:relative;height:88svh;min-height:520px;overflow:hidden;background:var(--noir)}
 .anim .plateau{position:sticky;top:0;height:100svh}
-.cadre{position:absolute;left:50%;top:50%;width:max(100vw,calc(100svh*16/9));aspect-ratio:16/9;transform:translate(-50%,-50%);transform-origin:39.4% 48.5%;will-change:transform}
-.cadre img,.couche img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#propre{clip-path:inset(0 0 0 0)}
-.anim #propre{clip-path:inset(0 100% 0 0)}
-#sale{display:none}
-.anim #sale{display:block}
-.faisceau{position:absolute;top:-3%;bottom:-3%;left:0;width:7px;background:#fff;border-radius:9px;box-shadow:0 0 18px 6px rgba(255,255,255,.95),0 0 70px 26px rgba(205,225,255,.55),0 0 190px 70px rgba(170,200,255,.2);opacity:0;display:none}
-.anim .faisceau{display:block}
-.couche{position:absolute;inset:0;opacity:0;display:none}
-.anim .couche{display:block}
-#poli{-webkit-mask-image:radial-gradient(circle at 55% 46%,#000 0,transparent 0);mask-image:radial-gradient(circle at 55% 46%,#000 0,transparent 0)}
-#goutte{position:absolute;left:55%;top:46%;width:min(26vw,190px);aspect-ratio:1;margin:calc(min(26vw,190px)/-2) 0 0 calc(min(26vw,190px)/-2);opacity:0;display:none}
-.anim #goutte{display:block}
-#goutte img{width:100%;height:100%}
+#secours{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.anim #secours{display:none}
+#atelier{position:absolute;inset:0;width:100%;height:100%;display:none;visibility:hidden}
+.anim #atelier{display:block}
+.pret3d #atelier{visibility:visible}
+.chargement{position:absolute;left:50%;top:50%;width:min(260px,50vw);height:2px;background:#2a2a28;transform:translate(-50%,-50%);display:none;overflow:hidden}
+.anim .chargement{display:block}
+.chargement i{display:block;height:100%;background:var(--or);transform:scaleX(.04);transform-origin:left;transition:transform .2s}
+.pret3d .chargement{display:none}
 .voile{position:absolute;inset:auto 0 0;height:58%;background:linear-gradient(to top,rgba(5,5,5,.94) 22%,rgba(5,5,5,.62) 58%,transparent);pointer-events:none}
 .texte{position:absolute;left:clamp(16px,4vw,54px);bottom:clamp(92px,13svh,120px);font-size:clamp(32px,6.6vw,92px);max-width:calc(100% - 32px);z-index:3}
 .texte.droite{left:auto;right:clamp(16px,4vw,54px);text-align:right}
@@ -75,13 +70,9 @@ a{color:inherit}
 .anim .indice{display:block}
 .illus{position:absolute;left:clamp(16px,4vw,54px);top:78px;font-size:12.5px;color:#a9a69e;z-index:3;margin:0}
 @media (max-aspect-ratio:1/1){
-  .cadre{width:186vw}
-  .cadre{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent)}
   .texte{font-size:clamp(30px,10.4vw,58px);bottom:118px}
   .texte.droite{right:16px}
   #final{bottom:58px}
-  #chaud{background:#231106}
-  #chaudimg{inset:auto;left:50%;top:50%;width:186vw;max-width:none;height:auto;aspect-ratio:16/9;translate:-50% -50%;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent)}
   .indice{display:none!important}
 }
 
@@ -129,7 +120,8 @@ input,select,textarea{width:100%;padding:11px 12px;font:400 16px Archivo,sans-se
 form .ok{margin:0;color:var(--or);font-size:14.5px}
 footer{border-top:1px solid var(--ligne);padding:30px 0 76px;font-size:14.5px;color:var(--gris)}
 footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
-footer img{width:44px;border-radius:5px}
+footer img{width:44px;height:auto;border-radius:5px}
+.credit{width:100%;font-size:12.5px;color:#8b8880}
 .demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center;border-top:1px solid #2b2b2b}
 .demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
 @media (max-width:920px){
@@ -157,20 +149,12 @@ footer img{width:44px;border-radius:5px}
 <main>
 <section id="scene" aria-label="Du véhicule sale au véhicule impeccable">
   <div class="plateau" id="plateau">
-    <div class="cadre" id="cadre">
-      <img id="sale" src="sale.jpg" alt="" width="2000" height="1125">
-      <img id="propre" src="propre.jpg" alt="SUV sombre brillant, éclairé dans un atelier" width="2000" height="1125">
-      <div class="faisceau" id="faisceau"></div>
-    </div>
-    <div class="couche" id="macro">
-      <img src="micro-rayures.jpg" alt="" width="1600" height="900">
-      <div class="couche" id="poli" style="display:block;opacity:1"><img src="peinture.jpg" alt="" width="1600" height="900"></div>
-      <div id="goutte"><img src="goutte.png" alt="" width="520" height="520"></div>
-    </div>
-    <div class="couche" id="chaud"><img id="chaudimg" src="remise.jpg" alt="" width="2000" height="1125" style="will-change:transform"></div>
+    <img id="secours" src="propre.jpg" alt="Véhicule sombre et brillant dans un atelier" width="2000" height="1125">
+    <canvas id="atelier" aria-label="Voiture en 3D lavée au fil du défilement"></canvas>
+    <div class="chargement" id="chargement" aria-hidden="true"><i id="charge"></i></div>
     <div class="voile"></div>
 
-    <p class="illus">Image d'illustration</p>
+    <p class="illus">Voiture 3D d'illustration</p>
     <h1 class="texte grand" id="t1"><span>Amenez-la</span><span class="creux">sale.</span><span class="sous">Detailing automobile à Charleroi, de l'aspiration à la cire 100 % carnauba.</span></h1>
     <p class="texte grand droite" id="t2"><span>Scrollez</span><span class="creux">pour laver.</span></p>
     <p class="texte grand" id="t3"><span>Regardez</span><span class="creux">de plus près.</span></p>
@@ -272,10 +256,12 @@ footer img{width:44px;border-radius:5px}
   <span>Nettoyage Prestige · Detailing automobile à Charleroi</span>
   <a href="https://www.facebook.com/Nettoyageprestigecharleroi/" target="_blank" rel="noopener">Facebook</a>
   <span>© <span id="y"></span> Nettoyage Prestige</span>
+  <small class="credit">Voiture 3D modifiée : <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept" target="_blank" rel="noopener">Car Concept</a> par Eric Chadwick, Darmstadt Graphics Group, licence <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener">CC BY 4.0</a>.</small>
 </div></footer>
 
-<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Nettoyage Prestige par Zank Solutions. Ce n'est pas le site officiel. Véhicule d'illustration.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Nettoyage Prestige par Zank Solutions. Ce n'est pas le site officiel. Voiture 3D d'illustration.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 
+<script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
 <script src="/demo/motion-14.9.0.js"></script>
 <script>
 document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
@@ -288,7 +274,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
   if(!window.Motion){r.classList.remove('anim');return}
   const {scroll,inView,animate}=Motion;
   const $=i=>document.getElementById(i);
-  const haut=document.querySelector('.haut'),scene=$('scene'),cadre=$('cadre'),propre=$('propre'),faisceau=$('faisceau'),macro=$('macro'),poli=$('poli'),goutte=$('goutte'),chaud=$('chaud'),chaudimg=$('chaudimg'),final=$('final'),indice=$('indice'),points=[...$('points').children];
+  const haut=document.querySelector('.haut'),scene=$('scene'),final=$('final'),indice=$('indice'),points=[...$('points').children];
   const seg=(p,a,b)=>Math.max(0,Math.min(1,(p-a)/(b-a)));
   const doux=t=>t*t*(3-2*t);
   /* Chaque texte : [début, pleine vue, fin de vue, sortie, sens] */
@@ -296,27 +282,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
   const bornes=[0,.33,.50,.72,.84];
   let cible=0,cur=0,tourne=false;
   function dessine(p){
-    /* 1. Le lavage : un trait de lumière balaie la voiture */
-    const w=doux(seg(p,.05,.30));
-    propre.style.clipPath='inset(0 '+(100-w*100)+'% 0 0)';
-    faisceau.style.left=(w*100)+'%';
-    faisceau.style.opacity=w>0&&w<1?Math.min(1,Math.min(w,1-w)*14):0;
-    /* 2. Le zoom sur le capot */
-    const z=seg(p,.34,.52),zd=z*z;
-    cadre.style.transform='translate('+(-50+zd*10.6)+'%,'+(-50+zd*1.5)+'%) scale('+(1+zd*5.5)+')';
-    /* 3. Le gros plan : les micro-rayures disparaissent */
-    macro.style.opacity=doux(seg(p,.46,.52));
-    const R=doux(seg(p,.55,.71))*135;
-    const masque='radial-gradient(circle at 55% 46%,#000 '+R+'%,transparent '+(R+(R>0?9:0))+'%)';
-    poli.style.webkitMaskImage=masque;poli.style.maskImage=masque;
-    /* 4. La goutte */
-    const g=seg(p,.71,.76),ge=1-Math.pow(1-g,3);
-    goutte.style.opacity=g>0?Math.min(1,g*3):0;
-    goutte.style.transform='scale('+(.15+ge*.85)+') translateY('+((1-ge)*-22)+'%)';
-    /* 5. La remise des clés */
-    const c=doux(seg(p,.82,.90));
-    chaud.style.opacity=c;
-    chaudimg.style.transform='scale('+(1.14-c*.14)+')';
+    dispatchEvent(new CustomEvent('np:progress',{detail:p}));
     final.style.opacity=seg(p,.93,.97);
     final.style.pointerEvents=p>.93?'auto':'none';
     final.style.visibility=p>.92?'visible':'hidden';
@@ -333,11 +299,13 @@ document.getElementById('y').textContent=new Date().getFullYear();
     points.forEach((d,k)=>d.classList.toggle('on',k===i));
   }
   /* Léger lissage pour que la molette reste fluide */
-  function boucle(){
-    cur+=(cible-cur)*.16;
+  let tPrec=0;
+  function boucle(ms){
+    const dt=Math.min(.25,tPrec?(ms-tPrec)/1000:.016);tPrec=ms;
+    cur+=(cible-cur)*(1-Math.exp(-dt*11));
     if(Math.abs(cible-cur)<.0004)cur=cible;
     dessine(cur);
-    if(cur!==cible)requestAnimationFrame(boucle);else tourne=false;
+    if(cur!==cible)requestAnimationFrame(boucle);else{tourne=false;tPrec=0}
   }
   scroll(p=>{cible=p;if(!tourne){tourne=true;requestAnimationFrame(boucle)}},{target:scene,offset:['start start','end end']});
   dessine(0);
@@ -348,6 +316,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
   });
 })();
 </script>
+<script>if(document.documentElement.classList.contains('anim')){const s=document.createElement('script');s.type='module';s.src='scene.js';s.onerror=()=>document.documentElement.classList.remove('anim');document.body.appendChild(s)}</script>
 <script src="/demo/suivi.js" defer></script>
 </body>
 </html>
