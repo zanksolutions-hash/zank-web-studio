@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('anim')</script>
+<title>Nettoyage Prestige · Detailing automobile à Charleroi</title>
+<meta name="description" content="Nettoyage intérieur et extérieur, décontamination, traitement des sièges et cire 100 % carnauba à Charleroi. Dès 50 €, recommandé à 100 % sur Facebook.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,100,400;0,100,500;0,100,600;0,125,800;1,125,900&display=swap" rel="stylesheet">
+<style>
+:root{--noir:#050505;--panneau:#101010;--ligne:#2a2a28;--blanc:#f6f4ef;--gris:#aaa79f;--or:#e8c46a;--or2:#a8701a;--titre:900 italic 1em/1 Archivo,Impact,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--noir)}
+body{margin:0;background:var(--noir);color:var(--blanc);font:400 17px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--or);outline-offset:3px}
+.wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}
+.grand{font-family:Archivo,Impact,sans-serif;font-stretch:125%;font-weight:900;font-style:italic;text-transform:uppercase;line-height:.98;letter-spacing:-.01em}
+.creux{color:transparent;-webkit-text-stroke:1.6px var(--or)}
+
+/* En-tête */
+.haut{position:fixed;inset:0 0 auto;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px clamp(14px,3vw,34px)}
+.haut{background:rgba(5,5,5,.9);transition:background .25s}
+.anim .haut:not(.fond){background:transparent}
+.haut img{width:50px;height:auto;border-radius:6px}
+.haut div{display:flex;align-items:center;gap:10px}
+.telh{font-weight:600;text-decoration:none;font-size:15.5px;text-shadow:0 1px 8px #000}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 20px;background:var(--or);color:#111;font-weight:800;font-stretch:125%;font-size:14.5px;text-transform:uppercase;letter-spacing:.03em;text-decoration:none;border:1px solid var(--or);transition:background .2s,color .2s;cursor:pointer}
+.btn:hover{background:transparent;color:var(--or)}
+.btn.vide{background:transparent;color:var(--blanc);border-color:#77746c}
+.btn.vide:hover{border-color:var(--or);color:var(--or)}
+.btn.petit{min-height:38px;padding:7px 13px;font-size:12.5px}
+
+/* La scène pilotée par le défilement */
+#scene{position:relative;background:var(--noir)}
+.anim #scene{height:680svh}
+.plateau{position:relative;height:88svh;min-height:520px;overflow:hidden;background:var(--noir)}
+.anim .plateau{position:sticky;top:0;height:100svh}
+.cadre{position:absolute;left:50%;top:50%;width:max(100vw,calc(100svh*16/9));aspect-ratio:16/9;transform:translate(-50%,-50%);transform-origin:39.4% 48.5%;will-change:transform}
+.cadre img,.couche img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#propre{clip-path:inset(0 0 0 0)}
+.anim #propre{clip-path:inset(0 100% 0 0)}
+#sale{display:none}
+.anim #sale{display:block}
+.faisceau{position:absolute;top:-3%;bottom:-3%;left:0;width:7px;background:#fff;border-radius:9px;box-shadow:0 0 18px 6px rgba(255,255,255,.95),0 0 70px 26px rgba(205,225,255,.55),0 0 190px 70px rgba(170,200,255,.2);opacity:0;display:none}
+.anim .faisceau{display:block}
+.couche{position:absolute;inset:0;opacity:0;display:none}
+.anim .couche{display:block}
+#poli{-webkit-mask-image:radial-gradient(circle at 55% 46%,#000 0,transparent 0);mask-image:radial-gradient(circle at 55% 46%,#000 0,transparent 0)}
+#goutte{position:absolute;left:55%;top:46%;width:min(26vw,190px);aspect-ratio:1;margin:calc(min(26vw,190px)/-2) 0 0 calc(min(26vw,190px)/-2);opacity:0;display:none}
+.anim #goutte{display:block}
+#goutte img{width:100%;height:100%}
+.voile{position:absolute;inset:auto 0 0;height:58%;background:linear-gradient(to top,rgba(5,5,5,.94) 22%,rgba(5,5,5,.62) 58%,transparent);pointer-events:none}
+.texte{position:absolute;left:clamp(16px,4vw,54px);bottom:clamp(92px,13svh,120px);font-size:clamp(32px,6.6vw,92px);max-width:calc(100% - 32px);z-index:3}
+.texte.droite{left:auto;right:clamp(16px,4vw,54px);text-align:right}
+.texte span{display:block}
+.anim .texte{opacity:0;will-change:transform,opacity}
+.texte:not(#t1){display:none}
+.anim .texte:not(#t1){display:block}
+.sous{display:block;font:500 clamp(15px,1.5vw,18px)/1.4 Archivo,sans-serif;text-transform:none;letter-spacing:0;font-stretch:100%;margin-top:12px;color:#dedbd2;max-width:40ch}
+.texte.droite .sous{margin-left:auto}
+#final{display:none;position:absolute;left:clamp(16px,4vw,54px);bottom:clamp(50px,6svh,64px);gap:10px;flex-wrap:wrap;z-index:4;opacity:0}
+.anim #final{display:flex}
+.points{position:absolute;right:clamp(14px,2vw,26px);top:50%;transform:translateY(-50%);display:none;flex-direction:column;gap:9px;z-index:4}
+.anim .points{display:flex}
+.points i{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.28;transition:opacity .25s,transform .25s}
+.points i.on{opacity:1;background:var(--or);transform:scale(1.5)}
+.indice{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#d6d3ca;display:none;z-index:3}
+.anim .indice{display:block}
+.illus{position:absolute;left:clamp(16px,4vw,54px);top:78px;font-size:12.5px;color:#a9a69e;z-index:3;margin:0}
+@media (max-aspect-ratio:1/1){
+  .cadre{width:186vw}
+  .cadre{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent)}
+  .texte{font-size:clamp(30px,10.4vw,58px);bottom:118px}
+  .texte.droite{right:16px}
+  #final{bottom:58px}
+  #chaud{background:#231106}
+  #chaudimg{inset:auto;left:50%;top:50%;width:186vw;max-width:none;height:auto;aspect-ratio:16/9;translate:-50% -50%;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent)}
+  .indice{display:none!important}
+}
+
+/* Sections */
+section.bloc{padding:clamp(100px,10vw,130px) 0 clamp(64px,9vw,120px);border-top:1px solid var(--ligne);background:var(--noir);position:relative}
+h2.grand{font-size:clamp(34px,5.6vw,72px);margin:0 0 14px}
+.intro{color:var(--gris);max-width:58ch;margin:0 0 38px}
+.formules{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:14px;align-items:stretch}
+.formule{background:var(--panneau);border:1px solid var(--ligne);padding:26px 24px;display:flex;flex-direction:column;min-width:0}
+.formule.phare{border-color:var(--or);background:linear-gradient(170deg,#1b1710,#0f0f0f 55%)}
+.formule h3{margin:0 0 4px;font-family:Archivo,sans-serif;font-stretch:125%;font-weight:800;font-size:21px;text-transform:uppercase}
+.etiq{font-size:13.5px;color:var(--or);min-height:21px}
+.prix{font-size:clamp(46px,5vw,62px);margin:12px 0 16px;color:var(--blanc)}
+.prix small{font-size:.32em;font-style:normal;font-weight:500;font-stretch:100%;color:var(--gris);letter-spacing:0;text-transform:none;display:block;margin-bottom:6px}
+ul.liste{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15.5px}
+ul.liste li{padding-left:16px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;background:var(--or)}
+.option{margin-top:18px;padding-top:16px;border-top:1px solid var(--ligne)}
+.option b{display:block;font-size:30px;font-family:Archivo;font-stretch:125%;font-weight:900;font-style:italic;color:var(--or);line-height:1.1}
+.option p{margin:4px 0 0;font-size:15px;color:#d8d5cc}
+.carte{display:grid;gap:0;font-size:15.5px}
+.carte div{display:grid;grid-template-columns:1fr auto;gap:2px 14px;padding:12px 0;border-bottom:1px solid var(--ligne)}
+.carte div:last-child{border-bottom:0}
+.carte b{font-weight:600}.carte span{font-weight:800;font-stretch:125%;color:var(--or);white-space:nowrap}
+.carte small{grid-column:1 / -1;color:var(--gris);font-size:13.5px;line-height:1.4}
+.supp{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--ligne);border:1px solid var(--ligne);margin-top:14px}
+.supp div{background:var(--noir);padding:14px 16px;font-size:14.5px;color:var(--gris)}
+.supp b{display:block;color:var(--blanc);font-weight:800;font-stretch:125%;font-size:17px}
+.note{font-size:13.5px;color:var(--gris);margin:12px 0 0}
+.avis{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,70px);align-items:center}
+.chiffre{font-size:clamp(70px,11vw,150px);color:var(--or)}
+.chiffre small{display:block;font:500 15px/1.3 Archivo,sans-serif;color:var(--gris);text-transform:none;letter-spacing:0;margin-top:8px}
+blockquote{margin:0;font-size:clamp(23px,3vw,36px);line-height:1.25;font-weight:500}
+cite{display:block;font-style:normal;font-size:15px;color:var(--gris);margin-top:14px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,5vw,70px);align-items:start}
+.coord{display:grid;gap:14px;margin:24px 0 0}
+.coord a,.coord p{margin:0;text-decoration:none;display:block;overflow-wrap:anywhere}
+.coord small{display:block;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.coord b{font-size:22px;font-weight:600}
+.coord a:hover b{color:var(--or)}
+form{display:grid;gap:13px;background:var(--panneau);border:1px solid var(--ligne);padding:clamp(20px,3vw,32px)}
+form h3{margin:0 0 4px;font-family:Archivo;font-stretch:125%;font-weight:800;font-size:22px;text-transform:uppercase}
+label{display:grid;gap:5px;font-size:14.5px;font-weight:500}
+input,select,textarea{width:100%;padding:11px 12px;font:400 16px Archivo,sans-serif;background:#0a0a0a;color:var(--blanc);border:1px solid #4c4a45}
+form .ok{margin:0;color:var(--or);font-size:14.5px}
+footer{border-top:1px solid var(--ligne);padding:30px 0 76px;font-size:14.5px;color:var(--gris)}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+footer img{width:44px;border-radius:5px}
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center;border-top:1px solid #2b2b2b}
+.demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+@media (max-width:920px){
+  .formules{grid-template-columns:minmax(0,1fr)}
+  .formule.phare{order:-1}
+  .supp{grid-template-columns:1fr 1fr}
+  .avis,.contact{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .telh{display:none}
+  .demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}.demo-bar .long{display:none}
+  .creux{-webkit-text-stroke-width:1.2px}
+}
+@media (min-width:641px){.demo-bar .short{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="haut">
+  <a href="#scene" aria-label="Nettoyage Prestige, retour en haut"><img src="logo.jpg" alt="Logo Nettoyage Prestige" width="590" height="720"></a>
+  <div><a class="telh" href="tel:+32492369565">0492 36 95 65</a><a class="btn petit" href="#contact">Réserver</a></div>
+</header>
+
+<main>
+<section id="scene" aria-label="Du véhicule sale au véhicule impeccable">
+  <div class="plateau" id="plateau">
+    <div class="cadre" id="cadre">
+      <img id="sale" src="sale.jpg" alt="" width="2000" height="1125">
+      <img id="propre" src="propre.jpg" alt="SUV sombre brillant, éclairé dans un atelier" width="2000" height="1125">
+      <div class="faisceau" id="faisceau"></div>
+    </div>
+    <div class="couche" id="macro">
+      <img src="micro-rayures.jpg" alt="" width="1600" height="900">
+      <div class="couche" id="poli" style="display:block;opacity:1"><img src="peinture.jpg" alt="" width="1600" height="900"></div>
+      <div id="goutte"><img src="goutte.png" alt="" width="520" height="520"></div>
+    </div>
+    <div class="couche" id="chaud"><img id="chaudimg" src="remise.jpg" alt="" width="2000" height="1125" style="will-change:transform"></div>
+    <div class="voile"></div>
+
+    <p class="illus">Image d'illustration</p>
+    <h1 class="texte grand" id="t1"><span>Amenez-la</span><span class="creux">sale.</span><span class="sous">Detailing automobile à Charleroi, de l'aspiration à la cire 100 % carnauba.</span></h1>
+    <p class="texte grand droite" id="t2"><span>Scrollez</span><span class="creux">pour laver.</span></p>
+    <p class="texte grand" id="t3"><span>Regardez</span><span class="creux">de plus près.</span></p>
+    <p class="texte grand droite" id="t4"><span>La saleté</span><span class="creux">s'en va.</span><span class="sous">Décontamination, prélavage et lavage de la carrosserie.</span></p>
+    <p class="texte grand" id="t5"><span>L'eau</span><span class="creux">perle.</span><span class="sous">Effet hydrophobe sur le nettoyage extérieur en profondeur.</span></p>
+    <p class="texte grand" id="t6"><span>On rend les clés.</span><span class="creux">Vous souriez.</span></p>
+    <div id="final"><a class="btn" href="#contact">Réserver mon nettoyage</a><a class="btn vide" href="#formules">Voir les prix</a></div>
+    <div class="indice" id="indice">Faites défiler</div>
+    <div class="points" id="points" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<section class="bloc" id="formules">
+  <div class="wrap">
+    <h2 class="grand">Des prix <span class="creux">clairs.</span></h2>
+    <p class="intro">Choisissez une formule complète ou un service à la carte. Le supplément éventuel dépend de votre véhicule et de son état.</p>
+    <div class="formules">
+      <article class="formule" data-entre>
+        <h3>Classique</h3><p class="etiq" style="margin:0">L'entretien régulier</p>
+        <p class="prix grand">50 €</p>
+        <ul class="liste">
+          <li>Nettoyage intérieur et extérieur</li>
+          <li>Nettoyage de la carrosserie</li>
+          <li>Aspiration complète du véhicule</li>
+          <li>Nettoyage et traitement des plastiques</li>
+        </ul>
+      </article>
+      <article class="formule phare" data-entre>
+        <h3>Detailing</h3><p class="etiq" style="margin:0">La remise à neuf</p>
+        <p class="prix grand">140 €</p>
+        <ul class="liste">
+          <li>Aspiration complète du véhicule</li>
+          <li>Nettoyage et traitement en profondeur des sièges</li>
+          <li>Nettoyage des tapis</li>
+          <li>Nettoyage et traitement des plastiques</li>
+          <li>Décontamination à la vapeur</li>
+          <li>Nettoyage des rails de siège</li>
+          <li>Décontamination, prélavage et lavage de la carrosserie</li>
+          <li>Nettoyage des jantes détaillé</li>
+          <li>Application d'un dressing pneu</li>
+        </ul>
+        <div class="option"><b>170 €</b><p>Avec traitement des plastiques extérieurs et application d'une cire 100 % carnauba.</p></div>
+      </article>
+      <article class="formule" data-entre>
+        <h3>À la carte</h3><p class="etiq" style="margin:0">Juste ce qu'il vous faut</p>
+        <div class="carte" style="margin-top:12px">
+          <div><b>Intérieur ou extérieur classique</b><span>25 €</span></div>
+          <div><b>Intérieur en profondeur</b><span>80 €</span><small>Aspiration, sièges, tapis, plastiques et décontamination à la vapeur.</small></div>
+          <div><b>Extérieur en profondeur</b><span>60 €</span><small>Décontamination, lavage, jantes, effet hydrophobe et plastiques.</small></div>
+          <div><b>Nettoyage des sièges</b><span>100 €</span><small>Ou 25 € par siège.</small></div>
+        </div>
+      </article>
+    </div>
+    <div class="supp" data-entre>
+      <div><b>+ 20 €</b>SUV ou break</div>
+      <div><b>+ 30 €</b>Monospace</div>
+      <div><b>+ 30 à 40 €</b>Utilitaire</div>
+      <div><b>+ 10 à 20 €</b>Véhicule très sale</div>
+      <div><b>+ 20 à 30 €</b>Poils d'animaux</div>
+    </div>
+  </div>
+</section>
+
+<section class="bloc" id="avis">
+  <div class="wrap avis">
+    <p class="chiffre grand" style="margin:0">100 %<small>recommandé, sur 15 avis Facebook</small></p>
+    <blockquote data-entre>« Service impeccable ! Ma voiture est ressortie comme neuve, intérieur parfaitement propre et soigné. »<cite>Melissa T., avis Facebook</cite></blockquote>
+  </div>
+</section>
+
+<section class="bloc" id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2 class="grand">Elle a besoin <span class="creux">de vous ?</span></h2>
+      <p class="intro" style="margin-bottom:0">Dites-nous quel véhicule vous avez et ce que vous souhaitez. Nettoyage Prestige vous répond avec un prix.</p>
+      <div class="coord">
+        <a href="tel:+32492369565"><small>Téléphone</small><b>0492 36 95 65</b></a>
+        <a href="https://wa.me/32492369565" target="_blank" rel="noopener"><small>WhatsApp</small><b>Écrire un message</b></a>
+        <a href="mailto:Parrinello.jerome@live.be"><small>E-mail</small><b>Parrinello.jerome@live.be</b></a>
+        <p><small>Secteur</small><b>Charleroi</b></p>
+      </div>
+    </div>
+    <form data-web3 data-entre>
+      <h3>Demander un rendez-vous</h3>
+      <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
+      <label>Téléphone<input name="tel" type="tel" autocomplete="tel" required></label>
+      <label>Votre véhicule<select name="vehicule"><option>Voiture</option><option>SUV ou break</option><option>Monospace</option><option>Utilitaire</option></select></label>
+      <label>Formule<select name="formule"><option>Classique, 50 €</option><option selected>Detailing, 140 €</option><option>Detailing et cire carnauba, 170 €</option><option>Service à la carte</option></select></label>
+      <label>Quelques mots<textarea name="message" rows="3"></textarea></label>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+      <p class="ok" role="status" hidden></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <img src="logo.jpg" alt="" width="590" height="720">
+  <span>Nettoyage Prestige · Detailing automobile à Charleroi</span>
+  <a href="https://www.facebook.com/Nettoyageprestigecharleroi/" target="_blank" rel="noopener">Facebook</a>
+  <span>© <span id="y"></span> Nettoyage Prestige</span>
+</div></footer>
+
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Nettoyage Prestige par Zank Solutions. Ce n'est pas le site officiel. Véhicule d'illustration.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+
+<script src="/demo/motion-14.9.0.js"></script>
+<script>
+document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
+  e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
+}));
+document.getElementById('y').textContent=new Date().getFullYear();
+(function(){
+  const r=document.documentElement;
+  if(!r.classList.contains('anim'))return;
+  if(!window.Motion){r.classList.remove('anim');return}
+  const {scroll,inView,animate}=Motion;
+  const $=i=>document.getElementById(i);
+  const haut=document.querySelector('.haut'),scene=$('scene'),cadre=$('cadre'),propre=$('propre'),faisceau=$('faisceau'),macro=$('macro'),poli=$('poli'),goutte=$('goutte'),chaud=$('chaud'),chaudimg=$('chaudimg'),final=$('final'),indice=$('indice'),points=[...$('points').children];
+  const seg=(p,a,b)=>Math.max(0,Math.min(1,(p-a)/(b-a)));
+  const doux=t=>t*t*(3-2*t);
+  /* Chaque texte : [début, pleine vue, fin de vue, sortie, sens] */
+  const textes=[['t1',-1,0,.07,.105,-1],['t2',.11,.15,.27,.31,1],['t3',.35,.39,.47,.50,-1],['t4',.55,.59,.68,.71,1],['t5',.72,.75,.80,.83,-1],['t6',.88,.93,2,3,-1]].map(t=>({el:$(t[0]),a:t[1],b:t[2],c:t[3],d:t[4],s:t[5]}));
+  const bornes=[0,.33,.50,.72,.84];
+  let cible=0,cur=0,tourne=false;
+  function dessine(p){
+    /* 1. Le lavage : un trait de lumière balaie la voiture */
+    const w=doux(seg(p,.05,.30));
+    propre.style.clipPath='inset(0 '+(100-w*100)+'% 0 0)';
+    faisceau.style.left=(w*100)+'%';
+    faisceau.style.opacity=w>0&&w<1?Math.min(1,Math.min(w,1-w)*14):0;
+    /* 2. Le zoom sur le capot */
+    const z=seg(p,.34,.52),zd=z*z;
+    cadre.style.transform='translate('+(-50+zd*10.6)+'%,'+(-50+zd*1.5)+'%) scale('+(1+zd*5.5)+')';
+    /* 3. Le gros plan : les micro-rayures disparaissent */
+    macro.style.opacity=doux(seg(p,.46,.52));
+    const R=doux(seg(p,.55,.71))*135;
+    const masque='radial-gradient(circle at 55% 46%,#000 '+R+'%,transparent '+(R+(R>0?9:0))+'%)';
+    poli.style.webkitMaskImage=masque;poli.style.maskImage=masque;
+    /* 4. La goutte */
+    const g=seg(p,.71,.76),ge=1-Math.pow(1-g,3);
+    goutte.style.opacity=g>0?Math.min(1,g*3):0;
+    goutte.style.transform='scale('+(.15+ge*.85)+') translateY('+((1-ge)*-22)+'%)';
+    /* 5. La remise des clés */
+    const c=doux(seg(p,.82,.90));
+    chaud.style.opacity=c;
+    chaudimg.style.transform='scale('+(1.14-c*.14)+')';
+    final.style.opacity=seg(p,.93,.97);
+    final.style.pointerEvents=p>.93?'auto':'none';
+    final.style.visibility=p>.92?'visible':'hidden';
+    indice.style.opacity=1-seg(p,.01,.05);
+    haut.classList.toggle('fond',p>=.999);
+    textes.forEach(t=>{
+      const e=seg(p,t.a,t.b),s=seg(p,t.c,t.d),o=Math.min(e,1-s);
+      t.el.style.opacity=o;
+      t.el.style.visibility=o>0?'visible':'hidden';
+      t.el.style.transform='translateX('+((1-doux(e))*t.s*-9+doux(s)*t.s*7)+'vw)';
+    });
+    let i=0;bornes.forEach((b,k)=>{if(p>=b)i=k});
+    if(p>=.90)i=5;
+    points.forEach((d,k)=>d.classList.toggle('on',k===i));
+  }
+  /* Léger lissage pour que la molette reste fluide */
+  function boucle(){
+    cur+=(cible-cur)*.16;
+    if(Math.abs(cible-cur)<.0004)cur=cible;
+    dessine(cur);
+    if(cur!==cible)requestAnimationFrame(boucle);else tourne=false;
+  }
+  scroll(p=>{cible=p;if(!tourne){tourne=true;requestAnimationFrame(boucle)}},{target:scene,offset:['start start','end end']});
+  dessine(0);
+  /* Les blocs suivants entrent en douceur */
+  document.querySelectorAll('[data-entre]').forEach(el=>{
+    el.style.opacity=0;
+    inView(el,()=>{animate(el,{opacity:[0,1],y:[26,0]},{duration:.7,ease:[.22,1,.36,1]})},{amount:.08});
+  });
+})();
+</script>
+<script src="/demo/suivi.js" defer></script>
+</body>
+</html>
