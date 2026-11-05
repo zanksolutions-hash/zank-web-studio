@@ -44,13 +44,13 @@ a{color:inherit}
 .anim .plateau{position:sticky;top:0;height:100svh}
 #secours{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .anim #secours{display:none}
-#atelier{position:absolute;inset:0;width:100%;height:100%;display:none;visibility:hidden}
+#atelier{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;visibility:hidden}
 .anim #atelier{display:block}
-.pret3d #atelier{visibility:visible}
+.pret #atelier{visibility:visible}
 .chargement{position:absolute;left:50%;top:50%;width:min(260px,50vw);height:2px;background:#2a2a28;transform:translate(-50%,-50%);display:none;overflow:hidden}
 .anim .chargement{display:block}
 .chargement i{display:block;height:100%;background:var(--or);transform:scaleX(.04);transform-origin:left;transition:transform .2s}
-.pret3d .chargement{display:none}
+.pret .chargement{display:none}
 .voile{position:absolute;inset:auto 0 0;height:58%;background:linear-gradient(to top,rgba(5,5,5,.94) 22%,rgba(5,5,5,.62) 58%,transparent);pointer-events:none}
 .texte{position:absolute;left:clamp(16px,4vw,54px);bottom:clamp(92px,13svh,120px);font-size:clamp(32px,6.6vw,92px);max-width:calc(100% - 32px);z-index:3}
 .texte.droite{left:auto;right:clamp(16px,4vw,54px);text-align:right}
@@ -73,6 +73,7 @@ a{color:inherit}
   .texte{font-size:clamp(30px,10.4vw,58px);bottom:118px}
   .texte.droite{right:16px}
   #final{bottom:58px}
+  #t6{bottom:186px}
   .indice{display:none!important}
 }
 
@@ -147,17 +148,17 @@ footer img{width:44px;height:auto;border-radius:5px}
 </header>
 
 <main>
-<section id="scene" aria-label="Du véhicule sale au véhicule impeccable">
+<section id="scene" aria-label="Du lavage à la voiture impeccable">
   <div class="plateau" id="plateau">
-    <img id="secours" src="propre.jpg" alt="Véhicule sombre et brillant dans un atelier" width="2000" height="1125">
-    <canvas id="atelier" aria-label="Voiture en 3D lavée au fil du défilement"></canvas>
+    <img id="secours" src="propre.jpg" alt="Capot noir brillant sous les néons d'un atelier" width="1280" height="720">
+    <canvas id="atelier" aria-label="Vidéo : une voiture lavée, polie puis brillante au fil du défilement"></canvas>
     <div class="chargement" id="chargement" aria-hidden="true"><i id="charge"></i></div>
     <div class="voile"></div>
 
-    <p class="illus">Voiture 3D d'illustration</p>
+    <p class="illus">Vidéos d'illustration</p>
     <h1 class="texte grand" id="t1"><span>Amenez-la</span><span class="creux">sale.</span><span class="sous">Detailing automobile à Charleroi, de l'aspiration à la cire 100 % carnauba.</span></h1>
     <p class="texte grand droite" id="t2"><span>Scrollez</span><span class="creux">pour laver.</span></p>
-    <p class="texte grand" id="t3"><span>Regardez</span><span class="creux">de plus près.</span></p>
+    <p class="texte grand" id="t3"><span>Regardez</span><span class="creux">de plus près.</span><span class="sous">Jusqu'à la cire 100 % carnauba.</span></p>
     <p class="texte grand droite" id="t4"><span>La saleté</span><span class="creux">s'en va.</span><span class="sous">Décontamination, prélavage et lavage de la carrosserie.</span></p>
     <p class="texte grand" id="t5"><span>L'eau</span><span class="creux">perle.</span><span class="sous">Effet hydrophobe sur le nettoyage extérieur en profondeur.</span></p>
     <p class="texte grand" id="t6"><span>On rend les clés.</span><span class="creux">Vous souriez.</span></p>
@@ -256,12 +257,11 @@ footer img{width:44px;height:auto;border-radius:5px}
   <span>Nettoyage Prestige · Detailing automobile à Charleroi</span>
   <a href="https://www.facebook.com/Nettoyageprestigecharleroi/" target="_blank" rel="noopener">Facebook</a>
   <span>© <span id="y"></span> Nettoyage Prestige</span>
-  <small class="credit">Voiture 3D modifiée : <a href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/CarConcept" target="_blank" rel="noopener">Car Concept</a> par Eric Chadwick, Darmstadt Graphics Group, licence <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener">CC BY 4.0</a>.</small>
+  <small class="credit">Vidéos d'illustration : <a href="https://www.pexels.com/fr-fr/license/" target="_blank" rel="noopener">Pexels</a>.</small>
 </div></footer>
 
-<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Nettoyage Prestige par Zank Solutions. Ce n'est pas le site officiel. Voiture 3D d'illustration.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Nettoyage Prestige par Zank Solutions. Ce n'est pas le site officiel. Vidéos d'illustration.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 
-<script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
 <script src="/demo/motion-14.9.0.js"></script>
 <script>
 document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
@@ -278,11 +278,36 @@ document.getElementById('y').textContent=new Date().getFullYear();
   const seg=(p,a,b)=>Math.max(0,Math.min(1,(p-a)/(b-a)));
   const doux=t=>t*t*(3-2*t);
   /* Chaque texte : [début, pleine vue, fin de vue, sortie, sens] */
-  const textes=[['t1',-1,0,.07,.105,-1],['t2',.11,.15,.27,.31,1],['t3',.35,.39,.47,.50,-1],['t4',.55,.59,.68,.71,1],['t5',.72,.75,.80,.83,-1],['t6',.88,.93,2,3,-1]].map(t=>({el:$(t[0]),a:t[1],b:t[2],c:t[3],d:t[4],s:t[5]}));
-  const bornes=[0,.33,.50,.72,.84];
+  const textes=[['t1',-1,0,.07,.10,-1],['t2',.105,.13,.175,.20,1],['t4',.22,.25,.33,.36,1],['t3',.39,.42,.50,.53,-1],['t5',.645,.665,.72,.74,-1],['t6',.875,.92,2,3,-1]].map(t=>({el:$(t[0]),a:t[1],b:t[2],c:t[3],d:t[4],s:t[5]}));
+  const bornes=[0,.20,.37,.525,.63];
+  /* La vidéo est une suite d'images : on charge d'abord un plan grossier, puis on affine */
+  const N=222,toile=$('atelier'),ctx=toile.getContext('2d'),tel=innerHeight>innerWidth;
+  toile.width=tel?540:1280;toile.height=tel?960:720;
+  const dos=tel?'f/m/':'f/d/',imgs=new Array(N),ok=new Array(N).fill(false);
+  let affichee=-1,voulue=0;
+  function peint(){
+    let k=voulue,d=0;
+    while(!ok[k]&&d<N){d++;if(k-d>=0&&ok[k-d]){k-=d;break}if(k+d<N&&ok[k+d]){k+=d;break}}
+    if(ok[k]&&k!==affichee){ctx.drawImage(imgs[k],0,0,toile.width,toile.height);affichee=k}
+  }
+  function image(p){voulue=Math.round(Math.min(1,p/.985)*(N-1));peint()}
+  const ordre=[];for(const pas of [32,16,8,4,2,1])for(let i=0;i<N;i+=pas)if(!ordre.includes(i))ordre.push(i);
+  ordre.push(N-1);
+  function charge(i){return new Promise(res=>{
+    const im=new Image();imgs[i]=im;im.decoding='async';
+    im.onload=()=>{ok[i]=true;res(true)};im.onerror=()=>res(false);
+    im.src=dos+String(i).padStart(3,'0')+'.webp';
+  })}
+  charge(0).then(b=>{
+    if(!b){r.classList.remove('anim');return}
+    r.classList.add('pret');peint();
+    let n=1;
+    const suite=async()=>{while(n<ordre.length){const i=ordre[n++];if(!imgs[i]){await charge(i);peint()}}};
+    for(let w=0;w<6;w++)suite();
+  });
   let cible=0,cur=0,tourne=false;
   function dessine(p){
-    dispatchEvent(new CustomEvent('np:progress',{detail:p}));
+    image(p);
     final.style.opacity=seg(p,.93,.97);
     final.style.pointerEvents=p>.93?'auto':'none';
     final.style.visibility=p>.92?'visible':'hidden';
@@ -295,7 +320,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
       t.el.style.transform='translateX('+((1-doux(e))*t.s*-9+doux(s)*t.s*7)+'vw)';
     });
     let i=0;bornes.forEach((b,k)=>{if(p>=b)i=k});
-    if(p>=.90)i=5;
+    if(p>=.85)i=5;
     points.forEach((d,k)=>d.classList.toggle('on',k===i));
   }
   /* Léger lissage pour que la molette reste fluide */
@@ -316,7 +341,6 @@ document.getElementById('y').textContent=new Date().getFullYear();
   });
 })();
 </script>
-<script>if(document.documentElement.classList.contains('anim')){const s=document.createElement('script');s.type='module';s.src='scene.js';s.onerror=()=>document.documentElement.classList.remove('anim');document.body.appendChild(s)}</script>
 <script src="/demo/suivi.js" defer></script>
 </body>
 </html>
