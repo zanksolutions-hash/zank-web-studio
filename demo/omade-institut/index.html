@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<script>(function(){var r=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;r.classList.add('anim');setTimeout(function(){if(!r.classList.contains('pret'))r.classList.remove('anim')},3000)})()</script>
 <title>Ômade · Cornéothérapie à Marche-en-Famenne</title>
 <meta name="description" content="Ômade, institut de cornéothérapie à Marche-en-Famenne : peaux sensibles, acnéiques, réactives ou marquées par le temps. Consultation, soins sur mesure et accompagnements.">
 <meta name="theme-color" content="#f6f0e8">
@@ -406,18 +405,13 @@ carte(0);
     ec.push([e,(Math.sin(i*12.9+r*7.1)*43758)%1,(Math.cos(i*4.1+r*3.3)*1e4)%1]);
   }
   const pose=p=>ec.forEach(([e,a,b])=>{const q=1-p;e.setAttribute('transform',`translate(${(a*40*q).toFixed(1)} ${(-Math.abs(b)*90*q).toFixed(1)}) rotate(${(a*35*q).toFixed(1)} ${e.getAttribute('x')} ${e.getAttribute('y')})`);e.style.opacity=(1-.6*q).toFixed(2)});
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){pose(1);return}
-  let att=false;
-  const maj=()=>{att=false;pose(Math.min(1,scrollY/Math.max(260,innerHeight*.5)))};
-  addEventListener('scroll',()=>{if(!att){att=true;requestAnimationFrame(maj)}},{passive:true});maj();
+  pose(1);
 })();
 document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
   e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
 }));
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Ômade Cornéothérapie par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
-<script src="/demo/motion-14.9.0.js"></script>
-<script src="/demo/anim.js"></script>
 <script src="/demo/suivi.js" defer></script>
 </body>
 </html>

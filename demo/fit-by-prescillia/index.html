@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<script>(function(){var r=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;r.classList.add('anim');setTimeout(function(){if(!r.classList.contains('pret'))r.classList.remove('anim')},3000)})()</script>
 <title>Fit By Prescillia · Coaching sportif à Anderlues et en ligne</title>
 <meta name="description" content="Prescillia, coach sportive certifiée : coaching individuel à la salle à Anderlues, suivi en ligne, Pilates personnalisé et cours collectifs à Binche.">
 <meta name="theme-color" content="#f3f0e9">
@@ -364,7 +363,6 @@ function rendre(){
   $('sem-titre').textContent=`${n} séance${n>1?'s':''}`;
   $('sem-texte').innerHTML='';$('sem-texte').append('Objectif : ',el('b',t.toLowerCase()),' · '+FORM_F[etat.form]);
   $('f-obj').selectedIndex=io;$('f-form').value=FORM_F[etat.form];
-  if(window.Motion&&document.documentElement.classList.contains('anim'))Motion.animate('.jour.actif i',{scaleY:[0,1]},{type:'spring',bounce:.35,duration:.7,delay:Motion.stagger(.06)});
 }
 document.querySelectorAll('.puces').forEach(g=>{const bs=[...g.children];bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.setAttribute('aria-pressed',x===b));etat[g.dataset.q]=b.dataset.v;rendre()})});
 rendre();
@@ -373,8 +371,6 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
 }));
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Fit By Prescillia par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
-<script src="/demo/motion-14.9.0.js"></script>
-<script src="/demo/anim.js"></script>
 <script src="/demo/suivi.js" defer></script>
 </body>
 </html>
