@@ -49,28 +49,23 @@ nav .btn{padding:10px 18px;font-size:14.5px;white-space:nowrap}
 .proof{margin-top:26px;font-size:15px;color:var(--gris);display:flex;flex-wrap:wrap;gap:6px 22px}
 .proof b{color:var(--encre)}
 
-/* Du plan à la finition */
-.plan{position:relative;background:#fff;padding:clamp(14px,2vw,22px);box-shadow:0 34px 60px -36px rgba(28,26,23,.5)}
-.plan svg{width:100%;height:auto;background:#f4f7fa;transition:background .9s}
-.plan .tr{fill:none;stroke:#46607a;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.plan .cote{stroke:#7d95ad;stroke-width:1;fill:none}
-.plan .cote-t{font:600 11px 'Manrope',sans-serif;fill:#5d7690;letter-spacing:.06em}
-.plan .grille{stroke:#dbe5ee;stroke-width:1}
-.plan .fi{opacity:0;transition:opacity .9s}
-.plan.fini svg{background:#efe6d6}
-.plan.fini .fi{opacity:1}
-.plan.fini .cote,.plan.fini .cote-t,.plan.fini .grille{opacity:0}
-.plan.fini .tr{stroke:#4a3f30}
-.plan .cote,.plan .cote-t,.plan .grille{transition:opacity .6s}
-.plan .tr{transition:stroke .9s}
-.anim .plan .tr{stroke-dasharray:1;stroke-dashoffset:1}
-.plan.trace .tr{animation:trace 1.8s cubic-bezier(.6,0,.3,1) forwards}
-@keyframes trace{to{stroke-dashoffset:0}}
-.plan .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
-.plan .bar small{font-size:13.5px;color:var(--gris)}
-.bascule2{display:inline-flex;border:1.5px solid var(--nuit)}
-.bascule2 button{border:0;background:transparent;padding:8px 18px;font:600 14px 'Manrope',sans-serif;cursor:pointer;color:var(--nuit)}
-.bascule2 button[aria-pressed=true]{background:var(--nuit);color:#fff}
+/* Photo d'ouverture */
+.photo{position:relative;margin:0}
+.photo img{width:100%;height:auto;aspect-ratio:718/960;max-height:min(78vh,640px);object-fit:cover;object-position:50% 60%;box-shadow:0 34px 60px -36px rgba(28,26,23,.55)}
+.photo::before{content:'';position:absolute;inset:-14px 14px 14px -14px;border:1px solid var(--or);z-index:-1}
+.photo figcaption{position:absolute;left:16px;bottom:16px;background:var(--nuit);color:#fff;padding:8px 14px;font-size:14px}
+.photo figcaption b{color:var(--or-c);font-weight:600}
+
+/* Galerie de chantiers */
+.chantiers{padding-top:0}
+.galerie{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;height:min(78vw,760px)}
+.galerie figure{margin:0;position:relative;overflow:hidden;background:var(--sable)}
+.galerie figure:first-child{grid-row:span 2}
+.galerie figure:first-child img{object-position:50% 75%}
+.galerie img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.galerie figure:hover img{transform:scale(1.04)}
+.galerie figcaption{position:absolute;left:10px;bottom:10px;background:var(--ivoire);padding:4px 12px;font-size:13.5px}
+.galerie .note{grid-column:1/-1}
 
 .bande{background:var(--nuit);color:#d8d2c6;padding:16px 0;border-top:1px solid #33302a}
 .bande ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 28px;font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.7vw,22px)}
@@ -165,6 +160,7 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
   .liens{display:none}
   .hero .wrap,.services .wrap,.patron .wrap,.contact .wrap{grid-template-columns:1fr}
   .cartes{grid-template-columns:1fr}
+  .photo{margin-left:10px}
   .carte,.carte + .carte{padding:24px 0;border-left:0;border-bottom:1px solid var(--ligne)}
 }
 @media (max-width:640px){
@@ -174,6 +170,10 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
   .marque small{font-size:9.5px}
   nav .btn{padding:9px 13px;font-size:14px}
   .zones ul{grid-template-columns:1fr}
+  .galerie{grid-template-columns:1fr 1fr;grid-template-rows:none;height:auto}
+  .galerie figure{aspect-ratio:3/4}
+  .galerie figure:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:4/5}
+  .photo::before{inset:-10px 10px 10px -10px}
   .marches{grid-template-columns:repeat(2,1fr)}
   .marches button:nth-child(n){min-height:160px;padding:16px}
   .detail{min-height:4em}
@@ -194,7 +194,7 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
 <nav>
   <div class="wrap">
     <a class="marque" href="#" aria-label="Creat'or line, accueil"><b>Creat'<i>or</i> line</b><small>Rénovation · Décoration</small></a>
-    <div class="liens"><a href="#services">Services</a><a href="#methode">Méthode</a><a href="#engagements">Engagements</a><a href="#questions">Questions</a><a href="#contact">Contact</a></div>
+    <div class="liens"><a href="#services">Services</a><a href="#methode">Méthode</a><a href="#chantiers">Chantiers</a><a href="#questions">Questions</a><a href="#contact">Contact</a></div>
     <a class="btn or" href="#contact">Demander un devis</a>
   </div>
 </nav>
@@ -211,44 +211,7 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
       </div>
       <p class="proof"><span><b>Entreprise générale</b> de rénovation</span><span><b>Bruxelles</b> et environs</span></p>
     </div>
-    <div class="plan" id="plan">
-      <svg viewBox="0 0 600 460" role="img" aria-label="Un intérieur dessiné comme un plan d'architecte, puis montré terminé">
-        <g class="grille"><path d="M0 40H600M0 120H600M0 200H600M0 280H600M0 360H600M0 440H600M60 0V460M160 0V460M260 0V460M360 0V460M460 0V460M560 0V460"/></g>
-        <!-- Finitions -->
-        <g class="fi">
-          <path d="M120 70H480V330H120z" fill="#e9dcc6"/>
-          <path d="M0 0H120V330L0 460z" fill="#ddcdb3"/><path d="M600 0H480V330L600 460z" fill="#d6c5a9"/>
-          <path d="M0 460L120 330H480L600 460z" fill="#b98a57"/>
-          <path d="M60 460L160 330M150 460L220 330M240 460L280 330M330 460L320 330M420 460L380 330M510 460L440 330" stroke="#a5784a" stroke-width="2"/>
-          <path d="M190 300V175a60 60 0 0 1 120 0V300z" fill="#cfe1ea"/><path d="M190 300V175a60 60 0 0 1 120 0V300z" fill="url(#lum)"/>
-          <rect x="350" y="150" width="100" height="150" fill="#2f2a24"/>
-          <path d="M360 195H440M360 245H440" stroke="#b8924a" stroke-width="3"/>
-          <rect x="368" y="170" width="18" height="25" fill="#c9b08a"/><rect x="400" y="176" width="26" height="19" fill="#8c6f4b"/><circle cx="380" cy="234" r="10" fill="#b8924a"/><rect x="404" y="222" width="28" height="23" fill="#e9dcc6"/><rect x="372" y="268" width="56" height="27" fill="#6d5a43"/>
-          <path d="M250 70V112" stroke="#b8924a" stroke-width="2"/><path d="M228 132L250 112L272 132z" fill="#b8924a"/><ellipse cx="250" cy="140" rx="34" ry="8" fill="#fff3d6" opacity=".7"/>
-          <path d="M130 270H330V300H130z" fill="#efe5d3"/><path d="M140 250H320V272H140z" fill="#8f7558"/><path d="M134 300V312M326 300V312" stroke="#4a3f30" stroke-width="3"/>
-        </g>
-        <defs><linearGradient id="lum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
-        <!-- Tracé -->
-        <path class="tr" pathLength="1" d="M120 70H480V330H120z"/>
-        <path class="tr" pathLength="1" d="M0 0L120 70M600 0L480 70M0 460L120 330M600 460L480 330"/>
-        <path class="tr" pathLength="1" d="M190 300V175a60 60 0 0 1 120 0V300z"/>
-        <path class="tr" pathLength="1" d="M250 115V300M190 210H310"/>
-        <path class="tr" pathLength="1" d="M350 150H450V300H350z"/>
-        <path class="tr" pathLength="1" d="M350 195H450M350 245H450"/>
-        <path class="tr" pathLength="1" d="M250 70V112M228 132L250 112L272 132z"/>
-        <path class="tr" pathLength="1" d="M140 250H320V272H140zM130 272H330V300H130z"/>
-        <path class="tr" pathLength="1" d="M120 300H480"/>
-        <!-- Cotes -->
-        <g class="cote"><path d="M120 360H480M120 352V368M480 352V368"/><path d="M510 70V330M502 70H518M502 330H518"/><path d="M190 52H310M190 46V58M310 46V58"/></g>
-        <text class="cote-t" x="300" y="383" text-anchor="middle">4,80 M</text>
-        <text class="cote-t" x="528" y="204">2,70 M</text>
-        <text class="cote-t" x="250" y="40" text-anchor="middle">1,60 M</text>
-      </svg>
-      <div class="bar">
-        <div class="bascule2" id="mode"><button type="button" aria-pressed="true" data-m="plan">Le plan</button><button type="button" aria-pressed="false" data-m="fini">La finition</button></div>
-        <small>Du plan à la dernière finition</small>
-      </div>
-    </div>
+    <figure class="photo"><img src="img/cuisine.webp" width="718" height="960" fetchpriority="high" alt="Cuisine rénovée par Creat'or line : mur en enduit décoratif sombre, îlot en marbre blanc et fours encastrés"><figcaption><b>Réalisation</b> · cuisine et enduit décoratif</figcaption></figure>
   </div>
 </header>
 
@@ -286,6 +249,23 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
       <button type="button" aria-pressed="false" data-t="Nous faisons le tour des finitions avec vous, pièce par pièce, avant de vous rendre les clés d'un intérieur prêt à vivre."><i>4</i><b>La réception</b></button>
     </div>
     <p class="detail" id="detail" aria-live="polite">Nous venons voir votre intérieur, écoutons vos envies et prenons les mesures. Si vous avez un architecte, nous travaillons avec lui dès le départ.</p>
+  </div>
+</section>
+
+<section class="chantiers" id="chantiers">
+  <div class="wrap">
+    <div class="head">
+      <span class="tag">Sur nos chantiers</span>
+      <h2>Le soin se voit <em>avant même la finition.</em></h2>
+      <p>Rénovation de combles en cours&nbsp;: plafonds en plaques de plâtre, fenêtres de toit et mur de brique conservé.</p>
+    </div>
+    <div class="galerie">
+      <figure><img src="img/combles.webp" width="1100" height="1467" loading="lazy" alt="Combles en rénovation : plafond en plaques de plâtre, grandes fenêtres de toit et mur de brique"><figcaption>Combles, en cours</figcaption></figure>
+      <figure><img src="img/plafond.webp" width="900" height="1200" loading="lazy" alt="Plafond en pente en plaques de plâtre, joints enduits, à côté d'un mur de brique"><figcaption>Plafonds</figcaption></figure>
+      <figure><img src="img/velux.webp" width="900" height="1200" loading="lazy" alt="Fenêtre de toit intégrée dans un plafond en plaques de plâtre"><figcaption>Fenêtre de toit</figcaption></figure>
+      <figure><img src="img/brique.webp" width="900" height="1200" loading="lazy" alt="Mur de brique protégé pendant les travaux, à côté des nouvelles cloisons"><figcaption>Brique conservée</figcaption></figure>
+      <figure><img src="img/fini.webp" width="900" height="1200" loading="lazy" alt="Plafond blanc terminé, lisse et prêt à peindre"><figcaption>Plafond terminé</figcaption></figure>
+    </div>
   </div>
 </section>
 
@@ -369,20 +349,12 @@ footer b{font:400 italic 22px var(--serif);color:var(--or-c)}
 <footer>
   <div class="wrap">
     <b>Des finitions qui durent</b>
-    <span>Creat'or line srl · Bergensesteenweg 13, 1600 Sint-Pieters-Leeuw · Rénovation intérieure et décoration sur mesure</span>
+    <span>Creat'or line srl · Bergensesteenweg 13, 1600 Sint-Pieters-Leeuw · Rénovation intérieure et décoration sur mesure · Photos : Creat'or line, via Facebook</span>
   </div>
 </footer>
 
 <script>
 const $=id=>document.getElementById(id);
-/* Plan -> finition */
-const plan=$('plan'),modes=[...$('mode').children];
-function mode(m){plan.classList.toggle('fini',m==='fini');modes.forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m))}
-modes.forEach(b=>b.onclick=()=>{auto=false;mode(b.dataset.m)});
-let auto=true;
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
-  new IntersectionObserver((e,o)=>{if(e[0].isIntersecting){o.disconnect();plan.classList.add('trace');setTimeout(()=>{if(auto)mode('fini')},2600)}},{threshold:.3}).observe(plan);
-}
 /* Services */
 const SERV={
  r:['Rénovation intérieure de A à Z','Transformation complète de votre intérieur, avec des matériaux de qualité et un savoir-faire unique.',['Plafonnage et enduits','Cloisons et faux plafonds','Peinture et finitions','Sols et carrelage','Salles de bain','Menuiserie intérieure']],
