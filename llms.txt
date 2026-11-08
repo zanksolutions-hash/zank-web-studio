@@ -1,0 +1,17 @@
+# Zank Solutions
+
+> Zank Solutions crée, héberge et entretient des sites internet sur abonnement pour les commerçants, artisans et indépendants du Hainaut (Belgique). Basé à Estinnes.
+
+- Formules : Essentiel 25 €, Pro 45 €, Premium 79 € HTVA par mois (franchise de la taxe : TVA non applicable)
+- Mise en service : 149 € avec un engagement de 12 mois, offerte avec un engagement de 24 mois
+- Inclus : hébergement, HTTPS, sauvegardes, nom de domaine au nom du client, modifications mensuelles
+- Maquette de la page d'accueil offerte sous 48 h, site en ligne en 7 jours
+- Après l'engagement : mois par mois, préavis d'un mois
+- Zone : province de Hainaut (Binche, La Louvière, Mons, Charleroi, Estinnes, Tournai...)
+- Contact : +32 499 469 864, info@zanksolutions.be
+
+## Pages
+
+- [Accueil](https://webstudio.zanksolutions.be/) : offre, tarifs et FAQ
+- [Tarifs](https://webstudio.zanksolutions.be/#tarifs) : détail des trois formules
+- [FAQ](https://webstudio.zanksolutions.be/#faq) : prix, délais, propriété du site, référencement
