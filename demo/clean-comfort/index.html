@@ -42,24 +42,13 @@ nav a.l:hover{color:var(--or-t)}
 nav .btn{padding:10px 18px;font-size:15px}
 
 header{padding:60px 0 84px}
-header .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
-h1{font-size:clamp(44px,6vw,74px)}
+header>.wrap>div{max-width:820px}
+h1{font-size:clamp(44px,6.6vw,84px)}
 h1 span{color:var(--or-t)}
 .chapo{font-size:19px;color:var(--doux);margin:22px 0 30px;max-width:30em}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .neuf{margin-top:28px;padding-left:14px;border-left:3px solid var(--or);font-size:16px}
 .neuf b{font-weight:600}
-.maison svg{display:block;width:100%;height:auto}
-.piece{cursor:pointer;outline:none}
-.piece rect{fill:var(--pale);stroke:var(--ligne);stroke-width:1.5;transition:fill .2s}
-.piece text{font:600 18px 'Instrument Sans',sans-serif;fill:var(--encre);text-anchor:middle;pointer-events:none;transition:fill .2s}
-.piece:hover rect{fill:var(--or-c)}
-.piece:focus-visible rect{stroke:var(--or-t);stroke-width:3}
-.piece[aria-pressed=true] rect{fill:var(--or-t)}
-.piece[aria-pressed=true] text{fill:#fff}
-.legende{background:#fff;border:1px solid var(--ligne);border-radius:10px;padding:16px 20px;margin-top:14px;min-height:100px}
-.legende b{display:block;font:700 20px var(--display);margin-bottom:3px}
-.legende span{color:var(--doux);font-size:16px}
 
 .bande{background:var(--nuit);color:#fff}
 .bande ul{list-style:none;margin:0 auto;padding:20px 28px;max-width:1140px;display:flex;justify-content:space-between;gap:8px 28px;flex-wrap:wrap;font:500 18px var(--display)}
@@ -138,7 +127,7 @@ footer b{color:#fff;font:500 18px var(--display)}
 @media (max-width:900px){
   section{padding:68px 0}
   header{padding:40px 0 64px}
-  header .wrap,.repassage .wrap,.contact .wrap{grid-template-columns:1fr;gap:40px}
+  .repassage .wrap,.contact .wrap{grid-template-columns:1fr;gap:40px}
   .cartes,.groupes{grid-template-columns:1fr}
   .marches{grid-template-columns:1fr 1fr}
   nav a.l{display:none}
@@ -184,19 +173,6 @@ footer b{color:#fff;font:500 18px var(--display)}
         <a class="btn vide" href="tel:+32471824639">0471 82 46 39</a>
       </div>
       <p class="neuf"><b>Nouveau&nbsp;:</b> la centrale de repassage est ouverte à Strépy-Bracquegnies, avec l'équipe que vous connaissez déjà.</p>
-    </div>
-    <div class="maison">
-      <svg viewBox="0 0 460 392" role="group" aria-label="Maison : choisissez une pièce pour voir ce qui y est fait">
-        <path d="M26 172 230 24" stroke="#8b9097" stroke-width="16" stroke-linecap="round"/>
-        <path d="M230 24 434 172" stroke="#f47b20" stroke-width="16" stroke-linecap="round"/>
-        <path d="M58 150V384H402V150" fill="none" stroke="#8b9097" stroke-width="10"/>
-        <g class="piece" role="button" tabindex="0" aria-pressed="false" data-r="linge"><rect x="166" y="92" width="128" height="58" rx="4"/><text x="230" y="127">Linge</text></g>
-        <g class="piece" role="button" tabindex="0" aria-pressed="false" data-r="chambre"><rect x="70" y="160" width="156" height="104" rx="4"/><text x="148" y="218">Chambre</text></g>
-        <g class="piece" role="button" tabindex="0" aria-pressed="false" data-r="bain"><rect x="234" y="160" width="156" height="104" rx="4"/><text x="312" y="218">Salle de bain</text></g>
-        <g class="piece" role="button" tabindex="0" aria-pressed="true" data-r="salon"><rect x="70" y="272" width="156" height="104" rx="4"/><text x="148" y="330">Salon</text></g>
-        <g class="piece" role="button" tabindex="0" aria-pressed="false" data-r="cuisine"><rect x="234" y="272" width="156" height="104" rx="4"/><text x="312" y="330">Cuisine</text></g>
-      </svg>
-      <p class="legende" id="legende" aria-live="polite"><b>Salon</b><span>Poussières, aspirateur, sols lavés et vitres intérieures.</span></p>
     </div>
   </div>
 </header>
@@ -320,20 +296,6 @@ footer b{color:#fff;font:500 18px var(--display)}
 
 <script>
 const $=id=>document.getElementById(id);
-/* La maison */
-const PIECES={
- linge:['Linge','Vêtements et linge de maison repassés à notre centrale de Strépy-Bracquegnies.'],
- chambre:['Chambre','Poussières, lit refait, aspirateur et sols lavés.'],
- bain:['Salle de bain','Sanitaires, douche ou baignoire, miroirs et carrelage.'],
- salon:['Salon','Poussières, aspirateur, sols lavés et vitres intérieures.'],
- cuisine:['Cuisine','Plans de travail, évier, façades des appareils et sols lavés.']
-};
-const pieces=[...document.querySelectorAll('.piece')];
-function choisit(g){
-  pieces.forEach(x=>x.setAttribute('aria-pressed',x===g));
-  const [t,d]=PIECES[g.dataset.r],b=document.createElement('b'),s=document.createElement('span');b.textContent=t;s.textContent=d;$('legende').replaceChildren(b,s);
-}
-pieces.forEach(g=>{g.onclick=()=>choisit(g);g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choisit(g)}}});
 /* Le panier de linge */
 const LINGE=[['Chemises','#ffb27a',3,'70%'],['Pantalons','#8b9097',2,'78%'],['Draps','#fff',1,'94%'],['Nappes','#f47b20',0,'86%']],MAX=14;
 function pile(derniere){
