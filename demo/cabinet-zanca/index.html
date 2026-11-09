@@ -375,7 +375,6 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
       <h2>Vous cherchez</h2>
       <ul class="rows">
         <li><a href="#equipe"><b>Un rendez-vous</b><span>Nos praticiens, leurs horaires et leurs rendez-vous</span></a></li>
-        <li><a href="#consultations"><b>Une ordonnance</b><span>Renouvellements, certificats et résultats d'analyses</span></a></li>
         <li><a href="#acces"><b>Le centre</b><span>Plan, parking, transports et accès PMR</span></a></li>
       </ul>
     </div>
@@ -409,18 +408,18 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
 <section class="view" id="consultations" data-title="Consultations">
   <div class="pagehead"><div class="wrap">
     <h1 tabindex="-1">Consultations</h1>
-    <p class="lead">Chaque praticien gère ses propres rendez-vous. Choisissez celui que vous souhaitez consulter pour voir ses horaires et ses démarches.</p>
+    <p class="lead">Chaque praticien gère ses propres rendez-vous. Choisissez celui que vous souhaitez consulter pour voir ses horaires.</p>
   </div></div>
   <div class="wrap">
     <div class="block">
       <h2>Choisissez un professionnel de santé</h2>
       <div class="pros" role="group" aria-label="Professionnel de santé">
-        <button class="pro" type="button" data-pro="zanca" aria-pressed="false"><span class="pro-pic"><img src="dr-zanca.jpg" width="900" height="900" alt=""></span><span class="pro-txt"><b>Dr Lucas Zanca</b><span>Médecin généraliste</span></span></button>
+        <button class="pro" type="button" data-pro="zanca" aria-pressed="true"><span class="pro-pic"><img src="dr-zanca.jpg" width="900" height="900" alt=""></span><span class="pro-txt"><b>Dr Lucas Zanca</b><span>Médecin généraliste</span></span></button>
         <button class="pro" type="button" data-pro="putton" aria-pressed="false"><span class="pro-pic"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg></span><span class="pro-txt"><b>Dr Charline Putton</b><span>Médecin généraliste</span></span></button>
         <button class="pro" type="button" data-pro="cannistraro" aria-pressed="false"><span class="pro-pic"><svg viewBox="0 0 200 220" aria-hidden="true"><circle cx="100" cy="74" r="46"/><path d="M12 220c0-52 39-86 88-86s88 34 88 86z"/></svg></span><span class="pro-txt"><b>M. Dario Cannistraro</b><span>Kinésithérapeute</span></span></button>
       </div>
     </div>
-    <div class="pro-panel" data-panel="zanca" tabindex="-1" hidden>
+    <div class="pro-panel" data-panel="zanca" tabindex="-1">
       <div class="block">
         <table class="hours">
           <caption>Horaires du Dr Zanca</caption>
@@ -434,24 +433,9 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
           </tbody>
         </table>
       </div>
-      <div class="block">
+      <div class="block" data-absences hidden>
         <h2>Absences et remplacement</h2>
-        <p class="note"><span class="todo">[congés, formations et médecin remplaçant : zone à tenir à jour]</span></p>
-      </div>
-      <div class="block">
-        <h2>Vos démarches</h2>
-        <ul class="rows">
-          <li class="row"><b>Prendre rendez-vous</b><span><a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170/availabilities" target="_blank" rel="noopener">En ligne via Progenda</a> ou au <a href="tel:+32494144118">0494 14 41 18</a></span></li>
-          <li class="row"><b>Annuler un rendez-vous</b><span>Sur la <a href="https://progenda.be/calendars/docteur-zanca-lucas-medecine-generale-manage-7170?locale=fr" target="_blank" rel="noopener">page Progenda du Dr Zanca</a>, lien « J'ai oublié mon rendez-vous ». <span class="todo">[délai à préciser]</span></span></li>
-          <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
-          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
-          <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
-          <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
-          <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
-          <li class="row"><b>Prises de sang</b><span class="todo">[au centre ou ailleurs]</span></li>
-          <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
-          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
-        </ul>
+        <p class="note"></p>
       </div>
     </div>
     <div class="pro-panel" data-panel="putton" tabindex="-1" hidden>
@@ -459,23 +443,9 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <h2>Horaires du Dr Putton</h2>
         <p class="note"><span class="todo">[horaires à fournir]</span></p>
       </div>
-      <div class="block">
+      <div class="block" data-absences hidden>
         <h2>Absences et remplacement</h2>
-        <p class="note"><span class="todo">[congés, formations et remplaçant : zone à tenir à jour]</span></p>
-      </div>
-      <div class="block">
-        <h2>Vos démarches</h2>
-        <ul class="rows">
-          <li class="row"><b>Prendre rendez-vous</b><span class="todo">[lien ou téléphone]</span></li>
-          <li class="row"><b>Annuler un rendez-vous</b><span class="todo">[démarche et délai]</span></li>
-          <li class="row"><b>Visites à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
-          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
-          <li class="row"><b>Ordonnances</b><span class="todo">[canal et horaires]</span></li>
-          <li class="row"><b>Certificats</b><span class="todo">[conditions]</span></li>
-          <li class="row"><b>Résultats d'analyses</b><span class="todo">[comment les obtenir]</span></li>
-          <li class="row"><b>À apporter</b><span class="todo">[documents à présenter]</span></li>
-          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
-        </ul>
+        <p class="note"></p>
       </div>
     </div>
     <div class="pro-panel" data-panel="cannistraro" tabindex="-1" hidden>
@@ -483,20 +453,9 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
         <h2>Horaires de M. Cannistraro</h2>
         <p class="note"><span class="todo">[horaires à fournir]</span></p>
       </div>
-      <div class="block">
+      <div class="block" data-absences hidden>
         <h2>Absences et remplacement</h2>
-        <p class="note"><span class="todo">[congés, formations et remplaçant : zone à tenir à jour]</span></p>
-      </div>
-      <div class="block">
-        <h2>Vos démarches</h2>
-        <ul class="rows">
-          <li class="row"><b>Prendre rendez-vous</b><span class="todo">[lien ou téléphone]</span></li>
-          <li class="row"><b>Annuler un rendez-vous</b><span class="todo">[démarche et délai]</span></li>
-          <li class="row"><b>Soins à domicile</b><span class="todo">[conditions et zone couverte]</span></li>
-          <li class="row"><b>Nouveaux patients</b><span class="todo">[acceptés ou non]</span></li>
-          <li class="row"><b>À apporter</b><span class="todo">[prescription et documents à présenter]</span></li>
-          <li class="row"><b>Paiement</b><span class="todo">[moyens de paiement, tiers payant]</span></li>
-        </ul>
+        <p class="note"></p>
       </div>
     </div>
   </div>
@@ -740,7 +699,9 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     });
   }
 
-  // Consultations : les horaires et démarches n'apparaissent qu'une fois le praticien choisi
+  // Consultations : Dr Zanca affiché par défaut, le choix change les horaires et démarches
+  // Absences et remplacement : affiché seulement si le texte est complété
+  [].forEach.call(document.querySelectorAll('[data-absences]'),function(b){b.hidden=!b.querySelector('.note').textContent.trim()});
   function proSelect(k){
     [].forEach.call(document.querySelectorAll('.pro'),function(b){b.setAttribute('aria-pressed',b.dataset.pro===k?'true':'false')});
     var panel=null;
