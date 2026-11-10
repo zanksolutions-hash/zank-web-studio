@@ -355,6 +355,9 @@ dialog.sheet::backdrop{background:rgba(20,24,28,.45)}
   if(!S.book)S.book=DEMO_BOOK.slice();
   /* itinéraire : Google Maps prend toute la tournée (10 arrêts au plus), Plans et Waze la prochaine visite */
   var GMAX=10,ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  /* Plans : plusieurs daddr à la suite, format non documenté par Apple mais reconnu par l'app récente */
+  var AMAX=14;
+  function aplans(stops){return 'https://maps.apple.com/?dirflg=d&'+stops.map(function(p){return 'daddr='+ll(p)}).join('&')}
   function ll(p){return(+p.lat).toFixed(6)+','+(+p.lon).toFixed(6)}
   function gmaps(stops){
     var dest=stops[stops.length-1],way=stops.slice(0,-1);
@@ -366,7 +369,8 @@ dialog.sheet::backdrop{background:rgba(20,24,28,.45)}
     $('goHint').textContent=(S.pos?'':'Ordre pas encore calculé depuis votre position. ')+'Départ de votre position actuelle, dans l\'ordre de la liste.';
     $('goApps').innerHTML=
       '<a class="app-l" href="'+gmaps(g)+'" target="_blank" rel="noopener"><span><b>Google Maps</b><small>Toute la tournée : '+g.length+' arrêt'+(g.length>1?'s':'')+(todo.length>GMAX?' (les '+GMAX+' premiers)':'')+'</small></span>'+ARROW+'</a>'+
-      '<a class="app-l" href="https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d" target="_blank" rel="noopener"><span><b>Plans</b><small>Prochaine visite : '+esc(next.name)+'</small></span>'+ARROW+'</a>'+
+      '<a class="app-l" href="'+aplans(todo.slice(0,AMAX))+'" target="_blank" rel="noopener"><span><b>Plans</b><small>Toute la tournée : '+Math.min(todo.length,AMAX)+' arrêt'+(todo.length>1?'s':'')+(todo.length>AMAX?' (les '+AMAX+' premiers)':'')+'</small></span>'+ARROW+'</a>'+
+      (todo.length>1?'<a class="app-l" href="https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d" target="_blank" rel="noopener"><span><b>Plans, un arrêt</b><small>Prochaine visite seule : '+esc(next.name)+'</small></span>'+ARROW+'</a>':'')+
       '<a class="app-l" href="https://waze.com/ul?ll='+ll(next)+'&navigate=yes" target="_blank" rel="noopener"><span><b>Waze</b><small>Prochaine visite : '+esc(next.name)+'</small></span>'+ARROW+'</a>';
     var d=$('goSheet');if(d.showModal)d.showModal();else d.setAttribute('open','');
   });
