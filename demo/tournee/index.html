@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<title>Tournée</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<style>
+:root{--ink:#1d2329;--muted:#5d6670;--line:#e3e6ea;--soft:#f5f6f8;--bg:#fff;--accent:#e8590c;--accent-d:#c94c08;--urg:#c92a2a;--urg-soft:#fdecec;--ok:#2b8a3e}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--soft);min-height:100vh}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+.app{max-width:640px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+h1{font-size:22px;letter-spacing:-.01em}
+.date{color:var(--muted);font-size:14px;text-transform:capitalize}
+.pos{display:flex;align-items:center;gap:10px;margin-top:10px}
+.pos-txt{flex:1;font-size:14px;color:var(--muted);min-width:0}
+.pos-txt b{color:var(--ink);font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:600;text-decoration:none;color:var(--ink);white-space:nowrap}
+.btn:hover{border-color:#c9ced4}
+.btn.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.main:hover{background:var(--accent-d)}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.msg{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:14px;background:#fff4e6;color:#8a3b00}
+.msg.err{background:var(--urg-soft);color:#8f1d1d}
+.msg[hidden]{display:none}
+form{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}
+form h2{font-size:16px;margin-bottom:10px}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+input[type=text]{width:100%;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+input[type=text]:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+.row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.chk{display:flex;align-items:center;gap:8px;margin:0;font-size:15px;color:var(--ink);font-weight:500;min-height:44px}
+.chk input{width:20px;height:20px;accent-color:var(--urg)}
+.row .btn.main{margin-left:auto}
+.hint{font-size:12.5px;color:var(--muted);margin-top:10px}
+.sum{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 8px;font-size:14px;color:var(--muted)}
+.sum b{color:var(--ink);font-size:16px}
+ol{list-style:none;padding:0;display:grid;gap:10px}
+.card{position:relative;display:grid;grid-template-columns:36px 1fr;gap:4px 12px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card.urgent{border-color:#f0b4b4;background:linear-gradient(var(--urg-soft),var(--urg-soft)) top/100% 4px no-repeat,var(--bg);box-shadow:inset 4px 0 0 var(--urg)}
+.card.done{opacity:.6}
+.num{grid-row:span 2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--soft);font-size:15px}
+.urgent .num{background:var(--urg);color:#fff}
+.done .num{background:var(--ok);color:#fff}
+.who{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.who strong{font-size:17px}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--urg);color:#fff;letter-spacing:.02em}
+.tag.ok{background:var(--ok)}
+.addr{color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.dist{grid-column:2;font-size:14px;font-weight:600}
+.dist span{color:var(--muted);font-weight:400}
+.acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.acts .btn{flex:1 1 auto;min-height:42px;padding:0 12px;font-size:14px}
+.acts .go{background:var(--ink);border-color:var(--ink);color:#fff}
+.acts .go:hover{background:#000}
+.acts .urg[aria-pressed=true]{background:var(--urg);border-color:var(--urg);color:#fff}
+.acts .btn.del{position:absolute;top:8px;right:8px;width:40px;min-height:40px;padding:0;border-color:transparent;background:none;color:var(--muted)}
+.acts .btn.del:hover{color:var(--urg);border-color:var(--line)}
+.who{padding-right:34px}
+.acts{flex-wrap:nowrap}
+.acts .btn{min-width:0}
+.empty{background:var(--bg);border:1px dashed #cdd2d8;border-radius:14px;padding:26px 18px;text-align:center;color:var(--muted)}
+.foot{display:flex;gap:10px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
+.foot .btn{font-weight:500;color:var(--muted)}
+.priv{font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.5}
+.spin{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:r .8s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="top"><h1>Tournée</h1><span class="date" id="date"></span></div>
+    <div class="pos">
+      <p class="pos-txt" id="posTxt">Position non relevée</p>
+      <button class="btn main" type="button" id="calc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Calculer l'ordre</span></button>
+    </div>
+    <p class="msg" id="msg" role="status" hidden></p>
+  </header>
+
+  <form id="add" autocomplete="off">
+    <h2>Ajouter une visite</h2>
+    <label for="fName">Patient</label>
+    <input type="text" id="fName" placeholder="Nom ou initiales" maxlength="60" required>
+    <label for="fAddr">Adresse</label>
+    <input type="text" id="fAddr" placeholder="Rue, numéro, commune" maxlength="160" required>
+    <div class="row">
+      <label class="chk"><input type="checkbox" id="fUrg"> Urgent</label>
+      <button class="btn main" type="submit" id="addBtn">Ajouter</button>
+    </div>
+  </form>
+
+  <div class="sum" id="sum" hidden></div>
+  <ol id="list"></ol>
+
+  <div class="foot">
+    <button class="btn" type="button" id="demo">Charger un exemple</button>
+    <button class="btn" type="button" id="clear">Vider la journée</button>
+  </div>
+  <p class="priv">Les noms restent sur ce téléphone. Seules les adresses sont envoyées à OpenStreetMap pour être localisées, puis les coordonnées au service d'itinéraire OSRM pour les distances par la route. Ne notez aucune information médicale.</p>
+</div>
+
+<script>
+(function(){
+  var KEY='tournee-v1';
+  var GEO='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=be&addressdetails=0&q=';
+  var OSRM='https://router.project-osrm.org/table/v1/driving/';
+  var S={patients:[],pos:null};
+  var $=function(id){return document.getElementById(id)};
+  var list=$('list'),msg=$('msg');
+
+  try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+  $('date').textContent=new Date().toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
+
+  function say(t,err){msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function km(m){return m==null?'':(m<1000?Math.round(m)+' m':(m/1000).toFixed(m<10000?1:0).replace('.',',')+' km')}
+  function mn(s){if(s==null)return'';var x=Math.max(1,Math.round(s/60));return x<60?x+' min':Math.floor(x/60)+' h '+String(x%60).padStart(2,'0')}
+  function ago(t){var x=Math.round((Date.now()-t)/60000);return x<1?"à l'instant":x<60?'il y a '+x+' min':'il y a '+Math.floor(x/60)+' h'}
+
+  /* ordre : urgences d'abord, puis du plus loin au plus proche, visites faites en bas */
+  function ordered(){
+    return S.patients.slice().sort(function(a,b){
+      if(a.done!==b.done)return a.done?1:-1;
+      if(a.urgent!==b.urgent)return a.urgent?-1:1;
+      var da=a.dist==null?-1:a.dist,db=b.dist==null?-1:b.dist;
+      return db-da;
+    });
+  }
+
+  var ICON={
+    go:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>',
+    del:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+  };
+
+  function render(){
+    var o=ordered(),todo=o.filter(function(p){return!p.done});
+    if(!o.length){
+      list.innerHTML='<li class="empty">Aucune visite pour l\'instant. Ajoutez vos patients ci-dessus, puis calculez l\'ordre depuis votre position.</li>';
+      $('sum').hidden=true;
+    }else{
+      var stale=todo.some(function(p){return p.dist==null});
+      $('sum').hidden=false;
+      $('sum').innerHTML='<b>'+todo.length+' visite'+(todo.length>1?'s':'')+' à faire</b><span>'+(stale&&S.pos?'Distances à recalculer':!S.pos?'Ordre non calculé':'Du plus loin au plus proche')+'</span>';
+      var n=0;
+      list.innerHTML=o.map(function(p){
+        var num=p.done?'✓':++n;
+        var d=p.dist!=null?'<p class="dist">'+km(p.dist)+' <span>· '+mn(p.dur)+' de route</span></p>':p.unroutable?'<p class="dist"><span>Itinéraire introuvable</span></p>':'<p class="dist"><span>Distance à calculer</span></p>';
+        var dest=p.lat+','+p.lon;
+        return '<li class="card'+(p.urgent&&!p.done?' urgent':'')+(p.done?' done':'')+'" data-id="'+p.id+'">'+
+          '<span class="num">'+num+'</span>'+
+          '<div class="who"><strong>'+esc(p.name)+'</strong>'+(p.urgent&&!p.done?'<span class="tag">URGENT</span>':'')+(p.done?'<span class="tag ok">FAIT</span>':'')+'</div>'+
+          '<p class="addr">'+esc(p.label)+'</p>'+d+
+          '<div class="acts">'+
+            (p.done?'':'<a class="btn go" href="https://www.google.com/maps/dir/?api=1&destination='+dest+'&travelmode=driving" target="_blank" rel="noopener">'+ICON.go+'Y aller</a>'+
+            '<a class="btn" href="https://waze.com/ul?ll='+dest+'&navigate=yes" target="_blank" rel="noopener">Waze</a>'+
+            '<button class="btn urg" type="button" data-act="urg" aria-pressed="'+!!p.urgent+'">Urgent</button>')+
+            '<button class="btn" type="button" data-act="done">'+(p.done?'Remettre':'Fait')+'</button>'+
+            '<button class="btn del" type="button" data-act="del" aria-label="Supprimer '+esc(p.name)+'">'+ICON.del+'</button>'+
+          '</div></li>';
+      }).join('');
+    }
+    $('posTxt').innerHTML=S.pos?'Départ : <b>votre position</b>, '+ago(S.pos.t):'Position non relevée';
+  }
+
+  function busy(btn,on,txt){
+    btn.disabled=on;
+    var s=btn.querySelector('span')||btn;
+    if(on){btn.dataset.txt=s.textContent;s.innerHTML='<i class="spin" aria-hidden="true"></i> '+txt}
+    else if(btn.dataset.txt)s.textContent=btn.dataset.txt;
+  }
+
+  function locate(){
+    return new Promise(function(ok,ko){
+      if(!navigator.geolocation)return ko(new Error('La localisation n\'est pas disponible sur cet appareil.'));
+      navigator.geolocation.getCurrentPosition(function(p){ok({lat:p.coords.latitude,lon:p.coords.longitude,t:Date.now()})},function(e){
+        ko(new Error(e.code===1?'Localisation refusée : autorisez-la dans les réglages du navigateur.':'Position introuvable, réessayez à l\'extérieur ou avec le GPS activé.'));
+      },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+    });
+  }
+
+  function distances(){
+    var todo=S.patients.filter(function(p){return!p.done});
+    if(!todo.length||!S.pos)return Promise.resolve();
+    var pts=[S.pos].concat(todo);
+    var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?sources=0&annotations=distance,duration';
+    return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+      if(j.code!=='Ok')throw 0;
+      todo.forEach(function(p,i){
+        var d=j.distances[0][i+1],t=j.durations[0][i+1];
+        p.dist=d==null?null:d;p.dur=t==null?null:t;p.unroutable=d==null;
+      });
+      save();
+    }).catch(function(){throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
+  }
+
+  $('calc').addEventListener('click',function(){
+    var b=this;
+    if(!S.patients.some(function(p){return!p.done}))return say('Ajoutez au moins une visite avant de calculer l\'ordre.',true);
+    say('');busy(b,true,'Localisation…');
+    locate().then(function(p){S.pos=p;save();busy(b,false);busy(b,true,'Calcul…');return distances()})
+      .then(function(){busy(b,false);render();say('')})
+      .catch(function(e){busy(b,false);render();say(e.message,true)});
+  });
+
+  function geocode(q){
+    return fetch(GEO+encodeURIComponent(q),{headers:{'Accept-Language':'fr'}}).then(function(r){if(!r.ok)throw 0;return r.json()})
+      .then(function(j){
+        if(!j.length)throw new Error('Adresse introuvable : précisez la rue, le numéro et la commune.');
+        var parts=j[0].display_name.split(', ');
+        var cp=parts.filter(function(x){return/^\d{4}$/.test(x)})[0];
+        var label=parts.slice(0,3).join(', ')+(cp&&parts.slice(0,3).indexOf(cp)<0?' ('+cp+')':'');
+        return{lat:+j[0].lat,lon:+j[0].lon,label:label};
+      },function(e){throw e instanceof Error?e:new Error('Recherche d\'adresse impossible. Vérifiez la connexion.')});
+  }
+
+  $('add').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=$('fName').value.trim(),addr=$('fAddr').value.trim(),b=$('addBtn');
+    if(!name||!addr)return;
+    say('');busy(b,true,'Recherche…');
+    geocode(addr).then(function(g){
+      S.patients.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon,urgent:$('fUrg').checked,done:false,dist:null,dur:null});
+      save();$('add').reset();$('fName').focus();
+      return distances().catch(function(e){say(e.message,true)});
+    }).then(function(){busy(b,false);render()},function(e){busy(b,false);say(e.message,true)});
+  });
+
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-act]');if(!b)return;
+    var id=b.closest('.card').dataset.id,p=S.patients.find(function(x){return x.id===id});if(!p)return;
+    var a=b.dataset.act;
+    if(a==='urg')p.urgent=!p.urgent;
+    if(a==='done'){p.done=!p.done;if(!p.done&&S.pos){save();render();distances().then(render,function(e){say(e.message,true)});return}}
+    if(a==='del'){if(!confirm('Retirer '+p.name+' de la tournée ?'))return;S.patients=S.patients.filter(function(x){return x!==p})}
+    save();render();
+  });
+
+  $('clear').addEventListener('click',function(){
+    if(!S.patients.length)return;
+    if(!confirm('Vider toute la tournée du jour ?'))return;
+    S.patients=[];save();render();say('');
+  });
+
+  /* exemple de démonstration : adresses publiques autour de Manage */
+  var DEMO=[['M. D.','Grand-Place, 7130 Binche',false],['Mme L.','Rue Sylvain Guyaux, 7100 La Louvière',false],['M. V.','Place de Seneffe, 7180 Seneffe',true],['Mme R.','Rue Ferrer, 7170 Manage',false],['M. B.','Place Albert Ier, 7170 Manage',false]];
+  $('demo').addEventListener('click',function(){
+    var b=this;
+    if(S.patients.length&&!confirm('Remplacer la tournée actuelle par l\'exemple ?'))return;
+    S.patients=[];busy(b,true,'Chargement…');say('');
+    DEMO.reduce(function(pr,d){
+      return pr.then(function(){return geocode(d[1])}).then(function(g){
+        S.patients.push({id:Math.random().toString(36).slice(2,10),name:d[0],addr:d[1],label:g.label,lat:g.lat,lon:g.lon,urgent:d[2],done:false,dist:null,dur:null});
+      },function(){}).then(function(){return new Promise(function(r){setTimeout(r,1100)})});
+    },Promise.resolve()).then(function(){save();return distances()})
+      .then(function(){busy(b,false);render();if(!S.pos)say('Exemple chargé. Touchez « Calculer l\'ordre » pour trier depuis votre position.')},function(e){busy(b,false);save();render();say(e.message,true)});
+  });
+
+  render();
+  setInterval(function(){if(S.pos)$('posTxt').innerHTML='Départ : <b>votre position</b>, '+ago(S.pos.t)},60000);
+  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "Tournée",
+  "short_name": "Tournée",
+  "description": "Organiser les visites à domicile du plus loin au plus proche.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f6f8",
+  "theme_color": "#ffffff",
+  "lang": "fr",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
