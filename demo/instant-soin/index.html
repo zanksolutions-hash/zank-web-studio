@@ -145,6 +145,24 @@ textarea{resize:vertical;min-height:80px}
 form .btn{justify-content:center}
 .ok{padding:14px;border-radius:14px;background:#e6efe6;color:#2f5a3c;text-align:center;font-weight:600}
 .form-note{font-size:12px;color:var(--muted);text-align:center}
+fieldset{border:0;display:grid;gap:14px;min-width:0}
+legend{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;padding:0}
+.choix{display:grid;gap:8px}
+.choix button,.jours button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 15px;font-size:15px;transition:border-color .2s,background .2s,color .2s}
+.choix button{display:flex;justify-content:space-between;gap:12px;text-align:left}
+.choix button span,.jours button span{color:var(--muted);font-size:13.5px;white-space:nowrap}
+.jours{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;max-height:236px;overflow-y:auto;padding-right:2px}
+.jours button{display:grid;gap:2px;padding:10px 6px;text-align:center}
+.jours button b{font-weight:600;font-size:16px}
+.choix button:hover,.jours button:hover{border-color:var(--ink)}
+.choix button:focus-visible,.jours button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.choix button[aria-pressed=true],.jours button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.choix button[aria-pressed=true] span,.jours button[aria-pressed=true] span{color:rgba(245,239,231,.75)}
+.r-note{font-size:12.5px;color:var(--muted)}
+.recap{background:var(--bg2);border-radius:14px;padding:12px 15px;font-size:14.5px}
+.coche{display:flex;align-items:center;gap:10px;font-weight:500}
+.coche input{width:18px;height:18px;padding:0;accent-color:var(--ink);flex:none}
+.err{padding:14px;border-radius:14px;background:#f6e3df;color:#8a2f22;text-align:center;font-weight:600;font-size:14.5px}
 
 /* Pied de page */
 footer{padding:64px 0 34px;border-top:1px solid var(--line)}
@@ -294,7 +312,7 @@ body{padding-bottom:44px}
       <div>
         <p class="eyebrow" style="color:#e3a27d">Rendez-vous</p>
         <h2>Réservez<br><em>votre moment.</em></h2>
-        <p class="lead">Appelez-nous ou envoyez une demande : nous vous confirmons votre rendez-vous.</p>
+        <p class="lead">Choisissez votre prestation et votre jour : la confirmation arrive aussitôt par e-mail.</p>
         <!-- Lien vers l'outil de réservation du client (Planity, Treatwell, Salonkee, Calendly…) -->
         <a href="tel:+32485840714" class="btn light">Appeler l'institut <svg class="ic"><use href="#i-arrow"/></svg></a>
         <div class="hours">
@@ -306,23 +324,33 @@ body{padding-bottom:44px}
           <a href="https://www.google.com/maps/search/?api=1&L'instant+soin+Rue+du+Relais+34+Tournai" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>Rue du Relais 34, 7531 Tournai · Itinéraire</a>
         </div>
       </div>
-      <!-- Formulaire : clé Web3Forms du client (gratuite sur web3forms.com) -->
-      <form data-web3>
-        <input type="hidden" name="access_key" value="CLE_WEB3FORMS_DU_CLIENT">
-        <input type="hidden" name="subject" value="Nouvelle demande de rendez-vous">
-        <h3>Demande de rendez-vous</h3>
-        <div class="f2">
+      <!-- Agenda : rendez-vous enregistrés par le Worker zank-rdv (dossier rdv-worker/) -->
+      <form id="resa" novalidate>
+        <h3>Réserver en ligne</h3>
+        <fieldset>
+          <legend>1. Votre prestation</legend>
+          <div class="choix" id="r-prest"><p class="r-note">Chargement…</p></div>
+        </fieldset>
+        <fieldset id="r-e2" hidden>
+          <legend>2. Votre jour</legend>
+          <div class="jours" id="r-jours"></div>
+          <p class="r-note">Un seul horaire par jour, à la suite des rendez-vous déjà pris.</p>
+        </fieldset>
+        <fieldset id="r-e3" hidden>
+          <legend>3. Vos coordonnées</legend>
+          <p class="recap" id="r-recap" aria-live="polite"></p>
           <label>Nom<input name="nom" required autocomplete="name"></label>
-          <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel"></label>
-        </div>
-        <label>Prestation
-          <select name="prestation" required><option value="">Choisir…</option><option>Spa & bien-être</option><option>Soin du visage</option><option>Drainage lymphatique</option><option>Autre</option></select>
-        </label>
-        <label>Disponibilités<input name="disponibilites" placeholder="Ex. : mardi après-midi, samedi matin"></label>
-        <label>Message (facultatif)<textarea name="message"></textarea></label>
-        <button class="btn" type="submit">Envoyer ma demande</button>
-        <p class="ok" hidden>Merci ! Nous vous rappelons très vite.</p>
-        <p class="form-note">Vos données servent uniquement à traiter votre demande. <a href="#" style="text-decoration:underline">En savoir plus</a></p>
+          <div class="f2">
+            <label>GSM<input name="telephone" type="tel" required autocomplete="tel" placeholder="0470 12 34 56"></label>
+            <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+          </div>
+          <label class="coche"><input type="checkbox" name="sms" checked>Recevoir aussi la confirmation par SMS</label>
+          <input name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+          <button class="btn" type="submit">Confirmer le rendez-vous</button>
+        </fieldset>
+        <p class="err" id="r-err" role="alert" hidden></p>
+        <p class="ok" id="r-ok" role="status" hidden></p>
+        <p class="form-note">Vos données servent uniquement à gérer votre rendez-vous. <a href="#" style="text-decoration:underline">En savoir plus</a></p>
       </form>
     </div>
   </div>
@@ -352,6 +380,59 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
   e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
 }));
 document.getElementById('y').textContent=new Date().getFullYear();
+
+/* Agenda de prise de rendez-vous */
+(()=>{
+  const API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8790':'https://zank-rdv.zank-solutions.workers.dev';
+  const SITE='instant-soin',f=document.getElementById('resa');if(!f)return;
+  const $=id=>document.getElementById(id),prest=$('r-prest'),jours=$('r-jours'),e2=$('r-e2'),e3=$('r-e3'),err=$('r-err'),ok=$('r-ok'),recap=$('r-recap');
+  const heure=m=>Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');
+  const date=(j,o)=>new Intl.DateTimeFormat('fr-BE',Object.assign({timeZone:'UTC'},o)).format(new Date(j+'T12:00:00Z'));
+  const el=(t,txt)=>{const e=document.createElement(t);e.textContent=txt;return e};
+  const note=txt=>{const e=el('p',txt);e.className='r-note';return e};
+  const erreur=m=>{err.textContent=m;err.hidden=!m};
+  const choisir=(zone,b)=>zone.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  const appel=(chemin,opt)=>fetch(API+chemin,opt).then(r=>r.json().then(d=>({status:r.status,d})));
+  const HS='Agenda indisponible pour le moment. Appelez-nous au 0485 84 07 14.';
+  let p=null,c=null;
+
+  function charger(){
+    c=null;e3.hidden=true;jours.replaceChildren(note('Recherche des disponibilités…'));e2.hidden=false;
+    return appel('/creneaux?site='+SITE+'&prestation='+p.id).then(({d})=>{
+      if(!d.jours||!d.jours.length){jours.replaceChildren(note('Aucune disponibilité pour le moment : appelez-nous.'));return}
+      jours.replaceChildren(...d.jours.map(j=>{
+        const b=el('button','');b.type='button';b.setAttribute('aria-pressed',false);
+        b.append(el('span',date(j.jour,{weekday:'short',day:'numeric',month:'short'})),el('b',heure(j.debut)));
+        b.onclick=()=>{c=j;choisir(jours,b);erreur('');
+          recap.textContent=p.nom+' ('+p.duree+' min) · '+date(j.jour,{weekday:'long',day:'numeric',month:'long'})+' de '+heure(j.debut)+' à '+heure(j.fin);
+          e3.hidden=false;f.elements.nom.focus({preventScroll:true})};
+        return b}));
+    }).catch(()=>{jours.replaceChildren();erreur(HS)});
+  }
+
+  appel('/config?site='+SITE).then(({d})=>{
+    prest.replaceChildren(...d.prestations.map(x=>{
+      const b=el('button',x.nom);b.type='button';b.setAttribute('aria-pressed',false);b.append(el('span',x.duree+' min'));
+      b.onclick=()=>{p=x;choisir(prest,b);erreur('');charger()};
+      return b}));
+  }).catch(()=>{prest.replaceChildren();erreur(HS)});
+
+  f.addEventListener('submit',e=>{
+    e.preventDefault();if(!p||!c)return;
+    if(!f.checkValidity()){f.reportValidity();return}
+    const bt=f.querySelector('[type=submit]');bt.disabled=true;erreur('');
+    const v=f.elements;
+    appel('/reserver',{method:'POST',body:JSON.stringify({site:SITE,prestation:p.id,jour:c.jour,debut:c.debut,nom:v.nom.value,telephone:v.telephone.value,email:v.email.value,sms:v.sms.checked,web:v.web.value})})
+    .then(({status,d})=>{
+      bt.disabled=false;
+      if(status===409){erreur('Ce créneau vient d\'être réservé. Voici les disponibilités à jour.');return charger()}
+      if(!d.ok){erreur(d.erreur||'Une erreur est survenue. Réessayez ou appelez-nous.');return}
+      f.querySelectorAll('fieldset').forEach(x=>x.hidden=true);
+      ok.textContent='Rendez-vous confirmé : '+recap.textContent+'.'+(d.email?' Un e-mail de confirmation vient de vous être envoyé.':'');
+      ok.hidden=false;
+    }).catch(()=>{bt.disabled=false;erreur('Connexion impossible. Réessayez ou appelez-nous au 0485 84 07 14.')});
+  });
+})();
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour L'instant soin par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 <script src="/demo/motion-14.9.0.js"></script>
