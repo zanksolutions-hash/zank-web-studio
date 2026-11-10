@@ -141,8 +141,10 @@ header.stuck .head{min-height:58px}
 .hero h1{color:var(--blue)}
 .hero h1{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px)}
 .hero h1 img{flex:none;width:auto;height:1.2em}
-.badge{display:inline-block;margin-top:clamp(20px,3vw,32px);padding:6px 20px;border-radius:4px;background:var(--blue);color:#fff;font-size:17px}
-.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(22px,2.6vw,36px) 16px;background:var(--band);background-size:cover;background-position:center}
+.badge{display:inline-block;margin-top:clamp(20px,3vw,32px);padding:6px 20px;border-radius:4px;border:0;background:var(--blue);color:#fff;font:inherit;font-size:17px;cursor:pointer;transition:background .2s}
+.badge:hover{background:#0b4a74}
+.hero-band{scroll-margin-top:var(--headh,72px)}
+.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(22px,2.6vw,36px) 16px;background:linear-gradient(rgba(7,59,94,.64),rgba(7,59,94,.64)),url(salle-attente.jpg) center 62%/cover var(--band)}
 .ecg,.halo{display:none}
 body.home .nav-home{display:none}
 body.home header:not(.stuck) .brand{display:none}
@@ -173,6 +175,10 @@ body.home header:not(.stuck) .head{justify-content:center}
 .cta h2{color:var(--blue);margin:0;font-size:clamp(24px,3vw,30px)}
 .cta .btn{background:var(--blue);border-color:var(--blue);color:#fff}
 .cta .btn:hover{background:#0b4a74}
+.join .wrap{display:grid;grid-template-columns:minmax(0,500px) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.join-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:50% 50%;border-radius:10px;box-shadow:0 14px 34px rgba(7,31,48,.16)}
+.join .btn{margin-top:22px}
+@media(max-width:760px){.join .wrap{grid-template-columns:1fr}.join-img{aspect-ratio:4/3}}
 .view{overflow-x:clip}
 .map{position:relative;width:100vw;margin-left:calc(50% - 50vw)}
 /* Haut de l'iframe décalé pour masquer la vignette Google ; l'attribution du bas reste visible */
@@ -347,7 +353,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     </svg>
     <div class="wrap" id="heroText">
       <h1 tabindex="-1"><img src="logo-cmm.png" width="640" height="230" alt=""><span>Centre Médical de Manage</span></h1>
-      <span class="badge">Bienvenue</span>
+      <button class="badge" type="button" data-welcome>Bienvenue</button>
     </div>
     <div class="hero-band"><p class="lead">Nos professionnels de santé travaillent ensemble pour vous proposer une prise en charge complète, de proximité et attentive à vos besoins.</p></div>
   </div>
@@ -394,13 +400,14 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     </div>
   </div>
 
-  <div class="cta">
+  <div class="cta join">
     <div class="wrap">
+      <img class="join-img" src="cabinet.jpg" width="1200" height="900" alt="Cabinet de consultation du centre : table d'examen, bureau et lavabo" loading="lazy">
       <div class="cta-txt">
         <h2>Nous rejoindre</h2>
         <p>Médecin ou professionnel paramédical, vous souhaitez exercer au sein d'une équipe à Manage ? Parlons de votre projet.</p>
+        <a class="btn" href="#contact">Nous contacter</a>
       </div>
-      <a class="btn" href="#contact">Nous contacter</a>
     </div>
   </div>
 </section>
@@ -688,6 +695,10 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     p.insertBefore(ecg.cloneNode(true),p.firstChild);
     p.insertBefore(b,p.firstChild);
     p.insertBefore(a,p.firstChild);
+  });
+  document.querySelector('[data-welcome]').addEventListener('click',function(){
+    document.documentElement.style.setProperty('--headh',header.offsetHeight+'px');
+    document.querySelector('.hero-band').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
   });
   var cta=document.querySelector('.cta');
   cta.insertBefore(ecg.cloneNode(true),cta.firstChild);
