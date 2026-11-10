@@ -142,8 +142,9 @@ header.stuck .head{min-height:58px}
 .hero h1{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px)}
 .hero h1 img{flex:none;width:auto;height:1.2em}
 .badge{display:inline-block;margin-top:clamp(20px,3vw,32px);padding:6px 20px;border-radius:4px;background:var(--blue);color:#fff;font-size:17px}
-.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(48px,6vw,84px) 16px;background:var(--band);background-size:cover;background-position:center}
+.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(22px,2.6vw,36px) 16px;background:var(--band);background-size:cover;background-position:center}
 .ecg,.halo{display:none}
+body.home .nav-home{display:none}
 body.home header:not(.stuck) .brand{display:none}
 body.home header:not(.stuck) .head{justify-content:center}
 @media(max-width:1020px){body.home header:not(.stuck) .head{justify-content:flex-end}}
@@ -315,6 +316,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
   <div class="wrap head">
     <a class="brand" href="#accueil"><span class="brand-logo"><img src="logo-cmm.png" width="639" height="246" alt=""></span>Centre Médical de Manage</a>
     <nav class="full" aria-label="Navigation principale"><ul>
+      <li class="nav-home"><a href="#accueil">Accueil</a></li>
       <li><a href="#equipe">L'équipe</a></li>
       <li><a href="#consultations">Consultations</a></li>
       <li><a href="#acces">Accès</a></li>
@@ -323,6 +325,7 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     <details class="menu">
       <summary>Menu</summary>
       <nav aria-label="Navigation mobile"><ul>
+        <li class="nav-home"><a href="#accueil">Accueil</a></li>
         <li><a href="#equipe">L'équipe</a></li>
         <li><a href="#consultations">Consultations</a></li>
         <li><a href="#acces">Accès</a></li>
