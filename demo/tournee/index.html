@@ -48,6 +48,8 @@ h1 em{display:block;font-weight:700;color:var(--ink)}
 .tile b small{font-size:15px;font-weight:400;color:var(--muted);letter-spacing:0;margin-left:4px}
 .gobar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:14px;padding:7px 7px 7px 24px;min-height:62px;border:0;border-radius:99px;background:var(--ink);color:#fff;font-weight:600;font-size:17px;}
 .gobar i{display:inline-flex;align-items:center;justify-content:center;min-width:104px;min-height:48px;padding:0 20px;border-radius:99px;background:var(--go);color:#0b2e13;font-style:normal;font-weight:700}
+.ev{margin-top:10px;min-height:50px}
+.ev svg{stroke:#1f7a34}
 .sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:26px 4px 12px}
 .sec h2{font-size:20px;font-weight:600;letter-spacing:-.01em}
 .sec span{font-size:13.5px;color:var(--muted);text-align:right}
@@ -96,6 +98,8 @@ ol,ul{list-style:none;padding:0}
 .pick:has(input:disabled){cursor:default}
 .pick:has(input:disabled) b,.pick:has(input:disabled) small{opacity:.55}
 .pick input:disabled{background:var(--ok);border-color:var(--ok)}
+.none{padding:26px 8px;text-align:center;color:var(--muted)}
+.none .pill{margin-top:16px}
 .wide{width:100%;margin-top:14px;min-height:54px}
 form.panel{padding:18px 16px}
 label.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14px 4px 6px}
@@ -105,7 +109,8 @@ input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px}
 .sw{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 4px 0;min-height:44px;font-weight:500;cursor:pointer}
 .sw input{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:99px;background:#d6d6dc;position:relative;margin:0;transition:background .15s;flex:0 0 auto}
 .sw input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
-.sw input:checked{background:var(--urg)}
+.sw input:checked{background:#37b24d}
+#fUrg:checked{background:var(--urg)}
 .sw input:checked::after{transform:translateX(22px)}
 .link{display:block;margin:20px auto 0;padding:10px 14px;border:0;background:none;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
 .priv{font-size:12.5px;color:var(--muted);margin:18px 6px 0;line-height:1.5}
@@ -137,6 +142,40 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
 .view{animation:in .28s ease-out}
 @media(prefers-reduced-motion:reduce){.spin,.view{animation:none}.pill{transition:none}}
+input[type=tel],input[type=number]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
+input[type=tel]:focus,input[type=number]:focus{outline:2px solid var(--ink);outline-offset:1px}
+p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14px 4px 6px}
+.pad{padding:16px}
+.pad>.f:first-child,.pad>.sw:first-child{margin-top:0}
+.hint{font-size:13px;color:var(--muted);margin:10px 4px 0;line-height:1.45}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1 1 auto;min-height:46px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:#fff;font-weight:500;font-size:15px}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg.col{flex-direction:column}
+.groups{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.groups:empty{display:none}
+.gchip{display:inline-flex;align-items:center;border-radius:99px;background:#fff;border:1px solid var(--line)}
+.gchip button{border:0;background:none;min-height:42px;padding:0 6px 0 16px;font-weight:500;border-radius:99px}
+.gchip button+button{padding:0 14px 0 6px;color:var(--muted);font-size:18px}
+#book li{display:flex;align-items:center;gap:6px}
+#book .pick{flex:1;min-width:0}
+.edit{flex:0 0 auto;width:40px;height:40px;border:0;border-radius:50%;background:rgba(17,17,17,.06);display:grid;place-items:center;color:var(--ink)}
+.pick small.last{color:var(--ok)}
+.note{grid-column:2;font-size:14px;margin-top:3px;padding:6px 10px;border-radius:12px;background:#f4f4f2;overflow-wrap:anywhere}
+.tag.slot{background:var(--ink)}
+.tag.ev{background:#37b24d}
+.dist i{display:block;font-style:normal;font-weight:400;color:var(--muted)}
+.acts.sub{margin-top:8px}
+.acts.sub .pill{min-height:40px;font-weight:500}
+.back{padding:14px 18px;border-radius:22px;border:1px dashed #cfcfca;color:var(--muted);font-size:14.5px;text-align:center}
+.ev-i{display:flex;align-items:center;gap:12px;padding:12px 6px 12px 18px;margin-top:10px;border:1px solid var(--white);border-radius:22px;background:#fff}
+.ev-i span{flex:1;min-width:0}
+.ev-i b{display:block;font-weight:600;overflow-wrap:anywhere}
+.ev-i small{display:block;color:var(--muted);font-size:13.5px}
+.ev-i .pill{min-height:42px;padding:0 16px}
+.sheet{max-height:92dvh;overflow:auto}
+.nav button{min-width:52px;padding:0 14px}
+.view .panel+.panel,.view .tiles+.panel{margin-top:14px}
 </style>
 </head>
 <body>
@@ -155,6 +194,7 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
       <div class="tile"><span>Le plus loin</span><b id="tFar">–</b></div>
     </div>
     <button class="gobar" type="button" id="goBtn" hidden>Lancer l'itinéraire <i id="goSub">Go</i></button>
+    <button class="pill soft wide ev" type="button" id="evBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L5 13.500h6L10 22l8-11.500h-6z"/></svg>Recharger la voiture</button>
     <div class="sec" id="sum" hidden></div>
     <ol id="list"></ol>
     <button class="link" type="button" id="clear" hidden>Vider la journée</button>
@@ -163,37 +203,76 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
   <section class="view" data-view="book" hidden>
     <div class="hello"><p>Carnet<b id="bookCount"></b></p></div>
     <h1>Qui voyez-vous <em>aujourd'hui ?</em></h1>
+    <div class="groups" id="groups"></div>
     <div class="panel"><ul id="book"></ul></div>
     <button class="pill wide" type="button" id="addSel" disabled>Ajouter à la tournée</button>
-    <button class="link" type="button" id="resetBook">Remettre les patients de démo</button>
+    <button class="link" type="button" id="saveGroup" hidden>Enregistrer cette sélection comme tournée type</button>
   </section>
 
   <section class="view" data-view="new" hidden>
-    <div class="hello"><p>Carnet<b>Nouvelle fiche</b></p></div>
-    <h1>Ajouter <em>un patient</em></h1>
-    <form class="panel" id="add" autocomplete="off">
+    <div class="hello"><p>Carnet<b id="formK">Nouvelle fiche</b></p></div>
+    <h1 id="formT">Ajouter <em>un patient</em></h1>
+    <form class="panel pad" id="add" autocomplete="off">
       <label class="f" for="fName">Patient</label>
       <input type="text" id="fName" placeholder="Nom ou initiales" maxlength="60" required>
       <label class="f" for="fAddr">Adresse</label>
       <input type="text" id="fAddr" placeholder="Rue, numéro, commune" maxlength="160" required>
-      <label class="sw">Visite urgente <input type="checkbox" id="fUrg"></label>
-      <button class="pill wide" type="submit" id="addBtn">Ajouter à la tournée</button>
+      <label class="f" for="fTel">Téléphone (facultatif)</label>
+      <input type="tel" id="fTel" placeholder="0470 12 34 56" maxlength="20">
+      <label class="f" for="fNote">Note pratique (facultatif)</label>
+      <input type="text" id="fNote" placeholder="Code de porte, étage, chien…" maxlength="120">
+      <p class="f" id="slotL">Créneau</p>
+      <div class="seg" id="fSlot" role="group" aria-labelledby="slotL"><button type="button" data-v="" aria-pressed="true">Libre</button><button type="button" data-v="am" aria-pressed="false">Matin</button><button type="button" data-v="pm" aria-pressed="false">Après-midi</button></div>
+      <label class="sw" id="swTour">Dans la tournée du jour <input type="checkbox" id="fTour" checked></label>
+      <label class="sw" id="swUrg">Visite urgente <input type="checkbox" id="fUrg"></label>
+      <button class="pill wide" type="submit" id="addBtn">Enregistrer</button>
     </form>
-    <p class="priv">Les noms restent sur ce téléphone. Seules les adresses sont envoyées à OpenStreetMap pour être localisées, puis les coordonnées au service d'itinéraire OSRM pour les distances par la route. Ne notez aucune information médicale.</p>
+    <button class="link" type="button" id="delBook" hidden>Supprimer du carnet</button>
+    <p class="priv">Les fiches restent sur ce téléphone. Seules les adresses sont envoyées à OpenStreetMap pour être localisées, puis les coordonnées au service d'itinéraire OSRM pour les distances par la route. Ne notez aucune information médicale.</p>
+  </section>
+
+  <section class="view" data-view="set" hidden>
+    <div class="hello"><p>Tournée<b>Réglages</b></p></div>
+    <h1>Vos <em>réglages</em></h1>
+    <div class="panel pad">
+      <p class="f" id="modeL">Ordre de passage</p>
+      <div class="seg col" id="sMode" role="group" aria-labelledby="modeL"><button type="button" data-v="far">Du plus loin au plus proche</button><button type="button" data-v="short">Trajet le plus court</button></div>
+      <label class="f" for="sVisit">Durée moyenne d'une visite, en minutes</label>
+      <input type="number" id="sVisit" min="5" max="120" step="5" inputmode="numeric">
+    </div>
+    <div class="panel pad">
+      <label class="sw">Retour en fin de tournée <input type="checkbox" id="sRet"></label>
+      <label class="f" for="sHome">Adresse de retour (cabinet ou domicile)</label>
+      <input type="text" id="sHome" placeholder="Rue, numéro, commune" maxlength="160">
+      <button class="pill soft wide" type="button" id="sHomeBtn">Enregistrer l'adresse</button>
+      <p class="hint" id="sHomeTxt"></p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><span>Km aujourd'hui</span><b id="kDay">0</b></div>
+      <div class="tile"><span>Km ce mois-ci</span><b id="kMonth">0</b></div>
+    </div>
+    <div class="panel pad">
+      <p class="f">Sauvegarde du carnet</p>
+      <button class="pill wide" type="button" id="exp" style="margin-top:0">Exporter dans un fichier</button>
+      <button class="pill soft wide" type="button" id="impBtn">Importer un fichier</button>
+      <input type="file" id="imp" accept="application/json,.json" hidden>
+      <p class="hint">Le fichier contient vos fiches, vos tournées types, vos réglages et vos kilomètres. Gardez-le en lieu sûr : il n'existe aucune copie ailleurs.</p>
+    </div>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
     <h2 id="goT">Lancer <em>l'itinéraire</em></h2>
     <p class="hint" id="goHint"></p>
     <div id="goApps"></div>
-    <button class="pill soft close" type="button" id="goClose">Annuler</button>
+    <button class="pill soft close" type="button" id="goClose">Fermer</button>
   </dialog>
 </div>
 
 <nav class="nav" aria-label="Navigation">
   <button type="button" data-tab="tour" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg><span>Tournée</span><sup id="navN" hidden></sup></button>
-  <button type="button" data-tab="book"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.200-5.500 6.500-5.500s5.900 1.900 6.500 5.500M16 4.800a3.500 3.500 0 0 1 0 6.400M18.500 14.800c1.700.8 2.700 2.600 3 5.200"/></svg><span>Patients</span></button>
-  <button type="button" data-tab="new"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Nouveau</span></button>
+  <button type="button" data-tab="book" aria-label="Patients"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.500"/><path d="M2.500 20c.600-3.600 3.200-5.500 6.500-5.500s5.900 1.900 6.500 5.500M16 4.800a3.500 3.500 0 0 1 0 6.400M18.500 14.800c1.700.800 2.700 2.600 3 5.200"/></svg><span>Patients</span></button>
+  <button type="button" data-tab="new" aria-label="Nouveau patient"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Nouveau</span></button>
+  <button type="button" data-tab="set" aria-label="Réglages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><span>Réglages</span></button>
 </nav>
 
 <script>
@@ -201,72 +280,124 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
   var KEY='tournee-v1';
   var GEO='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=be&addressdetails=0&q=';
   var OSRM='https://router.project-osrm.org/table/v1/driving/';
-  var S={patients:[],pos:null,book:null};
+  var OVP='https://overpass-api.de/api/interpreter?data=';
+  var DEF={mode:'far',visit:20,ret:false,home:null};
+  var S={patients:[],pos:null,book:[],groups:[],set:DEF,log:{},mx:null};
   var $=function(id){return document.getElementById(id)};
-  var list=$('list'),msg=$('msg');
+  var list=$('list'),msg=$('msg'),bookEl=$('book'),addSel=$('addSel');
 
   try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  if(!Array.isArray(S.book))S.book=[];
+  if(!Array.isArray(S.groups))S.groups=[];
+  if(!S.log||typeof S.log!=='object')S.log={};
+  S.set=Object.assign({},DEF,S.set||{});
+  /* retire les patients de démonstration laissés par les versions précédentes */
+  var isDemo=function(id){return/^d\d$/.test(id||'')};
+  if(S.book.some(function(b){return isDemo(b.id)})||S.patients.some(function(p){return isDemo(p.bookId)})){
+    S.book=S.book.filter(function(b){return!isDemo(b.id)});
+    S.patients=S.patients.filter(function(p){return!isDemo(p.bookId)});
+    save();
+  }
 
-  if(!Array.isArray(S.book))S.book=null;
   $('date').textContent=new Date().toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
 
   function say(t,err){msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t}
+  function fail(e){say(e&&e.message||'Une erreur est survenue.',true)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function km(m){return m==null?'':(m<1000?Math.round(m)+' m':(m/1000).toFixed(m<10000?1:0).replace('.',',')+' km')}
+  function kmB(m){return(m?km(m):'0 km').replace(/ (k?m)$/,'<small>$1</small>')}
   function mn(s){if(s==null)return'';var x=Math.max(1,Math.round(s/60));return x<60?x+' min':Math.floor(x/60)+' h '+String(x%60).padStart(2,'0')}
   function ago(t){var x=Math.round((Date.now()-t)/60000);return x<1?"à l'instant":x<60?'il y a '+x+' min':'il y a '+Math.floor(x/60)+' h'}
+  function hm(t){var d=new Date(t);return d.getHours()+' h '+String(d.getMinutes()).padStart(2,'0')}
+  function day(t){var d=t?new Date(t):new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function dstr(t){return new Date(t).toLocaleDateString('fr-BE',{day:'numeric',month:'long'})}
+  function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function ll(p){return(+p.lat).toFixed(6)+','+(+p.lon).toFixed(6)}
+  function nd(p){return!p.done}
+  function bk(p){return p.bookId?S.book.find(function(b){return b.id===p.bookId}):null}
+  function hav(a,b){var R=6371000,r=Math.PI/180,x=(b.lat-a.lat)*r,y=(b.lon-a.lon)*r,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(h))}
+  var SLOT={am:'Matin',pm:'Après-midi'};
 
-  /* ordre : urgences d'abord, puis du plus loin au plus proche, visites faites en bas */
+  /* trajet entre deux points, d'après la dernière matrice calculée ('@' = position relevée) */
+  function leg(a,b){
+    if(!S.mx)return null;
+    var i=S.mx.ids.indexOf(a),j=S.mx.ids.indexOf(b);
+    if(i<0||j<0||S.mx.d[i][j]==null)return null;
+    return{d:S.mx.d[i][j],t:S.mx.t[i][j]};
+  }
+
+  /* ordre : arrêt de recharge, urgences, matin, sans créneau, après-midi ; visites faites en bas */
+  function rank(p){var b=bk(p)||{};return p.pin?0:p.urgent?1:b.slot==='am'?2:b.slot==='pm'?4:3}
   function ordered(){
-    return S.patients.slice().sort(function(a,b){
-      if(a.done!==b.done)return a.done?1:-1;
-      if(a.urgent!==b.urgent)return a.urgent?-1:1;
-      var da=a.dist==null?-1:a.dist,db=b.dist==null?-1:b.dist;
-      return db-da;
+    var todo=S.patients.filter(nd),done=S.patients.filter(function(p){return p.done});
+    var G={},out=[],cur='@';
+    todo.forEach(function(p){var k=rank(p);(G[k]=G[k]||[]).push(p)});
+    Object.keys(G).sort().forEach(function(k){
+      var g=G[k];
+      if(S.set.mode==='short'){
+        while(g.length){
+          var best=0,bd=Infinity;
+          g.forEach(function(p,i){var l=leg(cur,p.id),d=l?l.d:(p.dist==null?1e12:p.dist);if(d<bd){bd=d;best=i}});
+          var p=g.splice(best,1)[0];out.push(p);cur=p.id;
+        }
+      }else{
+        g.sort(function(a,b){return(b.dist==null?-1:b.dist)-(a.dist==null?-1:a.dist)});
+        out=out.concat(g);
+      }
     });
+    done.sort(function(a,b){return(a.doneAt||0)-(b.doneAt||0)});
+    return out.concat(done);
   }
 
   var ICON={
     go:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>',
-    del:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+    del:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+    edit:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13.500 6.500l4 4"/></svg>',
+    tel:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
+    sms:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>'
   };
 
   function render(){
-    var o=ordered(),todo=o.filter(function(p){return!p.done});
+    var o=ordered(),todo=o.filter(nd);
+    var eta={},t=Date.now(),cur='@',ok=!!S.mx;
+    todo.forEach(function(p){if(!ok)return;var l=leg(cur,p.id);if(!l){ok=false;return}t+=l.t*1000;eta[p.id]=t;t+=(p.ev?30:S.set.visit)*60000;cur=p.id});
     if(!o.length){
-      list.innerHTML='<li class="empty">Aucune visite pour l\'instant.<br>Choisissez les patients à voir, puis calculez l\'ordre depuis votre position.<br><button class="pill glow" type="button" data-tab="book">Choisir mes patients</button></li>';
+      list.innerHTML='<li class="empty">Aucune visite pour l\'instant.<br>Choisissez les patients à voir, puis calculez l\'ordre depuis votre position.<br><button class="pill glow" type="button" data-tab="'+(S.book.length?'book':'new')+'">'+(S.book.length?'Choisir mes patients':'Ajouter un patient')+'</button></li>';
       $('sum').hidden=true;$('goBtn').hidden=true;
     }else{
       var stale=todo.some(function(p){return p.dist==null});
       $('sum').hidden=false;
       $('goBtn').hidden=!todo.length;
       $('goSub').textContent='Go · '+todo.length;
-      $('sum').innerHTML='<h2>Ordre de passage</h2><span>'+(stale&&S.pos?'Distances à recalculer':!S.pos?'Ordre non calculé':'Du plus loin au plus proche')+'</span>';
+      $('sum').innerHTML='<h2>Ordre de passage</h2><span>'+(stale&&S.pos?'Distances à recalculer':!S.pos?'Ordre non calculé':S.set.mode==='short'?'Trajet le plus court':'Du plus loin au plus proche')+'</span>';
       var n=0;
       list.innerHTML=o.map(function(p){
-        var num=p.done?'✓':++n;
-        var d=p.dist!=null?'<p class="dist">'+km(p.dist)+' <span>· '+mn(p.dur)+' de route</span></p>':p.unroutable?'<p class="dist"><span>Itinéraire introuvable</span></p>':'<p class="dist"><span>Distance à calculer</span></p>';
-        var dest=p.lat+','+p.lon;
-        var first=!p.done&&n===1;
+        var num=p.done?'✓':++n,first=!p.done&&n===1,b=bk(p)||{};
+        var tel=(b.phone||'').replace(/[^\d+]/g,''),note=b.note||'',slot=p.ev?'':(b.slot||'');
+        var mins=p.dur!=null?Math.max(5,Math.round(p.dur/300)*5):15;
+        var d=p.done?'<p class="dist"><span>Fait'+(p.doneAt?' à '+hm(p.doneAt):'')+'</span></p>':
+          p.dist!=null?'<p class="dist">'+km(p.dist)+' <span>· '+mn(p.dur)+' de route</span>'+(eta[p.id]?'<i>Arrivée vers '+hm(eta[p.id])+'</i>':'')+'</p>':
+          p.unroutable?'<p class="dist"><span>Itinéraire introuvable</span></p>':'<p class="dist"><span>Distance à calculer</span></p>';
         return '<li class="card'+(first?' next':'')+(p.urgent&&!p.done?' urgent':'')+(p.done?' done':'')+'" data-id="'+p.id+'">'+
           '<span class="num">'+num+'</span>'+(first?'<p class="kicker">Prochaine visite</p>':'')+
-          '<div class="who"><strong>'+esc(p.name)+'</strong>'+(p.urgent&&!p.done?'<span class="tag">URGENT</span>':'')+(p.done?'<span class="tag ok">FAIT</span>':'')+'</div>'+
-          '<p class="addr">'+esc(p.label)+'</p>'+d+
+          '<div class="who"><strong>'+esc(p.name)+'</strong>'+(p.ev?'<span class="tag ev">RECHARGE</span>':'')+(p.urgent&&!p.done?'<span class="tag">URGENT</span>':'')+(slot&&!p.done?'<span class="tag slot">'+SLOT[slot].toUpperCase()+'</span>':'')+(p.done?'<span class="tag ok">FAIT</span>':'')+'</div>'+
+          '<p class="addr">'+esc(p.label)+'</p>'+(note&&!p.done?'<p class="note">'+esc(note)+'</p>':'')+d+
           '<div class="acts">'+
-            (p.done?'':'<button class="pill soft urg" type="button" data-act="urg" aria-pressed="'+!!p.urgent+'">Urgent</button>')+
+            (p.done||p.ev?'':'<button class="pill soft urg" type="button" data-act="urg" aria-pressed="'+!!p.urgent+'">Urgent</button>')+
             '<button class="pill soft" type="button" data-act="done">'+(p.done?'Remettre':'Fait')+'</button>'+
-            (p.done?'':'<a class="pill go" href="https://www.google.com/maps/dir/?api=1&destination='+dest+'&travelmode=driving" target="_blank" rel="noopener">'+ICON.go+'Y aller</a>')+
+            (p.done?'':'<a class="pill go" href="https://www.google.com/maps/dir/?api=1&destination='+ll(p)+'&travelmode=driving" target="_blank" rel="noopener">'+ICON.go+'Y aller</a>')+
           '</div>'+
-          '<button class="del ico" type="button" data-act="del" aria-label="Supprimer '+esc(p.name)+'">'+ICON.del+'</button></li>';
-      }).join('');
+          (tel&&!p.done?'<div class="acts sub"><a class="pill soft" href="tel:'+tel+'">'+ICON.tel+'Appeler</a><a class="pill soft" href="sms:'+tel+'?&body='+encodeURIComponent('Bonjour, le docteur arrive chez vous dans environ '+mins+' minutes.')+'">'+ICON.sms+'Prévenir par SMS</a></div>':'')+
+          '<button class="del ico" type="button" data-act="del" aria-label="Retirer '+esc(p.name)+' de la tournée">'+ICON.del+'</button></li>';
+      }).join('')+(S.set.ret&&S.set.home&&todo.length?'<li class="back">Puis retour : '+esc(S.set.home.label)+'</li>':'');
     }
     var far=todo.reduce(function(m,p){return p.dist!=null&&p.dist>m?p.dist:m},-1);
-    $('tTodo').innerHTML=todo.length+'<small>visite'+(todo.length>1?'s':'')+'</small>';
-    $('tFar').innerHTML=far<0?'–':km(far).replace(/ (k?m)$/,'<small>$1</small>');
+    $('tTodo').innerHTML=todo.length+'<small>'+(todo.length>1?'arrêts':'arrêt')+'</small>';
+    $('tFar').innerHTML=far<0?'–':kmB(far);
     $('clear').hidden=!o.length;
     $('navN').hidden=!todo.length;$('navN').textContent=todo.length;
-    renderBook();
+    renderBook();renderSet();
     $('posTxt').innerHTML=S.pos?'Départ : <b>votre position</b>, '+ago(S.pos.t):'Position non relevée';
   }
 
@@ -286,28 +417,31 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
     });
   }
 
+  /* distances par la route : matrice complète entre la position et tous les arrêts à faire */
   function distances(){
-    var todo=S.patients.filter(function(p){return!p.done});
+    var todo=S.patients.filter(nd);
     if(!todo.length||!S.pos)return Promise.resolve();
     var pts=[S.pos].concat(todo);
-    var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?sources=0&annotations=distance,duration';
+    var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?annotations=distance,duration';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
       if(j.code!=='Ok')throw 0;
       todo.forEach(function(p,i){
         var d=j.distances[0][i+1],t=j.durations[0][i+1];
         p.dist=d==null?null:d;p.dur=t==null?null:t;p.unroutable=d==null;
       });
+      S.mx={ids:['@'].concat(todo.map(function(p){return p.id})),d:j.distances,t:j.durations};
       save();
     }).catch(function(){throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
   }
+  function refresh(){return distances().then(render,function(e){render();fail(e)})}
 
   $('calc').addEventListener('click',function(){
     var b=this;
-    if(!S.patients.some(function(p){return!p.done}))return say('Ajoutez au moins une visite avant de calculer l\'ordre.',true);
+    if(!S.patients.some(nd))return say('Ajoutez au moins une visite avant de calculer l\'ordre.',true);
     say('');busy(b,true,'Localisation…');
     locate().then(function(p){S.pos=p;save();busy(b,false);busy(b,true,'Calcul…');return distances()})
       .then(function(){busy(b,false);render();say('')})
-      .catch(function(e){busy(b,false);render();say(e.message,true)});
+      .catch(function(e){busy(b,false);render();fail(e)});
   });
 
   function geocode(q){
@@ -321,115 +455,265 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
       },function(e){throw e instanceof Error?e:new Error('Recherche d\'adresse impossible. Vérifiez la connexion.')});
   }
 
+  function toTour(b,urgent){S.patients.push({id:newId(),bookId:b.id,name:b.name,addr:b.addr,label:b.label,lat:b.lat,lon:b.lon,urgent:!!urgent,done:false,dist:null,dur:null})}
+
+  /* fiche patient : création ou modification */
+  var editId=null;
+  function seg(id,v){$(id).querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v))})}
+  function segVal(id){var b=$(id).querySelector('[aria-pressed=true]');return b?b.dataset.v:''}
+  $('fSlot').addEventListener('click',function(e){var b=e.target.closest('button');if(b)seg('fSlot',b.dataset.v)});
+  function openForm(b){
+    editId=b?b.id:null;
+    $('add').reset();
+    $('fName').value=b?b.name:'';$('fAddr').value=b?b.addr:'';$('fTel').value=b&&b.phone||'';$('fNote').value=b&&b.note||'';
+    seg('fSlot',b&&b.slot||'');
+    $('swTour').hidden=$('swUrg').hidden=!!b;$('delBook').hidden=!b;
+    $('formK').textContent=b?'Modifier la fiche':'Nouvelle fiche';
+    $('formT').innerHTML=b?'Modifier <em>la fiche</em>':'Ajouter <em>un patient</em>';
+  }
   $('add').addEventListener('submit',function(e){
     e.preventDefault();
-    var name=$('fName').value.trim(),addr=$('fAddr').value.trim(),b=$('addBtn');
+    var name=$('fName').value.trim(),addr=$('fAddr').value.trim(),btn=$('addBtn');
     if(!name||!addr)return;
-    say('');busy(b,true,'Recherche…');
-    geocode(addr).then(function(g){
-      var b={id:newId(),name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon};
-      S.book.push(b);toTour(b,$('fUrg').checked);
-      save();$('add').reset();tab('tour');
-      return distances().catch(function(e){say(e.message,true)});
-    }).then(function(){busy(b,false);render()},function(e){busy(b,false);say(e.message,true)});
+    var extra={phone:$('fTel').value.trim(),note:$('fNote').value.trim(),slot:segVal('fSlot')};
+    say('');busy(btn,true,'Recherche…');
+    var cur=editId?S.book.find(function(x){return x.id===editId}):null,moved=!cur||cur.addr!==addr,inTour=false;
+    (moved?geocode(addr):Promise.resolve({label:cur.label,lat:cur.lat,lon:cur.lon})).then(function(g){
+      if(cur){
+        Object.assign(cur,extra,{name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon});
+        S.patients.forEach(function(p){if(p.bookId===cur.id){p.name=name;p.addr=addr;p.label=g.label;p.lat=g.lat;p.lon=g.lon;if(moved){p.dist=null;p.dur=null}}});
+      }else{
+        var b=Object.assign({id:newId(),name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon},extra);
+        S.book.push(b);inTour=$('fTour').checked;
+        if(inTour)toTour(b,$('fUrg').checked);
+      }
+      save();
+      return moved&&(cur||inTour)?distances().catch(fail):null;
+    }).then(function(){
+      busy(btn,false);var was=cur;openForm(null);render();tab(was||!inTour?'book':'tour',true);
+      if(was)say('Fiche enregistrée.');else if(!inTour)say('Patient ajouté au carnet.');
+    },function(e){busy(btn,false);fail(e)});
+  });
+  $('delBook').addEventListener('click',function(){
+    var b=S.book.find(function(x){return x.id===editId});if(!b)return;
+    if(!confirm('Supprimer '+b.name+' du carnet ? Cette fiche sera perdue.'))return;
+    S.book=S.book.filter(function(x){return x!==b});
+    S.patients=S.patients.filter(function(p){return p.bookId!==b.id});
+    S.groups.forEach(function(g){g.ids=g.ids.filter(function(i){return i!==b.id})});
+    S.groups=S.groups.filter(function(g){return g.ids.length});
+    save();openForm(null);render();tab('book',true);
   });
 
   list.addEventListener('click',function(e){
     var b=e.target.closest('button[data-act]');if(!b)return;
     var id=b.closest('.card').dataset.id,p=S.patients.find(function(x){return x.id===id});if(!p)return;
-    var a=b.dataset.act;
+    var a=b.dataset.act,f=bk(p);
     if(a==='urg')p.urgent=!p.urgent;
-    if(a==='done'){p.done=!p.done;if(!p.done&&S.pos){save();render();distances().then(render,function(e){say(e.message,true)});return}}
+    if(a==='done'){
+      if(!p.done){
+        /* kilomètres : trajet depuis l'arrêt précédent du jour, ou depuis la position relevée */
+        var last=S.patients.filter(function(x){return x.done&&x.doneDay===day()}).sort(function(x,y){return y.doneAt-x.doneAt})[0];
+        var l=leg(last?last.id:'@',p.id),d=l?l.d:(p.dist||0);
+        p.done=true;p.doneAt=Date.now();p.doneDay=day();p.km=d;
+        S.log[p.doneDay]=(S.log[p.doneDay]||0)+d;
+        if(f){p.prevVisit=f.lastVisit||null;f.lastVisit=p.doneAt}
+      }else{
+        p.done=false;
+        if(p.km&&p.doneDay)S.log[p.doneDay]=Math.max(0,(S.log[p.doneDay]||0)-p.km);
+        if(f)f.lastVisit=p.prevVisit||null;
+        p.km=0;p.doneAt=null;
+        if(S.pos){save();render();refresh();return}
+      }
+    }
     if(a==='del'){if(!confirm('Retirer '+p.name+' de la tournée ?'))return;S.patients=S.patients.filter(function(x){return x!==p})}
     save();render();
   });
 
   $('clear').addEventListener('click',function(){
     if(!S.patients.length)return;
-    if(!confirm('Vider toute la tournée du jour ?'))return;
-    S.patients=[];save();render();say('');
+    if(!confirm('Vider toute la tournée du jour ? Le carnet et les kilomètres sont conservés.'))return;
+    S.patients=[];S.mx=null;save();render();say('');
   });
 
-  /* carnet de démonstration : patients fictifs, adresses de rues autour de Manage */
-  var DEMO_BOOK=[
-    ['Mme Lambert','Rue de Bellecourt, 7170 Manage',50.4889657,4.2526551],
-    ['M. Dupont','Rue Sylvain Guyaux, 7100 La Louvière',50.4750112,4.18612],
-    ['Mme Leclercq','Rue de Nivelles, 7180 Seneffe',50.5051496,4.2860339],
-    ['M. Peeters','Rue de Binche, 7170 La Hestre',50.4659457,4.2240573],
-    ['Mme Janssens','Rue Ferrer, 7170 La Hestre',50.4738261,4.2351746],
-    ['M. Martin',"Rue de la Station, 7170 Bois-d'Haine",50.4908875,4.2103361],
-    ['Mme Dubois','Rue de Namur, 7130 Binche',50.4200054,4.1750346],
-    ['M. Lemaire','Chaussée de Mons, 7170 Manage',50.4977932,4.2289468],
-    ['Mme Simon','Rue Royale, 7160 Chapelle-lez-Herlaimont',50.4792329,4.2685382],
-    ['M. Laurent','Place Albert Ier, 7170 Fayt-lez-Manage',50.4906083,4.2267757]
-  ].map(function(d,i){return{id:'d'+i,name:d[0],addr:d[1],label:d[1],lat:d[2],lon:d[3]}});
-  function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
-  function toTour(b,urgent){S.patients.push({id:newId(),bookId:b.id,name:b.name,addr:b.addr,label:b.label,lat:b.lat,lon:b.lon,urgent:!!urgent,done:false,dist:null,dur:null})}
-
-  var bookEl=$('book'),addSel=$('addSel');
+  /* carnet et tournées types */
+  function picked(){return[].map.call(bookEl.querySelectorAll('input:checked:not(:disabled)'),function(i){return i.value})}
   function renderBook(){
-    var inTour={};S.patients.forEach(function(p){if(p.bookId)inTour[p.bookId]=1});
-    var keep={};bookEl.querySelectorAll('input:checked:not(:disabled)').forEach(function(i){keep[i.value]=1});
-    bookEl.innerHTML=S.book.map(function(b){
-      var t=inTour[b.id];
-      return '<li><label class="pick"><input type="checkbox" value="'+b.id+'"'+(t?' checked disabled':keep[b.id]?' checked':'')+'><span><b>'+esc(b.name)+'</b><small>'+esc(b.addr)+'</small></span>'+(t?'<em>Dans la tournée</em>':'')+'</label></li>';
+    var inTour={};S.patients.forEach(function(p){if(p.bookId&&!p.done)inTour[p.bookId]=1});
+    var keep={};picked().forEach(function(i){keep[i]=1});
+    addSel.hidden=!S.book.length;
+    bookEl.innerHTML=!S.book.length?'<li class="none">Votre carnet est vide.<br>Ajoutez vos patients, ils resteront enregistrés sur ce téléphone.<br><button class="pill glow" type="button" data-tab="new">Ajouter un patient</button></li>':
+      S.book.slice().sort(function(a,b){return a.name.localeCompare(b.name,'fr')}).map(function(b){
+        var t=inTour[b.id];
+        return '<li><label class="pick"><input type="checkbox" value="'+b.id+'"'+(t?' checked disabled':keep[b.id]?' checked':'')+'><span><b>'+esc(b.name)+'</b><small>'+esc(b.addr)+'</small>'+(b.lastVisit?'<small class="last">Dernière visite : '+dstr(b.lastVisit)+'</small>':'')+'</span>'+(t?'<em>Dans la tournée</em>':'')+'</label>'+
+          '<button class="edit ico" type="button" data-edit="'+b.id+'" aria-label="Modifier la fiche de '+esc(b.name)+'">'+ICON.edit+'</button></li>';
+      }).join('');
+    $('groups').innerHTML=S.groups.map(function(g){
+      return '<span class="gchip"><button type="button" data-g="'+g.id+'">'+esc(g.name)+' · '+g.ids.length+'</button><button type="button" data-gdel="'+g.id+'" aria-label="Supprimer la tournée type '+esc(g.name)+'">×</button></span>';
     }).join('');
     $('bookCount').textContent=S.book.length+' patient'+(S.book.length>1?'s':'');
     selCount();
   }
   function selCount(){
-    var n=bookEl.querySelectorAll('input:checked:not(:disabled)').length;
+    var n=picked().length;
     addSel.disabled=!n;addSel.textContent=n?'Ajouter à la tournée ('+n+')':'Ajouter à la tournée';
+    $('saveGroup').hidden=n<2;
   }
   bookEl.addEventListener('change',selCount);
+  bookEl.addEventListener('click',function(e){
+    var b=e.target.closest('[data-edit]');if(!b)return;
+    var f=S.book.find(function(x){return x.id===b.dataset.edit});
+    if(f){openForm(f);tab('new',true)}
+  });
   addSel.addEventListener('click',function(){
-    var ids=[].map.call(bookEl.querySelectorAll('input:checked:not(:disabled)'),function(i){return i.value});
-    ids.forEach(function(id){var b=S.book.find(function(x){return x.id===id});if(b)toTour(b)});
+    picked().forEach(function(id){var b=S.book.find(function(x){return x.id===id});if(b)toTour(b)});
     bookEl.querySelectorAll('input:checked:not(:disabled)').forEach(function(i){i.checked=false});
     save();render();say('');
-    if(S.pos)distances().then(render,function(e){say(e.message,true)});
+    if(S.pos)refresh();
     else say('Patients ajoutés. Touchez « Calculer l\'ordre » pour trier depuis votre position.');
     tab('tour');
   });
-  $('resetBook').addEventListener('click',function(){
-    if(!confirm('Remettre les 10 patients de démonstration dans le carnet ?'))return;
-    S.book=DEMO_BOOK.slice();save();render();
+  $('saveGroup').addEventListener('click',function(){
+    var ids=picked();if(ids.length<2)return;
+    var name=(prompt('Nom de cette tournée type (par exemple : Mardi, Maison de repos)')||'').trim().slice(0,30);
+    if(!name)return;
+    S.groups.push({id:newId(),name:name,ids:ids});save();renderBook();
+  });
+  $('groups').addEventListener('click',function(e){
+    var d=e.target.closest('[data-gdel]'),b=e.target.closest('[data-g]');
+    if(d){
+      var g=S.groups.find(function(x){return x.id===d.dataset.gdel});
+      if(g&&confirm('Supprimer la tournée type « '+g.name+' » ? Les fiches sont conservées.')){S.groups=S.groups.filter(function(x){return x!==g});save();renderBook()}
+    }else if(b){
+      var g2=S.groups.find(function(x){return x.id===b.dataset.g});if(!g2)return;
+      bookEl.querySelectorAll('input:not(:disabled)').forEach(function(i){if(g2.ids.indexOf(i.value)>=0)i.checked=true});
+      selCount();
+    }
   });
 
-  if(!S.book)S.book=DEMO_BOOK.slice();
-  /* itinéraire : Google Maps prend toute la tournée (10 arrêts au plus), Plans et Waze la prochaine visite */
-  var GMAX=10,ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
-  /* Plans : plusieurs daddr à la suite, format non documenté par Apple mais reconnu par l'app récente */
-  var AMAX=14;
+  /* réglages */
+  function renderSet(){
+    seg('sMode',S.set.mode);
+    if(document.activeElement!==$('sVisit'))$('sVisit').value=S.set.visit;
+    $('sRet').checked=!!S.set.ret;
+    if(document.activeElement!==$('sHome')&&S.set.home)$('sHome').value=S.set.home.addr;
+    $('sHomeTxt').textContent=S.set.home?'Adresse retenue : '+S.set.home.label:'Aucune adresse de retour enregistrée.';
+    var m=day().slice(0,7),tot=0;Object.keys(S.log).forEach(function(k){if(k.slice(0,7)===m)tot+=S.log[k]});
+    $('kDay').innerHTML=kmB(S.log[day()]||0);$('kMonth').innerHTML=kmB(tot);
+  }
+  $('sMode').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.set.mode=b.dataset.v;save();render()});
+  $('sVisit').addEventListener('change',function(){var v=Math.round(+this.value);S.set.visit=v>=5&&v<=120?v:20;this.value=S.set.visit;save();render()});
+  $('sRet').addEventListener('change',function(){
+    if(this.checked&&!S.set.home){this.checked=false;say('Enregistrez d\'abord une adresse de retour.',true);$('sHome').focus();return}
+    S.set.ret=this.checked;save();render();
+  });
+  $('sHomeBtn').addEventListener('click',function(){
+    var b=this,addr=$('sHome').value.trim();
+    if(!addr){S.set.home=null;S.set.ret=false;save();render();return}
+    say('');busy(b,true,'Recherche…');
+    geocode(addr).then(function(g){S.set.home={addr:addr,label:g.label,lat:g.lat,lon:g.lon};S.set.ret=true;save();busy(b,false);render();say('Adresse de retour enregistrée.')},function(e){busy(b,false);fail(e)});
+  });
+  $('exp').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify({app:'tournee',v:1,date:day(),book:S.book,groups:S.groups,set:S.set,log:S.log},null,1)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='tournee-carnet-'+day()+'.json';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
+    say('Carnet exporté : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.');
+  });
+  $('impBtn').addEventListener('click',function(){$('imp').click()});
+  $('imp').addEventListener('change',function(){
+    var f=this.files[0];this.value='';if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var j=JSON.parse(r.result);
+        if(j.app!=='tournee'||!Array.isArray(j.book))throw 0;
+        var ok=j.book.filter(function(b){return b&&b.id&&b.name&&isFinite(b.lat)&&isFinite(b.lon)});
+        if(!confirm('Remplacer le carnet actuel ('+S.book.length+' fiche'+(S.book.length>1?'s':'')+') par celui du fichier ('+ok.length+' fiche'+(ok.length>1?'s':'')+') ?'))return;
+        S.book=ok;S.groups=Array.isArray(j.groups)?j.groups:[];S.set=Object.assign({},DEF,j.set||{});S.log=j.log&&typeof j.log==='object'?j.log:{};
+        S.patients=S.patients.filter(function(p){return!p.bookId||ok.some(function(b){return b.id===p.bookId})});
+        save();render();say('Carnet importé : '+ok.length+' fiche'+(ok.length>1?'s':'')+'.');
+      }catch(e){say('Ce fichier n\'est pas une sauvegarde de Tournée.',true)}
+    };
+    r.readAsText(f);
+  });
+
+  /* itinéraire : Google Maps et Plans prennent toute la tournée, Waze la prochaine visite */
+  var GMAX=10,AMAX=14,ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  function appL(h,t,d){return '<a class="app-l" href="'+h+'" target="_blank" rel="noopener"><span><b>'+t+'</b><small>'+d+'</small></span>'+ARROW+'</a>'}
+  /* Plans : plusieurs daddr à la suite, format non documenté par Apple */
   function aplans(stops){return 'https://maps.apple.com/?dirflg=d&'+stops.map(function(p){return 'daddr='+ll(p)}).join('&')}
-  function ll(p){return(+p.lat).toFixed(6)+','+(+p.lon).toFixed(6)}
   function gmaps(stops){
     var dest=stops[stops.length-1],way=stops.slice(0,-1);
     return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+ll(dest)+(way.length?'&waypoints='+encodeURIComponent(way.map(ll).join('|')):'');
   }
+  function sheet(){var d=$('goSheet');if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','')}
   $('goBtn').addEventListener('click',function(){
-    var todo=ordered().filter(function(p){return!p.done});if(!todo.length)return;
-    var g=todo.slice(0,GMAX),next=todo[0];
+    var todo=ordered().filter(nd);if(!todo.length)return;
+    var home=S.set.ret&&S.set.home?[S.set.home]:[],next=todo[0];
+    var g=todo.slice(0,GMAX-home.length).concat(home),a=todo.slice(0,AMAX-home.length).concat(home);
+    function txt(n,max){return 'Toute la tournée : '+n+' arrêt'+(n>1?'s':'')+(home.length?', retour compris':'')+(todo.length+home.length>max?' (les premiers seulement)':'')}
+    $('goT').innerHTML='Lancer <em>l\'itinéraire</em>';
     $('goHint').textContent=(S.pos?'':'Ordre pas encore calculé depuis votre position. ')+'Départ de votre position actuelle, dans l\'ordre de la liste.';
     $('goApps').innerHTML=
-      '<a class="app-l" href="'+gmaps(g)+'" target="_blank" rel="noopener"><span><b>Google Maps</b><small>Toute la tournée : '+g.length+' arrêt'+(g.length>1?'s':'')+(todo.length>GMAX?' (les '+GMAX+' premiers)':'')+'</small></span>'+ARROW+'</a>'+
-      '<a class="app-l" href="'+aplans(todo.slice(0,AMAX))+'" target="_blank" rel="noopener"><span><b>Plans</b><small>Toute la tournée : '+Math.min(todo.length,AMAX)+' arrêt'+(todo.length>1?'s':'')+(todo.length>AMAX?' (les '+AMAX+' premiers)':'')+'</small></span>'+ARROW+'</a>'+
-      (todo.length>1?'<a class="app-l" href="https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d" target="_blank" rel="noopener"><span><b>Plans, un arrêt</b><small>Prochaine visite seule : '+esc(next.name)+'</small></span>'+ARROW+'</a>':'')+
-      '<a class="app-l" href="https://waze.com/ul?ll='+ll(next)+'&navigate=yes" target="_blank" rel="noopener"><span><b>Waze</b><small>Prochaine visite : '+esc(next.name)+'</small></span>'+ARROW+'</a>';
-    var d=$('goSheet');if(d.showModal)d.showModal();else d.setAttribute('open','');
+      appL(gmaps(g),'Google Maps',txt(g.length,GMAX))+
+      appL(aplans(a),'Plans',txt(a.length,AMAX))+
+      (a.length>1?appL('https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d','Plans, un arrêt','Prochaine visite seule : '+esc(next.name)):'')+
+      appL('https://waze.com/ul?ll='+ll(next)+'&navigate=yes','Waze','Prochaine visite : '+esc(next.name));
+    sheet();
+  });
+
+  /* recharge : bornes proches du trajet vers la prochaine visite, ou recherche dans une appli */
+  var evFound=[];
+  $('evBtn').addEventListener('click',function(){
+    var q=encodeURIComponent('borne de recharge voiture électrique');
+    $('goT').innerHTML='Recharger <em>la voiture</em>';
+    $('goHint').textContent='Ajoutez une borne comme prochain arrêt, ou cherchez-en une dans votre appli.';
+    $('goApps').innerHTML='<button class="pill wide" type="button" id="evNear" style="margin-top:0">Bornes proches de mon trajet</button><div id="evList"></div>'+
+      appL('https://www.google.com/maps/search/?api=1&query='+q,'Google Maps','Bornes à proximité')+
+      appL('https://maps.apple.com/?q='+q,'Plans','Bornes à proximité')+
+      appL('https://waze.com/ul?q='+q,'Waze','Bornes à proximité')+
+      appL('https://chargemap.com/map','Chargemap','Carte des bornes, prix et disponibilité');
+    sheet();
+  });
+  function evSearch(){
+    var box=$('evList'),btn=$('evNear');
+    btn.disabled=true;box.innerHTML='<p class="hint">Recherche des bornes…</p>';
+    (S.pos?Promise.resolve():locate().then(function(p){S.pos=p;save()})).then(function(){
+      var nx=ordered().filter(nd)[0];
+      var q='[out:json][timeout:12];(node[amenity=charging_station](around:4000,'+S.pos.lat+','+S.pos.lon+');'+(nx?'node[amenity=charging_station](around:4000,'+nx.lat+','+nx.lon+');':'')+');out 80;';
+      var ac=new AbortController(),to=setTimeout(function(){ac.abort()},12000);
+      return fetch(OVP+encodeURIComponent(q),{signal:ac.signal}).then(function(r){clearTimeout(to);if(!r.ok)throw 0;return r.json()}).then(function(j){
+        evFound=(j.elements||[]).filter(function(e){return isFinite(e.lat)}).map(function(e){
+          var t=e.tags||{},d=hav(S.pos,e);
+          return{lat:e.lat,lon:e.lon,name:t.name||t.operator||t.brand||'Borne de recharge',d:d,det:d+(nx?hav(e,nx):0)};
+        }).sort(function(a,b){return a.det-b.det}).slice(0,5);
+        box.innerHTML=evFound.length?evFound.map(function(e,i){
+          return '<div class="ev-i"><span><b>'+esc(e.name)+'</b><small>À '+km(e.d)+' à vol d\'oiseau</small></span><button class="pill" type="button" data-evadd="'+i+'">Ajouter</button></div>';
+        }).join(''):'<p class="hint">Aucune borne trouvée à moins de 4 km.</p>';
+      },function(){throw new Error('Le service de recherche des bornes ne répond pas. Utilisez une des applis ci-dessous.')});
+    }).catch(function(e){box.innerHTML='<p class="hint">'+esc(e&&e.message||'Recherche impossible.')+'</p>'}).then(function(){btn.disabled=false});
+  }
+  $('goApps').addEventListener('click',function(e){
+    if(e.target.closest('#evNear'))return evSearch();
+    var b=e.target.closest('[data-evadd]');if(!b)return;
+    var v=evFound[+b.dataset.evadd];if(!v)return;
+    S.patients.push({id:newId(),ev:true,pin:true,name:'Recharge',addr:v.name,label:v.name,lat:v.lat,lon:v.lon,urgent:false,done:false,dist:null,dur:null});
+    save();$('goSheet').close();render();tab('tour');refresh();
+    say('Borne ajoutée comme prochain arrêt.');
   });
   $('goClose').addEventListener('click',function(){$('goSheet').close()});
   $('goSheet').addEventListener('click',function(e){if(e.target===this||e.target.closest('.app-l'))this.close()});
 
-  function tab(t){
+  function tab(t,keep){
+    if(t==='new'&&!keep)openForm(null);
     document.querySelectorAll('.view').forEach(function(v){v.hidden=v.dataset.view!==t});
     document.querySelectorAll('.nav button').forEach(function(b){if(b.dataset.tab===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
     window.scrollTo(0,0);
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab)});
 
+  openForm(null);
   render();
-  setInterval(function(){if(S.pos)$('posTxt').innerHTML='Départ : <b>votre position</b>, '+ago(S.pos.t)},60000);
+  setInterval(render,60000);
   if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});
 })();
 </script>
