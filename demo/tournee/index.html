@@ -69,9 +69,41 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
 .who{padding-right:34px}
 .acts{flex-wrap:nowrap}
 .acts .btn{min-width:0}
+.goall{width:100%;min-height:54px;margin:0 0 12px;border:0;border-radius:12px;background:var(--ok);color:#fff;font-size:18px;font-weight:700;letter-spacing:.02em}
+.goall:hover{background:#237032}
+.goall small{font-size:13px;font-weight:500;opacity:.9;letter-spacing:0}
+.goall[hidden]{display:none}
+dialog.sheet{width:min(560px,100%);max-width:100%;margin:auto auto 0;border:0;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));color:var(--ink)}
+@media(min-width:600px){dialog.sheet{margin:auto;border-radius:18px}}
+dialog.sheet::backdrop{background:rgba(20,24,28,.45)}
+.sheet h2{font-size:18px}
+.sheet .hint{margin:4px 0 12px}
+.app-l{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 14px;margin-top:8px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink)}
+.app-l:hover{border-color:#c9ced4;background:var(--soft)}
+.app-l span{flex:1;min-width:0}
+.app-l b{display:block}
+.app-l small{display:block;color:var(--muted);font-size:13px}
+.app-l svg{width:18px;height:18px;flex:0 0 auto;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sheet .close{width:100%;margin-top:12px}
 .empty{background:var(--bg);border:1px dashed #cdd2d8;border-radius:14px;padding:26px 18px;text-align:center;color:var(--muted)}
 .foot{display:flex;gap:10px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
 .foot .btn{font-weight:500;color:var(--muted)}
+.book{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}
+.book-h{display:flex;justify-content:space-between;align-items:baseline}
+.book-h h2{font-size:16px}
+#bookCount{font-size:13px;color:var(--muted)}
+.book .hint{margin:2px 0 8px}
+#book{list-style:none;padding:0;border-top:1px solid var(--line)}
+#book li{border-bottom:1px solid var(--line)}
+.pick{display:flex;align-items:center;gap:12px;margin:0;padding:10px 2px;min-height:56px;cursor:pointer;color:var(--ink);font-size:15px;font-weight:400}
+.pick input{flex:0 0 auto;width:22px;height:22px;accent-color:var(--accent)}
+.pick span{flex:1;min-width:0}
+.pick b{display:block;font-weight:600}
+.pick small{display:block;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.pick em{flex:0 0 auto;font-style:normal;font-size:12px;font-weight:600;color:var(--ok)}
+.pick:has(input:disabled){cursor:default}
+.pick:has(input:disabled) b,.pick:has(input:disabled) small{opacity:.6}
+.wide{width:100%;margin-top:12px}
 .priv{font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.5}
 .spin{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:r .8s linear infinite}
 @keyframes r{to{transform:rotate(360deg)}}
@@ -89,8 +121,15 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
     <p class="msg" id="msg" role="status" hidden></p>
   </header>
 
+  <section class="book" aria-labelledby="bookT">
+    <div class="book-h"><h2 id="bookT">Mes patients</h2><span id="bookCount"></span></div>
+    <p class="hint">Cochez les patients à voir aujourd'hui.</p>
+    <ul id="book"></ul>
+    <button class="btn main wide" type="button" id="addSel" disabled>Ajouter à la tournée</button>
+  </section>
+
   <form id="add" autocomplete="off">
-    <h2>Ajouter une visite</h2>
+    <h2>Nouveau patient</h2>
     <label for="fName">Patient</label>
     <input type="text" id="fName" placeholder="Nom ou initiales" maxlength="60" required>
     <label for="fAddr">Adresse</label>
@@ -102,12 +141,19 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
   </form>
 
   <div class="sum" id="sum" hidden></div>
+  <button class="goall" type="button" id="goBtn" hidden>Go <small id="goSub"></small></button>
   <ol id="list"></ol>
 
   <div class="foot">
-    <button class="btn" type="button" id="demo">Charger un exemple</button>
+    <button class="btn" type="button" id="resetBook">Patients de démo</button>
     <button class="btn" type="button" id="clear">Vider la journée</button>
   </div>
+  <dialog class="sheet" id="goSheet" aria-labelledby="goT">
+    <h2 id="goT">Lancer l'itinéraire</h2>
+    <p class="hint" id="goHint"></p>
+    <div id="goApps"></div>
+    <button class="btn close" type="button" id="goClose">Annuler</button>
+  </dialog>
   <p class="priv">Les noms restent sur ce téléphone. Seules les adresses sont envoyées à OpenStreetMap pour être localisées, puis les coordonnées au service d'itinéraire OSRM pour les distances par la route. Ne notez aucune information médicale.</p>
 </div>
 
@@ -116,13 +162,14 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
   var KEY='tournee-v1';
   var GEO='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=be&addressdetails=0&q=';
   var OSRM='https://router.project-osrm.org/table/v1/driving/';
-  var S={patients:[],pos:null};
+  var S={patients:[],pos:null,book:null};
   var $=function(id){return document.getElementById(id)};
   var list=$('list'),msg=$('msg');
 
   try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
+  if(!Array.isArray(S.book))S.book=null;
   $('date').textContent=new Date().toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
 
   function say(t,err){msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t}
@@ -149,11 +196,13 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
   function render(){
     var o=ordered(),todo=o.filter(function(p){return!p.done});
     if(!o.length){
-      list.innerHTML='<li class="empty">Aucune visite pour l\'instant. Ajoutez vos patients ci-dessus, puis calculez l\'ordre depuis votre position.</li>';
-      $('sum').hidden=true;
+      list.innerHTML='<li class="empty">Aucune visite pour l\'instant. Cochez vos patients ci-dessus, puis calculez l\'ordre depuis votre position.</li>';
+      $('sum').hidden=true;$('goBtn').hidden=true;
     }else{
       var stale=todo.some(function(p){return p.dist==null});
       $('sum').hidden=false;
+      $('goBtn').hidden=!todo.length;
+      $('goSub').textContent=todo.length>1?'· '+todo.length+' arrêts':'· 1 arrêt';
       $('sum').innerHTML='<b>'+todo.length+' visite'+(todo.length>1?'s':'')+' à faire</b><span>'+(stale&&S.pos?'Distances à recalculer':!S.pos?'Ordre non calculé':'Du plus loin au plus proche')+'</span>';
       var n=0;
       list.innerHTML=o.map(function(p){
@@ -173,6 +222,7 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
           '</div></li>';
       }).join('');
     }
+    renderBook();
     $('posTxt').innerHTML=S.pos?'Départ : <b>votre position</b>, '+ago(S.pos.t):'Position non relevée';
   }
 
@@ -233,7 +283,8 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
     if(!name||!addr)return;
     say('');busy(b,true,'Recherche…');
     geocode(addr).then(function(g){
-      S.patients.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon,urgent:$('fUrg').checked,done:false,dist:null,dur:null});
+      var b={id:newId(),name:name,addr:addr,label:g.label,lat:g.lat,lon:g.lon};
+      S.book.push(b);toTour(b,$('fUrg').checked);
       save();$('add').reset();$('fName').focus();
       return distances().catch(function(e){say(e.message,true)});
     }).then(function(){busy(b,false);render()},function(e){busy(b,false);say(e.message,true)});
@@ -255,19 +306,72 @@ ol{list-style:none;padding:0;display:grid;gap:10px}
     S.patients=[];save();render();say('');
   });
 
-  /* exemple de démonstration : adresses publiques autour de Manage */
-  var DEMO=[['M. D.','Grand-Place, 7130 Binche',false],['Mme L.','Rue Sylvain Guyaux, 7100 La Louvière',false],['M. V.','Place de Seneffe, 7180 Seneffe',true],['Mme R.','Rue Ferrer, 7170 Manage',false],['M. B.','Place Albert Ier, 7170 Manage',false]];
-  $('demo').addEventListener('click',function(){
-    var b=this;
-    if(S.patients.length&&!confirm('Remplacer la tournée actuelle par l\'exemple ?'))return;
-    S.patients=[];busy(b,true,'Chargement…');say('');
-    DEMO.reduce(function(pr,d){
-      return pr.then(function(){return geocode(d[1])}).then(function(g){
-        S.patients.push({id:Math.random().toString(36).slice(2,10),name:d[0],addr:d[1],label:g.label,lat:g.lat,lon:g.lon,urgent:d[2],done:false,dist:null,dur:null});
-      },function(){}).then(function(){return new Promise(function(r){setTimeout(r,1100)})});
-    },Promise.resolve()).then(function(){save();return distances()})
-      .then(function(){busy(b,false);render();if(!S.pos)say('Exemple chargé. Touchez « Calculer l\'ordre » pour trier depuis votre position.')},function(e){busy(b,false);save();render();say(e.message,true)});
+  /* carnet de démonstration : patients fictifs, adresses de rues autour de Manage */
+  var DEMO_BOOK=[
+    ['Mme Lambert','Rue de Bellecourt, 7170 Manage',50.4889657,4.2526551],
+    ['M. Dupont','Rue Sylvain Guyaux, 7100 La Louvière',50.4750112,4.18612],
+    ['Mme Leclercq','Rue de Nivelles, 7180 Seneffe',50.5051496,4.2860339],
+    ['M. Peeters','Rue de Binche, 7170 La Hestre',50.4659457,4.2240573],
+    ['Mme Janssens','Rue Ferrer, 7170 La Hestre',50.4738261,4.2351746],
+    ['M. Martin',"Rue de la Station, 7170 Bois-d'Haine",50.4908875,4.2103361],
+    ['Mme Dubois','Rue de Namur, 7130 Binche',50.4200054,4.1750346],
+    ['M. Lemaire','Chaussée de Mons, 7170 Manage',50.4977932,4.2289468],
+    ['Mme Simon','Rue Royale, 7160 Chapelle-lez-Herlaimont',50.4792329,4.2685382],
+    ['M. Laurent','Place Albert Ier, 7170 Fayt-lez-Manage',50.4906083,4.2267757]
+  ].map(function(d,i){return{id:'d'+i,name:d[0],addr:d[1],label:d[1],lat:d[2],lon:d[3]}});
+  function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function toTour(b,urgent){S.patients.push({id:newId(),bookId:b.id,name:b.name,addr:b.addr,label:b.label,lat:b.lat,lon:b.lon,urgent:!!urgent,done:false,dist:null,dur:null})}
+
+  var bookEl=$('book'),addSel=$('addSel');
+  function renderBook(){
+    var inTour={};S.patients.forEach(function(p){if(p.bookId)inTour[p.bookId]=1});
+    var keep={};bookEl.querySelectorAll('input:checked:not(:disabled)').forEach(function(i){keep[i.value]=1});
+    bookEl.innerHTML=S.book.map(function(b){
+      var t=inTour[b.id];
+      return '<li><label class="pick"><input type="checkbox" value="'+b.id+'"'+(t?' checked disabled':keep[b.id]?' checked':'')+'><span><b>'+esc(b.name)+'</b><small>'+esc(b.addr)+'</small></span>'+(t?'<em>Dans la tournée</em>':'')+'</label></li>';
+    }).join('');
+    $('bookCount').textContent=S.book.length+' patient'+(S.book.length>1?'s':'');
+    selCount();
+  }
+  function selCount(){
+    var n=bookEl.querySelectorAll('input:checked:not(:disabled)').length;
+    addSel.disabled=!n;addSel.textContent=n?'Ajouter à la tournée ('+n+')':'Ajouter à la tournée';
+  }
+  bookEl.addEventListener('change',selCount);
+  addSel.addEventListener('click',function(){
+    var ids=[].map.call(bookEl.querySelectorAll('input:checked:not(:disabled)'),function(i){return i.value});
+    ids.forEach(function(id){var b=S.book.find(function(x){return x.id===id});if(b)toTour(b)});
+    bookEl.querySelectorAll('input:checked:not(:disabled)').forEach(function(i){i.checked=false});
+    save();render();say('');
+    if(S.pos)distances().then(render,function(e){say(e.message,true)});
+    else say('Patients ajoutés. Touchez « Calculer l\'ordre » pour trier depuis votre position.');
+    $('sum').scrollIntoView({behavior:'smooth',block:'start'});
   });
+  $('resetBook').addEventListener('click',function(){
+    if(!confirm('Remettre les 10 patients de démonstration dans le carnet ?'))return;
+    S.book=DEMO_BOOK.slice();save();render();
+  });
+
+  if(!S.book)S.book=DEMO_BOOK.slice();
+  /* itinéraire : Google Maps prend toute la tournée (10 arrêts au plus), Plans et Waze la prochaine visite */
+  var GMAX=10,ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  function ll(p){return(+p.lat).toFixed(6)+','+(+p.lon).toFixed(6)}
+  function gmaps(stops){
+    var dest=stops[stops.length-1],way=stops.slice(0,-1);
+    return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+ll(dest)+(way.length?'&waypoints='+encodeURIComponent(way.map(ll).join('|')):'');
+  }
+  $('goBtn').addEventListener('click',function(){
+    var todo=ordered().filter(function(p){return!p.done});if(!todo.length)return;
+    var g=todo.slice(0,GMAX),next=todo[0];
+    $('goHint').textContent=(S.pos?'':'Ordre pas encore calculé depuis votre position. ')+'Départ de votre position actuelle, dans l\'ordre de la liste.';
+    $('goApps').innerHTML=
+      '<a class="app-l" href="'+gmaps(g)+'" target="_blank" rel="noopener"><span><b>Google Maps</b><small>Toute la tournée : '+g.length+' arrêt'+(g.length>1?'s':'')+(todo.length>GMAX?' (les '+GMAX+' premiers)':'')+'</small></span>'+ARROW+'</a>'+
+      '<a class="app-l" href="https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d" target="_blank" rel="noopener"><span><b>Plans</b><small>Prochaine visite : '+esc(next.name)+'</small></span>'+ARROW+'</a>'+
+      '<a class="app-l" href="https://waze.com/ul?ll='+ll(next)+'&navigate=yes" target="_blank" rel="noopener"><span><b>Waze</b><small>Prochaine visite : '+esc(next.name)+'</small></span>'+ARROW+'</a>';
+    var d=$('goSheet');if(d.showModal)d.showModal();else d.setAttribute('open','');
+  });
+  $('goClose').addEventListener('click',function(){$('goSheet').close()});
+  $('goSheet').addEventListener('click',function(e){if(e.target===this||e.target.closest('.app-l'))this.close()});
 
   render();
   setInterval(function(){if(S.pos)$('posTxt').innerHTML='Départ : <b>votre position</b>, '+ago(S.pos.t)},60000);
