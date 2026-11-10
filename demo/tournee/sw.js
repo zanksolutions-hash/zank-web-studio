@@ -1,6 +1,6 @@
 // Garde l'application disponible hors connexion ; les recherches d'adresse et d'itinéraire passent toujours par le réseau.
-var C='tournee-v1';
-var FILES=['./','index.html','manifest.webmanifest','icon.svg'];
+var C='tournee-v2';
+var FILES=['./','index.html','manifest.webmanifest','icon.svg','icon-180.png','icon-192.png'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(C).then(function(c){return c.addAll(FILES)}));self.skipWaiting()});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(x){return x!==C}).map(function(x){return caches.delete(x)}))}));self.clients.claim()});
 self.addEventListener('fetch',function(e){
