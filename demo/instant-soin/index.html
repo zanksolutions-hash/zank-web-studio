@@ -6,14 +6,14 @@
 <meta name="robots" content="noindex, nofollow">
 <!-- ============ À PERSONNALISER : référencement ============ -->
 <script>(function(){var r=document.documentElement;if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;r.classList.add('anim');setTimeout(function(){if(!r.classList.contains('pret'))r.classList.remove('anim')},3000)})()</script>
-<title>L'instant soin · Institut de beauté et spa à Tournai</title>
-<meta name="description" content="Institut de beauté et spa près de Tournai : soins du visage, drainage lymphatique et moments de bien-être.">
+<title>L'instant soin · Institut de bien-être à Havinnes, près de Tournai</title>
+<meta name="description" content="Institut de bien-être à Havinnes, près de Tournai : madérothérapie, drainage lymphatique, head spa, pédicure médicale et réflexologie plantaire.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="L'instant soin · Institut de beauté et spa à Tournai">
-<meta property="og:description" content="Institut de beauté et spa près de Tournai : soins du visage, drainage lymphatique et moments de bien-être.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1200&q=75">
+<meta property="og:title" content="L'instant soin · Institut de bien-être à Havinnes, près de Tournai">
+<meta property="og:description" content="Institut de bien-être à Havinnes, près de Tournai : madérothérapie, drainage lymphatique, head spa, pédicure médicale et réflexologie plantaire.">
+<meta property="og:image" content="logo.jpg">
 <meta name="theme-color" content="#f5efe7">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%231f2a24'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-style='italic' font-size='18' fill='%23f5efe7' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="icone.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
   "name": "L'instant soin",
   "telephone": "+32485840714",
   "priceRange": "€€",
-  "address": { "@type": "PostalAddress", "streetAddress": "Rue du Relais 34", "postalCode": "7531", "addressLocality": "Tournai", "addressCountry": "BE" },
+  "address": { "@type": "PostalAddress", "streetAddress": "Rue du Relais 34", "postalCode": "7531", "addressLocality": "Havinnes", "addressCountry": "BE" },
   "openingHours": ["Mo 09:00-19:00", "Tu 09:00-19:00", "We 09:00-19:00", "Th 09:00-19:00", "Fr 09:00-19:00", "Sa 09:00-19:00"]
 }
 </script>
@@ -54,8 +54,9 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:88px}
 .links{display:flex;gap:34px;font-size:14.5px;color:#4a4f47}
 .links a:hover{color:var(--ink)}
-.logo{font-family:var(--serif);font-size:30px;font-weight:400;letter-spacing:-.01em}
-.logo i{color:var(--accent)}
+.logo{display:inline-flex;align-items:center}
+.logo img{width:auto;height:50px}
+.logo.grand img{height:118px}
 .nav-right{display:flex;justify-content:flex-end}
 .nav-right .btn{padding:12px 22px;font-size:14.5px}
 .burger{display:none;width:44px;height:44px;position:relative;justify-self:end}
@@ -88,9 +89,9 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .slot b{font-size:16px;font-weight:600}
 
 /* Prestations */
-.services{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
-.service{padding:44px 40px 0 0}
-.service+.service{padding-left:40px;border-left:1px solid var(--line)}
+.services{display:grid;grid-template-columns:repeat(3,1fr)}
+.service{padding:36px 36px 40px 0;border-top:1px solid var(--line)}
+.service:not(:nth-child(3n+1)){padding-left:36px;border-left:1px solid var(--line)}
 .num{font-family:var(--serif);font-size:15px;color:var(--accent)}
 .service .ic{display:block;font-size:32px;margin:24px 0 20px;stroke-width:1.3}
 .service h3{font-size:30px;font-weight:400;letter-spacing:-.01em;margin-bottom:10px}
@@ -176,14 +177,14 @@ footer{padding:64px 0 34px;border-top:1px solid var(--line)}
   .nav .wrap{grid-template-columns:1fr auto;height:72px}
   .links,.nav-right{display:none}
   .burger{display:block}
-  .logo{font-size:25px}
+  .logo img{height:42px}
   .hero .wrap{grid-template-columns:1fr;padding-top:24px}
   .visual{height:470px}
   .arch{width:290px;height:440px}
   .thumb{width:140px;height:170px;left:0}
   .slot{top:56px;padding:12px 16px}
   .services{grid-template-columns:1fr}
-  .service,.service+.service{padding:30px 0;border-left:0;border-bottom:1px solid var(--line)}
+  .service,.service:not(:nth-child(3n+1)){padding:30px 0;border-left:0}
   .prices .wrap{grid-template-columns:1fr}
   .gallery{grid-template-columns:1fr 1fr}
   .gallery figure{height:260px}
@@ -229,6 +230,10 @@ body{padding-bottom:44px}
   <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20.5 4 8.2 16.2M14.5 14.5l6 6M8.2 7.8 12 11.6"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2.5 21.5c0-3 1.9-5.4 5.1-6 2.4-.5 4.9-2 5.9-3"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"/><path d="M19 15.5c.25 1.8.95 2.5 2.5 2.75-1.55.25-2.25.95-2.5 2.75-.25-1.8-.95-2.5-2.5-2.75 1.55-.25 2.25-.95 2.5-2.75z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.2 6 10.5a6 6 0 0 1-12 0C6 9.2 12 3 12 3z"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 8c2.3-2 4.700-2 7 0s4.700 2 7 0c1.500-1.300 2.700-1.600 4-1.200M3 13c2.300-2 4.700-2 7 0s4.700 2 7 0c1.500-1.300 2.700-1.600 4-1.200M3 18c2.300-2 4.700-2 7 0s4.700 2 7 0c1.500-1.300 2.700-1.600 4-1.200"/></symbol>
+  <symbol id="i-foot" viewBox="0 0 24 24"><path d="M8.500 21c-1.700 0-2.800-1.300-2.800-3.200 0-3.200 1.100-5.800 3.100-7.300 1.800-1.300 3.700-.3 3.700 1.800 0 1.700-.8 2.700-.8 4.500 0 2.400-1.600 4.200-3.200 4.200z"/><circle cx="14.200" cy="5.200" r="1.200"/><circle cx="16.900" cy="7.200" r="1"/><circle cx="18.800" cy="10" r=".9"/></symbol>
+  <symbol id="i-point" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><circle cx="12" cy="12" r="4.500"/><circle cx="12" cy="12" r="1" fill="currentColor"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M21 16.5v3a2 2 0 0 1-2.2 2A19 19 0 0 1 2.5 5.2 2 2 0 0 1 4.5 3h3a2 2 0 0 1 2 1.7c.13.95.37 1.88.7 2.77a2 2 0 0 1-.45 2.1L8.5 10.8a16 16 0 0 0 4.7 4.7l1.23-1.25a2 2 0 0 1 2.1-.45c.9.33 1.82.57 2.77.7a2 2 0 0 1 1.7 2z"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19.5 10c0 5.5-7.5 11.5-7.5 11.5S4.5 15.5 4.5 10a7.5 7.5 0 0 1 15 0z"/><circle cx="12" cy="10" r="2.8"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2.5l2.94 5.96 6.56.95-4.75 4.63 1.12 6.54L12 17.5l-5.87 3.08 1.12-6.54L2.5 9.41l6.56-.95z"/></symbol>
@@ -238,7 +243,7 @@ body{padding-bottom:44px}
 <header class="nav" id="nav">
   <div class="wrap">
     <nav class="links" aria-label="Navigation principale"><a href="#prestations">Prestations</a><a href="#salon">Le salon</a><a href="#avis">Avis</a></nav>
-    <a href="#" class="logo">L'instant <i>soin</i></a>
+    <a href="#" class="logo" aria-label="L'instant soin, accueil"><img src="logo-texte.png" alt="L'instant soin" width="192" height="50"></a>
     <div class="nav-right"><a href="#rdv" class="btn">Prendre rendez-vous</a></div>
     <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </div>
@@ -252,9 +257,9 @@ body{padding-bottom:44px}
 <div class="hero">
   <div class="wrap">
     <div>
-      <p class="eyebrow">Institut de beauté · Spa · Tournai</p>
+      <p class="eyebrow">Institut de bien-être · Havinnes · Tournai</p>
       <h1>Un instant<br><em>rien que pour vous.</em></h1>
-      <p class="lead">Spa, soins du visage et drainage lymphatique près de Tournai. Nos clients y trouvent du bien-être et beaucoup de bienveillance.</p>
+      <p class="lead">Madérothérapie, drainage lymphatique, head spa, pédicure médicale et réflexologie plantaire, à Havinnes près de Tournai. Nos clients y trouvent du bien-être et beaucoup de bienveillance.</p>
       <div class="ctas"><a href="#rdv" class="btn">Prendre rendez-vous <svg class="ic"><use href="#i-arrow"/></svg></a><a href="#prestations" class="more">Nos prestations</a></div>
       <div class="proof">
         <div class="avatars"><span><img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=120&q=70" alt=""></span><span></span><span></span></div>
@@ -272,10 +277,14 @@ body{padding-bottom:44px}
 <!-- ============ PRESTATIONS ============ -->
 <section id="prestations" style="padding-top:0">
   <div class="wrap">
+    <p class="eyebrow">Nos prestations</p>
     <div class="services">
-      <div class="service"><span class="num">01</span><svg class="ic"><use href="#i-leaf"/></svg><h3>Spa & bien-être</h3><p>Un moment de détente complète, loin du quotidien.</p></div>
-      <div class="service"><span class="num">02</span><svg class="ic"><use href="#i-sparkle"/></svg><h3>Soins du visage</h3><p>Des soins adaptés à votre peau, pour un teint lumineux.</p></div>
-      <div class="service"><span class="num">03</span><svg class="ic"><use href="#i-leaf"/></svg><h3>Drainage lymphatique</h3><p>Pour alléger les jambes et retrouver de la légèreté.</p></div>
+      <div class="service"><span class="num">01</span><svg class="ic"><use href="#i-leaf"/></svg><h3>Madérothérapie corps et visage</h3><p>Un massage aux instruments en bois, pour le corps comme pour le visage.</p></div>
+      <div class="service"><span class="num">02</span><svg class="ic"><use href="#i-drop"/></svg><h3>Drainage lymphatique</h3><p>Pour alléger les jambes et retrouver de la légèreté.</p></div>
+      <div class="service"><span class="num">03</span><svg class="ic"><use href="#i-sparkle"/></svg><h3>Soin Florence G</h3><p>Le soin Florence G, à découvrir lors de votre visite.</p></div>
+      <div class="service"><span class="num">04</span><svg class="ic"><use href="#i-wave"/></svg><h3>Head Spa</h3><p>Un rituel pour le cuir chevelu : nettoyage, massage et détente profonde.</p></div>
+      <div class="service"><span class="num">05</span><svg class="ic"><use href="#i-foot"/></svg><h3>Pédicure médicale</h3><p>Des soins précis pour des pieds sains et confortables.</p></div>
+      <div class="service"><span class="num">06</span><svg class="ic"><use href="#i-point"/></svg><h3>Réflexologie plantaire</h3><p>Un massage des pieds qui détend le corps entier.</p></div>
     </div>
   </div>
 </section>
@@ -321,7 +330,7 @@ body{padding-bottom:44px}
         </div>
         <div class="rdv-info" style="margin-top:28px">
           <a href="tel:+32485840714"><svg class="ic"><use href="#i-phone"/></svg>0485 84 07 14</a>
-          <a href="https://www.google.com/maps/search/?api=1&L'instant+soin+Rue+du+Relais+34+Tournai" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>Rue du Relais 34, 7531 Tournai · Itinéraire</a>
+          <a href="https://www.google.com/maps/search/?api=1&L'instant+soin+Rue+du+Relais+34+Tournai" target="_blank" rel="noopener"><svg class="ic"><use href="#i-pin"/></svg>Rue du Relais 34, 7531 Havinnes · Itinéraire</a>
         </div>
       </div>
       <!-- Agenda : rendez-vous enregistrés par le Worker zank-rdv (dossier rdv-worker/) -->
@@ -360,8 +369,8 @@ body{padding-bottom:44px}
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div><a href="#" class="logo">L'instant <i>soin</i></a><p style="margin-top:14px;max-width:280px">Institut de beauté et spa près de Tournai.</p></div>
-      <div><h4>Adresse</h4><p>Rue du Relais 34</p><p>7531 Tournai</p></div>
+      <div><a href="#" class="logo grand" aria-label="L'instant soin, accueil"><img src="logo.png" alt="L'instant soin" width="121" height="118"></a><p style="margin-top:14px;max-width:280px">Institut de bien-être à Havinnes, près de Tournai.</p></div>
+      <div><h4>Adresse</h4><p>Rue du Relais 34</p><p>7531 Havinnes (Tournai)</p></div>
       <div><h4>Contact</h4><a href="tel:+32485840714">0485 84 07 14</a></div>
     </div>
     <div class="foot-bottom">
