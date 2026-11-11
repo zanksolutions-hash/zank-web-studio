@@ -264,11 +264,13 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <p class="f">Synchronisation entre appareils</p>
       <div id="syOff">
         <p class="hint">Retrouvez votre carnet sur un autre téléphone ou un ordinateur. Il est chiffré sur cet appareil avant l'envoi : sans votre phrase secrète, personne ne peut le lire, pas même l'hébergeur.</p>
+        <label class="f" for="syCode">Code du carnet, fourni par Zank Solutions</label>
+        <input type="text" id="syCode" placeholder="Ex. K7MP4 QX2RA" maxlength="14" autocapitalize="characters" autocomplete="off" spellcheck="false">
         <label class="f" for="syPass">Phrase secrète, 10 caractères minimum</label>
         <input type="password" id="syPass" autocomplete="new-password" maxlength="200">
-        <label class="f" for="syCode">Code du carnet, seulement pour rejoindre un carnet existant</label>
-        <input type="text" id="syCode" placeholder="Ex. K7MP4 QX2RA" maxlength="14" autocapitalize="characters" autocomplete="off" spellcheck="false">
-        <button class="pill wide" type="button" id="syGo">Créer un carnet synchronisé</button>
+        <label class="f" for="syPass2">Répétez la phrase secrète (première activation seulement)</label>
+        <input type="password" id="syPass2" autocomplete="new-password" maxlength="200">
+        <button class="pill wide" type="button" id="syGo">Activer la synchronisation</button>
       </div>
       <div id="syOn" hidden>
         <p class="hint" style="margin-top:0">Code du carnet</p>
@@ -827,7 +829,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   function push(n){
     var g=gen;
-    return seal(payload()).then(function(d){return api('/v/'+Y.id,{method:'PUT',body:JSON.stringify({base:Y.ver,data:d})})}).then(function(j){
+    return seal(payload()).then(function(d){return api('/v/'+Y.id,{method:'PUT',body:JSON.stringify({base:Y.ver,data:d,nb:S.book.length})})}).then(function(j){
       if(j._s===200){Y.ver=j.ver;if(g===gen)Y.dirty=false;ysave();return}
       if(j._s===409&&n<3)return pull(j).then(function(){return push(n+1)});
       throw j;
@@ -840,7 +842,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     clearTimeout(timer);
     running=(Y.dirty?push(0):api('/v/'+Y.id).then(function(j){if(j._s!==200)throw j;return pull(j)}))
       .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y.dirty},
-        function(e){ysay(e&&e.erreur||'Synchronisation impossible pour le moment.',true)})
+        function(e){ysay(e&&e._s===404?'Ce carnet a été effacé du serveur. Touchez « Arrêter la synchronisation », puis réactivez votre code avec une nouvelle phrase secrète.':e&&e.erreur||'Synchronisation impossible pour le moment.',true)})
       .then(function(again){running=null;if(again&&Y)later()});
     return running;
   }
@@ -849,42 +851,40 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   function renderSync(){
     $('syOff').hidden=!!Y;$('syOn').hidden=!Y;
     if(Y)$('syShow').textContent=fmtCode(Y.id);
-    $('syGo').textContent=$('syCode').value.trim()?'Rejoindre ce carnet':'Créer un carnet synchronisé';
   }
-  $('syCode').addEventListener('input',renderSync);
   $('syGo').addEventListener('click',function(){
-    var btn=this,pass=$('syPass').value,code=$('syCode').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    var btn=this,pass=$('syPass').value,pass2=$('syPass2').value,code=$('syCode').value.toUpperCase().replace(/[^A-Z0-9]/g,''),neuf=false;
+    if(!/^[A-Z2-9]{10}$/.test(code))return ysay('Entrez le code de 10 caractères fourni par Zank Solutions, par exemple K7MP4 QX2RA.',true);
     if(pass.length<10)return ysay('La phrase secrète doit contenir au moins 10 caractères.',true);
-    if(code&&!/^[A-Z2-9]{10}$/.test(code))return ysay('Le code du carnet fait 10 caractères, par exemple K7MP4 QX2RA.',true);
     if(!crypto.subtle)return ysay('Ce navigateur ne permet pas le chiffrement. Ouvrez l\'appli en https.',true);
     busy(btn,true,'Chiffrement…');ysay('');
-    var step;
-    if(!code){
-      var abc='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',id='',salt=crypto.getRandomValues(new Uint8Array(16));
-      crypto.getRandomValues(new Uint8Array(10)).forEach(function(v){id+=abc[v%32]});
-      step=derive(pass,salt).then(function(k){
-        return api('/creer',{method:'POST',body:JSON.stringify({id:id,sel:b64(salt),jeton:k.tok})}).then(function(j){
-          if(j._s!==201)throw j;
-          Y={id:id,tok:k.tok,key:k.key,ver:0,dirty:true};gen++;stamp();store();ysave();
-          return push(0);
+    var step=api('/sel/'+code).then(function(j){
+      if(j._s!==200)throw j;
+      if(j.nouveau){
+        /* première activation : le sel est tiré ici, le serveur n'enregistre que l'empreinte du jeton */
+        if(pass2!==pass)throw{erreur:'Première activation : répétez exactement la même phrase secrète dans le 2e champ.'};
+        neuf=true;
+        var salt=crypto.getRandomValues(new Uint8Array(16));
+        return derive(pass,salt).then(function(k){
+          return api('/creer',{method:'POST',body:JSON.stringify({id:code,sel:b64(salt),jeton:k.tok})}).then(function(j){
+            if(j._s!==201)throw j;
+            Y={id:code,tok:k.tok,key:k.key,ver:0,dirty:true};gen++;stamp();store();ysave();
+            return push(0);
+          });
         });
-      });
-    }else{
-      step=api('/sel/'+code).then(function(j){
-        if(j._s!==200)throw j;
-        return derive(pass,unb64(j.sel));
-      }).then(function(k){
+      }
+      return derive(pass,unb64(j.sel)).then(function(k){
         return api('/v/'+code,null,k.tok).then(function(j){
           if(j._s!==200)throw j;
           Y={id:code,tok:k.tok,key:k.key,ver:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
           return pull(j).then(function(){if(Y.dirty)return push(0)});
         });
       });
-    }
+    });
     step.then(function(){
-      $('syPass').value='';$('syCode').value='';renderSync();
+      $('syPass').value='';$('syPass2').value='';$('syCode').value='';renderSync();
       Y.at=Date.now();ysave();
-      ysay(code?'Carnet rejoint : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.':'Carnet synchronisé. Notez bien le code ci-dessus.');
+      ysay(neuf?'Synchronisation activée. Notez le code et votre phrase secrète sur papier.':'Carnet rejoint : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.');
     },function(e){
       if(Y&&!Y.at){Y=null;ysave()}
       renderSync();ysay(e&&e.erreur||'Échec. Réessayez.',true);
@@ -896,7 +896,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     Y=null;ysave();renderSync();ysay('Synchronisation arrêtée sur cet appareil.');
   });
   $('syDel').addEventListener('click',function(){
-    if(!confirm('Effacer définitivement le carnet du serveur ? Les autres appareils ne seront plus synchronisés. Les fiches restent sur ce téléphone.'))return;
+    if(!confirm('Effacer le carnet chiffré du serveur ? Les autres appareils ne seront plus synchronisés. Les fiches restent sur ce téléphone, et votre code pourra être réactivé avec une nouvelle phrase secrète.'))return;
     api('/v/'+Y.id,{method:'DELETE'}).then(function(j){
       if(j._s!==200)throw j;
       Y=null;ysave();renderSync();ysay('Carnet effacé du serveur.');
