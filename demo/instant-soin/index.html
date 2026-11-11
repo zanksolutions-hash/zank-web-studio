@@ -153,8 +153,12 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 textarea{resize:vertical;min-height:80px}
 form .btn{justify-content:center}
 .ok{padding:14px;border-radius:14px;background:#e6efe6;color:#2f5a3c;text-align:center;font-weight:600}
+form.fini{align-content:center;text-align:center;min-height:320px}
+form.fini .ok{padding:28px 22px;font-size:17px;line-height:1.5}
+form.fini .ok::before{content:"";display:block;width:44px;height:44px;margin:0 auto 16px;border-radius:50%;background:#2f5a3c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.500 4 4 8-9'/%3E%3C/svg%3E") center/22px no-repeat}
 .form-note{font-size:12px;color:var(--muted);text-align:center}
 fieldset{border:0;display:grid;gap:14px;min-width:0}
+[hidden]{display:none!important}
 legend{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;padding:0}
 .choix{display:grid;gap:8px}
 select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:44px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center/18px}
@@ -348,6 +352,7 @@ body{padding-bottom:44px}
         </fieldset>
         <p class="err" id="r-err" role="alert" hidden></p>
         <p class="ok" id="r-ok" role="status" hidden></p>
+        <button class="btn" type="button" id="r-autre" hidden>Prendre un autre rendez-vous</button>
         <p class="form-note">Vos données servent uniquement à gérer votre rendez-vous.<br><a href="#" style="text-decoration:underline">En savoir plus</a></p>
       </form>
     </div>
@@ -429,6 +434,13 @@ document.getElementById('y').textContent=new Date().getFullYear();
     }).catch(()=>{jours.replaceChildren();erreur(HS)});
   }
 
+  $('r-autre').onclick=()=>{
+    f.classList.remove('fini');[...f.children].forEach(x=>{x.hidden=false});
+    ok.hidden=true;$('r-autre').hidden=true;err.hidden=true;e2.hidden=true;e3.hidden=true;
+    f.reset();prest.value='';p=null;c=null;f.elements.sms.dispatchEvent(new Event('change'));
+    f.querySelector('h3').scrollIntoView({block:'nearest',behavior:'smooth'});
+  };
+
   appel('/config?site='+SITE).then(({d})=>{
     soins=d.prestations;
     const o0=el('option','Choisir un soin…');o0.value='';
@@ -450,9 +462,9 @@ document.getElementById('y').textContent=new Date().getFullYear();
       bt.disabled=false;
       if(status===409){erreur('Ce créneau vient d\'être réservé. Voici les disponibilités à jour.');return charger()}
       if(!d.ok){erreur(d.erreur||'Une erreur est survenue. Réessayez ou appelez-nous.');return}
-      f.querySelectorAll('fieldset').forEach(x=>x.hidden=true);
+      [...f.children].forEach(x=>{x.hidden=x!==ok&&x.id!=='r-autre'});f.classList.add('fini');
       ok.textContent='Rendez-vous confirmé : '+recap.textContent+'.'+(d.email?' Un e-mail de confirmation vient de vous être envoyé.':'');
-      ok.hidden=false;
+      ok.hidden=false;$('r-autre').hidden=false;ok.scrollIntoView({block:'nearest',behavior:'smooth'});
     }).catch(()=>{bt.disabled=false;erreur('Connexion impossible. Réessayez ou appelez-nous au 0485 84 07 14.')});
   });
 })();
