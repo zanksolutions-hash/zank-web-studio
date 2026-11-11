@@ -330,10 +330,10 @@ body{padding-bottom:44px}
           <p class="recap" id="r-recap" aria-live="polite"></p>
           <label>Nom<input name="nom" required autocomplete="name"></label>
           <div class="f2">
-            <label>GSM<input name="telephone" type="tel" required autocomplete="tel" placeholder="0470 12 34 56"></label>
+            <label>GSM<input name="telephone" type="tel" required autocomplete="tel" id="r-gsm" placeholder="0470 12 34 56"></label>
             <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
           </div>
-          <label class="coche"><input type="checkbox" name="sms" checked>Recevoir aussi la confirmation par SMS</label>
+          <label class="coche"><input type="checkbox" name="sms" id="r-sms" checked>Recevoir aussi la confirmation par SMS</label>
           <input name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
           <button class="btn" type="submit">Confirmer le rendez-vous</button>
         </fieldset>
@@ -379,6 +379,8 @@ document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('subm
   e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
 }));
 document.getElementById('y').textContent=new Date().getFullYear();
+/* Le GSM n'est obligatoire que si la confirmation par SMS est cochée */
+(()=>{const c=document.getElementById('r-sms'),g=document.getElementById('r-gsm');if(!c||!g)return;const maj=()=>{g.required=c.checked;g.closest('label').firstChild.textContent=c.checked?'GSM':'GSM (facultatif)'};c.addEventListener('change',maj);maj()})();
 
 /* Agenda de prise de rendez-vous */
 (()=>{
