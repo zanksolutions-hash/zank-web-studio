@@ -153,6 +153,7 @@ form .btn{justify-content:center}
 fieldset{border:0;display:grid;gap:14px;min-width:0}
 legend{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;padding:0}
 .choix{display:grid;gap:8px}
+select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:44px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f2a24' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center/18px}
 .choix button,.jours button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 15px;font-size:15px;transition:border-color .2s,background .2s,color .2s}
 .choix button{display:flex;justify-content:space-between;gap:12px;text-align:left}
 .choix button span,.jours button span{color:var(--muted);font-size:13.5px;white-space:nowrap}
@@ -171,7 +172,10 @@ legend{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;padd
 
 /* Pied de page */
 footer{padding:64px 0 34px;border-top:1px solid var(--line)}
-.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px}
+.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px 48px;align-items:start}
+.foot-marque p{margin-top:16px;max-width:260px}
+.foot b{color:var(--ink);font-weight:600}
+.foot .lien-f{color:var(--ink);font-weight:500;margin-top:14px;display:inline-block}
 .foot h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
 .foot p,.foot a{display:block;color:var(--muted);font-size:14.5px;margin-bottom:6px}
 .foot a:hover{color:var(--ink)}
@@ -196,6 +200,7 @@ footer{padding:64px 0 34px;border-top:1px solid var(--line)}
   .reviews{grid-template-columns:1fr}
   .rdv-box{grid-template-columns:1fr}
   .foot{grid-template-columns:1fr 1fr}
+  .foot-marque{grid-column:1/-1}
 }
 @media (max-width:560px){
   .ctas{flex-direction:column;align-items:flex-start;gap:20px}
@@ -318,7 +323,7 @@ body{padding-bottom:44px}
         <h3>Réserver en ligne</h3>
         <fieldset>
           <legend>1. Votre prestation</legend>
-          <div class="choix" id="r-prest"><p class="r-note">Chargement…</p></div>
+          <select id="r-prest" name="prestation" required aria-label="Votre prestation" disabled><option value="">Chargement…</option></select>
         </fieldset>
         <fieldset id="r-e2" hidden>
           <legend>2. Votre jour</legend>
@@ -339,7 +344,7 @@ body{padding-bottom:44px}
         </fieldset>
         <p class="err" id="r-err" role="alert" hidden></p>
         <p class="ok" id="r-ok" role="status" hidden></p>
-        <p class="form-note">Vos données servent uniquement à gérer votre rendez-vous. <a href="#" style="text-decoration:underline">En savoir plus</a></p>
+        <p class="form-note">Vos données servent uniquement à gérer votre rendez-vous.<br><a href="#" style="text-decoration:underline">En savoir plus</a></p>
       </form>
     </div>
   </div>
@@ -359,9 +364,13 @@ body{padding-bottom:44px}
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div><a href="#" class="logo grand" aria-label="L'instant soin, accueil"><img src="logo.png" alt="L'instant soin" width="121" height="118"></a><p style="margin-top:14px;max-width:280px">Institut de bien-être à Havinnes, près de Tournai.</p></div>
-      <div><h4>Adresse</h4><p>Rue du Relais 34</p><p>7531 Havinnes (Tournai)</p></div>
-      <div><h4>Contact</h4><a href="tel:+32485840714">0485 84 07 14</a></div>
+      <div class="foot-marque">
+        <a href="#" class="logo grand" aria-label="L'instant soin, accueil"><img src="logo.png" alt="L'instant soin" width="121" height="118"></a>
+        <p>Institut de bien-être à Havinnes, près de Tournai.</p>
+      </div>
+      <div><h4>Adresse</h4><p>Rue du Relais 34</p><p>7531 Havinnes (Tournai)</p><a href="https://www.google.com/maps/search/?api=1&query=L'instant+soin+Rue+du+Relais+34+7531+Havinnes" target="_blank" rel="noopener" class="lien-f">Itinéraire →</a></div>
+      <div><h4>Horaires</h4><p>Lundi – samedi<br><b>9h – 19h</b></p><p>Dimanche<br><b>Fermé</b></p></div>
+      <div><h4>Contact</h4><a href="tel:+32485840714">0485 84 07 14</a><a href="https://www.facebook.com/profile.php?id=61579753167598" target="_blank" rel="noopener">Facebook</a><a href="#rdv" class="lien-f">Prendre rendez-vous →</a></div>
     </div>
     <div class="foot-bottom">
       <span>© <span id="y"></span> L'instant soin</span>
@@ -393,6 +402,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
   const note=txt=>{const e=el('p',txt);e.className='r-note';return e};
   const erreur=m=>{err.textContent=m;err.hidden=!m};
   const choisir=(zone,b)=>zone.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  let soins=[];
   const appel=(chemin,opt)=>fetch(API+chemin,opt).then(r=>r.json().then(d=>({status:r.status,d})));
   const HS='Agenda indisponible pour le moment. Appelez-nous au 0485 84 07 14.';
   let p=null,c=null;
@@ -412,11 +422,15 @@ document.getElementById('y').textContent=new Date().getFullYear();
   }
 
   appel('/config?site='+SITE).then(({d})=>{
-    prest.replaceChildren(...d.prestations.map(x=>{
-      const b=el('button',x.nom);b.type='button';b.setAttribute('aria-pressed',false);b.append(el('span',x.duree+' min'));
-      b.onclick=()=>{p=x;choisir(prest,b);erreur('');charger()};
-      return b}));
+    soins=d.prestations;
+    const o0=el('option','Choisir un soin…');o0.value='';
+    prest.replaceChildren(o0,...soins.map(x=>{const o=el('option',x.nom+' · '+x.duree+' min');o.value=x.id;return o}));
+    prest.disabled=false;
   }).catch(()=>{prest.replaceChildren();erreur(HS)});
+  prest.addEventListener('change',()=>{
+    p=soins.find(x=>x.id===prest.value)||null;erreur('');
+    if(p)charger();else{c=null;e2.hidden=true;e3.hidden=true}
+  });
 
   f.addEventListener('submit',e=>{
     e.preventDefault();if(!p||!c)return;
