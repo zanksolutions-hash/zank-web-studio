@@ -107,6 +107,11 @@ label.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin
 label.f:first-child{margin-top:0}
 input[type=text]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
 input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px}
+#bookQ{display:block;width:100%;min-height:50px;margin-top:16px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px;-webkit-appearance:none;appearance:none}
+#bookQ[hidden]{display:none}
+#bookQ:focus{outline:2px solid var(--ink);outline-offset:1px}
+#book li.miss{display:none}
+#book li.nores{padding:22px 8px;text-align:center;color:var(--muted)}
 .sw{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 4px 0;min-height:44px;font-weight:500;cursor:pointer}
 .sw input{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:99px;background:#d6d6dc;position:relative;margin:0;transition:background .15s;flex:0 0 auto}
 .sw input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
@@ -205,6 +210,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     <div class="hello"><p>Carnet<b id="bookCount"></b></p></div>
     <h1>Qui voyez-vous <em>aujourd'hui ?</em></h1>
     <div class="groups" id="groups"></div>
+    <input type="search" id="bookQ" placeholder="Rechercher un patient ou une rue" aria-label="Rechercher dans le carnet" autocomplete="off" hidden>
     <div class="panel"><ul id="book"></ul></div>
     <button class="pill wide" type="button" id="addSel" disabled>Ajouter à la tournée</button>
     <button class="link" type="button" id="saveGroup" hidden>Enregistrer cette sélection comme tournée type</button>
@@ -552,8 +558,22 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       return '<span class="gchip"><button type="button" data-g="'+g.id+'">'+esc(g.name)+' · '+g.ids.length+'</button><button type="button" data-gdel="'+g.id+'" aria-label="Supprimer la tournée type '+esc(g.name)+'">×</button></span>';
     }).join('');
     $('bookCount').textContent=S.book.length+' patient'+(S.book.length>1?'s':'');
+    $('bookQ').hidden=S.book.length<2;
+    filterBook();
     selCount();
   }
+  function fold(s){return(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+  function filterBook(){
+    var q=fold($('bookQ').value.trim()),n=0,old=bookEl.querySelector('.nores');
+    if(old)old.remove();
+    if(!S.book.length)return;
+    bookEl.querySelectorAll('li').forEach(function(li){
+      var hit=!q||fold(li.querySelector('.pick span').textContent).indexOf(q)>=0;
+      li.classList.toggle('miss',!hit);if(hit)n++;
+    });
+    if(!n)bookEl.insertAdjacentHTML('beforeend','<li class="nores">Aucun patient ne correspond.</li>');
+  }
+  $('bookQ').addEventListener('input',filterBook);
   function selCount(){
     var n=picked().length;
     addSel.disabled=!n;addSel.textContent=n?'Ajouter à la tournée ('+n+')':'Ajouter à la tournée';
