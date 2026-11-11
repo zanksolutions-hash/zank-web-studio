@@ -105,8 +105,10 @@ ol,ul{list-style:none;padding:0}
 form.panel{padding:18px 16px}
 label.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14px 4px 6px}
 label.f:first-child{margin-top:0}
-input[type=text]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
-input[type=text]:focus{outline:2px solid var(--ink);outline-offset:1px}
+input[type=text],input[type=password]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
+input[type=text]:focus,input[type=password]:focus{outline:2px solid var(--ink);outline-offset:1px}
+.code{font:600 22px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;margin:4px 4px 0;user-select:all}
+#syMsg.err{color:var(--urg)}
 #bookQ{display:block;width:100%;min-height:50px;margin-top:16px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px;-webkit-appearance:none;appearance:none}
 #bookQ[hidden]{display:none}
 #bookQ:focus{outline:2px solid var(--ink);outline-offset:1px}
@@ -259,6 +261,26 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <div class="tile"><span>Km ce mois-ci</span><b id="kMonth">0</b></div>
     </div>
     <div class="panel pad">
+      <p class="f">Synchronisation entre appareils</p>
+      <div id="syOff">
+        <p class="hint">Retrouvez votre carnet sur un autre téléphone ou un ordinateur. Il est chiffré sur cet appareil avant l'envoi : sans votre phrase secrète, personne ne peut le lire, pas même l'hébergeur.</p>
+        <label class="f" for="syPass">Phrase secrète, 10 caractères minimum</label>
+        <input type="password" id="syPass" autocomplete="new-password" maxlength="200">
+        <label class="f" for="syCode">Code du carnet, seulement pour rejoindre un carnet existant</label>
+        <input type="text" id="syCode" placeholder="Ex. K7MP4 QX2RA" maxlength="14" autocapitalize="characters" autocomplete="off" spellcheck="false">
+        <button class="pill wide" type="button" id="syGo">Créer un carnet synchronisé</button>
+      </div>
+      <div id="syOn" hidden>
+        <p class="hint" style="margin-top:0">Code du carnet</p>
+        <p class="code" id="syShow"></p>
+        <p class="hint">Notez ce code et votre phrase secrète sur papier. Sans eux, le carnet ne peut pas être récupéré : personne ne peut les réinitialiser.</p>
+        <button class="pill soft wide" type="button" id="syNow">Synchroniser maintenant</button>
+        <button class="link" type="button" id="syOut">Arrêter la synchronisation sur cet appareil</button>
+        <button class="link" type="button" id="syDel">Effacer le carnet du serveur</button>
+      </div>
+      <p class="hint" id="syMsg" role="status"></p>
+    </div>
+    <div class="panel pad">
       <p class="f">Sauvegarde du carnet</p>
       <button class="pill wide" type="button" id="exp" style="margin-top:0">Exporter dans un fichier</button>
       <button class="pill soft wide" type="button" id="impBtn">Importer un fichier</button>
@@ -294,7 +316,28 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   var list=$('list'),msg=$('msg'),bookEl=$('book'),addSel=$('addSel');
 
   try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  function store(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  function save(){var ch=stamp();store();if(ch&&Y){Y.dirty=true;gen++;ysave();later()}}
+  /* date chaque fiche et tournée type modifiée (u) et garde la trace des suppressions (tomb), pour fusionner entre appareils */
+  function stamp(quiet){
+    var now=Date.now(),ch=false;
+    if(!S.tomb||typeof S.tomb!=='object')S.tomb={};
+    if(!S.h||typeof S.h!=='object')S.h={};
+    ['book','groups'].forEach(function(k){
+      var prev=S.h[k]||null,cur={};
+      S[k].forEach(function(x){
+        var c=JSON.stringify(Object.assign({},x,{u:0}));
+        if(!quiet&&(prev?prev[x.id]!==c:!x.u)){x.u=now;ch=true}
+        cur[x.id]=c;
+      });
+      if(prev&&!quiet)Object.keys(prev).forEach(function(id){if(!cur[id]){S.tomb[id]=now;ch=true}});
+      S.h[k]=cur;
+    });
+    var o=JSON.stringify(S.set),l=JSON.stringify(S.log);
+    if(S.h.o!==o){if(!quiet){S.ot=now;ch=true}S.h.o=o}
+    if(S.h.l!==l){if(!quiet)ch=true;S.h.l=l}
+    return ch;
+  }
   if(!Array.isArray(S.book))S.book=[];
   if(!Array.isArray(S.groups))S.groups=[];
   if(!S.log||typeof S.log!=='object')S.log={};
@@ -732,8 +775,141 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab)});
 
+  /* synchronisation chiffrée : le carnet est chiffré ici (AES-GCM, clé tirée de la phrase secrète par PBKDF2)
+     avant l'envoi ; le serveur ne reçoit ni la phrase secrète ni la clé, seulement un jeton d'accès distinct */
+  var API=(function(){try{return localStorage.getItem('tournee-api')}catch(e){}})()||'https://tournee-sync.zank-solutions.workers.dev',SK='tournee-sync-v1',gen=0,running=null,timer=0;
+  var Y=null;try{Y=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
+  function ysave(){try{if(Y)localStorage.setItem(SK,JSON.stringify(Y));else localStorage.removeItem(SK)}catch(e){}}
+  function b64(u){var s='';new Uint8Array(u).forEach(function(c){s+=String.fromCharCode(c)});return btoa(s)}
+  function unb64(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+  function derive(pass,salt){
+    return crypto.subtle.importKey('raw',new TextEncoder().encode(pass.normalize('NFC')),'PBKDF2',false,['deriveBits'])
+      .then(function(k){return crypto.subtle.deriveBits({name:'PBKDF2',salt:salt,iterations:310000,hash:'SHA-256'},k,512)})
+      .then(function(bits){var a=new Uint8Array(bits);return{key:b64(a.slice(0,32)),tok:b64(a.slice(32)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}});
+  }
+  function aes(){return crypto.subtle.importKey('raw',unb64(Y.key),'AES-GCM',false,['encrypt','decrypt'])}
+  function seal(o){
+    var iv=crypto.getRandomValues(new Uint8Array(12));
+    return aes().then(function(k){return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(JSON.stringify(o)))})
+      .then(function(c){return b64(iv)+'.'+b64(c)});
+  }
+  function unseal(s){
+    var p=s.split('.');
+    return aes().then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(p[0])},k,unb64(p[1]))})
+      .then(function(b){return JSON.parse(new TextDecoder().decode(b))});
+  }
+  function api(path,opt,tok){
+    opt=opt||{};opt.headers={'content-type':'application/json'};
+    tok=tok||(Y&&Y.tok);if(tok)opt.headers.authorization='Bearer '+tok;
+    return fetch(API+path,opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j._s=r.status;return j})},
+      function(){throw{erreur:'Pas de connexion. Le carnet sera synchronisé au retour du réseau.'}});
+  }
+  function payload(){return{book:S.book,groups:S.groups,set:S.set,log:S.log,tomb:S.tomb,ot:S.ot||0}}
+  function merge(r){
+    var tomb=Object.assign({},r.tomb||{}),lim=Date.now()-180*864e5;
+    Object.keys(S.tomb||{}).forEach(function(id){tomb[id]=Math.max(tomb[id]||0,S.tomb[id])});
+    Object.keys(tomb).forEach(function(id){if(tomb[id]<lim)delete tomb[id]});
+    function m(a,b){
+      var o={};a.concat(b).forEach(function(x){if(x&&x.id&&(!o[x.id]||(x.u||0)>(o[x.id].u||0)))o[x.id]=x});
+      return Object.keys(o).map(function(id){return o[id]}).filter(function(x){return!(tomb[x.id]>=(x.u||0))});
+    }
+    S.book=m(S.book,Array.isArray(r.book)?r.book:[]);
+    S.groups=m(S.groups,Array.isArray(r.groups)?r.groups:[]);
+    S.tomb=tomb;
+    if((r.ot||0)>(S.ot||0)&&r.set){S.set=Object.assign({},DEF,r.set);S.ot=r.ot}
+    Object.keys(r.log||{}).forEach(function(k){S.log[k]=Math.max(S.log[k]||0,+r.log[k]||0)});
+    S.patients=S.patients.filter(function(p){return!p.bookId||!tomb[p.bookId]});
+  }
+  function pull(j){
+    var p=j.data&&j.ver!==Y.ver?unseal(j.data).then(function(r){merge(r);stamp(true);store();render()},
+      function(){throw{erreur:'Impossible de déchiffrer le carnet du serveur.'}}):Promise.resolve();
+    return p.then(function(){Y.ver=j.ver;ysave()});
+  }
+  function push(n){
+    var g=gen;
+    return seal(payload()).then(function(d){return api('/v/'+Y.id,{method:'PUT',body:JSON.stringify({base:Y.ver,data:d})})}).then(function(j){
+      if(j._s===200){Y.ver=j.ver;if(g===gen)Y.dirty=false;ysave();return}
+      if(j._s===409&&n<3)return pull(j).then(function(){return push(n+1)});
+      throw j;
+    });
+  }
+  function ysay(t,err){var e=$('syMsg');e.textContent=t||'';e.className='hint'+(err?' err':'')}
+  function sync(){
+    if(!Y)return Promise.resolve();
+    if(running)return running;
+    clearTimeout(timer);
+    running=(Y.dirty?push(0):api('/v/'+Y.id).then(function(j){if(j._s!==200)throw j;return pull(j)}))
+      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y.dirty},
+        function(e){ysay(e&&e.erreur||'Synchronisation impossible pour le moment.',true)})
+      .then(function(again){running=null;if(again&&Y)later()});
+    return running;
+  }
+  function later(){clearTimeout(timer);timer=setTimeout(sync,1500)}
+  function fmtCode(c){return c.slice(0,5)+' '+c.slice(5)}
+  function renderSync(){
+    $('syOff').hidden=!!Y;$('syOn').hidden=!Y;
+    if(Y)$('syShow').textContent=fmtCode(Y.id);
+    $('syGo').textContent=$('syCode').value.trim()?'Rejoindre ce carnet':'Créer un carnet synchronisé';
+  }
+  $('syCode').addEventListener('input',renderSync);
+  $('syGo').addEventListener('click',function(){
+    var btn=this,pass=$('syPass').value,code=$('syCode').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(pass.length<10)return ysay('La phrase secrète doit contenir au moins 10 caractères.',true);
+    if(code&&!/^[A-Z2-9]{10}$/.test(code))return ysay('Le code du carnet fait 10 caractères, par exemple K7MP4 QX2RA.',true);
+    if(!crypto.subtle)return ysay('Ce navigateur ne permet pas le chiffrement. Ouvrez l\'appli en https.',true);
+    busy(btn,true,'Chiffrement…');ysay('');
+    var step;
+    if(!code){
+      var abc='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',id='',salt=crypto.getRandomValues(new Uint8Array(16));
+      crypto.getRandomValues(new Uint8Array(10)).forEach(function(v){id+=abc[v%32]});
+      step=derive(pass,salt).then(function(k){
+        return api('/creer',{method:'POST',body:JSON.stringify({id:id,sel:b64(salt),jeton:k.tok})}).then(function(j){
+          if(j._s!==201)throw j;
+          Y={id:id,tok:k.tok,key:k.key,ver:0,dirty:true};gen++;stamp();store();ysave();
+          return push(0);
+        });
+      });
+    }else{
+      step=api('/sel/'+code).then(function(j){
+        if(j._s!==200)throw j;
+        return derive(pass,unb64(j.sel));
+      }).then(function(k){
+        return api('/v/'+code,null,k.tok).then(function(j){
+          if(j._s!==200)throw j;
+          Y={id:code,tok:k.tok,key:k.key,ver:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
+          return pull(j).then(function(){if(Y.dirty)return push(0)});
+        });
+      });
+    }
+    step.then(function(){
+      $('syPass').value='';$('syCode').value='';renderSync();
+      Y.at=Date.now();ysave();
+      ysay(code?'Carnet rejoint : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.':'Carnet synchronisé. Notez bien le code ci-dessus.');
+    },function(e){
+      if(Y&&!Y.at){Y=null;ysave()}
+      renderSync();ysay(e&&e.erreur||'Échec. Réessayez.',true);
+    }).then(function(){busy(btn,false)});
+  });
+  $('syNow').addEventListener('click',function(){ysay('Synchronisation…');sync()});
+  $('syOut').addEventListener('click',function(){
+    if(!confirm('Arrêter la synchronisation sur cet appareil ? Les fiches restent sur ce téléphone et sur le serveur.'))return;
+    Y=null;ysave();renderSync();ysay('Synchronisation arrêtée sur cet appareil.');
+  });
+  $('syDel').addEventListener('click',function(){
+    if(!confirm('Effacer définitivement le carnet du serveur ? Les autres appareils ne seront plus synchronisés. Les fiches restent sur ce téléphone.'))return;
+    api('/v/'+Y.id,{method:'DELETE'}).then(function(j){
+      if(j._s!==200)throw j;
+      Y=null;ysave();renderSync();ysay('Carnet effacé du serveur.');
+    }).catch(function(e){ysay(e&&e.erreur||'Effacement impossible.',true)});
+  });
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)sync()});
+  window.addEventListener('online',function(){sync()});
+  setInterval(function(){if(!document.hidden)sync()},60000);
+
   openForm(null);
   render();
+  renderSync();
+  sync();
   setInterval(render,60000);
   if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});
 })();
