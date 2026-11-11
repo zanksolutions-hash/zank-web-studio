@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f4f4f2">
-<title>Tournée</title>
+<title>Domicile</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
-<meta name="apple-mobile-web-app-title" content="Tournée">
+<meta name="apple-mobile-web-app-title" content="Domicile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -241,7 +241,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   </section>
 
   <section class="view" data-view="set" hidden>
-    <div class="hello"><p>Tournée<b>Réglages</b></p></div>
+    <div class="hello"><p>Domicile<b>Réglages</b></p></div>
     <h1>Vos <em>réglages</em></h1>
     <div class="panel pad">
       <p class="f" id="modeL">Ordre de passage</p>
@@ -697,7 +697,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
         S.book=ok;S.groups=Array.isArray(j.groups)?j.groups:[];S.set=Object.assign({},DEF,j.set||{});S.log=j.log&&typeof j.log==='object'?j.log:{};
         S.patients=S.patients.filter(function(p){return!p.bookId||ok.some(function(b){return b.id===p.bookId})});
         save();render();say('Carnet importé : '+ok.length+' fiche'+(ok.length>1?'s':'')+'.');
-      }catch(e){say('Ce fichier n\'est pas une sauvegarde de Tournée.',true)}
+      }catch(e){say('Ce fichier n\'est pas une sauvegarde de Domicile.',true)}
     };
     r.readAsText(f);
   });
