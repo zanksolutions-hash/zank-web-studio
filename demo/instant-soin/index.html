@@ -100,7 +100,7 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .service .ic{display:block;font-size:32px;margin:24px 0 20px;stroke-width:1.3}
 .service h3{font-size:30px;font-weight:400;letter-spacing:-.01em;margin-bottom:10px}
 .service p{color:var(--muted);font-size:15.5px}
-.service b{display:block;margin-top:18px;font-size:15px;color:var(--accent);font-weight:600}
+a.service{display:block;color:inherit;text-decoration:none}a.service:hover h3{color:var(--accent)}.service b{display:block;margin-top:18px;font-size:15px;color:var(--accent);font-weight:600}
 
 /* Tarifs */
 .prices{background:var(--bg2)}
@@ -258,13 +258,13 @@ body{padding-bottom:44px}
 <!-- ============ NAVIGATION ============ -->
 <header class="nav" id="nav">
   <div class="wrap">
-    <nav class="links" aria-label="Navigation principale"><a href="#prestations">Prestations</a><a href="#tarifs">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a></nav>
+    <nav class="links" aria-label="Navigation principale"><a href="#prestations">Prestations</a><a href="tarifs.html">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a></nav>
     <a href="#" class="logo" aria-label="L'instant soin, accueil"><img src="logo-texte.png" alt="L'instant soin" width="192" height="50"></a>
     <div class="nav-right"><a href="#rdv" class="btn">Prendre rendez-vous</a></div>
     <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </div>
   <div class="mobile-menu">
-    <a href="#prestations">Prestations</a><a href="#tarifs">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a>
+    <a href="#prestations">Prestations</a><a href="tarifs.html">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a>
     <a href="#rdv" class="btn">Prendre rendez-vous</a>
   </div>
 </header>
@@ -295,33 +295,12 @@ body{padding-bottom:44px}
   <div class="wrap">
     <p class="eyebrow">Nos prestations</p>
     <div class="services">
-      <div class="service"><span class="num">01</span><svg class="ic"><use href="#i-leaf"/></svg><h3>Madérothérapie corps et visage</h3><p>Un massage aux instruments en bois, pour le corps comme pour le visage.</p></div>
-      <div class="service"><span class="num">02</span><svg class="ic"><use href="#i-drop"/></svg><h3>Drainage lymphatique</h3><p>Pour alléger les jambes et retrouver de la légèreté.</p></div>
-      <div class="service"><span class="num">03</span><svg class="ic"><use href="#i-sparkle"/></svg><h3>Soin Florence G</h3><p>Le soin Florence G, à découvrir lors de votre visite.</p></div>
-      <div class="service"><span class="num">04</span><svg class="ic"><use href="#i-wave"/></svg><h3>Head Spa</h3><p>Un rituel pour le cuir chevelu : nettoyage, massage et détente profonde.</p></div>
-      <div class="service"><span class="num">05</span><svg class="ic"><use href="#i-foot"/></svg><h3>Pédicure médicale</h3><p>Des soins précis pour des pieds sains et confortables.</p></div>
-      <div class="service"><span class="num">06</span><svg class="ic"><use href="#i-point"/></svg><h3>Réflexologie plantaire</h3><p>Un massage des pieds qui détend le corps entier.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TARIFS ============ -->
-<section id="tarifs" class="prices">
-  <div class="wrap">
-    <div class="prices-intro">
-      <p class="eyebrow">Tarifs</p>
-      <h2>Nos soins,<br><em>leurs prix.</em></h2>
-      <p>Chèques-cadeaux disponibles. Pour les lipocavitation, radiofréquence et soins Florence G, le prix peut varier selon la taille et la zone à traiter.</p>
-      <a href="#rdv" class="btn">Prendre rendez-vous <svg class="ic"><use href="#i-arrow"/></svg></a>
-    </div>
-    <div class="price-list">
-      <div class="price-group"><h3>Massages 1h</h3><div class="p-row"><span>Massage relaxant</span><b>60 €</b></div><div class="p-row"><span>Massage Abhyanga</span><b>60 €</b></div></div>
-      <div class="price-group"><h3>Madérothérapie et drainage</h3><div class="p-row"><span>Madérothérapie corps complet<small>2 h · cure de 6 séances : 500 € au lieu de 660 €</small></span><b>110 €</b></div><div class="p-row"><span>Madérothérapie demi-corps<small>1 h · cure de 6 séances : 250 € au lieu de 360 €</small></span><b>60 €</b></div><div class="p-row"><span>Madérothérapie visage<small>1 h · cure de 6 séances : 200 € au lieu de 300 €</small></span><b>50 €</b></div><div class="p-row"><span>Drainage lymphatique<small>1 h 30 · cure de 6 séances : 350 € au lieu de 480 €</small></span><b>80 €</b></div><div class="p-row"><span>Madérothérapie + drainage<small>3 h · cure de 6 séances : 700 € au lieu de 900 €</small></span><b>150 €</b></div></div>
-      <div class="price-group"><h3>Head Spa</h3><div class="p-row"><span>Formule découverte<small>1 h · massage du cuir chevelu, shampoing, masque</small></span><b>70 €</b></div><div class="p-row"><span>Formule premium<small>1 h 30 · massage du cuir chevelu, bain d’huile, shampoing, masque, fumigation</small></span><b>90 €</b></div><div class="p-row"><span>Formule prestige<small>Formule premium + massage du corps 1 h</small></span><b>110 €</b></div></div>
-      <div class="price-group"><h3>Soins des pieds</h3><div class="p-row"><span>Pédicure médicale</span><b>35 €</b></div><div class="p-row"><span>Spa pédicure</span><b>40 €</b></div><div class="p-row"><span>Réflexologie plantaire</span><b>50 €</b></div></div>
-      <div class="price-group"><h3>Lipocavitation</h3><p class="p-note">Traitement par ultrasons pour cibler et réduire la graisse localisée.</p><div class="p-row"><span>Ventre</span><b>45 €</b></div><div class="p-row"><span>Poignées d’amour</span><b>60 €</b></div><div class="p-row"><span>Bras</span><b>60 €</b></div><div class="p-row"><span>Cuisses</span><b>60 €</b></div></div>
-      <div class="price-group"><h3>Radiofréquence</h3><p class="p-note">Raffermissement de la peau par chaleur ciblée.</p><div class="p-row"><span>Ventre</span><b>45 €</b></div><div class="p-row"><span>Poignées d’amour</span><b>60 €</b></div><div class="p-row"><span>Bras</span><b>60 €</b></div><div class="p-row"><span>Cuisses</span><b>60 €</b></div><div class="p-row"><span>Double menton</span><b>45 €</b></div></div>
-      <div class="price-group"><h3>Méthode Florence G</h3><p class="p-note">Traitement rides, cicatrices, vergetures, relâchement cutané.</p><div class="p-row"><span>Regard ou front</span><b>85 €</b></div><div class="p-row"><span>Cernes</span><b>80 €</b></div><div class="p-row"><span>Cou</span><b>110 €</b></div><div class="p-row"><span>Joues</span><b>85 €</b></div><div class="p-row"><span>Sillon nasogénien</span><b>85 €</b></div><div class="p-row"><span>Visage complet</span><b>165 €</b></div><div class="p-row"><span>Décolleté</span><b>175 €</b></div><div class="p-row"><span>Zone abdominale</span><b>250 €</b></div><div class="p-row"><span>Cuisses</span><b>250 €</b></div></div>
+      <a class="service" href="tarifs.html#madero"><span class="num">01</span><svg class="ic"><use href="#i-leaf"/></svg><h3>Madérothérapie corps et visage</h3><p>Un massage aux instruments en bois, pour le corps comme pour le visage.</p><b>Voir le tarif →</b></a>
+      <a class="service" href="tarifs.html#drainage"><span class="num">02</span><svg class="ic"><use href="#i-drop"/></svg><h3>Drainage lymphatique</h3><p>Pour alléger les jambes et retrouver de la légèreté.</p><b>Voir le tarif →</b></a>
+      <a class="service" href="tarifs.html#florence"><span class="num">03</span><svg class="ic"><use href="#i-sparkle"/></svg><h3>Soin Florence G</h3><p>Le soin Florence G, à découvrir lors de votre visite.</p><b>Voir le tarif →</b></a>
+      <a class="service" href="tarifs.html#headspa"><span class="num">04</span><svg class="ic"><use href="#i-wave"/></svg><h3>Head Spa</h3><p>Un rituel pour le cuir chevelu : nettoyage, massage et détente profonde.</p><b>Voir le tarif →</b></a>
+      <a class="service" href="tarifs.html#pedicure"><span class="num">05</span><svg class="ic"><use href="#i-foot"/></svg><h3>Pédicure médicale</h3><p>Des soins précis pour des pieds sains et confortables.</p><b>Voir le tarif →</b></a>
+      <a class="service" href="tarifs.html#reflexo"><span class="num">06</span><svg class="ic"><use href="#i-point"/></svg><h3>Réflexologie plantaire</h3><p>Un massage des pieds qui détend le corps entier.</p><b>Voir le tarif →</b></a>
     </div>
   </div>
 </section>
