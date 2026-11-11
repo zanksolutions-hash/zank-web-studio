@@ -57,6 +57,7 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .logo{display:inline-flex;align-items:center}
 .logo img{width:auto;height:50px}
 .logo.grand img{height:118px}
+.logo-hero{width:auto;height:142px;margin:0 0 26px -10px}
 .nav-right{display:flex;justify-content:flex-end}
 .nav-right .btn{padding:12px 22px;font-size:14.5px}
 .burger{display:none;width:44px;height:44px;position:relative;justify-self:end}
@@ -178,6 +179,7 @@ footer{padding:64px 0 34px;border-top:1px solid var(--line)}
   .links,.nav-right{display:none}
   .burger{display:block}
   .logo img{height:42px}
+  .logo-hero{height:104px;margin-bottom:18px}
   .hero .wrap{grid-template-columns:1fr;padding-top:24px}
   .visual{height:470px}
   .arch{width:290px;height:440px}
@@ -242,13 +244,13 @@ body{padding-bottom:44px}
 <!-- ============ NAVIGATION ============ -->
 <header class="nav" id="nav">
   <div class="wrap">
-    <nav class="links" aria-label="Navigation principale"><a href="#prestations">Prestations</a><a href="#salon">Le salon</a><a href="#avis">Avis</a></nav>
+    <nav class="links" aria-label="Navigation principale"><a href="#prestations">Prestations</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a></nav>
     <a href="#" class="logo" aria-label="L'instant soin, accueil"><img src="logo-texte.png" alt="L'instant soin" width="192" height="50"></a>
     <div class="nav-right"><a href="#rdv" class="btn">Prendre rendez-vous</a></div>
     <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
   </div>
   <div class="mobile-menu">
-    <a href="#prestations">Prestations</a><a href="#salon">Le salon</a><a href="#avis">Avis</a>
+    <a href="#prestations">Prestations</a><a href="#rdv">Rendez-vous</a><a href="#avis">Avis</a>
     <a href="#rdv" class="btn">Prendre rendez-vous</a>
   </div>
 </header>
@@ -257,6 +259,7 @@ body{padding-bottom:44px}
 <div class="hero">
   <div class="wrap">
     <div>
+      <img class="logo-hero" src="logo.png" alt="L'instant soin" width="146" height="142">
       <p class="eyebrow">Institut de bien-être · Havinnes · Tournai</p>
       <h1>Un instant<br><em>rien que pour vous.</em></h1>
       <p class="lead">Madérothérapie, drainage lymphatique, head spa, pédicure médicale et réflexologie plantaire, à Havinnes près de Tournai. Nos clients y trouvent du bien-être et beaucoup de bienveillance.</p>
@@ -286,31 +289,6 @@ body{padding-bottom:44px}
       <div class="service"><span class="num">05</span><svg class="ic"><use href="#i-foot"/></svg><h3>Pédicure médicale</h3><p>Des soins précis pour des pieds sains et confortables.</p></div>
       <div class="service"><span class="num">06</span><svg class="ic"><use href="#i-point"/></svg><h3>Réflexologie plantaire</h3><p>Un massage des pieds qui détend le corps entier.</p></div>
     </div>
-  </div>
-</section>
-
-<!-- ============ LE SALON ============ -->
-<section id="salon">
-  <div class="wrap">
-    <div class="gal-head">
-      <div><p class="eyebrow">Le salon</p><h2>Un lieu<br><em>pour souffler.</em></h2></div>
-    </div>
-    <div class="gallery">
-      <figure><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=700&q=75" alt="Un soin du visage"></figure>
-      <figure><img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=700&q=75" alt="Un soin des pieds"></figure>
-      <figure><img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=700&q=75" alt="Des fleurs"></figure>
-      <figure><img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=700&q=75" alt="Un bouquet"></figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ AVIS (à remplacer par de vrais avis Google du client) ============ -->
-<section id="avis" style="padding-top:0">
-  <div class="wrap center">
-    <p class="eyebrow">Avis clients</p>
-    <h2>Vos clients <em>en parlent.</em></h2>
-    <p style="margin-top:16px;color:var(--muted)"><b style="color:var(--ink)">5,0 / 5</b> sur 34 avis Google</p>
-    <p style="margin-top:28px"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=L'instant+soin+Tournai" target="_blank" rel="noopener">Lire les 34 avis sur Google <svg class="ic"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
 
@@ -362,6 +340,16 @@ body{padding-bottom:44px}
         <p class="form-note">Vos données servent uniquement à gérer votre rendez-vous. <a href="#" style="text-decoration:underline">En savoir plus</a></p>
       </form>
     </div>
+  </div>
+</section>
+
+<!-- ============ AVIS (à remplacer par de vrais avis Google du client) ============ -->
+<section id="avis">
+  <div class="wrap center">
+    <p class="eyebrow">Avis clients</p>
+    <h2>Vos clients <em>en parlent.</em></h2>
+    <p style="margin-top:16px;color:var(--muted)"><b style="color:var(--ink)">5,0 / 5</b> sur 34 avis Google</p>
+    <p style="margin-top:28px"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=L'instant+soin+Tournai" target="_blank" rel="noopener">Lire les 34 avis sur Google <svg class="ic"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
 
