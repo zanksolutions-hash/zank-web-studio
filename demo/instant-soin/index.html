@@ -57,7 +57,10 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .logo{display:inline-flex;align-items:center}
 .logo img{width:auto;height:50px}
 .logo.grand img{height:118px}
-.logo-hero{width:auto;height:142px;margin:0 0 26px -10px}
+/* Silhouette du logo en filigrane derrière l'accueil */
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;z-index:0;left:max(0px,calc(50% - 640px - 30px));top:10px;width:min(430px,38vw);aspect-ratio:160/260;background:url(fond.png) center/contain no-repeat;opacity:.12;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
 .nav-right{display:flex;justify-content:flex-end}
 .nav-right .btn{padding:12px 22px;font-size:14.5px}
 .burger{display:none;width:44px;height:44px;position:relative;justify-self:end}
@@ -179,7 +182,7 @@ footer{padding:64px 0 34px;border-top:1px solid var(--line)}
   .links,.nav-right{display:none}
   .burger{display:block}
   .logo img{height:42px}
-  .logo-hero{height:104px;margin-bottom:18px}
+  .hero::before{left:auto;right:-50px;top:30px;width:min(300px,70vw);opacity:.11}
   .hero .wrap{grid-template-columns:1fr;padding-top:24px}
   .visual{height:470px}
   .arch{width:290px;height:440px}
@@ -259,7 +262,6 @@ body{padding-bottom:44px}
 <div class="hero">
   <div class="wrap">
     <div>
-      <img class="logo-hero" src="logo.png" alt="L'instant soin" width="146" height="142">
       <p class="eyebrow">Institut de bien-être · Havinnes · Tournai</p>
       <h1>Un instant<br><em>rien que pour vous.</em></h1>
       <p class="lead">Madérothérapie, drainage lymphatique, head spa, pédicure médicale et réflexologie plantaire, à Havinnes près de Tournai. Nos clients y trouvent du bien-être et beaucoup de bienveillance.</p>
