@@ -127,6 +127,10 @@ h1 em,h2 em{font-style:italic;color:var(--accent);font-weight:350}
 .review p{font-family:var(--serif);font-size:21px;font-weight:300;line-height:1.4;margin:18px 0 22px}
 .review small{color:var(--muted)}
 .center{text-align:center}
+.avis-un{max-width:640px;margin:36px auto 0;background:var(--card);border-radius:28px;padding:clamp(26px,4vw,40px)}
+.avis-un blockquote{font-family:var(--serif);font-size:clamp(20px,2.4vw,26px);font-weight:300;line-height:1.4}
+.avis-un figcaption{margin-top:18px;font-size:14.5px;color:var(--muted)}
+.avis-un figcaption b{color:var(--ink)}
 .center h2{margin:0 auto}
 
 /* Rendez-vous */
@@ -273,7 +277,7 @@ body{padding-bottom:44px}
       <div class="ctas"><a href="#rdv" class="btn">Prendre rendez-vous <svg class="ic"><use href="#i-arrow"/></svg></a><a href="#prestations" class="more">Nos prestations</a></div>
       <div class="proof">
         <div class="avatars"><span><img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=120&q=70" alt=""></span><span></span><span></span></div>
-        <div><b>5,0 / 5</b> · 34 avis Google</div>
+        <div><b>100 %</b> de clients qui recommandent · 13 avis Facebook</div>
       </div>
     </div>
     <div class="visual">
@@ -350,13 +354,17 @@ body{padding-bottom:44px}
   </div>
 </section>
 
-<!-- ============ AVIS (à remplacer par de vrais avis Google du client) ============ -->
+<!-- ============ AVIS (relevés sur la page Facebook de l'institut ; seul 1 avis est lisible sans compte Facebook) ============ -->
 <section id="avis">
   <div class="wrap center">
     <p class="eyebrow">Avis clients</p>
     <h2>Vos clients <em>en parlent.</em></h2>
-    <p style="margin-top:16px;color:var(--muted)"><b style="color:var(--ink)">5,0 / 5</b> sur 34 avis Google</p>
-    <p style="margin-top:28px"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=L'instant+soin+Tournai" target="_blank" rel="noopener">Lire les 34 avis sur Google <svg class="ic"><use href="#i-arrow"/></svg></a></p>
+    <p style="margin-top:16px;color:var(--muted)"><b style="color:var(--ink)">Recommandé par 100 %</b> des clients · 13 avis sur Facebook</p>
+    <figure class="avis-un">
+      <blockquote>Au top ! Je suis allée pour un head spa, c’était génial !</blockquote>
+      <figcaption><b>Aline F.</b> recommande L'instant soin · 15 août 2026</figcaption>
+    </figure>
+    <p style="margin-top:28px"><a class="btn" href="https://www.facebook.com/people/Linstant-soin/61579753167598/?sk=reviews" target="_blank" rel="noopener">Lire les 13 avis sur Facebook <svg class="ic"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>
 
