@@ -105,12 +105,31 @@ ol,ul{list-style:none;padding:0}
 form.panel{padding:18px 16px}
 label.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14px 4px 6px}
 label.f:first-child{margin-top:0}
-input[type=text],input[type=password]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
-input[type=text]:focus,input[type=password]:focus{outline:2px solid var(--ink);outline-offset:1px}
+input[type=text],input[type=password],input[type=email]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
+input[type=text]:focus,input[type=password]:focus,input[type=email]:focus,select:focus{outline:2px solid var(--ink);outline-offset:1px}
 .code{font:600 22px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;margin:4px 4px 0;user-select:all}
 #syMsg.err{color:var(--urg)}
-#syKey{font-size:17px;word-spacing:.25em;overflow-wrap:anywhere}
-.gbtn{display:flex;justify-content:center;margin-top:16px;min-height:44px}
+body.locked .app,body.locked .nav{display:none}
+.auth{max-width:520px;margin:0 auto;padding:calc(26px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom))}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.01em}
+.auth .panel{margin-top:18px}
+.auth .pill.wide{margin-top:18px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media(max-width:360px){.duo{grid-template-columns:1fr}}
+select{width:100%;min-height:54px;padding:0 44px 0 20px;border:1px solid var(--line);border-radius:99px;font:inherit;font-size:16px;color:inherit;-webkit-appearance:none;appearance:none;
+background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23666' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 20px center}
+select:focus{outline:2px solid var(--ink);outline-offset:1px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:18px 4px 0;font-size:13.5px;color:var(--muted);line-height:1.4;cursor:pointer}
+.chk input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--ink)}
+.otp{text-align:center;font:600 26px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;letter-spacing:.4em}
+.aswitch{text-align:center;margin-top:22px;color:var(--muted);font-size:14.5px}
+.aswitch button{border:0;background:none;padding:6px 4px;font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.amsg{min-height:1.4em;margin:16px 4px 0;text-align:center;font-size:14px;color:var(--muted)}
+.amsg.err{color:var(--urg)}
+#kKey{font-size:19px;word-spacing:.25em;overflow-wrap:anywhere;margin:4px 4px 0}
+.acc{margin:2px 4px 0}
+.acc b{display:block;font-weight:600}
+.acc span{color:var(--muted);font-size:14px}
 #bookQ{display:block;width:100%;min-height:50px;margin-top:16px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px;-webkit-appearance:none;appearance:none}
 #bookQ[hidden]{display:none}
 #bookQ:focus{outline:2px solid var(--ink);outline-offset:1px}
@@ -188,7 +207,120 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 .view .panel+.panel,.view .tiles+.panel{margin-top:14px}
 </style>
 </head>
-<body>
+<body class="locked">
+<div class="auth" id="auth" hidden>
+  <div class="auth-in">
+    <p class="brand">Domicile</p>
+
+    <form class="ascr" id="aLogin" novalidate>
+      <h1>Bon retour <em>parmi nous</em></h1>
+      <p class="hint">Connectez-vous pour retrouver vos patients et vos tournées.</p>
+      <div class="panel pad">
+        <label class="f" for="lMail">Adresse e-mail</label>
+        <input type="email" id="lMail" autocomplete="username" inputmode="email" required>
+        <label class="f" for="lPass">Mot de passe</label>
+        <input type="password" id="lPass" autocomplete="current-password" required>
+        <button class="pill wide" type="submit">Se connecter</button>
+        <button class="link" type="button" data-go="aForgot">Mot de passe oublié ?</button>
+      </div>
+      <p class="aswitch">Pas encore de compte ? <button type="button" data-go="aSign">Créer un compte</button></p>
+    </form>
+
+    <form class="ascr" id="aSign" novalidate hidden>
+      <h1>Créer votre <em>compte</em></h1>
+      <p class="hint">Réservé aux soignants. Vos patients sont chiffrés sur votre appareil : personne d'autre que vous ne peut les lire.</p>
+      <div class="panel pad">
+        <p class="f" id="gL">Genre</p>
+        <div class="seg" id="sGenre" role="group" aria-labelledby="gL"><button type="button" data-v="femme">Femme</button><button type="button" data-v="homme">Homme</button><button type="button" data-v="autre">Autre</button></div>
+        <div class="duo">
+          <div><label class="f" for="sPrenom">Prénom</label><input type="text" id="sPrenom" autocomplete="given-name" maxlength="60" required></div>
+          <div><label class="f" for="sNom">Nom</label><input type="text" id="sNom" autocomplete="family-name" maxlength="80" required></div>
+        </div>
+        <label class="f" for="sSpec">Spécialité</label>
+        <select id="sSpec" required>
+          <option value="">Choisir…</option>
+          <option value="generaliste">Médecin généraliste</option>
+          <option value="specialiste">Médecin spécialiste</option>
+          <option value="infirmier">Infirmier ou infirmière</option>
+          <option value="kine">Kinésithérapeute</option>
+          <option value="sage-femme">Sage-femme</option>
+          <option value="autre">Autre soignant</option>
+        </select>
+        <label class="f" for="sInami">Numéro INAMI</label>
+        <input type="text" id="sInami" inputmode="numeric" autocomplete="off" placeholder="1-23456-78-901" maxlength="15" required>
+        <label class="f" for="sTel">Téléphone</label>
+        <input type="tel" id="sTel" autocomplete="tel" placeholder="0471 23 45 67" maxlength="30" required>
+        <label class="f" for="sAdr">Adresse du cabinet</label>
+        <input type="text" id="sAdr" autocomplete="street-address" placeholder="Rue, numéro, commune" maxlength="160" required>
+      </div>
+      <div class="panel pad">
+        <label class="f" for="sMail">Adresse e-mail</label>
+        <input type="email" id="sMail" autocomplete="email" inputmode="email" maxlength="160" required>
+        <label class="f" for="sPass">Mot de passe, 10 caractères minimum</label>
+        <input type="password" id="sPass" autocomplete="new-password" minlength="10" required>
+        <label class="f" for="sPass2">Confirmez le mot de passe</label>
+        <input type="password" id="sPass2" autocomplete="new-password" minlength="10" required>
+        <label class="chk"><input type="checkbox" id="sCgu"> <span>J'accepte que Zank Solutions conserve les informations de mon compte pour fournir le service. Mes patients restent chiffrés et illisibles pour Zank Solutions.</span></label>
+        <button class="pill wide" type="submit">Créer mon compte</button>
+      </div>
+      <p class="aswitch">Déjà un compte ? <button type="button" data-go="aLogin">Se connecter</button></p>
+    </form>
+
+    <form class="ascr" id="aCode" novalidate hidden>
+      <h1>Vérifiez <em>votre e-mail</em></h1>
+      <p class="hint">Nous avons envoyé un code à 6 chiffres à <b id="cMail"></b>. Pensez à regarder dans les indésirables.</p>
+      <div class="panel pad">
+        <label class="f" for="cCode">Code reçu par e-mail</label>
+        <input type="text" id="cCode" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="7" required>
+        <button class="pill wide" type="submit">Valider</button>
+        <button class="link" type="button" id="cResend">Renvoyer le code</button>
+      </div>
+      <p class="aswitch"><button type="button" data-go="aLogin">Retour à la connexion</button></p>
+    </form>
+
+    <form class="ascr" id="aKey" novalidate hidden>
+      <h1>Votre clé <em>de secours</em></h1>
+      <p class="hint">Si vous oubliez votre mot de passe, cette clé est le seul moyen de garder vos patients. Personne, pas même Zank Solutions, ne peut la retrouver.</p>
+      <div class="panel pad">
+        <p class="code" id="kKey"></p>
+        <button class="pill soft wide" type="button" id="kPrint">Imprimer</button>
+        <button class="pill soft wide" type="button" id="kCopy">Copier</button>
+        <label class="chk"><input type="checkbox" id="kOk"> <span>J'ai noté ou imprimé ma clé de secours et je la garde en lieu sûr.</span></label>
+        <button class="pill wide" type="submit">Continuer</button>
+      </div>
+    </form>
+
+    <form class="ascr" id="aForgot" novalidate hidden>
+      <h1>Mot de passe <em>oublié</em></h1>
+      <div id="fStep1">
+        <p class="hint">Indiquez votre adresse e-mail : nous vous envoyons un code pour choisir un nouveau mot de passe.</p>
+        <div class="panel pad">
+          <label class="f" for="fMail">Adresse e-mail</label>
+          <input type="email" id="fMail" autocomplete="username" inputmode="email">
+          <button class="pill wide" type="button" id="fSend">Recevoir un code</button>
+        </div>
+      </div>
+      <div id="fStep2" hidden>
+        <p class="hint">Code envoyé à <b id="fMailB"></b>.</p>
+        <div class="panel pad">
+          <label class="f" for="fCode">Code reçu par e-mail</label>
+          <input type="text" id="fCode" class="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="7">
+          <label class="f" for="fPass">Nouveau mot de passe, 10 caractères minimum</label>
+          <input type="password" id="fPass" autocomplete="new-password">
+          <label class="f" for="fPass2">Confirmez le nouveau mot de passe</label>
+          <input type="password" id="fPass2" autocomplete="new-password">
+          <label class="f" for="fKey">Clé de secours</label>
+          <input type="text" id="fKey" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="ABCD EFGH …">
+          <p class="hint">Avec votre clé de secours, vos patients sont conservés. Sans elle, ceux enregistrés sur le serveur sont effacés ; ceux présents sur cet appareil seront renvoyés.</p>
+          <button class="pill wide" type="submit">Changer le mot de passe</button>
+        </div>
+      </div>
+      <p class="aswitch"><button type="button" data-go="aLogin">Retour à la connexion</button></p>
+    </form>
+
+    <p class="amsg" id="aMsg" role="alert"></p>
+  </div>
+</div>
 <div class="app">
   <p class="msg" id="msg" role="status" hidden></p>
 
@@ -263,44 +395,22 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <div class="tile"><span>Km ce mois-ci</span><b id="kMonth">0</b></div>
     </div>
     <div class="panel pad" id="syP">
-      <p class="f">Compte et synchronisation</p>
-      <div id="syA">
-        <p class="hint">Retrouvez votre carnet sur tous vos appareils. Il est chiffré sur votre téléphone avant l'envoi : personne d'autre que vous ne peut le lire, pas même l'hébergeur.</p>
-        <div class="gbtn" id="gBtn"></div>
-        <div id="devBox" hidden>
-          <label class="f" for="devMail">E-mail (connexion de test, uniquement en local)</label>
-          <input type="text" id="devMail" autocomplete="off">
-          <button class="pill soft wide" type="button" id="devGo">Connexion de test</button>
-        </div>
-      </div>
-      <div id="syB" hidden>
-        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
-        <p class="hint">Dernière étape : protégez votre carnet avec Face ID ou votre empreinte. C'est ce qui le chiffre.</p>
-        <button class="pill wide" type="button" id="sySetup">Protéger avec Face ID ou empreinte</button>
-      </div>
-      <div id="syC" hidden>
-        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
-        <p class="hint">Déverrouillez votre carnet sur cet appareil.</p>
-        <button class="pill wide" type="button" id="syUnlock">Déverrouiller avec Face ID ou empreinte</button>
-        <label class="f" for="syRec">Ou avec votre clé de secours</label>
-        <input type="text" id="syRec" placeholder="ABCD EFGH …" autocomplete="off" spellcheck="false" autocapitalize="characters">
-        <button class="pill soft wide" type="button" id="syRecGo">Déverrouiller avec la clé de secours</button>
-      </div>
-      <div id="syK" hidden>
-        <p class="hint" style="margin-top:0"><b>Votre clé de secours</b></p>
-        <p class="code" id="syKey"></p>
-        <p class="hint">Notez-la sur papier ou imprimez-la, et gardez-la en lieu sûr. Si vous perdez tous vos appareils, c'est le seul moyen de récupérer vos patients : personne d'autre ne peut la retrouver.</p>
-        <button class="pill soft wide" type="button" id="syPrint">Imprimer</button>
-        <button class="pill wide" type="button" id="syKeyOk">J'ai noté ma clé de secours</button>
-      </div>
-      <div id="syD" hidden>
-        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
-        <button class="pill soft wide" type="button" id="syNow">Synchroniser maintenant</button>
-        <button class="pill soft wide" type="button" id="syAddKey" hidden>Ajouter Face ID ou empreinte sur cet appareil</button>
-        <button class="link" type="button" id="syOut">Se déconnecter de cet appareil</button>
-        <button class="link" type="button" id="syDelAcc">Supprimer mon compte</button>
-      </div>
+      <p class="f">Mon compte</p>
+      <p class="acc"><b id="accName"></b><span id="accMail"></span></p>
       <p class="hint" id="syMsg" role="status"></p>
+      <button class="pill soft wide" type="button" id="syNow">Synchroniser maintenant</button>
+      <button class="pill soft wide" type="button" id="pwBtn">Changer le mot de passe</button>
+      <div id="pwBox" hidden>
+        <label class="f" for="pwOld">Mot de passe actuel</label>
+        <input type="password" id="pwOld" autocomplete="current-password">
+        <label class="f" for="pwNew">Nouveau mot de passe, 10 caractères minimum</label>
+        <input type="password" id="pwNew" autocomplete="new-password">
+        <label class="f" for="pwNew2">Confirmez le nouveau mot de passe</label>
+        <input type="password" id="pwNew2" autocomplete="new-password">
+        <button class="pill wide" type="button" id="pwGo">Enregistrer le mot de passe</button>
+      </div>
+      <button class="link" type="button" id="syOut">Se déconnecter</button>
+      <button class="link" type="button" id="syDelAcc">Supprimer mon compte</button>
     </div>
     <div class="panel pad">
       <p class="f">Sauvegarde du carnet</p>
@@ -797,24 +907,31 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab)});
 
-  /* compte Google + chiffrement de bout en bout.
-     Une clé de données (DK) tirée au hasard chiffre le carnet (AES-GCM). Elle est « emballée » par la clé
-     d'accès Face ID / empreinte (extension WebAuthn PRF) et par une clé de secours imprimable.
-     Le serveur ne voit jamais la DK ni les patients ; kid = empreinte courte de la DK. */
+  /* compte et chiffrement de bout en bout (comme Bitwarden).
+     Le mot de passe donne, par PBKDF2 sur l'appareil, une clé KEK et un jeton « auth ».
+     Une clé de données DK tirée au hasard chiffre le carnet (AES-GCM) ; elle est emballée par la KEK
+     et par la clé de secours. Le serveur ne voit jamais le mot de passe, la DK ni les patients. */
   var API=(function(){try{return localStorage.getItem('tournee-api')}catch(e){}})()||'https://tournee-sync.zank-solutions.workers.dev';
-  var SK='domicile-compte-v1',gen=0,running=null,timer=0,pend=null,TE=new TextEncoder();
-  var PRF_SALT=TE.encode('domicile-prf-v1'),B32='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  try{localStorage.removeItem('tournee-sync-v1')}catch(e){}
+  var SK='domicile-session-v1',LAST='domicile-dernier',gen=0,running=null,timer=0,TE=new TextEncoder(),pending=null;
+  var B32='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',ITER=600000;
+  try{localStorage.removeItem('tournee-sync-v1');localStorage.removeItem('domicile-compte-v1')}catch(e){}
   var Y=null;try{Y=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
   function ysave(){try{if(Y)localStorage.setItem(SK,JSON.stringify(Y));else localStorage.removeItem(SK)}catch(e){}}
   function b64(u){var s='';new Uint8Array(u).forEach(function(c){s+=String.fromCharCode(c)});return btoa(s)}
   function unb64(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
   function b64u(u){return b64(u).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
-  function unb64u(s){return unb64(s.replace(/-/g,'+').replace(/_/g,'/')+'==='.slice((s.length+3)%4))}
   function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
-  function wrapKey(secret,info){
-    return crypto.subtle.importKey('raw',secret,'HKDF',false,['deriveKey']).then(function(k){
-      return crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:TE.encode('domicile'),info:TE.encode(info)},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  function derive(pass,salt){
+    return crypto.subtle.importKey('raw',TE.encode(pass.normalize('NFC')),'PBKDF2',false,['deriveBits'])
+      .then(function(k){return crypto.subtle.deriveBits({name:'PBKDF2',salt:salt,iterations:ITER,hash:'SHA-256'},k,512)})
+      .then(function(bits){
+        var a=new Uint8Array(bits);
+        return crypto.subtle.importKey('raw',a.slice(0,32),'AES-GCM',false,['encrypt','decrypt']).then(function(kek){return{kek:kek,auth:b64u(a.slice(32))}});
+      });
+  }
+  function recKey(code){
+    return crypto.subtle.importKey('raw',TE.encode(code),'HKDF',false,['deriveKey']).then(function(k){
+      return crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:TE.encode('domicile'),info:TE.encode('secours')},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
     });
   }
   function enc(key,bytes){var iv=rnd(12);return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,bytes).then(function(c){return b64(iv)+'.'+b64(c)})}
@@ -825,72 +942,23 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   function unseal(s){return dkKey().then(function(k){return dec(k,s)}).then(function(b){return JSON.parse(new TextDecoder().decode(b))})}
   function recCode(){var bits='',out='';rnd(20).forEach(function(b){bits+=b.toString(2).padStart(8,'0')});for(var i=0;i<160;i+=5)out+=B32[parseInt(bits.substr(i,5),2)];return out}
   function recFmt(c){return c.replace(/(.{4})/g,'$1 ').trim()}
-  function devName(){var u=navigator.userAgent;return/iPhone/.test(u)?'iPhone':/iPad/.test(u)?'iPad':/Android/.test(u)?'Android':/Mac/.test(u)?'Mac':/Windows/.test(u)?'Windows':'Appareil'}
+  function recClean(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+  /* nouvelle clé de données + clé de secours, et leurs emballages */
+  function newDK(){
+    var dk=rnd(32),code=recCode();
+    return Promise.all([kidOf(dk),recKey(code).then(function(k){return enc(k,dk)})]).then(function(r){return{dk:dk,code:code,kid:r[0],secours:r[1]}});
+  }
 
   function api(path,opt){
     opt=opt||{};opt.headers={'content-type':'application/json'};
     if(Y&&Y.session)opt.headers.authorization='Bearer '+Y.session;
     return fetch(API+path,opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j._s=r.status;return j})},
-      function(){throw{erreur:'Pas de connexion. Le carnet sera synchronisé au retour du réseau.'}});
+      function(){throw{erreur:'Pas de connexion internet. Réessayez dans un instant.',hors:true}});
   }
   function post(path,body){return api(path,{method:'POST',body:JSON.stringify(body||{})})}
-  function moi(j){Y.id=j.id;Y.email=j.email;Y.nom=j.nom;Y.srvKid=j.kid||null;Y.cles=j.cles||[];Y.sec=j.secours||null;ysave()}
+  function ok(j){if(j._s!==200)throw j;return j}
 
-  /* clés d'accès Face ID / empreinte : l'extension PRF fournit un secret stable qui emballe la DK */
-  function pkOK(){return!!(window.PublicKeyCredential&&navigator.credentials&&crypto.subtle)}
-  function pkCreate(){
-    return navigator.credentials.create({publicKey:{rp:{name:'Domicile',id:location.hostname},
-      user:{id:TE.encode(Y.id),name:Y.email||'Domicile',displayName:Y.nom||Y.email||'Domicile'},challenge:rnd(32),
-      pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
-      authenticatorSelection:{residentKey:'preferred',userVerification:'required'},extensions:{prf:{eval:{first:PRF_SALT}}}}});
-  }
-  function pkGet(ids){
-    return navigator.credentials.get({publicKey:{challenge:rnd(32),rpId:location.hostname,userVerification:'required',
-      allowCredentials:ids.map(function(i){return{type:'public-key',id:unb64u(i)}}),extensions:{prf:{eval:{first:PRF_SALT}}}}});
-  }
-  function prfOut(c){var x=c&&c.getClientExtensionResults().prf;return x&&x.results&&x.results.first?new Uint8Array(x.results.first):null}
-  /* 1re étape (dans le geste de l'utilisateur) : créer la clé d'accès. null si l'appareil ne sait pas faire. */
-  function newPasskey(){
-    if(pend)return Promise.resolve(pend);
-    if(!pkOK())return Promise.resolve(null);
-    return pkCreate().then(function(c){
-      var x=c.getClientExtensionResults().prf;
-      return{id:b64u(c.rawId),out:prfOut(c),off:!!(x&&x.enabled===false)||!x};
-    },function(e){
-      if(e&&e.name==='NotAllowedError')throw{erreur:'Face ID ou empreinte annulé. Touchez à nouveau le bouton.'};
-      return null;
-    });
-  }
-  /* 2e étape : obtenir le secret PRF (parfois un 2e geste est nécessaire), emballer la DK, l'envoyer */
-  function savePasskey(pk){
-    if(!pk||pk.off&&!pk.out)return Promise.resolve(false);
-    var o=pk.out?Promise.resolve(pk.out):pkGet([pk.id]).then(prfOut,function(){pend=pk;throw{erreur:'Confirmez avec Face ID ou votre empreinte : touchez à nouveau le bouton.'}});
-    return o.then(function(out){
-      pend=null;
-      if(!out)return false;
-      return wrapKey(out,'dk').then(function(k){return enc(k,unb64(Y.dk))}).then(function(w){
-        return post('/cles',{cred:pk.id,wrap:w,kid:Y.kid,label:devName()});
-      }).then(function(j){if(j._s!==200)throw j;moi(j);Y.cred=pk.id;ysave();return true});
-    });
-  }
-  /* nouvelle DK + clé de secours, enregistrées sur le serveur */
-  function newDK(){
-    var dk=rnd(32),code=recCode();
-    return kidOf(dk).then(function(kid){
-      return wrapKey(TE.encode(code),'secours').then(function(k){return enc(k,dk)}).then(function(w){return post('/secours',{wrap:w,kid:kid})}).then(function(j){
-        if(j._s!==200)throw j;
-        moi(j);Y.dk=b64(dk);Y.kid=kid;Y.rec=code;Y.ver=j.ver;Y.dirty=true;gen++;stamp();store();ysave();
-      });
-    });
-  }
-  function unlocked(dk,cred){
-    return kidOf(dk).then(function(kid){
-      if(kid!==Y.srvKid)throw{erreur:'Cette clé ne correspond pas à votre carnet.'};
-      Y.dk=b64(dk);Y.kid=kid;Y.cred=cred||Y.cred||null;Y.ver=-1;Y.dirty=S.book.length>0||S.groups.length>0;gen++;ysave();
-      return api('/v').then(function(j){if(j._s!==200)throw j;return pull(j)}).then(function(){if(Y.dirty)return push(0)});
-    });
-  }
-
+  /* ---------- synchronisation ---------- */
   function payload(){return{book:S.book,groups:S.groups,set:S.set,log:S.log,tomb:S.tomb,ot:S.ot||0}}
   function merge(r){
     var tomb=Object.assign({},r.tomb||{}),lim=Date.now()-180*864e5;
@@ -908,8 +976,13 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     S.patients=S.patients.filter(function(p){return!p.bookId||!tomb[p.bookId]});
   }
   function pull(j){
-    var p=j.data&&j.ver!==Y.ver?unseal(j.data).then(function(r){merge(r);stamp(true);store();render()},
-      function(){throw{erreur:'Impossible de déchiffrer le carnet du serveur.'}}):Promise.resolve();
+    var p;
+    if(j.data&&j.ver!==Y.ver)p=unseal(j.data).then(function(r){merge(r);stamp(true);store();render()},function(){throw{erreur:'Impossible de déchiffrer le carnet du serveur.'}});
+    else{
+      /* carnet vide sur le serveur (nouveau compte ou effacé par l'admin) : on renvoie celui de l'appareil */
+      if(!j.data&&j.ver!==Y.ver&&(S.book.length||S.groups.length)){Y.dirty=true;gen++}
+      p=Promise.resolve();
+    }
     return p.then(function(){Y.ver=j.ver;ysave()});
   }
   function push(n){
@@ -921,125 +994,196 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     });
   }
   function ysay(t,err){var e=$('syMsg');e.textContent=t||'';e.className='hint'+(err?' err':'')}
-  /* erreurs communes : session expirée, compte suspendu, clé remplacée ailleurs */
+  /* session expirée, compte suspendu ou mot de passe changé ailleurs : retour à l'écran de connexion */
   function oops(e){
-    if(e&&e._s===401){Y=null;ysave();renderSync();return ysay('Session expirée. Reconnectez-vous avec Google : vos fiches restent sur ce téléphone.',true)}
-    if(e&&e.cle){
-      Y.dk=null;Y.kid=null;Y.dirty=false;ysave();
-      return api('/moi').then(function(j){if(j._s===200)moi(j);renderSync();
-        ysay(Y.srvKid?'La protection du carnet a changé sur un autre appareil. Déverrouillez-le à nouveau.':'Le carnet a été réinitialisé. Protégez-le à nouveau : vos fiches de cet appareil seront renvoyées.',true)});
+    if(e&&(e._s===401||e._s===403||e.cle)){
+      var mail=Y&&Y.moi&&Y.moi.email;Y=null;ysave();
+      lock('aLogin',e.cle?'Votre mot de passe a été changé sur un autre appareil. Reconnectez-vous avec le nouveau.':e.erreur||'Session expirée. Reconnectez-vous.');
+      if(mail)$('lMail').value=mail;
+      return;
     }
     ysay(e&&e.erreur||'Synchronisation impossible pour le moment.',true);
   }
   function sync(){
-    if(!Y||!Y.session)return Promise.resolve();
-    if(!Y.dk)return api('/moi').then(function(j){if(j._s!==200)throw j;moi(j);renderSync()}).catch(oops);
+    if(!Y||!Y.dk)return Promise.resolve();
     if(running)return running;
     clearTimeout(timer);
-    running=(Y.dirty?push(0):api('/v').then(function(j){if(j._s!==200)throw j;if(j.kid!==Y.kid)throw{cle:true};return pull(j)}))
-      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y.dirty},oops)
+    running=(Y.dirty?push(0):api('/v').then(function(j){if(j._s!==200)throw j;if(j.kid!==Y.kid)throw{cle:true};return pull(j).then(function(){if(Y.dirty)return push(0)})}))
+      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y&&Y.dirty},oops)
       .then(function(again){running=null;if(again&&Y)later()});
     return running;
   }
   function later(){clearTimeout(timer);timer=setTimeout(sync,1500)}
 
+  /* ---------- écran de connexion ---------- */
+  var TITRE={generaliste:1,specialiste:1};
+  function nomAffiche(m){
+    if(!m)return'';
+    return TITRE[m.specialite]?(m.genre==='femme'?'Docteure ':'Docteur ')+m.nom:m.prenom;
+  }
+  function amsg(t,err){var e=$('aMsg');e.textContent=t||'';e.className='amsg'+(err?' err':'')}
+  function show(id){document.querySelectorAll('.ascr').forEach(function(f){f.hidden=f.id!==id});amsg('');window.scrollTo(0,0)}
+  function lock(id,msg){document.body.classList.add('locked');$('auth').hidden=false;show(id);if(msg)amsg(msg,true)}
+  function unlock(){document.body.classList.remove('locked');$('auth').hidden=true;renderSync();render()}
   function renderSync(){
-    var st=!Y||!Y.session?'A':pend&&pend.ctx==='setup'?'B':Y.rec?'K':Y.dk?'D':Y.srvKid?'C':'B';
-    ['A','B','C','D','K'].forEach(function(k){$('sy'+k).hidden=k!==st});
-    document.querySelectorAll('#syP .who').forEach(function(b){b.textContent=Y&&(Y.email||Y.nom)||''});
-    if(st==='K')$('syKey').textContent=recFmt(Y.rec);
-    if(st==='D')$('syAddKey').hidden=!pkOK()||!!Y.cred&&Y.cles.some(function(c){return c.cred===Y.cred});
-    if(st==='C')$('syUnlock').hidden=!pkOK()||!Y.cles.length;
-    $('sySetup').textContent=pend?'Confirmer avec Face ID ou empreinte':'Protéger avec Face ID ou empreinte';
-    $('syAddKey').textContent=pend?'Confirmer avec Face ID ou empreinte':'Ajouter Face ID ou empreinte sur cet appareil';
-    if(st==='A')loadGoogle();
+    var m=Y&&Y.moi;if(!m)return;
+    $('accName').textContent=[m.prenom,m.nom].join(' ');$('accMail').textContent=m.email;
+    var h=document.querySelector('[data-view=tour] .hello b');if(h)h.textContent=nomAffiche(m)||'Docteur';
   }
-
-  /* connexion Google (Google Identity Services) */
-  var gReady=false;
-  function loadGoogle(){
-    if(gReady)return;gReady=true;
-    api('/config').then(function(c){
-      if(c.dev)$('devBox').hidden=false;
-      if(!c.google){if(!c.dev)$('gBtn').innerHTML='<p class="hint">La connexion avec Google sera bientôt disponible.</p>';return}
-      var s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
-      s.onload=function(){
-        google.accounts.id.initialize({client_id:c.google,callback:function(r){login('/auth/google',{credential:r.credential})},ux_mode:'popup',auto_select:false});
-        google.accounts.id.renderButton($('gBtn'),{theme:'outline',size:'large',shape:'pill',text:'continue_with',locale:'fr',width:280});
-      };
-      s.onerror=function(){gReady=false;$('gBtn').innerHTML='<p class="hint">Google ne répond pas. Vérifiez la connexion.</p>'};
-      document.head.appendChild(s);
-    },function(){gReady=false});
-  }
-  function login(path,body){
-    ysay('Connexion…');
-    fetch(API+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){j._s=r.status;return j})})
-      .then(function(j){
-        if(j._s!==200)throw j;
-        Y={session:j.session};moi(j.moi);renderSync();
-        ysay(Y.srvKid?'Connecté. Déverrouillez votre carnet sur cet appareil.':'Connecté. Protégez maintenant votre carnet.');
-      }).catch(function(e){ysay(e&&e.erreur||'Connexion impossible. Réessayez.',true)});
-  }
-  $('devGo').addEventListener('click',function(){var m=$('devMail').value.trim();if(m)login('/auth/dev',{email:m})});
-
-  $('sySetup').addEventListener('click',function(){
-    var btn=this,pk;
-    busy(btn,true,'Protection…');ysay('');
-    newPasskey().then(function(p){pk=p;if(pk)pk.ctx='setup';return Y.dk?null:newDK()}).then(function(){return savePasskey(pk)}).then(function(ok){
-      renderSync();
-      ysay(ok?'Carnet protégé et chiffré. Notez votre clé de secours.':'Face ID ou empreinte n\'est pas disponible dans ce navigateur : vos autres appareils vous demanderont la clé de secours. Notez-la bien.');
-      push(0).catch(function(){});
-    }).catch(function(e){renderSync();oops(e)}).then(function(){busy(btn,false);renderSync()});
+  document.querySelectorAll('#auth [data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
+  $('sGenre').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)})});
+  $('sInami').addEventListener('input',function(){
+    var d=this.value.replace(/\D/g,'').slice(0,11),p=[d.slice(0,1),d.slice(1,6),d.slice(6,8),d.slice(8,11)].filter(Boolean);
+    this.value=p.join('-');
   });
-  $('syKeyOk').addEventListener('click',function(){
-    if(!confirm('Avez-vous bien noté votre clé de secours ? Elle ne sera plus affichée.'))return;
-    delete Y.rec;ysave();renderSync();sync();
+  /* une seule session à la fois sur l'appareil : si quelqu'un d'autre se connecte, on vide le carnet local */
+  function enter(session,moi,dk,kid,fresh){
+    var last=null;try{last=localStorage.getItem(LAST)}catch(e){}
+    if(last&&last!==moi.email){S.book=[];S.groups=[];S.patients=[];S.log={};S.tomb={};S.h={};S.ot=0;stamp(true);store()}
+    try{localStorage.setItem(LAST,moi.email)}catch(e){}
+    Y={session:session,moi:moi,dk:b64(dk),kid:kid,ver:fresh?0:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
+    if(!S.set.home&&moi.adresse&&!$('sHome').value)$('sHome').value=moi.adresse;
+  }
+  function done(code){
+    if(code){$('kKey').textContent=recFmt(code);$('kOk').checked=false;show('aKey');return}
+    unlock();sync();
+  }
+  function formBusy(form,on,txt){var b=form.querySelector('[type=submit]');if(b)busy(b,on,txt)}
+
+  $('aLogin').addEventListener('submit',function(e){
+    e.preventDefault();var f=this,mail=$('lMail').value.trim().toLowerCase(),pass=$('lPass').value,k;
+    if(!mail||!pass)return amsg('Indiquez votre e-mail et votre mot de passe.',true);
+    formBusy(f,true,'Connexion…');amsg('');
+    api('/sel?email='+encodeURIComponent(mail)).then(function(j){
+      if(j._s===404)throw{erreur:'E-mail ou mot de passe incorrect.'};
+      return derive(pass,unb64(ok(j).sel));
+    }).then(function(x){k=x;return post('/connexion',{email:mail,auth:k.auth})}).then(function(j){
+      ok(j);
+      if(j.verifier){pending={email:mail,kek:k.kek};$('cMail').textContent=mail;show('aCode');return amsg(j.info||'')}
+      return dec(k.kek,j.moi.wrap_mdp).then(function(dk){$('lPass').value='';enter(j.session,j.moi,dk,j.moi.kid);done()});
+    }).catch(function(e){amsg(e&&e.erreur||'Connexion impossible.',true)}).then(function(){formBusy(f,false)});
   });
-  $('syPrint').addEventListener('click',function(){
+
+  $('aSign').addEventListener('submit',function(e){
+    e.preventDefault();var f=this,g=this.querySelector('#sGenre [aria-pressed=true]');
+    var d={email:$('sMail').value.trim().toLowerCase(),prenom:$('sPrenom').value.trim(),nom:$('sNom').value.trim(),genre:g?g.dataset.v:'',
+      specialite:$('sSpec').value,inami:$('sInami').value.replace(/\D/g,''),tel:$('sTel').value.trim(),adresse:$('sAdr').value.trim()};
+    var pass=$('sPass').value;
+    var err=!d.genre?'Indiquez votre genre.':!d.prenom||!d.nom?'Indiquez votre prénom et votre nom.':!d.specialite?'Choisissez votre spécialité.':
+      d.inami.length!==11?'Le numéro INAMI compte 11 chiffres.':d.tel.replace(/\D/g,'').length<9?'Indiquez un numéro de téléphone valide.':
+      d.adresse.length<5?'Indiquez l\'adresse de votre cabinet.':!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)?'Adresse e-mail invalide.':
+      pass.length<10?'Le mot de passe doit contenir au moins 10 caractères.':pass!==$('sPass2').value?'Les deux mots de passe ne sont pas identiques.':
+      !$('sCgu').checked?'Cochez la case d\'acceptation pour continuer.':'';
+    if(err)return amsg(err,true);
+    formBusy(f,true,'Création…');amsg('');
+    var salt=rnd(16),k,n;
+    Promise.all([derive(pass,salt),newDK()]).then(function(r){
+      k=r[0];n=r[1];return enc(k.kek,n.dk);
+    }).then(function(w){
+      return post('/inscription',Object.assign(d,{sel:b64(salt),auth:k.auth,wrap_mdp:w,secours:n.secours,kid:n.kid}));
+    }).then(function(j){
+      ok(j);pending={email:d.email,kek:k.kek,dk:n.dk,kid:n.kid,code:n.code};
+      $('sPass').value=$('sPass2').value='';$('cMail').textContent=d.email;show('aCode');
+    }).catch(function(e){amsg(e&&e.erreur||'Inscription impossible.',true)}).then(function(){formBusy(f,false)});
+  });
+
+  $('aCode').addEventListener('submit',function(e){
+    e.preventDefault();var f=this,code=$('cCode').value.replace(/\D/g,'');
+    if(!pending)return show('aLogin');
+    if(code.length!==6)return amsg('Le code compte 6 chiffres.',true);
+    formBusy(f,true,'Vérification…');amsg('');
+    post('/verifier',{email:pending.email,code:code}).then(function(j){
+      ok(j);
+      return(pending.dk?Promise.resolve(pending.dk):dec(pending.kek,j.moi.wrap_mdp)).then(function(dk){
+        var c=pending.code;enter(j.session,j.moi,dk,j.moi.kid,true);pending=null;$('cCode').value='';done(c);
+      });
+    }).catch(function(e){amsg(e&&e.erreur||'Vérification impossible.',true)}).then(function(){formBusy(f,false)});
+  });
+  $('cResend').addEventListener('click',function(){
+    if(!pending)return;
+    post('/renvoyer',{email:pending.email}).then(function(j){ok(j);amsg('Nouveau code envoyé.')}).catch(function(e){amsg(e&&e.erreur||'Envoi impossible.',true)});
+  });
+
+  $('kPrint').addEventListener('click',function(){
     var w=window.open('','_blank');if(!w)return;
-    w.document.write('<!doctype html><meta charset="utf-8"><title>Clé de secours Domicile</title><body style="font:16px system-ui;padding:40px"><h1 style="font-size:22px">Domicile – clé de secours</h1><p>Compte : '+esc(Y.email||'')+'</p><p style="font:600 24px ui-monospace,monospace;letter-spacing:.08em">'+recFmt(Y.rec)+'</p><p>Gardez cette feuille en lieu sûr. Elle permet de déverrouiller vos patients sur un nouvel appareil.</p></body>');
+    w.document.write('<!doctype html><meta charset="utf-8"><title>Clé de secours Domicile</title><body style="font:16px system-ui;padding:40px"><h1 style="font-size:22px">Domicile – clé de secours</h1><p>Compte : '+esc(Y.moi.email)+'</p><p style="font:600 24px ui-monospace,monospace;letter-spacing:.08em">'+esc($('kKey').textContent)+'</p><p>Gardez cette feuille en lieu sûr. Elle permet de garder vos patients si vous oubliez votre mot de passe.</p></body>');
     w.document.close();w.focus();w.print();
   });
-  $('syUnlock').addEventListener('click',function(){
-    var btn=this;busy(btn,true,'Déverrouillage…');ysay('');
-    pkGet(Y.cles.map(function(c){return c.cred})).then(function(c){
-      var out=prfOut(c),id=b64u(c.rawId),k=Y.cles.find(function(x){return x.cred===id});
-      if(!out||!k)throw{erreur:'Cette clé d\'accès ne permet pas de déverrouiller le carnet. Utilisez la clé de secours.'};
-      return wrapKey(out,'dk').then(function(w){return dec(w,k.wrap)}).then(function(dk){return unlocked(dk,id)});
-    },function(){throw{erreur:'Déverrouillage annulé ou clé d\'accès absente de cet appareil. Réessayez ou utilisez la clé de secours.'}})
-      .then(function(){renderSync();ysay('Carnet déverrouillé : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.')},oops)
-      .then(function(){busy(btn,false)});
+  $('kCopy').addEventListener('click',function(){var b=this;navigator.clipboard.writeText($('kKey').textContent).then(function(){b.textContent='Copiée';setTimeout(function(){b.textContent='Copier'},1500)})});
+  $('aKey').addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!$('kOk').checked)return amsg('Cochez la case pour confirmer que vous avez noté votre clé.',true);
+    $('kKey').textContent='';done();
   });
-  $('syRecGo').addEventListener('click',function(){
-    var btn=this,code=$('syRec').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
-    if(code.length!==32||!Y.sec)return ysay('La clé de secours compte 32 caractères (8 groupes de 4).',true);
-    busy(btn,true,'Déverrouillage…');ysay('');
-    wrapKey(TE.encode(code),'secours').then(function(k){return dec(k,Y.sec)})
-      .then(function(dk){return unlocked(dk)},function(){throw{erreur:'Clé de secours incorrecte.'}})
-      .then(function(){$('syRec').value='';renderSync();ysay('Carnet déverrouillé : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.'+(pkOK()?' Ajoutez Face ID ou votre empreinte pour la prochaine fois.':''))},oops)
-      .then(function(){busy(btn,false)});
+
+  $('fSend').addEventListener('click',function(){
+    var b=this,mail=$('fMail').value.trim().toLowerCase();
+    if(!mail)return amsg('Indiquez votre adresse e-mail.',true);
+    busy(b,true,'Envoi…');amsg('');
+    post('/oubli',{email:mail}).then(function(j){ok(j);$('fMailB').textContent=mail;$('fStep1').hidden=true;$('fStep2').hidden=false})
+      .catch(function(e){amsg(e&&e.erreur||'Envoi impossible.',true)}).then(function(){busy(b,false)});
   });
-  $('syAddKey').addEventListener('click',function(){
-    var btn=this;busy(btn,true,'Ajout…');ysay('');
-    newPasskey().then(function(p){if(p)p.ctx='add';return savePasskey(p)}).then(function(ok){ysay(ok?'Face ID ou empreinte ajouté sur cet appareil.':'Ce navigateur ne permet pas de protéger le carnet avec Face ID ou une empreinte.',!ok)},oops)
-      .then(function(){busy(btn,false);renderSync()});
+  $('aForgot').addEventListener('submit',function(e){
+    e.preventDefault();var f=this,mail=$('fMailB').textContent,code=$('fCode').value.replace(/\D/g,''),pass=$('fPass').value,key=recClean($('fKey').value);
+    if(code.length!==6)return amsg('Le code compte 6 chiffres.',true);
+    if(pass.length<10)return amsg('Le mot de passe doit contenir au moins 10 caractères.',true);
+    if(pass!==$('fPass2').value)return amsg('Les deux mots de passe ne sont pas identiques.',true);
+    if(key&&key.length!==32)return amsg('La clé de secours compte 32 caractères. Laissez le champ vide si vous ne l\'avez pas.',true);
+    if(!key&&!confirm('Sans clé de secours, les patients enregistrés sur le serveur seront effacés. Ceux présents sur cet appareil seront conservés et renvoyés. Continuer ?'))return;
+    formBusy(f,true,'Enregistrement…');amsg('');
+    var salt=rnd(16),t,dk,kid,n=null;
+    post('/oubli/code',{email:mail,code:code}).then(function(j){
+      t=ok(j);
+      if(key)return recKey(key).then(function(k){return dec(k,t.secours)}).then(function(x){dk=x;kid=t.kid},function(){throw{erreur:'Clé de secours incorrecte. Vérifiez-la, ou laissez le champ vide.'}});
+      return newDK().then(function(x){n=x;dk=x.dk;kid=x.kid});
+    }).then(function(){return derive(pass,salt)}).then(function(k){
+      return enc(k.kek,dk).then(function(w){
+        var body={email:mail,jeton:t.jeton,sel:b64(salt),auth:k.auth,wrap_mdp:w};
+        if(n){body.secours=n.secours;body.kid=n.kid}
+        return post('/oubli/terminer',body);
+      });
+    }).then(function(j){
+      ok(j);['fCode','fPass','fPass2','fKey'].forEach(function(i){$(i).value=''});$('fStep1').hidden=false;$('fStep2').hidden=true;
+      enter(j.session,j.moi,dk,kid,false);done(n&&n.code);
+    }).catch(function(e){amsg(e&&e.erreur||'Changement impossible.',true)}).then(function(){formBusy(f,false)});
   });
+
+  /* ---------- compte (Réglages) ---------- */
   $('syNow').addEventListener('click',function(){ysay('Synchronisation…');sync()});
+  $('pwBtn').addEventListener('click',function(){$('pwBox').hidden=!$('pwBox').hidden});
+  $('pwGo').addEventListener('click',function(){
+    var b=this,old=$('pwOld').value,nw=$('pwNew').value,salt=rnd(16),nk;
+    if(nw.length<10)return ysay('Le nouveau mot de passe doit contenir au moins 10 caractères.',true);
+    if(nw!==$('pwNew2').value)return ysay('Les deux mots de passe ne sont pas identiques.',true);
+    busy(b,true,'Enregistrement…');ysay('');
+    api('/sel?email='+encodeURIComponent(Y.moi.email)).then(function(j){return Promise.all([derive(old,unb64(ok(j).sel)),derive(nw,salt)])})
+      .then(function(r){nk=r[1];return enc(nk.kek,unb64(Y.dk)).then(function(w){return post('/mdp',{ancien:r[0].auth,sel:b64(salt),auth:nk.auth,wrap_mdp:w})})})
+      .then(function(j){
+        if(j._s===401)throw{erreur:'Mot de passe actuel incorrect.'};
+        ok(j);['pwOld','pwNew','pwNew2'].forEach(function(i){$(i).value=''});$('pwBox').hidden=true;ysay('Mot de passe changé. Vos autres appareils devront se reconnecter.');
+      }).catch(function(e){e&&e.erreur?ysay(e.erreur,true):oops(e)}).then(function(){busy(b,false)});
+  });
+  function wipe(){
+    try{localStorage.removeItem(KEY);localStorage.removeItem(SK)}catch(e){}
+    location.reload();
+  }
   $('syOut').addEventListener('click',function(){
-    if(!confirm('Se déconnecter de cet appareil ? Vos fiches restent sur ce téléphone et sur votre compte.'))return;
-    post('/deconnexion').catch(function(){});
-    Y=null;ysave();renderSync();ysay('Déconnecté de cet appareil.');
+    if(!confirm('Se déconnecter ? Vos patients sont retirés de cet appareil ; ils restent sur votre compte.'))return;
+    ysay('Déconnexion…');
+    (Y.dirty?push(0):Promise.resolve()).then(function(){return post('/deconnexion')}).then(wipe,function(e){
+      if(confirm('Vos dernières modifications n\'ont pas pu être envoyées (pas de connexion ?). Se déconnecter quand même et les perdre ?')){post('/deconnexion').catch(function(){});wipe()}
+      else ysay(e&&e.erreur||'Déconnexion annulée.',true);
+    });
   });
   $('syDelAcc').addEventListener('click',function(){
-    if(!confirm('Supprimer définitivement votre compte et votre carnet chiffré sur le serveur ? Les fiches restent sur ce téléphone.'))return;
-    api('/compte',{method:'DELETE'}).then(function(j){
-      if(j._s!==200)throw j;
-      Y=null;ysave();renderSync();ysay('Compte supprimé.');
-    }).catch(oops);
+    if(!confirm('Supprimer définitivement votre compte et votre carnet ? Vos patients seront effacés du serveur et de cet appareil. Exportez-les d\'abord si vous voulez les garder.'))return;
+    api('/compte',{method:'DELETE'}).then(function(j){ok(j);try{localStorage.removeItem(LAST)}catch(e){}wipe()}).catch(oops);
   });
   document.addEventListener('visibilitychange',function(){if(!document.hidden)sync()});
   window.addEventListener('online',function(){sync()});
   setInterval(function(){if(!document.hidden)sync()},60000);
+  var first=true;try{first=!localStorage.getItem(LAST)}catch(e){}
+  if(Y&&Y.session&&Y.dk)unlock();else{Y=null;ysave();lock(first?'aSign':'aLogin')}
 
   openForm(null);
   render();
