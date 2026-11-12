@@ -179,7 +179,13 @@ dialog.sheet::backdrop{background:rgba(18,18,20,.5)}
 @keyframes r{to{transform:rotate(360deg)}}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
 .view{animation:in .28s ease-out}
-@media(prefers-reduced-motion:reduce){.spin,.view{animation:none}.pill{transition:none}}
+.view.sl{animation:sl .24s ease-out}.view.sr{animation:sr .24s ease-out}
+@keyframes sl{from{opacity:.4;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes sr{from{opacity:.4;transform:translateX(-36px)}to{opacity:1;transform:none}}
+/* pas de liseré au toucher ni au retour dans l'appli : il ne reste que pour la navigation au clavier */
+*{-webkit-tap-highlight-color:transparent}
+a:focus,button:focus,li:focus,dialog:focus,[tabindex]:focus{outline:none}
+@media(prefers-reduced-motion:reduce){.spin,.view,.view.sl,.view.sr{animation:none}.pill{transition:none}}
 input[type=tel],input[type=number]{width:100%;min-height:54px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px}
 input[type=tel]:focus,input[type=number]:focus{outline:2px solid var(--ink);outline-offset:1px}
 p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14px 4px 6px}
@@ -992,13 +998,36 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   $('goClose').addEventListener('click',function(){$('goSheet').close()});
   $('goSheet').addEventListener('click',function(e){if(e.target===this||e.target.closest('.app-l,[data-tab]'))this.close()});
 
-  function tab(t,keep){
+  var TABS=['tour','book','new','set'],cur='tour';
+  function tab(t,keep,dir,pop){
     if(t==='new'&&!keep)openForm(null);
-    document.querySelectorAll('.view').forEach(function(v){v.hidden=v.dataset.view!==t});
+    /* historique : le geste ou le bouton retour du téléphone revient au module précédent */
+    if(!pop&&t!==cur)try{history.pushState({t:t},'')}catch(e){}
+    cur=t;
+    document.querySelectorAll('.view').forEach(function(v){v.hidden=v.dataset.view!==t;v.classList.remove('sl','sr');if(!v.hidden&&dir){void v.offsetWidth;v.classList.add(dir)}});
     document.querySelectorAll('.nav button').forEach(function(b){if(b.dataset.tab===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
     window.scrollTo(0,0);
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b){say('');tab(b.dataset.tab)}});
+  try{history.replaceState({t:'tour'},'')}catch(e){}
+  window.addEventListener('popstate',function(e){
+    var d=$('goSheet');if(d.open)d.close();
+    var t=e.state&&e.state.t||'tour';say('');tab(t,true,TABS.indexOf(t)<TABS.indexOf(cur)?'sr':'sl',true);
+  });
+  /* glisser à gauche ou à droite pour passer d'un module à l'autre */
+  var sw=null;
+  document.addEventListener('touchstart',function(e){
+    var t=e.touches[0],el=e.target;
+    sw=e.touches.length===1&&!document.body.classList.contains('locked')&&!$('goSheet').open&&
+      !el.closest('input,textarea,select,.seg,.chips,dialog,[data-noswipe]')?{x:t.clientX,y:t.clientY,at:Date.now()}:null;
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(!sw)return;var t=e.changedTouches[0],dx=t.clientX-sw.x,dy=t.clientY-sw.y,s=sw;sw=null;
+    if(Date.now()-s.at>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8)return;
+    var i=TABS.indexOf(cur)+(dx<0?1:-1);if(i<0||i>=TABS.length)return;
+    say('');tab(TABS[i],true,dx<0?'sl':'sr');
+  },{passive:true});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.activeElement&&document.activeElement!==document.body&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))document.activeElement.blur()});
 
   /* compte et chiffrement de bout en bout (comme Bitwarden).
      Le mot de passe donne, par PBKDF2 sur l'appareil, une clé KEK et un jeton « auth ».
