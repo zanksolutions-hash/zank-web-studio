@@ -126,7 +126,6 @@ select:focus{outline:2px solid var(--ink);outline-offset:1px}
 .aswitch button{border:0;background:none;padding:6px 4px;font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .amsg{min-height:1.4em;margin:16px 4px 0;text-align:center;font-size:14px;color:var(--muted)}
 .amsg.err{color:var(--urg)}
-#kKey{font-size:19px;word-spacing:.25em;overflow-wrap:anywhere;margin:4px 4px 0}
 .acc{margin:2px 4px 0}
 .acc b{display:block;font-weight:600}
 .acc span{color:var(--muted);font-size:14px}
@@ -278,18 +277,6 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <p class="aswitch"><button type="button" data-go="aLogin">Retour à la connexion</button></p>
     </form>
 
-    <form class="ascr" id="aKey" novalidate hidden>
-      <h1>Votre clé <em>de secours</em></h1>
-      <p class="hint">Si vous oubliez votre mot de passe, cette clé est le seul moyen de garder vos patients. Personne, pas même Zank Solutions, ne peut la retrouver.</p>
-      <div class="panel pad">
-        <p class="code" id="kKey"></p>
-        <button class="pill soft wide" type="button" id="kPrint">Imprimer</button>
-        <button class="pill soft wide" type="button" id="kCopy">Copier</button>
-        <label class="chk"><input type="checkbox" id="kOk"> <span>J'ai noté ou imprimé ma clé de secours et je la garde en lieu sûr.</span></label>
-        <button class="pill wide" type="submit">Continuer</button>
-      </div>
-    </form>
-
     <form class="ascr" id="aForgot" novalidate hidden>
       <h1>Mot de passe <em>oublié</em></h1>
       <div id="fStep1">
@@ -309,9 +296,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
           <input type="password" id="fPass" autocomplete="new-password">
           <label class="f" for="fPass2">Confirmez le nouveau mot de passe</label>
           <input type="password" id="fPass2" autocomplete="new-password">
-          <label class="f" for="fKey">Clé de secours</label>
-          <input type="text" id="fKey" autocomplete="off" spellcheck="false" autocapitalize="characters" placeholder="ABCD EFGH …">
-          <p class="hint">Avec votre clé de secours, vos patients sont conservés. Sans elle, ceux enregistrés sur le serveur sont effacés ; ceux présents sur cet appareil seront renvoyés.</p>
+          <p class="hint">Vos patients sont conservés : chaque appareil où vous êtes connecté en garde une copie et la renverra.</p>
           <button class="pill wide" type="submit">Changer le mot de passe</button>
         </div>
       </div>
@@ -909,11 +894,11 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   /* compte et chiffrement de bout en bout (comme Bitwarden).
      Le mot de passe donne, par PBKDF2 sur l'appareil, une clé KEK et un jeton « auth ».
-     Une clé de données DK tirée au hasard chiffre le carnet (AES-GCM) ; elle est emballée par la KEK
-     et par la clé de secours. Le serveur ne voit jamais le mot de passe, la DK ni les patients. */
+     Une clé de données DK tirée au hasard chiffre le carnet (AES-GCM) ; elle est emballée par la KEK.
+     Mot de passe oublié : nouvelle DK, et les appareils renvoient leur copie du carnet. Le serveur ne voit jamais le mot de passe, la DK ni les patients. */
   var API=(function(){try{return localStorage.getItem('tournee-api')}catch(e){}})()||'https://tournee-sync.zank-solutions.workers.dev';
   var SK='domicile-session-v1',LAST='domicile-dernier',gen=0,running=null,timer=0,TE=new TextEncoder(),pending=null;
-  var B32='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',ITER=600000;
+  var ITER=600000;
   try{localStorage.removeItem('tournee-sync-v1');localStorage.removeItem('domicile-compte-v1')}catch(e){}
   var Y=null;try{Y=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
   function ysave(){try{if(Y)localStorage.setItem(SK,JSON.stringify(Y));else localStorage.removeItem(SK)}catch(e){}}
@@ -929,25 +914,14 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
         return crypto.subtle.importKey('raw',a.slice(0,32),'AES-GCM',false,['encrypt','decrypt']).then(function(kek){return{kek:kek,auth:b64u(a.slice(32))}});
       });
   }
-  function recKey(code){
-    return crypto.subtle.importKey('raw',TE.encode(code),'HKDF',false,['deriveKey']).then(function(k){
-      return crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:TE.encode('domicile'),info:TE.encode('secours')},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
-    });
-  }
   function enc(key,bytes){var iv=rnd(12);return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,bytes).then(function(c){return b64(iv)+'.'+b64(c)})}
   function dec(key,s){var p=s.split('.');return crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(p[0])},key,unb64(p[1])).then(function(b){return new Uint8Array(b)})}
   function kidOf(dk){return crypto.subtle.digest('SHA-256',dk).then(function(h){return b64u(new Uint8Array(h).slice(0,12))})}
   function dkKey(){return crypto.subtle.importKey('raw',unb64(Y.dk),'AES-GCM',false,['encrypt','decrypt'])}
   function seal(o){return dkKey().then(function(k){return enc(k,TE.encode(JSON.stringify(o)))})}
   function unseal(s){return dkKey().then(function(k){return dec(k,s)}).then(function(b){return JSON.parse(new TextDecoder().decode(b))})}
-  function recCode(){var bits='',out='';rnd(20).forEach(function(b){bits+=b.toString(2).padStart(8,'0')});for(var i=0;i<160;i+=5)out+=B32[parseInt(bits.substr(i,5),2)];return out}
-  function recFmt(c){return c.replace(/(.{4})/g,'$1 ').trim()}
-  function recClean(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
-  /* nouvelle clé de données + clé de secours, et leurs emballages */
-  function newDK(){
-    var dk=rnd(32),code=recCode();
-    return Promise.all([kidOf(dk),recKey(code).then(function(k){return enc(k,dk)})]).then(function(r){return{dk:dk,code:code,kid:r[0],secours:r[1]}});
-  }
+  /* nouvelle clé de données (inscription, mot de passe oublié) */
+  function newDK(){var dk=rnd(32);return kidOf(dk).then(function(kid){return{dk:dk,kid:kid}})}
 
   function api(path,opt){
     opt=opt||{};opt.headers={'content-type':'application/json'};
@@ -1044,10 +1018,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     Y={session:session,moi:moi,dk:b64(dk),kid:kid,ver:fresh?0:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
     if(!S.set.home&&moi.adresse&&!$('sHome').value)$('sHome').value=moi.adresse;
   }
-  function done(code){
-    if(code){$('kKey').textContent=recFmt(code);$('kOk').checked=false;show('aKey');return}
-    unlock();sync();
-  }
+  function done(){unlock();sync()}
   function formBusy(form,on,txt){var b=form.querySelector('[type=submit]');if(b)busy(b,on,txt)}
 
   $('aLogin').addEventListener('submit',function(e){
@@ -1080,9 +1051,9 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     Promise.all([derive(pass,salt),newDK()]).then(function(r){
       k=r[0];n=r[1];return enc(k.kek,n.dk);
     }).then(function(w){
-      return post('/inscription',Object.assign(d,{sel:b64(salt),auth:k.auth,wrap_mdp:w,secours:n.secours,kid:n.kid}));
+      return post('/inscription',Object.assign(d,{sel:b64(salt),auth:k.auth,wrap_mdp:w,kid:n.kid}));
     }).then(function(j){
-      ok(j);pending={email:d.email,kek:k.kek,dk:n.dk,kid:n.kid,code:n.code};
+      ok(j);pending={email:d.email,kek:k.kek,dk:n.dk,kid:n.kid};
       $('sPass').value=$('sPass2').value='';$('cMail').textContent=d.email;show('aCode');
     }).catch(function(e){amsg(e&&e.erreur||'Inscription impossible.',true)}).then(function(){formBusy(f,false)});
   });
@@ -1095,25 +1066,13 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     post('/verifier',{email:pending.email,code:code}).then(function(j){
       ok(j);
       return(pending.dk?Promise.resolve(pending.dk):dec(pending.kek,j.moi.wrap_mdp)).then(function(dk){
-        var c=pending.code;enter(j.session,j.moi,dk,j.moi.kid,true);pending=null;$('cCode').value='';done(c);
+        enter(j.session,j.moi,dk,j.moi.kid,true);pending=null;$('cCode').value='';done();
       });
     }).catch(function(e){amsg(e&&e.erreur||'Vérification impossible.',true)}).then(function(){formBusy(f,false)});
   });
   $('cResend').addEventListener('click',function(){
     if(!pending)return;
     post('/renvoyer',{email:pending.email}).then(function(j){ok(j);amsg('Nouveau code envoyé.')}).catch(function(e){amsg(e&&e.erreur||'Envoi impossible.',true)});
-  });
-
-  $('kPrint').addEventListener('click',function(){
-    var w=window.open('','_blank');if(!w)return;
-    w.document.write('<!doctype html><meta charset="utf-8"><title>Clé de secours Domicile</title><body style="font:16px system-ui;padding:40px"><h1 style="font-size:22px">Domicile – clé de secours</h1><p>Compte : '+esc(Y.moi.email)+'</p><p style="font:600 24px ui-monospace,monospace;letter-spacing:.08em">'+esc($('kKey').textContent)+'</p><p>Gardez cette feuille en lieu sûr. Elle permet de garder vos patients si vous oubliez votre mot de passe.</p></body>');
-    w.document.close();w.focus();w.print();
-  });
-  $('kCopy').addEventListener('click',function(){var b=this;navigator.clipboard.writeText($('kKey').textContent).then(function(){b.textContent='Copiée';setTimeout(function(){b.textContent='Copier'},1500)})});
-  $('aKey').addEventListener('submit',function(e){
-    e.preventDefault();
-    if(!$('kOk').checked)return amsg('Cochez la case pour confirmer que vous avez noté votre clé.',true);
-    $('kKey').textContent='';done();
   });
 
   $('fSend').addEventListener('click',function(){
@@ -1124,27 +1083,18 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       .catch(function(e){amsg(e&&e.erreur||'Envoi impossible.',true)}).then(function(){busy(b,false)});
   });
   $('aForgot').addEventListener('submit',function(e){
-    e.preventDefault();var f=this,mail=$('fMailB').textContent,code=$('fCode').value.replace(/\D/g,''),pass=$('fPass').value,key=recClean($('fKey').value);
+    e.preventDefault();var f=this,mail=$('fMailB').textContent,code=$('fCode').value.replace(/\D/g,''),pass=$('fPass').value;
     if(code.length!==6)return amsg('Le code compte 6 chiffres.',true);
     if(pass.length<10)return amsg('Le mot de passe doit contenir au moins 10 caractères.',true);
     if(pass!==$('fPass2').value)return amsg('Les deux mots de passe ne sont pas identiques.',true);
-    if(key&&key.length!==32)return amsg('La clé de secours compte 32 caractères. Laissez le champ vide si vous ne l\'avez pas.',true);
-    if(!key&&!confirm('Sans clé de secours, les patients enregistrés sur le serveur seront effacés. Ceux présents sur cet appareil seront conservés et renvoyés. Continuer ?'))return;
     formBusy(f,true,'Enregistrement…');amsg('');
-    var salt=rnd(16),t,dk,kid,n=null;
-    post('/oubli/code',{email:mail,code:code}).then(function(j){
-      t=ok(j);
-      if(key)return recKey(key).then(function(k){return dec(k,t.secours)}).then(function(x){dk=x;kid=t.kid},function(){throw{erreur:'Clé de secours incorrecte. Vérifiez-la, ou laissez le champ vide.'}});
-      return newDK().then(function(x){n=x;dk=x.dk;kid=x.kid});
-    }).then(function(){return derive(pass,salt)}).then(function(k){
-      return enc(k.kek,dk).then(function(w){
-        var body={email:mail,jeton:t.jeton,sel:b64(salt),auth:k.auth,wrap_mdp:w};
-        if(n){body.secours=n.secours;body.kid=n.kid}
-        return post('/oubli/terminer',body);
-      });
+    /* nouvelle clé de données : le carnet du serveur est remplacé par celui des appareils */
+    var salt=rnd(16),t,n;
+    post('/oubli/code',{email:mail,code:code}).then(function(j){t=ok(j);return newDK()}).then(function(x){n=x;return derive(pass,salt)}).then(function(k){
+      return enc(k.kek,n.dk).then(function(w){return post('/oubli/terminer',{email:mail,jeton:t.jeton,sel:b64(salt),auth:k.auth,wrap_mdp:w,kid:n.kid})});
     }).then(function(j){
-      ok(j);['fCode','fPass','fPass2','fKey'].forEach(function(i){$(i).value=''});$('fStep1').hidden=false;$('fStep2').hidden=true;
-      enter(j.session,j.moi,dk,kid,false);done(n&&n.code);
+      ok(j);['fCode','fPass','fPass2'].forEach(function(i){$(i).value=''});$('fStep1').hidden=false;$('fStep2').hidden=true;
+      enter(j.session,j.moi,n.dk,n.kid,false);done();
     }).catch(function(e){amsg(e&&e.erreur||'Changement impossible.',true)}).then(function(){formBusy(f,false)});
   });
 
