@@ -144,7 +144,7 @@ header.stuck .head{min-height:58px}
 .badge{display:inline-block;margin-top:clamp(20px,3vw,32px);padding:6px 20px;border-radius:4px;border:0;background:var(--blue);color:#fff;font:inherit;font-size:17px;cursor:pointer;transition:background .2s}
 .badge:hover{background:#0b4a74}
 .hero-band{scroll-margin-top:var(--headh,72px)}
-.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(22px,2.6vw,36px) 16px;background:linear-gradient(rgba(7,59,94,.64),rgba(7,59,94,.64)),url(salle-attente.jpg) center 62%/cover var(--band)}
+.hero-band{margin-top:clamp(36px,5vw,60px);padding:clamp(22px,2.6vw,36px) 16px;background:linear-gradient(rgba(7,59,94,.64),rgba(7,59,94,.64)),var(--band)}
 .ecg,.halo{display:none}
 body.home .nav-home{display:none}
 body.home header:not(.stuck) .brand{display:none}
@@ -164,6 +164,9 @@ body.home header:not(.stuck) .head{justify-content:center}
 .bar b{display:block;font-weight:700}
 .dot{display:inline-block;width:9px;height:9px;margin-right:8px;border-radius:50%;background:var(--blue2);animation:ping 2s ease-out infinite}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(7,59,94,.35)}100%{box-shadow:0 0 0 12px rgba(7,59,94,0)}}
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:clamp(24px,4vw,56px);align-items:center}
+.intro-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:50% 62%;border-radius:10px;box-shadow:0 14px 34px rgba(7,31,48,.16)}
+@media(max-width:760px){.intro{grid-template-columns:1fr}}
 .board{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px}
 .plate{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;display:block;background:radial-gradient(260px circle at var(--mx) var(--my),rgba(7,59,94,.05),transparent 70%),var(--white);padding:18px 32px;border-radius:12px;border:1px solid var(--steel);color:var(--ink);text-decoration:none;transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .2s,box-shadow .25s,border-color .25s}
 .plate:hover,.plate:focus-visible{border-color:var(--blue2);box-shadow:0 14px 30px rgba(7,59,94,.18)}
@@ -365,8 +368,13 @@ h1,h2,h3,.big,.brand,.plate strong,.hours caption,footer b,.map .over b{font-fea
     </div>
 
     <div class="block">
-      <h2>Un centre médical au cœur de Manage</h2>
-      <p>Le Centre Médical de Manage est né de la volonté d'offrir un lieu de soins accessible, moderne et chaleureux.<br>Notre priorité : vous accueillir avec écoute et vous proposer des soins de qualité, grâce à une équipe de professionnels réunis autour du patient.</p>
+      <div class="intro">
+        <div>
+        <h2>Un centre médical au cœur de Manage</h2>
+        <p>Le Centre Médical de Manage est né de la volonté d'offrir un lieu de soins accessible, moderne et chaleureux.<br>Notre priorité : vous accueillir avec écoute et vous proposer des soins de qualité, grâce à une équipe de professionnels réunis autour du patient.</p>
+        </div>
+        <img class="intro-img" src="salle-attente.jpg" width="1600" height="1200" alt="Salle d'attente du centre" loading="lazy">
+      </div>
       <div class="board">
         <a class="plate" href="#equipe"><strong>Dr Lucas Zanca</strong><span>Médecin généraliste</span></a>
         <a class="plate" href="#equipe"><strong>Dr Charline Putton</strong><span>Médecin généraliste</span><em>Rejoint l'équipe en janvier</em></a>
