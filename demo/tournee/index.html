@@ -198,6 +198,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 .dist i{display:block;font-style:normal;font-weight:400;color:var(--muted)}
 .acts.sub{margin-top:8px}
 .acts.sub .pill{min-height:40px;font-weight:500}
+.back b{font-size:16px;font-weight:600;color:var(--ink,#1a1a1a)}
+.back small{font-size:12.5px}
 .back{padding:14px 18px;border-radius:22px;border:1px dashed #cfcfca;color:var(--muted);font-size:14.5px;text-align:center}
 .ev-i{display:flex;align-items:center;gap:12px;padding:12px 6px 12px 18px;margin-top:10px;border:1px solid var(--white);border-radius:22px;background:#fff}
 .ev-i span{flex:1;min-width:0}
@@ -530,10 +532,32 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     sms:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>'
   };
 
+  /* heures estimées : on part de la dernière visite réellement terminée (heure du « Fait »),
+     sinon de l'heure du calcul. Si la visite en cours dépasse le temps prévu, la suite glisse d'autant. */
+  function etas(todo){
+    var r={eta:{},fin:0,back:0},now=Date.now(),cur='@',t,ok=!!S.mx&&todo.length>0;
+    if(!ok)return r;
+    t=S.mx.at||now;
+    var last=S.patients.filter(function(x){return x.done&&x.doneAt>t}).sort(function(x,y){return y.doneAt-x.doneAt})[0];
+    if(last&&leg(last.id,todo[0].id)){cur=last.id;t=last.doneAt}
+    todo.forEach(function(p,i){
+      if(!ok)return;var l=leg(cur,p.id);if(!l){ok=false;return}
+      t+=l.t*1000;r.eta[p.id]=t;t+=(p.ev?30:S.set.visit)*60000;
+      if(i===0&&t<now)t=now;
+      cur=p.id;
+    });
+    if(!ok)return{eta:r.eta,fin:0,back:0};
+    r.fin=t;
+    var h=S.set.ret&&S.set.home&&leg(cur,'H');
+    if(h)r.back=t+h.t*1000;
+    return r;
+  }
+  function endTxt(e){return e.back?'Retour vers '+hm(e.back):e.fin?'Fin des visites vers '+hm(e.fin):''}
+  setInterval(function(){var x=$('endEta');if(!x||document.hidden)return;x.textContent=endTxt(etas(ordered().filter(nd)))},60000);
+
   function render(){
     var o=ordered(),todo=o.filter(nd);
-    var eta={},t=Date.now(),cur='@',ok=!!S.mx;
-    todo.forEach(function(p){if(!ok)return;var l=leg(cur,p.id);if(!l){ok=false;return}t+=l.t*1000;eta[p.id]=t;t+=(p.ev?30:S.set.visit)*60000;cur=p.id});
+    var E=etas(todo),eta=E.eta,end=endTxt(E),home=S.set.ret&&S.set.home;
     if(!o.length){
       list.innerHTML='<li class="empty">Aucune visite pour l\'instant.<br>Choisissez les patients à voir, puis calculez l\'ordre depuis votre position.<br><button class="pill glow" type="button" data-tab="'+(S.book.length?'book':'new')+'">'+(S.book.length?'Choisir mes patients':'Ajouter un patient')+'</button></li>';
       $('sum').hidden=true;$('goBtn').hidden=true;
@@ -543,6 +567,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       $('goBtn').hidden=!todo.length;
       $('goSub').textContent='Go · '+todo.length;
       $('sum').innerHTML='<h2>Ordre de passage</h2><button type="button" class="modeB" id="modeB" aria-label="Changer le mode de passage">'+(S.set.mode==='short'?'Trajet le plus court':'Du plus loin au plus proche')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg></button>';
+      var backLi=(todo.length&&(end||home)?'<li class="back">'+(end?'<b id="endEta">'+end+'</b><br><small>Estimation avec '+S.set.visit+' min par visite, ajustée selon vos visites terminées.</small>':'')+(home?(end?'<br>':'')+'Retour : '+esc(S.set.home.label):'')+'</li>':'');
       var n=0;
       list.innerHTML=o.map(function(p){
         var num=p.done?'✓':++n,first=!p.done&&n===1,b=bk(p)||{};
@@ -561,8 +586,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
             (p.done?'':'<a class="pill go" href="https://www.google.com/maps/dir/?api=1&destination='+ll(p)+'&travelmode=driving" target="_blank" rel="noopener">'+ICON.go+'Y aller</a>')+
           '</div>'+
           (tel&&!p.done?'<div class="acts sub"><a class="pill soft" href="tel:'+tel+'">'+ICON.tel+'Appeler</a><a class="pill soft" href="sms:'+tel+'?&body='+encodeURIComponent('Bonjour, le docteur arrive chez vous dans environ '+mins+' minutes.')+'">'+ICON.sms+'Prévenir par SMS</a></div>':'')+
-          '<button class="del ico" type="button" data-act="del" aria-label="Retirer '+esc(p.name)+' de la tournée">'+ICON.del+'</button></li>';
-      }).join('')+(S.set.ret&&S.set.home&&todo.length?'<li class="back">Puis retour : '+esc(S.set.home.label)+'</li>':'');
+          '<button class="del ico" type="button" data-act="del" aria-label="Retirer '+esc(p.name)+' de la tournée">'+ICON.del+'</button></li>'+(p===todo[todo.length-1]?backLi:'');
+      }).join('');
     }
     var far=todo.reduce(function(m,p){return p.dist!=null&&p.dist>m?p.dist:m},-1);
     $('tTodo').innerHTML=todo.length+'<small>'+(todo.length>1?'arrêts':'arrêt')+'</small>';
@@ -593,7 +618,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   function distances(){
     var todo=S.patients.filter(nd);
     if(!todo.length||!S.pos)return Promise.resolve();
-    var pts=[S.pos].concat(todo);
+    var home=S.set.ret&&S.set.home?[S.set.home]:[],pts=[S.pos].concat(todo,home);
     var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?annotations=distance,duration';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
       if(j.code!=='Ok')throw 0;
@@ -601,7 +626,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
         var d=j.distances[0][i+1],t=j.durations[0][i+1];
         p.dist=d==null?null:d;p.dur=t==null?null:t;p.unroutable=d==null;
       });
-      S.mx={ids:['@'].concat(todo.map(function(p){return p.id})),d:j.distances,t:j.durations};
+      S.mx={ids:['@'].concat(todo.map(function(p){return p.id}),home.length?['H']:[]),d:j.distances,t:j.durations,at:Date.now()};
       save();
     }).catch(function(){throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
   }
