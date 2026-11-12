@@ -50,12 +50,14 @@ h1 em{display:block;font-weight:700;color:var(--ink)}
 .gobar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:14px;padding:7px 7px 7px 24px;min-height:62px;border:0;border-radius:99px;background:var(--ink);color:#fff;font-weight:600;font-size:17px;}
 .gobar i{display:inline-flex;align-items:center;justify-content:center;min-width:104px;min-height:48px;padding:0 20px;border-radius:99px;background:var(--go);color:#0b2e13;font-style:normal;font-weight:700}
 .ev{margin-top:10px;min-height:50px}
+.quick{margin-top:12px}
+.quick button{min-height:42px;font-size:14px}
 .ev svg{stroke:#1f7a34}
 .sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:26px 4px 12px}
 .sec h2{font-size:20px;font-weight:600;letter-spacing:-.01em}
 .sec span{font-size:13.5px;color:var(--muted);text-align:right}
 ol,ul{list-style:none;padding:0}
-#list{display:grid;gap:12px}
+#list{display:grid;gap:12px;margin-top:14px}
 .card{position:relative;display:grid;grid-template-columns:44px 1fr;gap:2px 14px;padding:16px;border-radius:28px;background:var(--glass);border:1px solid var(--white);box-shadow:var(--shadow)}
 .num{grid-row:span 3;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:17px;background:#fff;border:1px solid var(--line)}
 .who,.addr,.dist{grid-column:2}
@@ -316,6 +318,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <p id="posTxt">Position non relevée</p>
       <button class="pill" type="button" id="calc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Calculer l'ordre</span></button>
     </div>
+    <div class="seg quick" id="qMode" role="group" aria-label="Ordre de passage"><button type="button" data-v="far">Plus loin d'abord</button><button type="button" data-v="short">Trajet le plus court</button></div>
     <div class="tiles">
       <div class="tile"><span>À faire</span><b id="tTodo">0</b></div>
       <div class="tile"><span>Le plus loin</span><b id="tFar">–</b></div>
@@ -469,7 +472,9 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   $('date').textContent=new Date().toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
 
-  function say(t,err){msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t}
+  /* message en haut : effacé au changement d'onglet, et après 6 s s'il n'est pas une erreur */
+  var sayT=0;
+  function say(t,err){clearTimeout(sayT);msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t;if(t&&!err)sayT=setTimeout(function(){msg.hidden=true},6000)}
   function fail(e){say(e&&e.message||'Une erreur est survenue.',true)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function km(m){return m==null?'':(m<1000?Math.round(m)+' m':(m/1000).toFixed(m<10000?1:0).replace('.',',')+' km')}
@@ -773,7 +778,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   /* réglages */
   function renderSet(){
-    seg('sMode',S.set.mode);
+    seg('sMode',S.set.mode);seg('qMode',S.set.mode);
     if(document.activeElement!==$('sVisit'))$('sVisit').value=S.set.visit;
     $('sRet').checked=!!S.set.ret;
     if(document.activeElement!==$('sHome')&&S.set.home)$('sHome').value=S.set.home.addr;
@@ -781,7 +786,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     var m=day().slice(0,7),tot=0;Object.keys(S.log).forEach(function(k){if(k.slice(0,7)===m)tot+=S.log[k]});
     $('kDay').innerHTML=kmB(S.log[day()]||0);$('kMonth').innerHTML=kmB(tot);
   }
-  $('sMode').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.set.mode=b.dataset.v;save();render()});
+  ['sMode','qMode'].forEach(function(id){$(id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.set.mode=b.dataset.v;save();render()})});
   $('sVisit').addEventListener('change',function(){var v=Math.round(+this.value);S.set.visit=v>=5&&v<=120?v:20;this.value=S.set.visit;save();render()});
   $('sRet').addEventListener('change',function(){
     if(this.checked&&!S.set.home){this.checked=false;say('Enregistrez d\'abord une adresse de retour.',true);$('sHome').focus();return}
@@ -890,7 +895,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     document.querySelectorAll('.nav button').forEach(function(b){if(b.dataset.tab===t)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
     window.scrollTo(0,0);
   }
-  document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab)});
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b){say('');tab(b.dataset.tab)}});
 
   /* compte et chiffrement de bout en bout (comme Bitwarden).
      Le mot de passe donne, par PBKDF2 sur l'appareil, une clé KEK et un jeton « auth ».
