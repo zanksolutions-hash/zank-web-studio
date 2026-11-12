@@ -237,11 +237,14 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
 .cal-h svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:2}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
 .cal span{font-size:12px;color:var(--muted);padding:4px 0}
-.cal button{position:relative;aspect-ratio:1;border:0;border-radius:14px;background:#fff;font:inherit;font-size:15px;color:var(--ink)}
+.cal button{position:relative;aspect-ratio:1;border:0;border-radius:14px;background:#fff;font:inherit;font-size:15px;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;padding:0}
+.cal button b{font-weight:600}
 .cal button:disabled{background:none;color:#c4c4c0}
 .cal button.today{box-shadow:inset 0 0 0 1.5px var(--ink)}
 .cal button[aria-pressed=true]{background:var(--ink);color:#fff}
-.cal button i{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#37b24d;color:#fff;font-size:10.5px;font-style:normal;line-height:16px;font-weight:600}
+.cal button i{display:block;font-style:normal;font-size:9.5px;font-weight:600;color:#1f7a34;white-space:nowrap}
+.cal button[aria-pressed=true] i{color:#8ce99a}
+@media(max-width:380px){.cal button i{font-size:8.5px;letter-spacing:-.02em}}
 .back.tap{cursor:pointer}.back .rgo{display:inline-block;margin-top:8px;font-weight:600;color:#1f7a34;text-decoration:underline;text-underline-offset:3px}
 #rSeg{margin:2px 0 14px}
 .back{padding:14px 18px;border-radius:22px;border:1px dashed #cfcfca;color:var(--muted);font-size:14.5px;text-align:center}
@@ -883,11 +886,11 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     for(var i=0;i<lead;i++)h+='<span></span>';
     for(var dd=1;dd<=nDays;dd++){
       var d=m+'-'+String(dd).padStart(2,'0'),n=d<t?0:dayCount(d);
-      h+='<button type="button" data-cal="'+d+'"'+(d<t?' disabled':'')+(d===t?' class="today"':'')+' aria-pressed="'+(d===S.cur)+'">'+dd+(n?'<i>'+n+'</i>':'')+'</button>';
+      h+='<button type="button" data-cal="'+d+'"'+(d<t?' disabled':'')+(d===t?' class="today"':'')+' aria-pressed="'+(d===S.cur)+'"><b>'+dd+'</b>'+(n?'<i>'+n+' visite'+(n>1?'s':'')+'</i>':'')+'</button>';
     }
     var prev=new Date(y,mo-1,15),next=new Date(y,mo+1,15),mk=function(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')};
     $('goT').innerHTML='Choisir <em>un jour</em>';
-    $('goHint').textContent='Les chiffres verts indiquent les visites déjà prévues.';
+    $('goHint').textContent='Les jours en vert ont déjà des visites prévues.';
     $('goApps').innerHTML='<div class="cal-h"><button type="button" data-calm="'+mk(prev)+'" aria-label="Mois précédent"'+(mk(prev)<t.slice(0,7)?' disabled':'')+'>'+CHEV+'</button><b>'+
       first.toLocaleDateString('fr-BE',{month:'long',year:'numeric'})+'</b><button type="button" data-calm="'+mk(next)+'" aria-label="Mois suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div><div class="cal">'+h+'</div>';
     $('goSheet').classList.add('center');sheet();
