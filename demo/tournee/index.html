@@ -472,9 +472,9 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   $('date').textContent=new Date().toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
 
-  /* message en haut : effacé au changement d'onglet, et après 6 s s'il n'est pas une erreur */
+  /* message en haut : effacé au changement d'onglet, et après 3 s s'il n'est pas une erreur */
   var sayT=0;
-  function say(t,err){clearTimeout(sayT);msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t;if(t&&!err)sayT=setTimeout(function(){msg.hidden=true},6000)}
+  function say(t,err){clearTimeout(sayT);msg.textContent=t;msg.className='msg'+(err?' err':'');msg.hidden=!t;if(t&&!err)sayT=setTimeout(function(){msg.hidden=true},3000)}
   function fail(e){say(e&&e.message||'Une erreur est survenue.',true)}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function km(m){return m==null?'':(m<1000?Math.round(m)+' m':(m/1000).toFixed(m<10000?1:0).replace('.',',')+' km')}
