@@ -109,6 +109,8 @@ input[type=text],input[type=password]{width:100%;min-height:54px;padding:0 20px;
 input[type=text]:focus,input[type=password]:focus{outline:2px solid var(--ink);outline-offset:1px}
 .code{font:600 22px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.12em;margin:4px 4px 0;user-select:all}
 #syMsg.err{color:var(--urg)}
+#syKey{font-size:17px;word-spacing:.25em;overflow-wrap:anywhere}
+.gbtn{display:flex;justify-content:center;margin-top:16px;min-height:44px}
 #bookQ{display:block;width:100%;min-height:50px;margin-top:16px;padding:0 20px;border:1px solid var(--line);border-radius:99px;background:#fff;font-size:16px;-webkit-appearance:none;appearance:none}
 #bookQ[hidden]{display:none}
 #bookQ:focus{outline:2px solid var(--ink);outline-offset:1px}
@@ -260,25 +262,43 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <div class="tile"><span>Km aujourd'hui</span><b id="kDay">0</b></div>
       <div class="tile"><span>Km ce mois-ci</span><b id="kMonth">0</b></div>
     </div>
-    <div class="panel pad">
-      <p class="f">Synchronisation entre appareils</p>
-      <div id="syOff">
-        <p class="hint">Retrouvez votre carnet sur un autre téléphone ou un ordinateur. Il est chiffré sur cet appareil avant l'envoi : sans votre phrase secrète, personne ne peut le lire, pas même l'hébergeur.</p>
-        <label class="f" for="syCode">Code du carnet, fourni par Zank Solutions</label>
-        <input type="text" id="syCode" placeholder="Ex. K7MP4 QX2RA" maxlength="14" autocapitalize="characters" autocomplete="off" spellcheck="false">
-        <label class="f" for="syPass">Phrase secrète, 10 caractères minimum</label>
-        <input type="password" id="syPass" autocomplete="new-password" maxlength="200">
-        <label class="f" for="syPass2">Répétez la phrase secrète (première activation seulement)</label>
-        <input type="password" id="syPass2" autocomplete="new-password" maxlength="200">
-        <button class="pill wide" type="button" id="syGo">Activer la synchronisation</button>
+    <div class="panel pad" id="syP">
+      <p class="f">Compte et synchronisation</p>
+      <div id="syA">
+        <p class="hint">Retrouvez votre carnet sur tous vos appareils. Il est chiffré sur votre téléphone avant l'envoi : personne d'autre que vous ne peut le lire, pas même l'hébergeur.</p>
+        <div class="gbtn" id="gBtn"></div>
+        <div id="devBox" hidden>
+          <label class="f" for="devMail">E-mail (connexion de test, uniquement en local)</label>
+          <input type="text" id="devMail" autocomplete="off">
+          <button class="pill soft wide" type="button" id="devGo">Connexion de test</button>
+        </div>
       </div>
-      <div id="syOn" hidden>
-        <p class="hint" style="margin-top:0">Code du carnet</p>
-        <p class="code" id="syShow"></p>
-        <p class="hint">Notez ce code et votre phrase secrète sur papier. Sans eux, le carnet ne peut pas être récupéré : personne ne peut les réinitialiser.</p>
+      <div id="syB" hidden>
+        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
+        <p class="hint">Dernière étape : protégez votre carnet avec Face ID ou votre empreinte. C'est ce qui le chiffre.</p>
+        <button class="pill wide" type="button" id="sySetup">Protéger avec Face ID ou empreinte</button>
+      </div>
+      <div id="syC" hidden>
+        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
+        <p class="hint">Déverrouillez votre carnet sur cet appareil.</p>
+        <button class="pill wide" type="button" id="syUnlock">Déverrouiller avec Face ID ou empreinte</button>
+        <label class="f" for="syRec">Ou avec votre clé de secours</label>
+        <input type="text" id="syRec" placeholder="ABCD EFGH …" autocomplete="off" spellcheck="false" autocapitalize="characters">
+        <button class="pill soft wide" type="button" id="syRecGo">Déverrouiller avec la clé de secours</button>
+      </div>
+      <div id="syK" hidden>
+        <p class="hint" style="margin-top:0"><b>Votre clé de secours</b></p>
+        <p class="code" id="syKey"></p>
+        <p class="hint">Notez-la sur papier ou imprimez-la, et gardez-la en lieu sûr. Si vous perdez tous vos appareils, c'est le seul moyen de récupérer vos patients : personne d'autre ne peut la retrouver.</p>
+        <button class="pill soft wide" type="button" id="syPrint">Imprimer</button>
+        <button class="pill wide" type="button" id="syKeyOk">J'ai noté ma clé de secours</button>
+      </div>
+      <div id="syD" hidden>
+        <p class="hint" style="margin-top:0">Connecté : <b class="who"></b></p>
         <button class="pill soft wide" type="button" id="syNow">Synchroniser maintenant</button>
-        <button class="link" type="button" id="syOut">Arrêter la synchronisation sur cet appareil</button>
-        <button class="link" type="button" id="syDel">Effacer le carnet du serveur</button>
+        <button class="pill soft wide" type="button" id="syAddKey" hidden>Ajouter Face ID ou empreinte sur cet appareil</button>
+        <button class="link" type="button" id="syOut">Se déconnecter de cet appareil</button>
+        <button class="link" type="button" id="syDelAcc">Supprimer mon compte</button>
       </div>
       <p class="hint" id="syMsg" role="status"></p>
     </div>
@@ -777,35 +797,100 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab)});
 
-  /* synchronisation chiffrée : le carnet est chiffré ici (AES-GCM, clé tirée de la phrase secrète par PBKDF2)
-     avant l'envoi ; le serveur ne reçoit ni la phrase secrète ni la clé, seulement un jeton d'accès distinct */
-  var API=(function(){try{return localStorage.getItem('tournee-api')}catch(e){}})()||'https://tournee-sync.zank-solutions.workers.dev',SK='tournee-sync-v1',gen=0,running=null,timer=0;
+  /* compte Google + chiffrement de bout en bout.
+     Une clé de données (DK) tirée au hasard chiffre le carnet (AES-GCM). Elle est « emballée » par la clé
+     d'accès Face ID / empreinte (extension WebAuthn PRF) et par une clé de secours imprimable.
+     Le serveur ne voit jamais la DK ni les patients ; kid = empreinte courte de la DK. */
+  var API=(function(){try{return localStorage.getItem('tournee-api')}catch(e){}})()||'https://tournee-sync.zank-solutions.workers.dev';
+  var SK='domicile-compte-v1',gen=0,running=null,timer=0,pend=null,TE=new TextEncoder();
+  var PRF_SALT=TE.encode('domicile-prf-v1'),B32='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  try{localStorage.removeItem('tournee-sync-v1')}catch(e){}
   var Y=null;try{Y=JSON.parse(localStorage.getItem(SK)||'null')}catch(e){}
   function ysave(){try{if(Y)localStorage.setItem(SK,JSON.stringify(Y));else localStorage.removeItem(SK)}catch(e){}}
   function b64(u){var s='';new Uint8Array(u).forEach(function(c){s+=String.fromCharCode(c)});return btoa(s)}
   function unb64(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
-  function derive(pass,salt){
-    return crypto.subtle.importKey('raw',new TextEncoder().encode(pass.normalize('NFC')),'PBKDF2',false,['deriveBits'])
-      .then(function(k){return crypto.subtle.deriveBits({name:'PBKDF2',salt:salt,iterations:310000,hash:'SHA-256'},k,512)})
-      .then(function(bits){var a=new Uint8Array(bits);return{key:b64(a.slice(0,32)),tok:b64(a.slice(32)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}});
+  function b64u(u){return b64(u).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+  function unb64u(s){return unb64(s.replace(/-/g,'+').replace(/_/g,'/')+'==='.slice((s.length+3)%4))}
+  function rnd(n){return crypto.getRandomValues(new Uint8Array(n))}
+  function wrapKey(secret,info){
+    return crypto.subtle.importKey('raw',secret,'HKDF',false,['deriveKey']).then(function(k){
+      return crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:TE.encode('domicile'),info:TE.encode(info)},k,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+    });
   }
-  function aes(){return crypto.subtle.importKey('raw',unb64(Y.key),'AES-GCM',false,['encrypt','decrypt'])}
-  function seal(o){
-    var iv=crypto.getRandomValues(new Uint8Array(12));
-    return aes().then(function(k){return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(JSON.stringify(o)))})
-      .then(function(c){return b64(iv)+'.'+b64(c)});
-  }
-  function unseal(s){
-    var p=s.split('.');
-    return aes().then(function(k){return crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(p[0])},k,unb64(p[1]))})
-      .then(function(b){return JSON.parse(new TextDecoder().decode(b))});
-  }
-  function api(path,opt,tok){
+  function enc(key,bytes){var iv=rnd(12);return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},key,bytes).then(function(c){return b64(iv)+'.'+b64(c)})}
+  function dec(key,s){var p=s.split('.');return crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(p[0])},key,unb64(p[1])).then(function(b){return new Uint8Array(b)})}
+  function kidOf(dk){return crypto.subtle.digest('SHA-256',dk).then(function(h){return b64u(new Uint8Array(h).slice(0,12))})}
+  function dkKey(){return crypto.subtle.importKey('raw',unb64(Y.dk),'AES-GCM',false,['encrypt','decrypt'])}
+  function seal(o){return dkKey().then(function(k){return enc(k,TE.encode(JSON.stringify(o)))})}
+  function unseal(s){return dkKey().then(function(k){return dec(k,s)}).then(function(b){return JSON.parse(new TextDecoder().decode(b))})}
+  function recCode(){var bits='',out='';rnd(20).forEach(function(b){bits+=b.toString(2).padStart(8,'0')});for(var i=0;i<160;i+=5)out+=B32[parseInt(bits.substr(i,5),2)];return out}
+  function recFmt(c){return c.replace(/(.{4})/g,'$1 ').trim()}
+  function devName(){var u=navigator.userAgent;return/iPhone/.test(u)?'iPhone':/iPad/.test(u)?'iPad':/Android/.test(u)?'Android':/Mac/.test(u)?'Mac':/Windows/.test(u)?'Windows':'Appareil'}
+
+  function api(path,opt){
     opt=opt||{};opt.headers={'content-type':'application/json'};
-    tok=tok||(Y&&Y.tok);if(tok)opt.headers.authorization='Bearer '+tok;
+    if(Y&&Y.session)opt.headers.authorization='Bearer '+Y.session;
     return fetch(API+path,opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j._s=r.status;return j})},
       function(){throw{erreur:'Pas de connexion. Le carnet sera synchronisé au retour du réseau.'}});
   }
+  function post(path,body){return api(path,{method:'POST',body:JSON.stringify(body||{})})}
+  function moi(j){Y.id=j.id;Y.email=j.email;Y.nom=j.nom;Y.srvKid=j.kid||null;Y.cles=j.cles||[];Y.sec=j.secours||null;ysave()}
+
+  /* clés d'accès Face ID / empreinte : l'extension PRF fournit un secret stable qui emballe la DK */
+  function pkOK(){return!!(window.PublicKeyCredential&&navigator.credentials&&crypto.subtle)}
+  function pkCreate(){
+    return navigator.credentials.create({publicKey:{rp:{name:'Domicile',id:location.hostname},
+      user:{id:TE.encode(Y.id),name:Y.email||'Domicile',displayName:Y.nom||Y.email||'Domicile'},challenge:rnd(32),
+      pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
+      authenticatorSelection:{residentKey:'preferred',userVerification:'required'},extensions:{prf:{eval:{first:PRF_SALT}}}}});
+  }
+  function pkGet(ids){
+    return navigator.credentials.get({publicKey:{challenge:rnd(32),rpId:location.hostname,userVerification:'required',
+      allowCredentials:ids.map(function(i){return{type:'public-key',id:unb64u(i)}}),extensions:{prf:{eval:{first:PRF_SALT}}}}});
+  }
+  function prfOut(c){var x=c&&c.getClientExtensionResults().prf;return x&&x.results&&x.results.first?new Uint8Array(x.results.first):null}
+  /* 1re étape (dans le geste de l'utilisateur) : créer la clé d'accès. null si l'appareil ne sait pas faire. */
+  function newPasskey(){
+    if(pend)return Promise.resolve(pend);
+    if(!pkOK())return Promise.resolve(null);
+    return pkCreate().then(function(c){
+      var x=c.getClientExtensionResults().prf;
+      return{id:b64u(c.rawId),out:prfOut(c),off:!!(x&&x.enabled===false)||!x};
+    },function(e){
+      if(e&&e.name==='NotAllowedError')throw{erreur:'Face ID ou empreinte annulé. Touchez à nouveau le bouton.'};
+      return null;
+    });
+  }
+  /* 2e étape : obtenir le secret PRF (parfois un 2e geste est nécessaire), emballer la DK, l'envoyer */
+  function savePasskey(pk){
+    if(!pk||pk.off&&!pk.out)return Promise.resolve(false);
+    var o=pk.out?Promise.resolve(pk.out):pkGet([pk.id]).then(prfOut,function(){pend=pk;throw{erreur:'Confirmez avec Face ID ou votre empreinte : touchez à nouveau le bouton.'}});
+    return o.then(function(out){
+      pend=null;
+      if(!out)return false;
+      return wrapKey(out,'dk').then(function(k){return enc(k,unb64(Y.dk))}).then(function(w){
+        return post('/cles',{cred:pk.id,wrap:w,kid:Y.kid,label:devName()});
+      }).then(function(j){if(j._s!==200)throw j;moi(j);Y.cred=pk.id;ysave();return true});
+    });
+  }
+  /* nouvelle DK + clé de secours, enregistrées sur le serveur */
+  function newDK(){
+    var dk=rnd(32),code=recCode();
+    return kidOf(dk).then(function(kid){
+      return wrapKey(TE.encode(code),'secours').then(function(k){return enc(k,dk)}).then(function(w){return post('/secours',{wrap:w,kid:kid})}).then(function(j){
+        if(j._s!==200)throw j;
+        moi(j);Y.dk=b64(dk);Y.kid=kid;Y.rec=code;Y.ver=j.ver;Y.dirty=true;gen++;stamp();store();ysave();
+      });
+    });
+  }
+  function unlocked(dk,cred){
+    return kidOf(dk).then(function(kid){
+      if(kid!==Y.srvKid)throw{erreur:'Cette clé ne correspond pas à votre carnet.'};
+      Y.dk=b64(dk);Y.kid=kid;Y.cred=cred||Y.cred||null;Y.ver=-1;Y.dirty=S.book.length>0||S.groups.length>0;gen++;ysave();
+      return api('/v').then(function(j){if(j._s!==200)throw j;return pull(j)}).then(function(){if(Y.dirty)return push(0)});
+    });
+  }
+
   function payload(){return{book:S.book,groups:S.groups,set:S.set,log:S.log,tomb:S.tomb,ot:S.ot||0}}
   function merge(r){
     var tomb=Object.assign({},r.tomb||{}),lim=Date.now()-180*864e5;
@@ -829,78 +914,128 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   function push(n){
     var g=gen;
-    return seal(payload()).then(function(d){return api('/v/'+Y.id,{method:'PUT',body:JSON.stringify({base:Y.ver,data:d,nb:S.book.length})})}).then(function(j){
+    return seal(payload()).then(function(d){return api('/v',{method:'PUT',body:JSON.stringify({base:Y.ver,data:d,nb:S.book.length,kid:Y.kid})})}).then(function(j){
       if(j._s===200){Y.ver=j.ver;if(g===gen)Y.dirty=false;ysave();return}
-      if(j._s===409&&n<3)return pull(j).then(function(){return push(n+1)});
+      if(j._s===409&&!j.cle&&n<3)return pull(j).then(function(){return push(n+1)});
       throw j;
     });
   }
   function ysay(t,err){var e=$('syMsg');e.textContent=t||'';e.className='hint'+(err?' err':'')}
+  /* erreurs communes : session expirée, compte suspendu, clé remplacée ailleurs */
+  function oops(e){
+    if(e&&e._s===401){Y=null;ysave();renderSync();return ysay('Session expirée. Reconnectez-vous avec Google : vos fiches restent sur ce téléphone.',true)}
+    if(e&&e.cle){
+      Y.dk=null;Y.kid=null;Y.dirty=false;ysave();
+      return api('/moi').then(function(j){if(j._s===200)moi(j);renderSync();
+        ysay(Y.srvKid?'La protection du carnet a changé sur un autre appareil. Déverrouillez-le à nouveau.':'Le carnet a été réinitialisé. Protégez-le à nouveau : vos fiches de cet appareil seront renvoyées.',true)});
+    }
+    ysay(e&&e.erreur||'Synchronisation impossible pour le moment.',true);
+  }
   function sync(){
-    if(!Y)return Promise.resolve();
+    if(!Y||!Y.session)return Promise.resolve();
+    if(!Y.dk)return api('/moi').then(function(j){if(j._s!==200)throw j;moi(j);renderSync()}).catch(oops);
     if(running)return running;
     clearTimeout(timer);
-    running=(Y.dirty?push(0):api('/v/'+Y.id).then(function(j){if(j._s!==200)throw j;return pull(j)}))
-      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y.dirty},
-        function(e){ysay(e&&e._s===404?'Ce carnet a été effacé du serveur. Touchez « Arrêter la synchronisation », puis réactivez votre code avec une nouvelle phrase secrète.':e&&e.erreur||'Synchronisation impossible pour le moment.',true)})
+    running=(Y.dirty?push(0):api('/v').then(function(j){if(j._s!==200)throw j;if(j.kid!==Y.kid)throw{cle:true};return pull(j)}))
+      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y.dirty},oops)
       .then(function(again){running=null;if(again&&Y)later()});
     return running;
   }
   function later(){clearTimeout(timer);timer=setTimeout(sync,1500)}
-  function fmtCode(c){return c.slice(0,5)+' '+c.slice(5)}
+
   function renderSync(){
-    $('syOff').hidden=!!Y;$('syOn').hidden=!Y;
-    if(Y)$('syShow').textContent=fmtCode(Y.id);
+    var st=!Y||!Y.session?'A':pend&&pend.ctx==='setup'?'B':Y.rec?'K':Y.dk?'D':Y.srvKid?'C':'B';
+    ['A','B','C','D','K'].forEach(function(k){$('sy'+k).hidden=k!==st});
+    document.querySelectorAll('#syP .who').forEach(function(b){b.textContent=Y&&(Y.email||Y.nom)||''});
+    if(st==='K')$('syKey').textContent=recFmt(Y.rec);
+    if(st==='D')$('syAddKey').hidden=!pkOK()||!!Y.cred&&Y.cles.some(function(c){return c.cred===Y.cred});
+    if(st==='C')$('syUnlock').hidden=!pkOK()||!Y.cles.length;
+    $('sySetup').textContent=pend?'Confirmer avec Face ID ou empreinte':'Protéger avec Face ID ou empreinte';
+    $('syAddKey').textContent=pend?'Confirmer avec Face ID ou empreinte':'Ajouter Face ID ou empreinte sur cet appareil';
+    if(st==='A')loadGoogle();
   }
-  $('syGo').addEventListener('click',function(){
-    var btn=this,pass=$('syPass').value,pass2=$('syPass2').value,code=$('syCode').value.toUpperCase().replace(/[^A-Z0-9]/g,''),neuf=false;
-    if(!/^[A-Z2-9]{10}$/.test(code))return ysay('Entrez le code de 10 caractères fourni par Zank Solutions, par exemple K7MP4 QX2RA.',true);
-    if(pass.length<10)return ysay('La phrase secrète doit contenir au moins 10 caractères.',true);
-    if(!crypto.subtle)return ysay('Ce navigateur ne permet pas le chiffrement. Ouvrez l\'appli en https.',true);
-    busy(btn,true,'Chiffrement…');ysay('');
-    var step=api('/sel/'+code).then(function(j){
-      if(j._s!==200)throw j;
-      if(j.nouveau){
-        /* première activation : le sel est tiré ici, le serveur n'enregistre que l'empreinte du jeton */
-        if(pass2!==pass)throw{erreur:'Première activation : répétez exactement la même phrase secrète dans le 2e champ.'};
-        neuf=true;
-        var salt=crypto.getRandomValues(new Uint8Array(16));
-        return derive(pass,salt).then(function(k){
-          return api('/creer',{method:'POST',body:JSON.stringify({id:code,sel:b64(salt),jeton:k.tok})}).then(function(j){
-            if(j._s!==201)throw j;
-            Y={id:code,tok:k.tok,key:k.key,ver:0,dirty:true};gen++;stamp();store();ysave();
-            return push(0);
-          });
-        });
-      }
-      return derive(pass,unb64(j.sel)).then(function(k){
-        return api('/v/'+code,null,k.tok).then(function(j){
-          if(j._s!==200)throw j;
-          Y={id:code,tok:k.tok,key:k.key,ver:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
-          return pull(j).then(function(){if(Y.dirty)return push(0)});
-        });
-      });
-    });
-    step.then(function(){
-      $('syPass').value='';$('syPass2').value='';$('syCode').value='';renderSync();
-      Y.at=Date.now();ysave();
-      ysay(neuf?'Synchronisation activée. Notez le code et votre phrase secrète sur papier.':'Carnet rejoint : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.');
-    },function(e){
-      if(Y&&!Y.at){Y=null;ysave()}
-      renderSync();ysay(e&&e.erreur||'Échec. Réessayez.',true);
-    }).then(function(){busy(btn,false)});
+
+  /* connexion Google (Google Identity Services) */
+  var gReady=false;
+  function loadGoogle(){
+    if(gReady)return;gReady=true;
+    api('/config').then(function(c){
+      if(c.dev)$('devBox').hidden=false;
+      if(!c.google){if(!c.dev)$('gBtn').innerHTML='<p class="hint">La connexion avec Google sera bientôt disponible.</p>';return}
+      var s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+      s.onload=function(){
+        google.accounts.id.initialize({client_id:c.google,callback:function(r){login('/auth/google',{credential:r.credential})},ux_mode:'popup',auto_select:false});
+        google.accounts.id.renderButton($('gBtn'),{theme:'outline',size:'large',shape:'pill',text:'continue_with',locale:'fr',width:280});
+      };
+      s.onerror=function(){gReady=false;$('gBtn').innerHTML='<p class="hint">Google ne répond pas. Vérifiez la connexion.</p>'};
+      document.head.appendChild(s);
+    },function(){gReady=false});
+  }
+  function login(path,body){
+    ysay('Connexion…');
+    fetch(API+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){j._s=r.status;return j})})
+      .then(function(j){
+        if(j._s!==200)throw j;
+        Y={session:j.session};moi(j.moi);renderSync();
+        ysay(Y.srvKid?'Connecté. Déverrouillez votre carnet sur cet appareil.':'Connecté. Protégez maintenant votre carnet.');
+      }).catch(function(e){ysay(e&&e.erreur||'Connexion impossible. Réessayez.',true)});
+  }
+  $('devGo').addEventListener('click',function(){var m=$('devMail').value.trim();if(m)login('/auth/dev',{email:m})});
+
+  $('sySetup').addEventListener('click',function(){
+    var btn=this,pk;
+    busy(btn,true,'Protection…');ysay('');
+    newPasskey().then(function(p){pk=p;if(pk)pk.ctx='setup';return Y.dk?null:newDK()}).then(function(){return savePasskey(pk)}).then(function(ok){
+      renderSync();
+      ysay(ok?'Carnet protégé et chiffré. Notez votre clé de secours.':'Face ID ou empreinte n\'est pas disponible dans ce navigateur : vos autres appareils vous demanderont la clé de secours. Notez-la bien.');
+      push(0).catch(function(){});
+    }).catch(function(e){renderSync();oops(e)}).then(function(){busy(btn,false);renderSync()});
+  });
+  $('syKeyOk').addEventListener('click',function(){
+    if(!confirm('Avez-vous bien noté votre clé de secours ? Elle ne sera plus affichée.'))return;
+    delete Y.rec;ysave();renderSync();sync();
+  });
+  $('syPrint').addEventListener('click',function(){
+    var w=window.open('','_blank');if(!w)return;
+    w.document.write('<!doctype html><meta charset="utf-8"><title>Clé de secours Domicile</title><body style="font:16px system-ui;padding:40px"><h1 style="font-size:22px">Domicile – clé de secours</h1><p>Compte : '+esc(Y.email||'')+'</p><p style="font:600 24px ui-monospace,monospace;letter-spacing:.08em">'+recFmt(Y.rec)+'</p><p>Gardez cette feuille en lieu sûr. Elle permet de déverrouiller vos patients sur un nouvel appareil.</p></body>');
+    w.document.close();w.focus();w.print();
+  });
+  $('syUnlock').addEventListener('click',function(){
+    var btn=this;busy(btn,true,'Déverrouillage…');ysay('');
+    pkGet(Y.cles.map(function(c){return c.cred})).then(function(c){
+      var out=prfOut(c),id=b64u(c.rawId),k=Y.cles.find(function(x){return x.cred===id});
+      if(!out||!k)throw{erreur:'Cette clé d\'accès ne permet pas de déverrouiller le carnet. Utilisez la clé de secours.'};
+      return wrapKey(out,'dk').then(function(w){return dec(w,k.wrap)}).then(function(dk){return unlocked(dk,id)});
+    },function(){throw{erreur:'Déverrouillage annulé ou clé d\'accès absente de cet appareil. Réessayez ou utilisez la clé de secours.'}})
+      .then(function(){renderSync();ysay('Carnet déverrouillé : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.')},oops)
+      .then(function(){busy(btn,false)});
+  });
+  $('syRecGo').addEventListener('click',function(){
+    var btn=this,code=$('syRec').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(code.length!==32||!Y.sec)return ysay('La clé de secours compte 32 caractères (8 groupes de 4).',true);
+    busy(btn,true,'Déverrouillage…');ysay('');
+    wrapKey(TE.encode(code),'secours').then(function(k){return dec(k,Y.sec)})
+      .then(function(dk){return unlocked(dk)},function(){throw{erreur:'Clé de secours incorrecte.'}})
+      .then(function(){$('syRec').value='';renderSync();ysay('Carnet déverrouillé : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.'+(pkOK()?' Ajoutez Face ID ou votre empreinte pour la prochaine fois.':''))},oops)
+      .then(function(){busy(btn,false)});
+  });
+  $('syAddKey').addEventListener('click',function(){
+    var btn=this;busy(btn,true,'Ajout…');ysay('');
+    newPasskey().then(function(p){if(p)p.ctx='add';return savePasskey(p)}).then(function(ok){ysay(ok?'Face ID ou empreinte ajouté sur cet appareil.':'Ce navigateur ne permet pas de protéger le carnet avec Face ID ou une empreinte.',!ok)},oops)
+      .then(function(){busy(btn,false);renderSync()});
   });
   $('syNow').addEventListener('click',function(){ysay('Synchronisation…');sync()});
   $('syOut').addEventListener('click',function(){
-    if(!confirm('Arrêter la synchronisation sur cet appareil ? Les fiches restent sur ce téléphone et sur le serveur.'))return;
-    Y=null;ysave();renderSync();ysay('Synchronisation arrêtée sur cet appareil.');
+    if(!confirm('Se déconnecter de cet appareil ? Vos fiches restent sur ce téléphone et sur votre compte.'))return;
+    post('/deconnexion').catch(function(){});
+    Y=null;ysave();renderSync();ysay('Déconnecté de cet appareil.');
   });
-  $('syDel').addEventListener('click',function(){
-    if(!confirm('Effacer le carnet chiffré du serveur ? Les autres appareils ne seront plus synchronisés. Les fiches restent sur ce téléphone, et votre code pourra être réactivé avec une nouvelle phrase secrète.'))return;
-    api('/v/'+Y.id,{method:'DELETE'}).then(function(j){
+  $('syDelAcc').addEventListener('click',function(){
+    if(!confirm('Supprimer définitivement votre compte et votre carnet chiffré sur le serveur ? Les fiches restent sur ce téléphone.'))return;
+    api('/compte',{method:'DELETE'}).then(function(j){
       if(j._s!==200)throw j;
-      Y=null;ysave();renderSync();ysay('Carnet effacé du serveur.');
-    }).catch(function(e){ysay(e&&e.erreur||'Effacement impossible.',true)});
+      Y=null;ysave();renderSync();ysay('Compte supprimé.');
+    }).catch(oops);
   });
   document.addEventListener('visibilitychange',function(){if(!document.hidden)sync()});
   window.addEventListener('online',function(){sync()});
