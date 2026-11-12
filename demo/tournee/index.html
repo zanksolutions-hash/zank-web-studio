@@ -207,6 +207,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 .acts.sub .pill{min-height:40px;font-weight:500}
 .back b{font-size:16px;font-weight:600;color:var(--ink,#1a1a1a)}
 .back small{font-size:12.5px}
+.back.tap{cursor:pointer}.back .rgo{display:inline-block;margin-top:8px;font-weight:600;color:#1f7a34;text-decoration:underline;text-underline-offset:3px}
+#rSeg{margin:2px 0 14px}
 .back{padding:14px 18px;border-radius:22px;border:1px dashed #cfcfca;color:var(--muted);font-size:14.5px;text-align:center}
 .ev-i{display:flex;align-items:center;gap:12px;padding:12px 6px 12px 18px;margin-top:10px;border:1px solid var(--white);border-radius:22px;background:#fff}
 .ev-i span{flex:1;min-width:0}
@@ -399,9 +401,13 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     </div>
     <div class="panel pad">
       <label class="sw">Retour en fin de tournée <input type="checkbox" id="sRet"></label>
-      <label class="f" for="sHome">Adresse de retour (cabinet ou domicile)</label>
-      <input type="text" id="sHome" placeholder="Rue, numéro, commune" maxlength="160">
-      <button class="pill soft wide" type="button" id="sHomeBtn">Enregistrer l'adresse</button>
+      <p class="f" id="retL">Retour vers</p>
+      <div class="seg" id="sRetTo" role="group" aria-labelledby="retL"><button type="button" data-v="cab">Cabinet</button><button type="button" data-v="dom">Domicile</button></div>
+      <label class="f" for="sCab">Adresse du cabinet</label>
+      <input type="text" id="sCab" placeholder="Rue, numéro, commune" maxlength="160">
+      <label class="f" for="sDom">Adresse du domicile</label>
+      <input type="text" id="sDom" placeholder="Rue, numéro, commune" maxlength="160">
+      <button class="pill soft wide" type="button" id="sHomeBtn">Enregistrer les adresses</button>
       <p class="hint" id="sHomeTxt"></p>
     </div>
     <div class="tiles">
@@ -456,7 +462,11 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   var GEO='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=be&addressdetails=0&q=';
   var OSRM='https://router.project-osrm.org/table/v1/driving/';
   var OVP='https://overpass-api.de/api/interpreter?data=';
-  var DEF={mode:'far',visit:20,ret:false,home:null};
+  var DEF={mode:'far',visit:20,ret:false,cab:null,dom:null,retTo:'cab'};
+  var PLACE={cab:'au cabinet',dom:'au domicile'};
+  /* réglages : l'ancienne adresse de retour unique devient celle du cabinet */
+  function normSet(o){o=Object.assign({},DEF,o||{});if(o.home){if(!o.cab&&!o.dom)o.cab=o.home;delete o.home}if(o.retTo!=='dom')o.retTo='cab';return o}
+  function retPt(){return S.set.ret&&S.set[S.set.retTo]||null}
   var S={patients:[],pos:null,book:[],groups:[],set:DEF,log:{},mx:null};
   var $=function(id){return document.getElementById(id)};
   var list=$('list'),msg=$('msg'),bookEl=$('book'),addSel=$('addSel');
@@ -487,7 +497,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   if(!Array.isArray(S.book))S.book=[];
   if(!Array.isArray(S.groups))S.groups=[];
   if(!S.log||typeof S.log!=='object')S.log={};
-  S.set=Object.assign({},DEF,S.set||{});
+  S.set=normSet(S.set);
   /* retire les patients de démonstration laissés par les versions précédentes */
   var isDemo=function(id){return/^d\d$/.test(id||'')};
   if(S.book.some(function(b){return isDemo(b.id)})||S.patients.some(function(p){return isDemo(p.bookId)})){
@@ -572,7 +582,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     });
     if(!ok)return{eta:r.eta,fin:0,back:0};
     r.fin=t;
-    var h=S.set.ret&&S.set.home&&leg(cur,'H');
+    var h=retPt()&&leg(cur,'H');
     if(h)r.back=t+h.t*1000;
     return r;
   }
@@ -581,7 +591,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   function render(){
     var o=ordered(),todo=o.filter(nd);
-    var E=etas(todo),eta=E.eta,end=endTxt(E),home=S.set.ret&&S.set.home;
+    var E=etas(todo),eta=E.eta,end=endTxt(E),home=retPt();
     if(!o.length){
       list.innerHTML='<li class="empty">Aucune visite pour l\'instant.<br>Choisissez les patients à voir, puis calculez l\'ordre depuis votre position.<br><button class="pill glow" type="button" data-tab="'+(S.book.length?'book':'new')+'">'+(S.book.length?'Choisir mes patients':'Ajouter un patient')+'</button></li>';
       $('sum').hidden=true;$('goBtn').hidden=true;
@@ -591,7 +601,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       $('goBtn').hidden=!todo.length;
       $('goSub').textContent='Go · '+todo.length;
       $('sum').innerHTML='<h2>Ordre de passage</h2><button type="button" class="modeB" id="modeB" aria-label="Changer le mode de passage">'+(S.set.mode==='short'?'Trajet le plus court':'Du plus loin au plus proche')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg></button>';
-      var backLi=(todo.length&&(end||home)?'<li class="back">'+(end?'<b id="endEta">'+end+'</b><br><small>Estimation avec '+S.set.visit+' min par visite, ajustée selon vos visites terminées.</small>':'')+(home?(end?'<br>':'')+'Retour : '+esc(S.set.home.label):'')+'</li>':'');
+      var backLi=(todo.length?'<li class="back tap" data-ret role="button" tabindex="0">'+(end?'<b id="endEta">'+end+'</b><br><small>Estimation avec '+S.set.visit+' min par visite, ajustée selon vos visites terminées.</small><br>':'')+
+        (home?'Retour '+PLACE[S.set.retTo]+' : '+esc(home.label)+'<br><span class="rgo">Itinéraire du retour</span>':'<span class="rgo">Prévoir un retour au cabinet ou au domicile</span>')+'</li>':'');
       var n=0;
       list.innerHTML=o.map(function(p){
         var num=p.done?'✓':++n,first=!p.done&&n===1,b=bk(p)||{};
@@ -607,7 +618,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
           '<div class="acts">'+
             (p.done||p.ev?'':'<button class="pill soft urg" type="button" data-act="urg" aria-pressed="'+!!p.urgent+'">Urgent</button>')+
             '<button class="pill soft" type="button" data-act="done">'+(p.done?'Remettre':'Fait')+'</button>'+
-            (p.done?'':'<a class="pill go" href="https://www.google.com/maps/dir/?api=1&destination='+ll(p)+'&travelmode=driving" target="_blank" rel="noopener">'+ICON.go+'Y aller</a>')+
+            (p.done?'':'<button class="pill go" type="button" data-act="go">'+ICON.go+'Y aller</button>')+
           '</div>'+
           (tel&&!p.done?'<div class="acts sub"><a class="pill soft" href="tel:'+tel+'">'+ICON.tel+'Appeler</a><a class="pill soft" href="sms:'+tel+'?&body='+encodeURIComponent('Bonjour, le docteur arrive chez vous dans environ '+mins+' minutes.')+'">'+ICON.sms+'Prévenir par SMS</a></div>':'')+
           '<button class="del ico" type="button" data-act="del" aria-label="Retirer '+esc(p.name)+' de la tournée">'+ICON.del+'</button></li>'+(p===todo[todo.length-1]?backLi:'');
@@ -642,7 +653,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   function distances(){
     var todo=S.patients.filter(nd);
     if(!todo.length||!S.pos)return Promise.resolve();
-    var home=S.set.ret&&S.set.home?[S.set.home]:[],pts=[S.pos].concat(todo,home);
+    var home=retPt()?[retPt()]:[],pts=[S.pos].concat(todo,home);
     var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?annotations=distance,duration';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
       if(j.code!=='Ok')throw 0;
@@ -726,9 +737,11 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   });
 
   list.addEventListener('click',function(e){
+    if(e.target.closest('[data-ret]'))return openRet();
     var b=e.target.closest('button[data-act]');if(!b)return;
     var id=b.closest('.card').dataset.id,p=S.patients.find(function(x){return x.id===id});if(!p)return;
     var a=b.dataset.act,f=bk(p);
+    if(a==='go')return navSheet(p.ev?'Aller <em>à la borne</em>':'Aller <em>chez '+esc(p.name)+'</em>',p.label,p);
     if(a==='urg')p.urgent=!p.urgent;
     if(a==='done'){
       if(!p.done){
@@ -749,6 +762,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     if(a==='del'){if(!confirm('Retirer '+p.name+' de la tournée ?'))return;S.patients=S.patients.filter(function(x){return x!==p})}
     save();render();
   });
+
+  list.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.closest('[data-ret]')){e.preventDefault();openRet()}});
 
   $('clear').addEventListener('click',function(){
     if(!S.patients.length)return;
@@ -830,8 +845,10 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     seg('sMode',S.set.mode);
     if(document.activeElement!==$('sVisit'))$('sVisit').value=S.set.visit;
     $('sRet').checked=!!S.set.ret;
-    if(document.activeElement!==$('sHome')&&S.set.home)$('sHome').value=S.set.home.addr;
-    $('sHomeTxt').textContent=S.set.home?'Adresse retenue : '+S.set.home.label:'Aucune adresse de retour enregistrée.';
+    seg('sRetTo',S.set.retTo);
+    if(document.activeElement!==$('sCab')&&S.set.cab)$('sCab').value=S.set.cab.addr;
+    if(document.activeElement!==$('sDom')&&S.set.dom)$('sDom').value=S.set.dom.addr;
+    $('sHomeTxt').textContent=[S.set.cab?'Cabinet : '+S.set.cab.label:'',S.set.dom?'Domicile : '+S.set.dom.label:''].filter(Boolean).join(' · ')||'Aucune adresse de retour enregistrée.';
     var m=day().slice(0,7),tot=0;Object.keys(S.log).forEach(function(k){if(k.slice(0,7)===m)tot+=S.log[k]});
     $('kDay').innerHTML=kmB(S.log[day()]||0);$('kMonth').innerHTML=kmB(tot);
   }
@@ -839,14 +856,29 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   $('sum').addEventListener('click',function(e){if(!e.target.closest('#modeB'))return;S.set.mode=S.set.mode==='short'?'far':'short';save();render()});
   $('sVisit').addEventListener('change',function(){var v=Math.round(+this.value);S.set.visit=v>=5&&v<=120?v:20;this.value=S.set.visit;save();render()});
   $('sRet').addEventListener('change',function(){
-    if(this.checked&&!S.set.home){this.checked=false;say('Enregistrez d\'abord une adresse de retour.',true);$('sHome').focus();return}
-    S.set.ret=this.checked;save();render();
+    if(this.checked&&!S.set[S.set.retTo]){this.checked=false;say('Enregistrez d\'abord l\'adresse '+(S.set.retTo==='dom'?'du domicile':'du cabinet')+'.',true);$(S.set.retTo==='dom'?'sDom':'sCab').focus();return}
+    S.set.ret=this.checked;save();render();refresh();
   });
+  /* choix du retour : cabinet ou domicile */
+  function setRetTo(v){
+    S.set.retTo=v==='dom'?'dom':'cab';
+    if(S.set[S.set.retTo])S.set.ret=true;
+    save();render();refresh();
+  }
+  $('sRetTo').addEventListener('click',function(e){var b=e.target.closest('button');if(b)setRetTo(b.dataset.v)});
   $('sHomeBtn').addEventListener('click',function(){
-    var b=this,addr=$('sHome').value.trim();
-    if(!addr){S.set.home=null;S.set.ret=false;save();render();return}
+    var b=this,v={cab:$('sCab').value.trim(),dom:$('sDom').value.trim()};
+    function one(k){
+      if(!v[k]){S.set[k]=null;return Promise.resolve()}
+      if(S.set[k]&&S.set[k].addr===v[k])return Promise.resolve();
+      return geocode(v[k]).then(function(g){S.set[k]={addr:v[k],label:g.label,lat:g.lat,lon:g.lon}});
+    }
     say('');busy(b,true,'Recherche…');
-    geocode(addr).then(function(g){S.set.home={addr:addr,label:g.label,lat:g.lat,lon:g.lon};S.set.ret=true;save();busy(b,false);render();say('Adresse de retour enregistrée.')},function(e){busy(b,false);fail(e)});
+    one('cab').then(function(){return one('dom')}).then(function(){
+      if(!S.set[S.set.retTo])S.set.retTo=S.set.cab?'cab':S.set.dom?'dom':S.set.retTo;
+      S.set.ret=!!S.set[S.set.retTo];
+      save();busy(b,false);render();refresh();say(S.set.ret?'Adresses enregistrées.':'Aucune adresse de retour.');
+    },function(e){save();busy(b,false);render();fail(e)});
   });
   $('exp').addEventListener('click',function(){
     var blob=new Blob([JSON.stringify({app:'tournee',v:1,date:day(),book:S.book,groups:S.groups,set:S.set,log:S.log},null,1)],{type:'application/json'});
@@ -864,7 +896,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
         if(j.app!=='tournee'||!Array.isArray(j.book))throw 0;
         var ok=j.book.filter(function(b){return b&&b.id&&b.name&&isFinite(b.lat)&&isFinite(b.lon)});
         if(!confirm('Remplacer le carnet actuel ('+S.book.length+' fiche'+(S.book.length>1?'s':'')+') par celui du fichier ('+ok.length+' fiche'+(ok.length>1?'s':'')+') ?'))return;
-        S.book=ok;S.groups=Array.isArray(j.groups)?j.groups:[];S.set=Object.assign({},DEF,j.set||{});S.log=j.log&&typeof j.log==='object'?j.log:{};
+        S.book=ok;S.groups=Array.isArray(j.groups)?j.groups:[];S.set=normSet(j.set);S.log=j.log&&typeof j.log==='object'?j.log:{};
         S.patients=S.patients.filter(function(p){return!p.bookId||ok.some(function(b){return b.id===p.bookId})});
         save();render();say('Carnet importé : '+ok.length+' fiche'+(ok.length>1?'s':'')+'.');
       }catch(e){say('Ce fichier n\'est pas une sauvegarde de Domicile.',true)}
@@ -884,7 +916,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   function sheet(){var d=$('goSheet');if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','')}
   $('goBtn').addEventListener('click',function(){
     var todo=ordered().filter(nd);if(!todo.length)return;
-    var home=S.set.ret&&S.set.home?[S.set.home]:[],next=todo[0];
+    var home=retPt()?[retPt()]:[],next=todo[0];
     var g=todo.slice(0,GMAX-home.length).concat(home),a=todo.slice(0,AMAX-home.length).concat(home);
     function txt(n,max){return 'Toute la tournée : '+n+' arrêt'+(n>1?'s':'')+(home.length?', retour compris':'')+(todo.length+home.length>max?' (les premiers seulement)':'')}
     $('goT').innerHTML='Lancer <em>l\'itinéraire</em>';
@@ -892,10 +924,30 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     $('goApps').innerHTML=
       appL(gmaps(g),'Google Maps',txt(g.length,GMAX))+
       appL(aplans(a),'Plans',txt(a.length,AMAX))+
-      (a.length>1?appL('https://maps.apple.com/?daddr='+ll(next)+'&dirflg=d','Plans, un arrêt','Prochaine visite seule : '+esc(next.name)):'')+
       appL('https://waze.com/ul?ll='+ll(next)+'&navigate=yes','Waze','Prochaine visite : '+esc(next.name));
     sheet();
   });
+
+  /* un seul arrêt (Y aller, retour) : les trois applis */
+  function navApps(pt,d){
+    return appL('https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+ll(pt),'Google Maps',d)+
+      appL('https://maps.apple.com/?daddr='+ll(pt)+'&dirflg=d','Plans',d)+
+      appL('https://waze.com/ul?ll='+ll(pt)+'&navigate=yes','Waze',d);
+  }
+  function navSheet(title,hint,pt){
+    $('goT').innerHTML=title;$('goHint').textContent=hint||'';
+    $('goApps').innerHTML=navApps(pt,'Itinéraire depuis votre position');
+    sheet();
+  }
+  function openRet(){
+    var h=S.set[S.set.retTo];
+    $('goT').innerHTML='Retour <em>'+PLACE[S.set.retTo]+'</em>';
+    $('goHint').textContent=h?h.label:'Aucune adresse '+(S.set.retTo==='dom'?'du domicile':'du cabinet')+' enregistrée.';
+    $('goApps').innerHTML='<div class="seg" id="rSeg" role="group" aria-label="Retour vers">'+
+      ['cab','dom'].map(function(k){return '<button type="button" data-retto="'+k+'" aria-pressed="'+(S.set.retTo===k)+'">'+(k==='cab'?'Cabinet':'Domicile')+'</button>'}).join('')+'</div>'+
+      (h?navApps(h,'Itinéraire depuis votre position'):'<button class="pill wide" type="button" data-tab="set" style="margin-top:0">Ajouter l\'adresse dans les réglages</button>');
+    sheet();
+  }
 
   /* recharge : bornes proches du trajet vers la prochaine visite, ou recherche dans une appli */
   var evFound=[];
@@ -930,6 +982,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
   }
   $('goApps').addEventListener('click',function(e){
     if(e.target.closest('#evNear'))return evSearch();
+    var r=e.target.closest('[data-retto]');if(r){setRetTo(r.dataset.retto);return openRet()}
     var b=e.target.closest('[data-evadd]');if(!b)return;
     var v=evFound[+b.dataset.evadd];if(!v)return;
     S.patients.push({id:newId(),ev:true,pin:true,name:'Recharge',addr:v.name,label:v.name,lat:v.lat,lon:v.lon,urgent:false,done:false,dist:null,dur:null});
@@ -937,7 +990,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     say('Borne ajoutée comme prochain arrêt.');
   });
   $('goClose').addEventListener('click',function(){$('goSheet').close()});
-  $('goSheet').addEventListener('click',function(e){if(e.target===this||e.target.closest('.app-l'))this.close()});
+  $('goSheet').addEventListener('click',function(e){if(e.target===this||e.target.closest('.app-l,[data-tab]'))this.close()});
 
   function tab(t,keep){
     if(t==='new'&&!keep)openForm(null);
@@ -1002,7 +1055,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     S.book=m(S.book,Array.isArray(r.book)?r.book:[]);
     S.groups=m(S.groups,Array.isArray(r.groups)?r.groups:[]);
     S.tomb=tomb;
-    if((r.ot||0)>(S.ot||0)&&r.set){S.set=Object.assign({},DEF,r.set);S.ot=r.ot}
+    if((r.ot||0)>(S.ot||0)&&r.set){S.set=normSet(r.set);S.ot=r.ot}
     Object.keys(r.log||{}).forEach(function(k){S.log[k]=Math.max(S.log[k]||0,+r.log[k]||0)});
     S.patients=S.patients.filter(function(p){return!p.bookId||!tomb[p.bookId]});
   }
@@ -1073,7 +1126,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     if(last&&last!==moi.email){S.book=[];S.groups=[];S.patients=[];S.log={};S.tomb={};S.h={};S.ot=0;stamp(true);store()}
     try{localStorage.setItem(LAST,moi.email)}catch(e){}
     Y={session:session,moi:moi,dk:b64(dk),kid:kid,ver:fresh?0:-1,dirty:S.book.length>0||S.groups.length>0};gen++;ysave();
-    if(!S.set.home&&moi.adresse&&!$('sHome').value)$('sHome').value=moi.adresse;
+    if(!S.set.cab&&moi.adresse&&!$('sCab').value)$('sCab').value=moi.adresse;
   }
   function done(){unlock();sync()}
   function formBusy(form,on,txt){var b=form.querySelector('[type=submit]');if(b)busy(b,on,txt)}
