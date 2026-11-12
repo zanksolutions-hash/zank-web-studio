@@ -50,8 +50,9 @@ h1 em{display:block;font-weight:700;color:var(--ink)}
 .gobar{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:14px;padding:7px 7px 7px 24px;min-height:62px;border:0;border-radius:99px;background:var(--ink);color:#fff;font-weight:600;font-size:17px;}
 .gobar i{display:inline-flex;align-items:center;justify-content:center;min-width:104px;min-height:48px;padding:0 20px;border-radius:99px;background:var(--go);color:#0b2e13;font-style:normal;font-weight:700}
 .ev{margin-top:10px;min-height:50px}
-.quick{margin-top:12px}
-.quick button{min-height:42px;font-size:14px}
+.modeB{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13.5px;color:var(--muted);background:none;border:0;padding:8px 0 8px 8px;margin:-8px 0;cursor:pointer;text-align:right}
+.modeB svg{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modeB:active{opacity:.6}
 .ev svg{stroke:#1f7a34}
 .sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:26px 4px 12px}
 .sec h2{font-size:20px;font-weight:600;letter-spacing:-.01em}
@@ -318,7 +319,6 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       <p id="posTxt">Position non relevée</p>
       <button class="pill" type="button" id="calc"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Calculer l'ordre</span></button>
     </div>
-    <div class="seg quick" id="qMode" role="group" aria-label="Ordre de passage"><button type="button" data-v="far">Plus loin d'abord</button><button type="button" data-v="short">Trajet le plus court</button></div>
     <div class="tiles">
       <div class="tile"><span>À faire</span><b id="tTodo">0</b></div>
       <div class="tile"><span>Le plus loin</span><b id="tFar">–</b></div>
@@ -542,7 +542,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
       $('sum').hidden=false;
       $('goBtn').hidden=!todo.length;
       $('goSub').textContent='Go · '+todo.length;
-      $('sum').innerHTML='<h2>Ordre de passage</h2><span>'+(stale&&S.pos?'Distances à recalculer':!S.pos?'Ordre non calculé':S.set.mode==='short'?'Trajet le plus court':'Du plus loin au plus proche')+'</span>';
+      $('sum').innerHTML='<h2>Ordre de passage</h2><button type="button" class="modeB" id="modeB" aria-label="Changer le mode de passage">'+(S.set.mode==='short'?'Trajet le plus court':'Du plus loin au plus proche')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg></button>';
       var n=0;
       list.innerHTML=o.map(function(p){
         var num=p.done?'✓':++n,first=!p.done&&n===1,b=bk(p)||{};
@@ -778,7 +778,7 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
 
   /* réglages */
   function renderSet(){
-    seg('sMode',S.set.mode);seg('qMode',S.set.mode);
+    seg('sMode',S.set.mode);
     if(document.activeElement!==$('sVisit'))$('sVisit').value=S.set.visit;
     $('sRet').checked=!!S.set.ret;
     if(document.activeElement!==$('sHome')&&S.set.home)$('sHome').value=S.set.home.addr;
@@ -786,7 +786,8 @@ p.f{display:block;font-size:13.5px;font-weight:500;color:var(--muted);margin:14p
     var m=day().slice(0,7),tot=0;Object.keys(S.log).forEach(function(k){if(k.slice(0,7)===m)tot+=S.log[k]});
     $('kDay').innerHTML=kmB(S.log[day()]||0);$('kMonth').innerHTML=kmB(tot);
   }
-  ['sMode','qMode'].forEach(function(id){$(id).addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.set.mode=b.dataset.v;save();render()})});
+  $('sMode').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;S.set.mode=b.dataset.v;save();render()});
+  $('sum').addEventListener('click',function(e){if(!e.target.closest('#modeB'))return;S.set.mode=S.set.mode==='short'?'far':'short';save();render()});
   $('sVisit').addEventListener('change',function(){var v=Math.round(+this.value);S.set.visit=v>=5&&v<=120?v:20;this.value=S.set.visit;save();render()});
   $('sRet').addEventListener('change',function(){
     if(this.checked&&!S.set.home){this.checked=false;say('Enregistrez d\'abord une adresse de retour.',true);$('sHome').focus();return}
