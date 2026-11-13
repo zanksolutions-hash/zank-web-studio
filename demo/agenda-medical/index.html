@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Agenda Santé – démo</title>
+<style>
+:root{--fond:#f2f5f7;--carte:#fff;--encre:#15232e;--doux:#5d6b76;--trait:#e1e7ec;--accent:#1d5f7a;--accent-f:#e3eff5;--rouge:#c2412d;--rouge-f:#fbe7e3;--vert:#1f8255;--vert-f:#e2f1e9;--orange:#c46a12;--orange-f:#fbeedd;--ombre:0 1px 2px rgba(21,35,46,.05),0 8px 24px rgba(21,35,46,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--fond);color:var(--encre);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14.5px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:10px;padding:8px 15px;font-weight:600;font-size:14px;min-height:40px;white-space:nowrap}
+.btn:hover{filter:brightness(.94)}
+.btn.clair{background:var(--carte);color:var(--encre);border-color:var(--trait)}
+.btn.petit{padding:5px 11px;min-height:32px;font-size:13px;font-weight:500}
+.btn.danger{color:var(--rouge)}
+.btn.on{background:var(--accent-f);border-color:var(--accent);color:var(--accent)}
+label{display:grid;gap:5px;font-size:12.5px;font-weight:600;color:var(--doux);min-width:0}
+input,select,textarea{font-size:15px;font-weight:400;color:var(--encre);background:#fff;border:1px solid var(--trait);border-radius:10px;padding:9px 11px;width:100%;min-height:42px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-f)}
+textarea{resize:vertical;min-height:90px}
+.chk{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--encre)}
+.chk input{width:18px;height:18px;min-height:0;accent-color:var(--accent)}
+
+/* Structure */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.cote{background:var(--carte);border-right:1px solid var(--trait);padding:22px 14px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh;overflow:auto}
+.marque{padding:0 10px}
+.marque b{display:block;font-size:17px;letter-spacing:-.01em}
+.marque span{font-size:12.5px;color:var(--doux)}
+.menu{display:grid;gap:2px}
+.menu button{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;font-weight:500;color:var(--doux);width:100%;text-align:left}
+.menu button:hover{background:var(--fond);color:var(--encre)}
+.menu button[aria-current=page]{background:var(--accent-f);color:var(--accent);font-weight:600}
+.menu .nb{margin-left:auto;background:var(--accent);color:#fff;border-radius:20px;font-size:11.5px;font-weight:700;padding:0 7px;line-height:19px}
+.qui{margin-top:auto;padding:0 6px;display:grid;gap:8px}
+.qui small{color:var(--doux);font-size:12px}
+.main{padding:26px clamp(16px,3vw,36px) 60px;min-width:0}
+.tete{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.tete h1{font-size:25px;letter-spacing:-.02em;font-weight:650}
+.tete p{color:var(--doux)}
+.outils{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.carte{background:var(--carte);border-radius:16px;box-shadow:var(--ombre);padding:18px 20px}
+.carte h2{font-size:15.5px;font-weight:650;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.carte h2 small{font-weight:500;color:var(--doux);font-size:12.5px}
+.grille{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.ligne.clic{cursor:pointer;border-radius:8px}
+.ligne.clic:hover{background:#f7fafb}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:var(--carte);border-radius:16px;box-shadow:var(--ombre);padding:16px 18px}
+.kpi span{display:block;font-size:12.5px;color:var(--doux);font-weight:500}
+.kpi b{display:block;font-size:28px;font-weight:650;letter-spacing:-.02em;margin-top:4px}
+.kpi small{color:var(--doux);font-size:12px}
+.ligne{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--trait)}
+.ligne:first-of-type{border-top:0}
+.ligne .h{font-weight:650;min-width:48px;font-variant-numeric:tabular-nums}
+.ligne .q{flex:1;min-width:0}
+.ligne .q b{display:block;font-weight:600}
+.ligne .q small{color:var(--doux);font-size:12.5px}
+.vide{color:var(--doux);padding:12px 0}
+.puce{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--fond);color:var(--doux)}
+.p-arrive{background:var(--orange-f);color:var(--orange)}
+.p-consult{background:var(--accent-f);color:var(--accent)}
+.p-termine{background:var(--vert-f);color:var(--vert)}
+.p-absent,.p-annule{background:var(--rouge-f);color:var(--rouge)}
+.p-ligne{background:#eef0fb;color:#3d4a9c}
+.pastille{width:10px;height:10px;border-radius:50%;flex:none;background:var(--c)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--doux);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--trait);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--trait);vertical-align:top}
+tr.clic{cursor:pointer}
+tr.clic:hover td{background:#f7fafb}
+.tablewrap{overflow-x:auto}
+.form{display:grid;gap:12px}
+.f2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.note{color:var(--doux);font-size:13px}
+
+/* Agenda */
+.cal{background:var(--carte);border-radius:16px;box-shadow:var(--ombre);overflow:auto;max-height:calc(100vh - 170px)}
+.calg{display:grid;min-width:640px;position:relative}
+.colh{position:sticky;top:0;z-index:3;background:var(--carte);border-bottom:1px solid var(--trait);padding:10px 8px;font-weight:600;font-size:13px;text-align:center}
+.colh small{display:block;font-weight:500;color:var(--doux);font-size:11.5px}
+.colh.auj{color:var(--accent)}
+.heures{position:relative;border-right:1px solid var(--trait)}
+.heures span{position:absolute;right:6px;font-size:11px;color:var(--doux);transform:translateY(-50%)}
+.col{position:relative;border-right:1px solid var(--trait);cursor:copy}
+.col .ferme{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,#f3f5f7 0 6px,#eaeef1 6px 12px)}
+.col .abs{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,#fbe7e3 0 6px,#f6d6cf 6px 12px);display:flex;align-items:flex-start;justify-content:center;padding-top:10px;font-size:12px;font-weight:600;color:var(--rouge);text-align:center}
+.col .trait{position:absolute;left:0;right:0;border-top:1px solid #eef2f5}
+.col .maint{position:absolute;left:0;right:0;border-top:2px solid var(--rouge);z-index:2}
+.rdv{position:absolute;left:3px;right:3px;border-radius:7px;background:var(--f);border-left:3px solid var(--c);color:var(--x);padding:3px 7px;font-size:12px;line-height:1.25;overflow:hidden;cursor:pointer;text-align:left;z-index:1}
+.rdv b{font-weight:650}
+.rdv.annule{opacity:.45;text-decoration:line-through}
+.rdv.absent{background:var(--rouge-f);border-left-color:var(--rouge);color:var(--rouge)}
+.rdv.arrive{box-shadow:inset 0 0 0 2px var(--orange)}
+.rdv.consult{box-shadow:inset 0 0 0 2px var(--accent)}
+.rdv.termine{opacity:.7}
+.rdv.urg{left:46%;border-left-color:var(--rouge);z-index:2;box-shadow:0 2px 8px rgba(21,35,46,.18)}
+.sur{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--doux);font-weight:600;margin-bottom:4px}
+.choix{justify-content:flex-start;white-space:normal;text-align:left;font-weight:500}
+.rdv .ic-s{float:right;font-size:11px;font-weight:700}
+.legende{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--doux)}
+.legende span{display:inline-flex;align-items:center;gap:6px}
+
+/* Motifs : couleurs */
+.m0{--c:#1d5f7a;--f:#e3eff5;--x:#123f52}
+.m1{--c:#6a4fb3;--f:#ece7f7;--x:#3f2b78}
+.m2{--c:#1f8255;--f:#e2f1e9;--x:#14523a}
+.m3{--c:#8a6d12;--f:#f6efd8;--x:#5a470a}
+.m4{--c:#c0577f;--f:#f9e4ec;--x:#7a2848}
+.m5{--c:#c46a12;--f:#fbeedd;--x:#7a430f}
+.m6{--c:#2b7a8a;--f:#dff1f3;--x:#15505b}
+.m7{--c:#4f6b2a;--f:#edf0dc;--x:#3f4916}
+
+/* Barres (stats) */
+.barres{display:grid;gap:9px}
+.barre{display:grid;grid-template-columns:150px minmax(0,1fr) 48px;align-items:center;gap:10px;font-size:13px}
+.barre i{display:block;height:12px;border-radius:6px;background:var(--accent)}
+.barre em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--doux)}
+.cols{display:flex;align-items:flex-end;gap:10px;height:160px;padding-top:10px}
+.cols div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--doux);height:100%;justify-content:flex-end}
+.cols i{display:block;width:100%;max-width:46px;border-radius:6px 6px 0 0;background:var(--accent)}
+
+/* Fenêtres */
+.voile{position:fixed;inset:0;background:rgba(21,35,46,.38);z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px;overflow:auto}
+.fen{background:var(--carte);border-radius:18px;width:min(560px,100%);padding:22px;box-shadow:0 30px 70px rgba(21,35,46,.3)}
+.fen h3{font-size:18px;font-weight:650;margin-bottom:4px}
+.fen .sous{color:var(--doux);margin-bottom:14px}
+.fen .pied{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}
+.statuts{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 4px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--encre);color:#fff;padding:11px 18px;border-radius:12px;font-weight:500;z-index:40;max-width:calc(100vw - 32px);box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.demo{background:#fff8e6;color:#6d5410;border:1px solid #f0dfaa;border-radius:12px;padding:9px 14px;font-size:13px;margin-bottom:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+
+/* Écran salle d'attente */
+#ecran{position:fixed;inset:0;background:#0f2a37;color:#fff;z-index:30;padding:5vh 6vw;display:flex;flex-direction:column;gap:3vh}
+#ecran h2{font-size:clamp(22px,3vw,40px);font-weight:600}
+#ecran .appel{font-size:clamp(28px,5vw,70px);font-weight:700;letter-spacing:-.02em}
+#ecran .appel small{display:block;font-size:.4em;font-weight:500;opacity:.75}
+#ecran ul{list-style:none;display:grid;gap:1.4vh;font-size:clamp(18px,2.2vw,30px)}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .cote{position:sticky;top:0;z-index:10;height:auto;flex-direction:row;align-items:center;padding:10px 12px;overflow-x:auto;gap:10px;border-right:0;border-bottom:1px solid var(--trait)}
+  .marque,.qui{display:none}
+  .menu{display:flex;gap:4px}
+  .menu button{white-space:nowrap;padding:8px 10px}
+  .g2,.g3{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr}
+  .barre{grid-template-columns:110px minmax(0,1fr) 40px}
+  .cal{max-height:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="cote">
+    <div class="marque"><b>Agenda Santé</b><span id="nomCentre"></span></div>
+    <nav class="menu" id="menu"></nav>
+    <div class="qui">
+      <label>Connecté en tant que<select id="role"></select></label>
+      <small>Démo : données fictives, rien n'est envoyé.</small>
+      <button class="btn clair petit" type="button" id="reset">Remettre la démo à zéro</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="voile" id="voile" hidden><div class="fen" id="fen" role="dialog" aria-modal="true"></div></div>
+<div id="ecran" hidden></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+'use strict';
+var MODE='centre';try{MODE=localStorage.getItem('agenda-sante-mode')==='solo'?'solo':'centre'}catch(e){}
+var SOLO=MODE==='solo',LIEU=SOLO?'cabinet':'centre';
+var CLE='agenda-sante-demo-v2-'+MODE;
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function pad(n){return String(n).padStart(2,'0')}
+function cle(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function jour(k){var p=k.split('-');return new Date(+p[0],p[1]-1,+p[2])}
+function plus(k,n){var d=jour(k);d.setDate(d.getDate()+n);return cle(d)}
+function hm(m){return Math.floor(m/60)+':'+pad(m%60)}
+function nowMin(){var d=new Date();return d.getHours()*60+d.getMinutes()}
+var AUJ=cle(new Date());
+var JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function dLong(k){var d=jour(k);return JOURS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()]}
+function dCourt(k){var d=jour(k);return pad(d.getDate())+'/'+pad(d.getMonth()+1)}
+function ic(p){return'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>'}
+var ICO={
+  bord:'<path d="M4 13h6V4H4zM14 20h6v-9h-6zM14 4v4h6V4zM4 20h6v-4H4z"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  salle:'<path d="M5 20v-6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v6M3 20h18M9 7a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/>',
+  patients:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .6 3.5 2.6 3.5 6"/>',
+  attente:'<path d="M5 6h14M5 12h14M5 18h9"/>',
+  abs:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+  ligne:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
+  msg:'<path d="M4 5h16v11H9l-5 4z"/>',
+  stats:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  regl:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
+};
+
+/* ---------- données fictives ---------- */
+var CENTRE=SOLO?{nom:'Cabinet du Dr Laura Dubois',adresse:'Rue de la Station 12, 7100 La Louvière',tel:'064 22 33 44'}:{nom:'Centre médical des Tilleuls',adresse:'Rue de la Station 12, 7100 La Louvière',tel:'064 22 33 44'};
+var PROS=[
+  {id:'dubois',nom:'Dr Laura Dubois',court:'Dr Dubois',spec:'Médecin généraliste',h:{1:[[480,720],[840,1080]],2:[[480,720],[840,1080]],3:[[480,720]],4:[[480,720],[840,1080]],5:[[480,720],[840,1020]],6:[[540,720]]}},
+  {id:'lambert',nom:'Dr Marc Lambert',court:'Dr Lambert',spec:'Médecin généraliste',h:{1:[[540,720],[900,1140]],2:[[540,720],[900,1140]],3:[[540,720],[840,1080]],4:[[900,1140]],5:[[540,720],[840,1020]]}},
+  {id:'martin',nom:'Sophie Martin',court:'S. Martin',spec:'Kinésithérapeute',h:{1:[[480,750],[810,1080]],2:[[480,750]],3:[[480,750],[810,1080]],4:[[480,750],[810,1080]],5:[[480,750]]}}
+];
+var MOTIFS=[
+  {id:'consult',nom:'Consultation',duree:15,pros:['dubois','lambert'],ligne:true,nouveaux:true,poids:10},
+  {id:'premiere',nom:'Première consultation (nouveau patient)',duree:30,pros:['dubois','lambert'],ligne:true,nouveaux:true,poids:2},
+  {id:'vaccin',nom:'Vaccination',duree:10,pros:['dubois','lambert'],ligne:true,nouveaux:false,poids:2},
+  {id:'certif',nom:'Certificat ou renouvellement',duree:10,pros:['dubois','lambert'],ligne:true,nouveaux:false,poids:2},
+  {id:'gyneco',nom:'Frottis, suivi gynécologique',duree:30,pros:['dubois'],ligne:true,nouveaux:false,poids:1},
+  {id:'domicile',nom:'Visite à domicile',duree:30,pros:['dubois','lambert'],ligne:false,nouveaux:false,poids:1},
+  {id:'kine',nom:'Séance de kinésithérapie',duree:30,pros:['martin'],ligne:true,nouveaux:false,poids:8},
+  {id:'bilan',nom:'Bilan kiné (première séance)',duree:45,pros:['martin'],ligne:true,nouveaux:true,poids:2}
+];
+if(SOLO){PROS=PROS.slice(0,1);MOTIFS=MOTIFS.filter(function(m){return m.pros.indexOf('dubois')>=0}).map(function(m){return Object.assign({},m,{pros:['dubois']})})}
+var PRENOMS=['Emma','Lucas','Louise','Noah','Alice','Arthur','Julie','Louis','Camille','Hugo','Chloé','Nathan','Manon','Théo','Sarah','Mathis','Léa','Victor','Inès','Tom','Marie','Jean','Nicole','André','Martine','Paul','Monique','Yves','Fatima','Mehdi','Giulia','Marco'];
+var NOMS=['Peeters','Janssens','Maes','Jacobs','Mertens','Willems','Claes','Goossens','Wouters','De Smet','Dupont','Lambot','Dubrulle','Lejeune','Renard','Leroy','Bastin','Collard','Gilson','Hennuy','Rossi','Benali','Moreau','Delhaye','Lemaire','Fontaine','Mathieu','Simon'];
+var MUTS=['Solidaris','Mutualité chrétienne','Partenamut','Mutualité libérale','Helan','Mutualité neutre'];
+
+function rnd(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function niss(r,an,mo,j,seq){var base=pad(an%100)+pad(mo)+pad(j)+String(seq).padStart(3,'0');var n=an>=2000?+('2'+base):+base;var ctl=97-(n%97);return base.slice(0,2)+'.'+base.slice(2,4)+'.'+base.slice(4,6)+'-'+base.slice(6,9)+'.'+pad(ctl)}
+
+function generer(){
+  var r=rnd(20261113),pick=function(a){return a[Math.floor(r()*a.length)]};
+  var pats=[];
+  for(var i=0;i<60;i++){
+    var an=1940+Math.floor(r()*80),mo=1+Math.floor(r()*12),j=1+Math.floor(r()*28),pr=pick(PRENOMS),no=pick(NOMS);
+    pats.push({id:'p'+i,prenom:pr,nom:no,naissance:an+'-'+pad(mo)+'-'+pad(j),niss:niss(r,an,mo,j,1+Math.floor(r()*997)),
+      mutuelle:pick(MUTS),tel:'04'+(70+Math.floor(r()*30))+' '+pad(Math.floor(r()*100))+' '+pad(Math.floor(r()*100))+' '+pad(Math.floor(r()*100)),
+      email:(pr+'.'+no).toLowerCase().normalize('NFD').replace(/[^a-z.]/g,'')+'@exemple.be',traitant:pick(PROS.filter(function(x){return x.id!=='martin'}).map(function(x){return x.id})),sms:r()>.1,bloque:false,nouveau:false,cree:plus(AUJ,-400-Math.floor(r()*900))});
+  }
+  pats[57].bloque=true;
+  [58,59].forEach(function(i){pats[i].nouveau=true;pats[i].cree=plus(AUJ,-Math.floor(r()*10))});
+  var rdvs=[],id=1,nm=nowMin(),vus={};
+  for(var off=-35;off<=21;off++){
+    var k=plus(AUJ,off),dw=jour(k).getDay();
+    PROS.forEach(function(p){
+      (p.h[dw]||[]).forEach(function(iv){
+        var t=iv[0],fill=off<0?.86:off<=3?.78:off<=10?.5:.25;
+        while(t<iv[1]){
+          if(r()<fill){
+            var ms=MOTIFS.filter(function(m){return m.pros.indexOf(p.id)>=0}),tot=ms.reduce(function(a,m){return a+m.poids},0),x=r()*tot,m=ms[0];
+            for(var q=0;q<ms.length;q++){x-=ms[q].poids;if(x<=0){m=ms[q];break}}
+            if(t+m.duree>iv[1])break;
+            var pool=m.id==='premiere'||m.id==='bilan'?pats.slice(40):pats.slice(0,57),pat=pick(pool),essai=0;
+            while(vus[k+pat.id]&&essai++<20)pat=pick(pool);
+            vus[k+pat.id]=1;
+            var st='prevu',arr=null;
+            if(off<0)st=r()<.03?'absent':r()<.04?'annule':'termine';
+            else if(off===0){
+              if(t+m.duree<=nm)st=r()<.05?'absent':'termine';
+              else if(t<=nm)st='consult';
+              else if(t-25<=nm&&r()<.75){st='arrive';arr=Math.max(t-25,nm-Math.floor(r()*18))}
+            }else if(r()<.03)st='annule';
+            rdvs.push({id:'r'+(id++),pro:p.id,date:k,debut:t,duree:m.duree,motif:m.id,patient:pat.id,statut:st,arrivee:arr,source:m.id==='domicile'?'téléphone':r()<.42?'en ligne':'téléphone',note:m.id==='domicile'?'Adresse du patient, sonner deux fois':'',cree:plus(k,-1-Math.floor(r()*12))});
+            t+=m.duree;
+          }else t+=15;
+        }
+      });
+    });
+  }
+  return{
+    v:1,pats:pats,rdvs:rdvs,
+    attente:[
+      {id:'w1',patient:'p3',pro:'dubois',motif:'consult',souhait:'Dès que possible, plutôt le matin',ajoute:plus(AUJ,-3)},
+      {id:'w2',patient:'p12',pro:'lambert',motif:'certif',souhait:'Après 16 h',ajoute:plus(AUJ,-1)},
+      {id:'w3',patient:'p27',pro:'martin',motif:'kine',souhait:'Mardi ou jeudi',ajoute:plus(AUJ,-5)}
+    ].filter(function(a){return PROS.some(function(p){return p.id===a.pro})}),
+    absences:SOLO?[
+      {id:'a1',pro:'dubois',du:plus(AUJ,8),au:plus(AUJ,12),remplacant:'Dr Thomas Henry, 064 55 66 77',message:'Le Dr Dubois est en congé. Le Dr Henry assure le remplacement à son cabinet.'}
+    ]:[
+      {id:'a1',pro:'lambert',du:plus(AUJ,8),au:plus(AUJ,12),remplacant:'dubois',message:'Le Dr Lambert est absent. Le Dr Dubois reprend ses patients.'},
+      {id:'a2',pro:'martin',du:plus(AUJ,-14),au:plus(AUJ,-12),remplacant:'',message:'Formation.'}
+    ],
+    ligne:{actif:true,delai:2,horizon:30,connus:false,message:'Pour une urgence, appelez le 1733. Pour une visite à domicile, appelez le secrétariat.'},
+    textes:{
+      confirmation:'Bonjour {patient}, votre rendez-vous avec {praticien} est confirmé le {date} à {heure}. {centre}, {adresse}. Pour annuler : {lien}',
+      rappel:'Rappel : rendez-vous demain à {heure} avec {praticien}. Empêché ? Annulez ici : {lien}',
+      annulation:'Votre rendez-vous du {date} à {heure} avec {praticien} est annulé. Pour en reprendre un : {lien}'
+    },
+    rappelH:24,smsCredit:412,
+    integrations:{careconnect:true,google:false,ehealth:false},
+    motifs:MOTIFS.map(function(m){return{id:m.id,ligne:m.ligne,nouveaux:m.nouveaux,duree:m.duree}})
+  };
+}
+var S;
+try{S=JSON.parse(localStorage.getItem(CLE))}catch(e){}
+if(!S||S.v!==1||S.jour!==AUJ){S=generer();S.jour=AUJ}
+function save(){try{localStorage.setItem(CLE,JSON.stringify(S))}catch(e){}}
+save();
+
+function remp(a){return!a.remplacant?'':PROS.some(function(p){return p.id===a.remplacant})?pro(a.remplacant).nom:a.remplacant}
+function ROLE(){return SOLO?'':$('role').value}
+function MES(){var r=ROLE();return r?PROS.filter(function(p){return p.id===r}):PROS}
+function pro(id){return PROS.find(function(p){return p.id===id})||{nom:'–',court:'–'}}
+function motif(id){var m=MOTIFS.find(function(x){return x.id===id})||MOTIFS[0],c=S.motifs.find(function(x){return x.id===id})||{};return Object.assign({},m,c,{i:MOTIFS.indexOf(m)})}
+function pat(id){return S.pats.find(function(p){return p.id===id})||{prenom:'?',nom:'?'}}
+function pnom(p){return p.prenom+' '+p.nom}
+function age(p){var b=jour(p.naissance),n=new Date(),a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a}
+var LIB={prevu:'Prévu',arrive:'En salle d\'attente',consult:'En consultation',termine:'Terminé',absent:'Absent (non excusé)',annule:'Annulé'};
+function puce(st){return'<span class="puce p-'+st+'">'+LIB[st]+'</span>'}
+function actifs(l){return l.filter(function(x){return x.statut!=='annule'})}
+function duJour(k,p){return S.rdvs.filter(function(x){return x.date===k&&(!p||x.pro===p)}).sort(function(a,b){return a.debut-b.debut})}
+function absent(p,k){return S.absences.find(function(a){return a.pro===p&&k>=a.du&&k<=a.au})}
+function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){e.hidden=true},3200)}
+function remplir(t,v){var p=pat(v.patient);return t.replace(/\{patient\}/g,p.prenom).replace(/\{praticien\}/g,pro(v.pro).nom).replace(/\{date\}/g,dLong(v.date)).replace(/\{heure\}/g,hm(v.debut)).replace(/\{centre\}/g,CENTRE.nom).replace(/\{adresse\}/g,CENTRE.adresse).replace(/\{lien\}/g,'tilleuls.be/rdv')}
+
+/* créneau libre : dans les horaires, hors absence, sans chevauchement */
+function libre(p,k,t,d,sauf){
+  var dw=jour(k).getDay(),ok=(pro(p).h[dw]||[]).some(function(iv){return t>=iv[0]&&t+d<=iv[1]});
+  if(!ok||absent(p,k))return false;
+  return!actifs(duJour(k,p)).some(function(x){return x.id!==sauf&&t<x.debut+x.duree&&x.debut<t+d});
+}
+function premiere(m,p){
+  var mo=motif(m),ps=p?[p]:mo.pros,best=null;
+  for(var off=0;off<60&&!best;off++){
+    var k=plus(AUJ,off);
+    ps.forEach(function(pp){
+      if(best&&best.date===k&&best.debut<=600)return;
+      for(var t=480;t<=1140-mo.duree;t+=5){
+        if(off===0&&t<nowMin()+30)continue;
+        if(libre(pp,k,t,mo.duree)){if(!best||best.date>k||(best.date===k&&best.debut>t))best={pro:pp,date:k,debut:t};break}
+      }
+    });
+  }
+  return best;
+}
+
+/* ---------- navigation ---------- */
+var VUES=[
+  ['bord','Aujourd\'hui','bord'],['cal','Agenda','cal'],['salle','Salle d\'attente','salle'],['patients','Patients','patients'],
+  ['attente','Liste d\'attente','attente'],['abs','Absences','abs'],['ligne','Réservation en ligne','ligne'],['msg','Rappels SMS et e-mail','msg'],
+  ['stats','Statistiques','stats'],['regl',SOLO?'Cabinet et intégrations':'Centre et intégrations','regl']
+];
+var vue='bord',U={calJour:AUJ,calMode:SOLO?'semaine':'jour',calPro:'',q:''};
+$('nomCentre').textContent=CENTRE.nom;
+if(SOLO)$('role').closest('label').hidden=true;
+$('role').innerHTML='<option value="">Secrétariat</option>'+PROS.map(function(p){return'<option value="'+p.id+'">'+esc(p.nom)+'</option>'}).join('');
+$('role').addEventListener('change',function(){U.calPro=this.value;U.calMode=this.value?'semaine':'jour';rendre()});
+function menu(){
+  var nbS=duJour(AUJ).filter(function(x){return x.statut==='arrive'}).length;
+  $('menu').innerHTML=VUES.map(function(v){
+    var n=v[0]==='salle'&&nbS?'<span class="nb">'+nbS+'</span>':v[0]==='attente'&&S.attente.length?'<span class="nb">'+S.attente.length+'</span>':'';
+    return'<button type="button" data-vue="'+v[0]+'"'+(vue===v[0]?' aria-current="page"':'')+'>'+ic(ICO[v[2]])+v[1]+n+'</button>';
+  }).join('');
+}
+$('menu').addEventListener('click',function(e){var b=e.target.closest('[data-vue]');if(!b)return;vue=b.dataset.vue;rendre();window.scrollTo(0,0)});
+document.addEventListener('click',function(e){
+  var g=e.target.closest('[data-go]');if(g){vue=g.dataset.go;if(g.dataset.jour){U.calJour=g.dataset.jour;U.calMode='jour'}rendre();window.scrollTo(0,0);return}
+  var r=e.target.closest('[data-rdv]');if(r){e.stopPropagation();ficheRdv(r.dataset.rdv);return}
+  var p=e.target.closest('[data-pat]');if(p){fichePat(p.dataset.pat);return}
+});
+function tete(t,s,o){return'<div class="tete"><div><h1>'+t+'</h1>'+(s?'<p>'+s+'</p>':'')+'</div><div class="outils">'+(o||'')+'</div></div>'}
+function rendre(){menu();($('main').innerHTML=VUES_R[vue]());if(AP[vue])AP[vue]()}
+var VUES_R={},AP={};
+
+/* ---------- Aujourd'hui ---------- */
+VUES_R.bord=function(){
+  var l=actifs(duJour(AUJ,ROLE())),nm=nowMin(),sal=l.filter(function(x){return x.statut==='arrive'});
+  var sem=S.rdvs.filter(function(x){return x.date>plus(AUJ,-7)&&x.date<=AUJ&&x.source==='en ligne'});
+  var mois=S.rdvs.filter(function(x){return x.date>plus(AUJ,-30)&&x.date<AUJ}),abs=mois.filter(function(x){return x.statut==='absent'}).length,base=actifs(mois).length;
+  var html=tete(ROLE()?'Bonjour '+esc(pro(ROLE()).court):'Bonjour','Nous sommes '+dLong(AUJ)+'. Voici la journée du '+LIEU+'.','<button class="btn" type="button" id="nouv">Nouveau rendez-vous</button><button class="btn clair" type="button" id="dispo">Première disponibilité</button>');
+  html+='<div class="demo"><span>Maquette de démonstration : patients, numéros et rendez-vous sont inventés. Les SMS et e-mails sont simulés.</span><span class="outils"><button class="btn petit '+(SOLO?'on':'clair')+'" type="button" data-mode="solo">Cabinet individuel</button><button class="btn petit '+(SOLO?'clair':'on')+'" type="button" data-mode="centre">Centre médical</button></span></div>';
+  html+='<div class="kpis"><div class="kpi"><span>Rendez-vous aujourd\'hui</span><b>'+l.length+'</b><small>'+l.filter(function(x){return x.statut==='termine'}).length+' terminés</small></div>'+
+    '<div class="kpi"><span>En salle d\'attente</span><b>'+sal.length+'</b><small>'+(sal.length?'attente la plus longue '+Math.max.apply(null,sal.map(function(x){return nm-x.arrivee}))+' min':'personne')+'</small></div>'+
+    '<div class="kpi"><span>Réservés en ligne (7 j)</span><b>'+sem.length+'</b><small>sans appel au secrétariat</small></div>'+
+    '<div class="kpi"><span>Absences non excusées (30 j)</span><b>'+(base?Math.round(abs/base*1000)/10:0)+' %</b><small>'+abs+' rendez-vous perdus</small></div></div>';
+  html+='<div class="grille g3">'+MES().map(function(p){
+    var a=absent(p.id,AUJ),lp=actifs(duJour(AUJ,p.id)),suiv=lp.filter(function(x){return x.statut==='prevu'||x.statut==='arrive'||x.statut==='consult'}).slice(0,5);
+    return'<div class="carte"><h2>'+esc(p.nom)+'<small>'+lp.length+' rdv</small></h2>'+(a?'<p class="vide">Absent aujourd\'hui.</p>':suiv.length?suiv.map(ligneRdv).join(''):'<p class="vide">Plus de rendez-vous aujourd\'hui.</p>')+'<p style="margin-top:8px"><button class="btn clair petit" type="button" data-go="cal" data-jour="'+AUJ+'">Voir l\'agenda</button></p></div>';
+  }).join('')+'</div>';
+  var recents=S.rdvs.filter(function(x){return x.source==='en ligne'&&x.date>=AUJ}).sort(function(a,b){return b.cree<a.cree?-1:1}).slice(0,6);
+  var nouveaux=S.pats.filter(function(p){return p.nouveau});
+  html+='<div class="grille g2" style="margin-top:16px"><div class="carte"><h2>Dernières réservations en ligne</h2>'+recents.map(function(x){return'<div class="ligne"><span class="h">'+dCourt(x.date)+'</span><div class="q"><b>'+esc(pnom(pat(x.patient)))+'</b><small>'+hm(x.debut)+' · '+esc(motif(x.motif).nom)+' · '+esc(pro(x.pro).court)+'</small></div><button class="btn clair petit" type="button" data-rdv="'+x.id+'">Ouvrir</button></div>'}).join('')+'</div>'+
+    '<div class="carte"><h2>À traiter</h2>'+
+    (function(){var d=l.filter(function(x){return x.motif==='domicile'&&x.statut==='prevu'});return d.length?'<div class="ligne"><span class="puce">Domicile</span><div class="q"><b>'+d.length+' visite'+(d.length>1?'s':'')+' à domicile aujourd\'hui</b><small>'+d.map(function(x){return hm(x.debut)+' '+esc(pat(x.patient).nom)}).join(' · ')+'</small></div></div>':''})()+
+    nouveaux.map(function(p){return'<div class="ligne"><span class="puce p-ligne">Nouveau</span><div class="q"><b>'+esc(pnom(p))+'</b><small>Inscrit en ligne, fiche à compléter (NISS, mutuelle)</small></div><button class="btn clair petit" type="button" data-pat="'+p.id+'">Compléter</button></div>'}).join('')+
+    (S.attente.length?'<div class="ligne"><span class="puce p-arrive">'+S.attente.length+'</span><div class="q"><b>Patients en liste d\'attente</b><small>À prévenir dès qu\'un créneau se libère</small></div><button class="btn clair petit" type="button" data-go="attente">Voir</button></div>':'')+
+    S.absences.filter(function(a){return a.au>=AUJ}).map(function(a){return'<div class="ligne"><span class="puce p-absent">Absence</span><div class="q"><b>'+esc(pro(a.pro).nom)+'</b><small>du '+dCourt(a.du)+' au '+dCourt(a.au)+(a.remplacant?' · remplacé par '+esc(remp(a)):'')+'</small></div><button class="btn clair petit" type="button" data-go="abs">Gérer</button></div>'}).join('')+
+    '</div></div>';
+  return html;
+};
+function ligneRdv(x){var p=pat(x.patient),m=motif(x.motif);return'<div class="ligne clic m'+m.i+'" data-rdv="'+x.id+'" role="button" tabindex="0"><span class="h">'+hm(x.debut)+'</span><div class="q"><b>'+esc(pnom(p))+'</b><small><span class="pastille" style="display:inline-block;margin-right:6px"></span>'+esc(m.nom)+'</small>'+(x.statut!=='prevu'?'<div style="margin-top:3px">'+puce(x.statut)+'</div>':'')+'</div></div>'}
+AP.bord=function(){document.querySelectorAll('[data-mode]').forEach(function(b){b.onclick=function(){if(b.dataset.mode===MODE)return;try{localStorage.setItem('agenda-sante-mode',b.dataset.mode)}catch(e){}location.reload()}});$('nouv').onclick=function(){nouveauRdv({})};$('dispo').onclick=dispoFen};
+
+/* ---------- Agenda ---------- */
+var H0=420,H1=1170,PX=1.5;
+VUES_R.cal=function(){
+  var j=U.calJour,mode=U.calMode;
+  var titre=mode==='jour'?dLong(j):'Semaine du '+dCourt(lundi(j));
+  var o='<button class="btn clair petit carre" type="button" id="prev" aria-label="Précédent">‹</button><button class="btn clair petit" type="button" id="auj">Aujourd\'hui</button><button class="btn clair petit carre" type="button" id="next" aria-label="Suivant">›</button>'+
+    '<button class="btn petit '+(mode==='jour'?'on':'clair')+'" type="button" id="mJ">'+(SOLO?'Jour':'Jour, tout le centre')+'</button><button class="btn petit '+(mode==='semaine'?'on':'clair')+'" type="button" id="mS">Semaine</button>'+
+    (mode==='semaine'&&!SOLO?'<select id="cPro" style="width:auto;min-height:32px;padding:4px 8px">'+PROS.map(function(p){return'<option value="'+p.id+'"'+((U.calPro||'dubois')===p.id?' selected':'')+'>'+esc(p.nom)+'</option>'}).join('')+'</select>':'')+
+    '<button class="btn petit" type="button" id="nouv">Nouveau</button><button class="btn clair petit" type="button" id="dispo">Première dispo</button>';
+  var cols=mode==='jour'?MES().map(function(p){return{pro:p.id,date:j,t:esc(p.nom),s:esc(p.spec)}}):[0,1,2,3,4,5].map(function(i){var k=plus(lundi(j),i);return{pro:U.calPro||'dubois',date:k,t:JOURS[jour(k).getDay()].slice(0,3)+'. '+jour(k).getDate(),s:'',auj:k===AUJ}});
+  var h=(H1-H0)*PX,html=tete('Agenda',titre,o);
+  html+='<div class="cal"><div class="calg" style="grid-template-columns:52px repeat('+cols.length+',minmax(130px,1fr))"><div class="colh"></div>'+cols.map(function(c){return'<div class="colh'+(c.auj?' auj':'')+'">'+c.t+'<small>'+c.s+'</small></div>'}).join('');
+  var hs='';for(var t=H0+(60-H0%60)%60;t<H1;t+=60)hs+='<span style="top:'+((t-H0)*PX)+'px">'+hm(t)+'</span>';
+  html+='<div class="heures" style="height:'+h+'px">'+hs+'</div>';
+  cols.forEach(function(c){
+    var p=pro(c.pro),dw=jour(c.date).getDay(),iv=p.h[dw]||[],z='',prev=H0;
+    iv.concat([[H1,H1]]).forEach(function(r){if(r[0]>prev)z+='<div class="ferme" style="top:'+((prev-H0)*PX)+'px;height:'+((r[0]-prev)*PX)+'px"></div>';prev=Math.max(prev,r[1])});
+    for(var t=H0+30;t<H1;t+=30)z+='<div class="trait" style="top:'+((t-H0)*PX)+'px"></div>';
+    var a=absent(c.pro,c.date);
+    if(a)z+='<div class="abs" style="top:0;height:'+h+'px">Absent'+(a.remplacant?'<br>remplacé par '+esc(remp(a)):'')+'</div>';
+    duJour(c.date,c.pro).forEach(function(x){
+      var pt=pat(x.patient),m=motif(x.motif),hh=Math.max(x.duree*PX-2,18);
+      z+='<button type="button" class="rdv m'+m.i+' '+x.statut+(x.urgent?' urg':'')+'" data-rdv="'+x.id+'" style="top:'+((x.debut-H0)*PX+1)+'px;height:'+hh+'px" title="'+esc(pnom(pt)+' · '+m.nom)+'">'+(x.statut!=='prevu'?'<span class="ic-s">'+{arrive:'arrivé',consult:'en cours',termine:'✓',absent:'absent',annule:'annulé'}[x.statut]+'</span>':'')+'<b>'+hm(x.debut)+'</b> '+esc(pt.nom)+(hh>30?'<br>'+esc(m.nom):'')+'</button>';
+    });
+    if(c.date===AUJ&&nowMin()>H0&&nowMin()<H1)z+='<div class="maint" style="top:'+((nowMin()-H0)*PX)+'px"></div>';
+    html+='<div class="col" data-pro="'+c.pro+'" data-date="'+c.date+'" style="height:'+h+'px">'+z+'</div>';
+  });
+  html+='</div></div><div class="legende">'+MOTIFS.map(function(m,i){return'<span class="m'+i+'"><i class="pastille"></i>'+esc(m.nom)+'</span>'}).join('')+'<span>Cliquez sur un espace libre pour ajouter un rendez-vous.</span></div>';
+  return html;
+};
+function lundi(k){var d=jour(k),w=(d.getDay()+6)%7;return plus(k,-w)}
+AP.cal=function(){
+  var pas=U.calMode==='jour'?1:7;
+  $('prev').onclick=function(){U.calJour=plus(U.calJour,-pas);if(U.calMode==='jour'&&jour(U.calJour).getDay()===0)U.calJour=plus(U.calJour,-1);rendre()};
+  $('next').onclick=function(){U.calJour=plus(U.calJour,pas);if(U.calMode==='jour'&&jour(U.calJour).getDay()===0)U.calJour=plus(U.calJour,1);rendre()};
+  $('auj').onclick=function(){U.calJour=AUJ;rendre()};
+  $('mJ').onclick=function(){U.calMode='jour';rendre()};
+  $('mS').onclick=function(){U.calMode='semaine';rendre()};
+  if($('cPro'))$('cPro').onchange=function(){U.calPro=this.value;rendre()};
+  $('nouv').onclick=function(){nouveauRdv({date:U.calJour})};
+  $('dispo').onclick=dispoFen;
+  document.querySelectorAll('.col').forEach(function(c){c.addEventListener('click',function(e){
+    if(e.target.closest('.rdv'))return;
+    var y=e.clientY-c.getBoundingClientRect().top,t=Math.floor((y/PX+H0)/15)*15;
+    nouveauRdv({pro:c.dataset.pro,date:c.dataset.date,debut:t});
+  })});
+  var c=document.querySelector('.cal');if(c)c.scrollTop=Math.max(0,((U.calJour===AUJ?nowMin():480)-H0-60)*PX);
+};
+
+/* ---------- fenêtres ---------- */
+function ouvrir(h){$('fen').innerHTML=h;$('voile').hidden=false;var f=$('fen').querySelector('input,select,button');if(f)f.focus()}
+function fermer(){$('voile').hidden=true}
+$('voile').addEventListener('click',function(e){if(e.target===this||e.target.closest('[data-fermer]'))fermer()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){fermer();$('ecran').hidden=true}if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.ligne.clic')){e.preventDefault();e.target.click()}});
+
+function ficheRdv(id){
+  var x=S.rdvs.find(function(r){return r.id===id});if(!x)return;
+  var p=pat(x.patient),m=motif(x.motif),nb=S.rdvs.filter(function(r){return r.patient===p.id&&r.statut==='absent'}).length;
+  var st=['arrive','consult','termine','absent'].map(function(s){return'<button type="button" class="btn petit '+(x.statut===s?'on':'clair')+'" data-st="'+s+'">'+{arrive:'Arrivé',consult:'En consultation',termine:'Terminé',absent:'Absent'}[s]+'</button>'}).join('');
+  ouvrir('<h3>'+esc(pnom(p))+'</h3><p class="sous">'+dLong(x.date)+', '+hm(x.debut)+' – '+hm(x.debut+x.duree)+' · '+esc(pro(x.pro).nom)+'</p>'+
+    '<p><span class="puce m'+m.i+'" style="background:var(--f);color:var(--x)">'+esc(m.nom)+'</span> '+puce(x.statut)+' <span class="puce">'+(x.source==='en ligne'?'Réservé en ligne':'Pris par téléphone')+'</span>'+(nb?' <span class="puce p-absent">'+nb+' absence'+(nb>1?'s':'')+' non excusée'+(nb>1?'s':'')+'</span>':'')+'</p>'+
+    '<p class="note" style="margin-top:10px">'+age(p)+' ans · NISS '+esc(p.niss)+' · '+esc(p.mutuelle)+' · '+esc(p.tel)+'</p>'+
+    (x.statut!=='annule'?'<p class="f" style="margin-top:14px;font-weight:600;font-size:12.5px;color:var(--doux)">Statut</p><div class="statuts">'+st+'</div>':'')+
+    '<label style="margin-top:12px">Note interne (non visible par le patient)<textarea id="rNote" style="min-height:70px">'+esc(x.note)+'</textarea></label>'+
+    '<div class="pied"><button class="btn clair petit" type="button" data-pat="'+p.id+'">Fiche patient</button>'+
+    (x.statut==='prevu'?'<button class="btn clair petit" type="button" id="rDep">Déplacer</button><button class="btn clair petit" type="button" id="rSms">Envoyer un rappel SMS</button>':'')+
+    (x.statut!=='annule'&&x.statut!=='termine'?'<button class="btn clair petit danger" type="button" id="rAnn">Annuler le rendez-vous</button>':'')+
+    '<button class="btn petit" type="button" id="rOk">Enregistrer</button></div>');
+  $('fen').querySelectorAll('[data-st]').forEach(function(b){b.onclick=function(){
+    x.statut=b.dataset.st;if(x.statut==='arrive')x.arrivee=x.date===AUJ?nowMin():x.debut;
+    save();fermer();rendre();toast(pnom(p)+' : '+LIB[x.statut].toLowerCase()+'.');
+  }});
+  if($('rDep'))$('rDep').onclick=function(){deplacer(x)};
+  if($('rSms'))$('rSms').onclick=function(){if(!p.sms)return toast('Ce patient a refusé les SMS.');S.smsCredit--;save();toast('SMS simulé envoyé au '+p.tel+'.')};
+  if($('rAnn'))$('rAnn').onclick=function(){
+    if(!confirm('Annuler le rendez-vous de '+pnom(p)+' ? Un SMS d\'annulation sera envoyé.'))return;
+    x.statut='annule';save();fermer();rendre();
+    var w=S.attente.filter(function(a){return a.pro===x.pro});
+    toast(w.length?'Annulé. '+w.length+' patient'+(w.length>1?'s':'')+' en liste d\'attente pour ce praticien : proposez-leur ce créneau.':'Rendez-vous annulé, SMS simulé envoyé.');
+  };
+  $('rOk').onclick=function(){x.note=$('rNote').value;save();fermer();rendre()};
+}
+
+function nouveauRdv(o){
+  var p=o.pro||U.calPro||'dubois',k=o.date||AUJ;
+  ouvrir('<h3>Nouveau rendez-vous</h3><p class="sous">Le patient reçoit une confirmation par SMS ou e-mail.</p><div class="form">'+
+    '<label>Patient<input id="nPat" list="lPat" placeholder="Nom, prénom ou NISS" autocomplete="off"></label><datalist id="lPat">'+S.pats.map(function(x){return'<option value="'+esc(pnom(x)+' · '+x.niss)+'">'}).join('')+'</datalist>'+
+    '<p class="note" id="nNew">Patient absent de la liste ? Tapez son nom complet : une fiche sera créée.</p>'+
+    '<div class="f2"><label'+(SOLO?' hidden':'')+'>Praticien<select id="nPro">'+PROS.map(function(x){return'<option value="'+x.id+'"'+(x.id===p?' selected':'')+'>'+esc(x.nom)+'</option>'}).join('')+'</select></label><label>Motif<select id="nMot"></select></label></div>'+
+    '<div class="f2"><label>Date<input type="date" id="nDate" value="'+k+'"></label><label>Heure<input type="time" id="nH" step="300" value="'+(o.debut!=null?pad(Math.floor(o.debut/60))+':'+pad(o.debut%60):'09:00')+'"></label></div>'+
+    '<label>Note interne<input id="nNote" placeholder="Ex. : apporter les résultats de prise de sang"></label>'+
+    '<label class="chk"><input type="checkbox" id="nUrg"> Urgence : ajouter même si le créneau est déjà pris</label>'+
+    '<p class="err" id="nErr" hidden></p></div><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn" type="button" id="nOk">Enregistrer</button></div>');
+  function mots(){var pp=$('nPro').value;$('nMot').innerHTML=MOTIFS.filter(function(m){return m.pros.indexOf(pp)>=0}).map(function(m){return'<option value="'+m.id+'"'+(m.id===o.motif?' selected':'')+'>'+esc(m.nom)+' ('+motif(m.id).duree+' min)</option>'}).join('')}
+  mots();$('nPro').onchange=mots;
+  $('nOk').onclick=function(){
+    var v=$('nPat').value.trim(),err=$('nErr');err.hidden=true;
+    if(!v){err.textContent='Indiquez le patient.';err.hidden=false;return}
+    var pt=S.pats.find(function(x){return pnom(x)+' · '+x.niss===v||pnom(x).toLowerCase()===v.toLowerCase()});
+    var hh=$('nH').value.split(':'),t=+hh[0]*60+ +hh[1],pp=$('nPro').value,mo=motif($('nMot').value),d=$('nDate').value;
+    if(!d||isNaN(t)){err.textContent='Date ou heure invalide.';err.hidden=false;return}
+    if(t<H0||t+mo.duree>H1){err.textContent='Choisissez une heure entre '+hm(H0)+' et '+hm(H1)+'.';err.hidden=false;return}
+    if(absent(pp,d)){err.textContent=pro(pp).nom+' est absent ce jour-là.';err.hidden=false;return}
+    if(!$('nUrg').checked&&!libre(pp,d,t,mo.duree)){err.textContent='Ce créneau est déjà pris ou en dehors des heures de consultation.';err.hidden=false;return}
+    if(!pt){var w=v.split(/\s+/);pt={id:'p'+Date.now(),prenom:w[0],nom:w.slice(1).join(' ')||'?',naissance:'1990-01-01',niss:'à compléter',mutuelle:'à compléter',tel:'à compléter',email:'',traitant:pp,sms:true,bloque:false,nouveau:true,cree:AUJ};S.pats.push(pt)}
+    S.rdvs.push({id:'r'+Date.now(),pro:pp,date:d,debut:t,duree:mo.duree,motif:mo.id,patient:pt.id,statut:'prevu',arrivee:null,source:'téléphone',note:$('nNote').value,urgent:$('nUrg').checked,cree:AUJ});
+    S.attente=S.attente.filter(function(a){return a.patient!==pt.id});
+    save();fermer();U.calJour=d;rendre();toast('Rendez-vous enregistré. Confirmation simulée envoyée à '+pt.prenom+'.');
+  };
+}
+
+function dispoFen(){
+  ouvrir('<h3>Première disponibilité</h3><p class="sous">Le premier créneau libre, chez un praticien précis ou chez n\'importe lequel.</p><div class="form">'+
+    '<label>Motif<select id="dMot">'+MOTIFS.map(function(m){return'<option value="'+m.id+'">'+esc(m.nom)+'</option>'}).join('')+'</select></label>'+
+    '<label'+(SOLO?' hidden':'')+'>Praticien<select id="dPro"><option value="">Le premier disponible</option>'+PROS.map(function(p){return'<option value="'+p.id+'">'+esc(p.nom)+'</option>'}).join('')+'</select></label>'+
+    '<div id="dRes" class="carte" style="box-shadow:none;background:var(--fond)"></div></div><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn" type="button" id="dOk">Réserver ce créneau</button></div>');
+  var b;
+  function calc(){
+    var m=$('dMot').value,pp=$('dPro').value;
+    if(pp&&motif(m).pros.indexOf(pp)<0){$('dRes').innerHTML='<p class="vide">Ce praticien ne propose pas ce motif.</p>';b=null;return}
+    b=premiere(m,pp);$('dRes').innerHTML=b?'<b style="font-size:17px">'+dLong(b.date)+' à '+hm(b.debut)+'</b><p class="note">'+esc(pro(b.pro).nom)+' · '+motif(m).duree+' min</p>':'<p class="vide">Aucun créneau dans les 60 prochains jours.</p>';
+  }
+  calc();$('dMot').onchange=calc;$('dPro').onchange=calc;
+  $('dOk').onclick=function(){if(!b)return;var m=$('dMot').value;fermer();nouveauRdv({pro:b.pro,date:b.date,debut:b.debut,motif:m})};
+}
+
+function deplacer(x){
+  var p=pat(x.patient),mo=motif(x.motif);
+  ouvrir('<h3>Déplacer le rendez-vous</h3><p class="sous">'+esc(pnom(p))+' · '+esc(mo.nom)+' · actuellement '+dLong(x.date)+' à '+hm(x.debut)+'</p><div class="form">'+
+    '<label'+(mo.pros.length<2?' hidden':'')+'>Praticien<select id="mvP">'+mo.pros.map(function(q){return'<option value="'+q+'"'+(q===x.pro?' selected':'')+'>'+esc(pro(q).nom)+'</option>'}).join('')+'</select></label>'+
+    '<div class="f2"><label>Date<input type="date" id="mvD" value="'+x.date+'"></label><label>Heure<input type="time" id="mvH" step="300" value="'+pad(Math.floor(x.debut/60))+':'+pad(x.debut%60)+'"></label></div>'+
+    '<p class="err" id="mvE" hidden></p></div><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn clair" type="button" id="mvL">Premier créneau libre</button><button class="btn" type="button" id="mvOk">Déplacer</button></div>');
+  $('mvL').onclick=function(){var b=premiere(x.motif,$('mvP').value);if(!b)return;$('mvD').value=b.date;$('mvH').value=pad(Math.floor(b.debut/60))+':'+pad(b.debut%60)};
+  $('mvOk').onclick=function(){
+    var hh=$('mvH').value.split(':'),t=+hh[0]*60+ +hh[1],d=$('mvD').value,pp=$('mvP').value,e=$('mvE');
+    if(!d||isNaN(t)){e.textContent='Date ou heure invalide.';e.hidden=false;return}
+    if(absent(pp,d)){e.textContent=pro(pp).nom+' est absent ce jour-là.';e.hidden=false;return}
+    if(!libre(pp,d,t,x.duree,x.id)){e.textContent='Ce créneau est déjà pris ou en dehors des heures de consultation.';e.hidden=false;return}
+    x.pro=pp;x.date=d;x.debut=t;save();fermer();U.calJour=d;rendre();toast('Rendez-vous déplacé au '+dLong(d)+' à '+hm(t)+'. SMS de modification simulé envoyé.');
+  };
+}
+
+/* ---------- ce que voit le patient : réservation en ligne, avec les règles enregistrées ---------- */
+function apercu(){
+  var E={etape:0,connu:null,motif:null,pro:'',date:null,t:null,p:null},L=S.ligne;
+  function cadre(h,retour){
+    ouvrir('<p class="sur">Ce que voit le patient</p><h3>Prendre rendez-vous</h3><p class="sous">'+esc(CENTRE.nom)+'</p>'+(L.message?'<p class="note" style="margin-bottom:14px">'+esc(L.message)+'</p>':'')+h+'<div class="pied">'+(retour?'<button class="btn clair" type="button" id="apR">Retour</button>':'')+'<button class="btn clair" type="button" data-fermer>Fermer</button></div>');
+    if(retour)$('apR').onclick=function(){E.etape--;if(E.etape===2&&unSeul())E.etape=1;go()};
+  }
+  function choix(items){return'<div class="form">'+items.map(function(i){return'<button type="button" class="btn clair choix" data-c="'+esc(i[0])+'">'+i[1]+'</button>'}).join('')+'</div>'}
+  function clic(f){$('fen').querySelectorAll('[data-c]').forEach(function(b){b.onclick=function(){f(b.dataset.c)}})}
+  function unSeul(){return motif(E.motif).pros.length<2}
+  function titre(t){return'<p style="margin-bottom:10px"><b>'+t+'</b></p>'}
+  function slots(k){
+    var mo=motif(E.motif),ps=E.pro?[E.pro]:mo.pros,o={},d=Math.round((jour(k)-jour(AUJ))/864e5);
+    ps.forEach(function(pp){(pro(pp).h[jour(k).getDay()]||[]).forEach(function(iv){
+      for(var t=iv[0];t+mo.duree<=iv[1];t+=mo.duree){if(d*1440+t-nowMin()<L.delai*60)continue;if(o[t]==null&&libre(pp,k,t,mo.duree))o[t]=pp}
+    })});
+    return o;
+  }
+  function go(){
+    if(!L.actif)return cadre('<p>La réservation en ligne est fermée pour le moment. Appelez le '+esc(CENTRE.tel)+'.</p>');
+    if(E.etape===0){cadre(titre('Êtes-vous déjà venu au '+LIEU+' ?')+choix([['1','Oui, je suis déjà patient'],['0','Non, c\'est la première fois']]));clic(function(v){E.connu=v==='1';E.etape=1;go()});return}
+    if(E.etape===1){
+      if(!E.connu&&L.connus)return cadre('<p>La réservation en ligne est réservée aux patients déjà connus. Pour un premier rendez-vous, appelez le '+esc(CENTRE.tel)+'.</p>',true);
+      var ms=MOTIFS.filter(function(m){var c=motif(m.id);return c.ligne&&(E.connu||c.nouveaux)});
+      cadre(ms.length?titre('Quel est le motif de votre visite ?')+choix(ms.map(function(m){return[m.id,esc(m.nom)+' <small class="note">· '+motif(m.id).duree+' min</small>']})):'<p>Aucun motif n\'est réservable en ligne. Appelez le '+esc(CENTRE.tel)+'.</p>',true);
+      clic(function(v){E.motif=v;E.pro=unSeul()?motif(v).pros[0]:'';E.etape=unSeul()?3:2;go()});return;
+    }
+    if(E.etape===2){
+      cadre(titre('Avec qui ?')+choix([['','Le premier disponible']].concat(motif(E.motif).pros.map(function(q){return[q,esc(pro(q).nom)+' <small class="note">· '+esc(pro(q).spec)+'</small>']}))),true);
+      clic(function(v){E.pro=v;E.etape=3;go()});return;
+    }
+    if(E.etape===3){
+      var h='',n=0,abs=null;
+      for(var i=0;i<=L.horizon&&n<4;i++){
+        var k=plus(AUJ,i);
+        if(E.pro){var a=absent(E.pro,k);if(a){abs=abs||a;continue}}
+        var o=slots(k),ts=Object.keys(o).map(Number).sort(function(a,b){return a-b});
+        if(!ts.length)continue;n++;
+        h+='<p style="margin:12px 0 6px"><b>'+dLong(k)+'</b></p><div class="statuts">'+ts.slice(0,10).map(function(t){return'<button type="button" class="btn clair petit" data-c="'+k+'|'+t+'|'+o[t]+'">'+hm(t)+'</button>'}).join('')+(ts.length>10?'<span class="note" style="align-self:center">+ '+(ts.length-10)+' autres</span>':'')+'</div>';
+      }
+      cadre((abs?'<p class="note" style="color:var(--rouge)">'+esc(abs.message)+(abs.remplacant?' Remplaçant : '+esc(remp(abs))+'.':'')+'</p>':'')+(h?titre('Choisissez un créneau')+h:'<p>Aucun créneau libre dans les '+L.horizon+' prochains jours. Appelez le '+esc(CENTRE.tel)+'.</p>'),true);
+      clic(function(v){v=v.split('|');E.date=v[0];E.t=+v[1];E.p=v[2];E.etape=4;go()});return;
+    }
+    cadre(titre(dLong(E.date)+' à '+hm(E.t))+'<p style="margin:-6px 0 12px">'+esc(pro(E.p).nom)+' · '+esc(motif(E.motif).nom)+'</p><div class="form"><div class="f2"><label>Prénom<input id="apP" value="Camille"></label><label>Nom<input id="apN" value="Démo"></label></div><label>GSM<input id="apG" value="0470 12 34 56"></label><label class="chk"><input type="checkbox" id="apC" checked> J\'accepte de recevoir la confirmation et le rappel par SMS</label><p class="err" id="apE" hidden></p><button class="btn" type="button" id="apOk">Confirmer le rendez-vous</button></div>',true);
+    $('apOk').onclick=function(){
+      var pr=$('apP').value.trim()||'Patient',no=$('apN').value.trim()||'Démo';
+      var pt=S.pats.find(function(x){return x.prenom.toLowerCase()===pr.toLowerCase()&&x.nom.toLowerCase()===no.toLowerCase()});
+      if(pt&&pt.bloque){$('apE').textContent='La réservation en ligne n\'est pas possible pour ce dossier. Merci d\'appeler le '+CENTRE.tel+'.';$('apE').hidden=false;return}
+      if(!pt){pt={id:'p'+Date.now(),prenom:pr,nom:no,naissance:'1990-01-01',niss:'à compléter',mutuelle:'à compléter',tel:$('apG').value,email:'',traitant:PROS[0].id,sms:$('apC').checked,bloque:false,nouveau:true,cree:AUJ};S.pats.push(pt)}
+      var x={id:'r'+Date.now(),pro:E.p,date:E.date,debut:E.t,duree:motif(E.motif).duree,motif:E.motif,patient:pt.id,statut:'prevu',arrivee:null,source:'en ligne',note:'',cree:AUJ};
+      S.rdvs.push(x);save();rendre();
+      ouvrir('<p class="sur">Ce que voit le patient</p><h3>Rendez-vous confirmé</h3><p class="sous">'+dLong(x.date)+' à '+hm(x.debut)+' · '+esc(pro(x.pro).nom)+'</p><div class="carte" style="box-shadow:none;background:var(--fond)"><p class="note"><b>SMS reçu :</b> '+esc(remplir(S.textes.confirmation,x))+'</p></div><p class="note" style="margin-top:10px">Le rendez-vous est maintenant dans l\'agenda'+(pt.nouveau?', et la fiche du patient attend d\'être complétée.':'.')+'</p><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn" type="button" id="apV">Voir dans l\'agenda</button></div>');
+      $('apV').onclick=function(){fermer();vue='cal';U.calJour=x.date;U.calMode='jour';rendre()};
+    };
+  }
+  go();
+}
+
+/* ---------- Salle d'attente ---------- */
+VUES_R.salle=function(){
+  var l=duJour(AUJ,ROLE()),nm=nowMin(),sal=l.filter(function(x){return x.statut==='arrive'}).sort(function(a,b){return a.arrivee-b.arrivee}),cours=l.filter(function(x){return x.statut==='consult'}),att=l.filter(function(x){return x.statut==='prevu'&&x.debut<=nm+30&&x.debut>=nm-30});
+  var html=tete('Salle d\'attente','Le patient se signale à l\'accueil ou sur la borne : son médecin est prévenu dans l\'agenda.','<button class="btn clair" type="button" id="ecr">Afficher l\'écran de la salle</button>');
+  html+='<div class="grille g3"><div class="carte"><h2>En salle d\'attente<small>'+sal.length+'</small></h2>'+(sal.length?sal.map(function(x){var p=pat(x.patient),w=nm-x.arrivee,ret=nm-x.debut;return'<div class="ligne"><span class="h">'+hm(x.debut)+'</span><div class="q"><b>'+esc(pnom(p))+'</b><small>'+esc(pro(x.pro).court)+' · attend depuis '+w+' min'+(ret>5?' · <span style="color:var(--rouge)">retard '+ret+' min</span>':'')+'</small></div><button class="btn petit" type="button" data-appel="'+x.id+'">Appeler</button></div>'}).join(''):'<p class="vide">Personne en salle d\'attente.</p>')+'</div>'+
+    '<div class="carte"><h2>En consultation<small>'+cours.length+'</small></h2>'+(cours.length?cours.map(function(x){return'<div class="ligne"><span class="h">'+hm(x.debut)+'</span><div class="q"><b>'+esc(pnom(pat(x.patient)))+'</b><small>'+esc(pro(x.pro).court)+'</small></div><button class="btn clair petit" type="button" data-fin="'+x.id+'">Terminé</button></div>'}).join(''):'<p class="vide">Aucune consultation en cours.</p>')+'</div>'+
+    '<div class="carte"><h2>Attendus maintenant<small>'+att.length+'</small></h2>'+(att.length?att.map(function(x){return'<div class="ligne"><span class="h">'+hm(x.debut)+'</span><div class="q"><b>'+esc(pnom(pat(x.patient)))+'</b><small>'+esc(pro(x.pro).court)+'</small></div><button class="btn clair petit" type="button" data-arr="'+x.id+'">Arrivé</button></div>'}).join(''):'<p class="vide">Personne d\'attendu dans la demi-heure.</p>')+'</div></div>';
+  return html;
+};
+AP.salle=function(){
+  function set(sel,st,msg){document.querySelectorAll('['+sel+']').forEach(function(b){b.onclick=function(){var x=S.rdvs.find(function(r){return r.id===b.getAttribute(sel)});x.statut=st;if(st==='arrive')x.arrivee=nowMin();if(st==='consult')U.appel=x.id;save();rendre();toast(pnom(pat(x.patient))+msg)}})}
+  set('data-appel','consult',' est appelé.');set('data-fin','termine',' : consultation terminée.');set('data-arr','arrive',' est en salle d\'attente.');
+  $('ecr').onclick=ecran;
+};
+function ecran(){
+  var l=duJour(AUJ),sal=l.filter(function(x){return x.statut==='arrive'}),ap=S.rdvs.find(function(r){return r.id===U.appel})||l.filter(function(x){return x.statut==='consult'})[0];
+  function tk(x){return'N° '+(100+S.rdvs.indexOf(x)%900)}
+  var e=$('ecran');e.innerHTML='<h2>'+esc(CENTRE.nom)+'</h2>'+(ap?'<p class="appel">'+tk(ap)+'<small>est attendu par '+esc(pro(ap.pro).nom)+'</small></p>':'<p class="appel">Bienvenue<small>Signalez-vous à l\'accueil.</small></p>')+
+    '<ul>'+sal.map(function(x){return'<li>'+tk(x)+' · '+esc(pro(x.pro).nom)+'</li>'}).join('')+'</ul><p style="margin-top:auto;opacity:.6">Écran anonyme : aucun nom de patient. Appuyez sur Échap ou touchez l\'écran pour fermer.</p>';
+  e.hidden=false;e.onclick=function(){e.hidden=true};
+}
+
+/* ---------- Patients ---------- */
+VUES_R.patients=function(){
+  var q=U.q.toLowerCase().replace(/[.\-\s]/g,''),l=S.pats.filter(function(p){return!q||(p.prenom+p.nom+p.niss+p.tel).toLowerCase().replace(/[.\-\s]/g,'').indexOf(q)>=0}).sort(function(a,b){return(a.nom+a.prenom).localeCompare(b.nom+b.prenom)});
+  var html=tete('Patients',S.pats.length+' patients ont déjà pris rendez-vous au '+LIEU+'.','<input id="q" placeholder="Rechercher un nom, un NISS, un téléphone" value="'+esc(U.q)+'" style="width:300px">');
+  html+='<div class="carte tablewrap"><table><thead><tr><th>Patient</th><th>Naissance</th><th>NISS</th><th>Mutuelle</th><th>Téléphone</th><th>Prochain rdv</th><th></th></tr></thead><tbody>'+l.map(function(p){
+    var nx=S.rdvs.filter(function(r){return r.patient===p.id&&r.date>=AUJ&&r.statut==='prevu'}).sort(function(a,b){return a.date<b.date?-1:1})[0],ab=S.rdvs.filter(function(r){return r.patient===p.id&&r.statut==='absent'}).length;
+    return'<tr class="clic" data-pat="'+p.id+'"><td><b>'+esc(p.nom)+'</b> '+esc(p.prenom)+'</td><td>'+dCourt(p.naissance)+'/'+p.naissance.slice(0,4)+'</td><td>'+esc(p.niss)+'</td><td>'+esc(p.mutuelle)+'</td><td>'+esc(p.tel)+'</td><td>'+(nx?dCourt(nx.date)+' '+hm(nx.debut):'–')+'</td><td>'+(p.nouveau?'<span class="puce p-ligne">Nouveau</span> ':'')+(p.bloque?'<span class="puce p-absent">Réservation en ligne bloquée</span> ':'')+(ab>1?'<span class="puce p-absent">'+ab+' absences</span>':'')+'</td></tr>';
+  }).join('')+'</tbody></table></div>';
+  return html;
+};
+AP.patients=function(){var i=$('q');i.oninput=function(){U.q=this.value;var p=this.selectionStart;rendre();var n=$('q');n.focus();n.setSelectionRange(p,p)}};
+function fichePat(id){
+  var p=pat(id),h=S.rdvs.filter(function(r){return r.patient===id}).sort(function(a,b){return(b.date+pad(b.debut))<(a.date+pad(a.debut))?-1:1});
+  ouvrir('<h3>'+esc(pnom(p))+'</h3><p class="sous">'+age(p)+' ans · patient depuis le '+dCourt(p.cree)+'/'+p.cree.slice(0,4)+'</p><div class="form">'+
+    '<div class="f2"><label>Prénom<input id="fP" value="'+esc(p.prenom)+'"></label><label>Nom<input id="fN" value="'+esc(p.nom)+'"></label></div>'+
+    '<div class="f2"><label>Date de naissance<input type="date" id="fD" value="'+esc(p.naissance)+'"></label><label>NISS<input id="fS" value="'+esc(p.niss)+'"></label></div>'+
+    '<div class="f2"><label>Mutuelle<select id="fM">'+['à compléter'].concat(MUTS).map(function(m){return'<option'+(m===p.mutuelle?' selected':'')+'>'+m+'</option>'}).join('')+'</select></label><label'+(SOLO?' hidden':'')+'>Médecin traitant (DMG)<select id="fT">'+PROS.filter(function(x){return x.id!=='martin'}).map(function(x){return'<option value="'+x.id+'"'+(x.id===p.traitant?' selected':'')+'>'+esc(x.nom)+'</option>'}).join('')+'</select></label></div>'+
+    '<div class="f2"><label>GSM<input id="fG" value="'+esc(p.tel)+'"></label><label>E-mail<input id="fE" value="'+esc(p.email)+'"></label></div>'+
+    '<label class="chk"><input type="checkbox" id="fSms"'+(p.sms?' checked':'')+'> Accepte les rappels par SMS</label>'+
+    '<label class="chk"><input type="checkbox" id="fB"'+(p.bloque?' checked':'')+'> Bloquer la réservation en ligne (le patient doit téléphoner)</label>'+
+    '</div><h3 style="font-size:15px;margin-top:18px">Historique des rendez-vous</h3><div style="max-height:220px;overflow:auto">'+(h.length?h.map(function(x){return'<div class="ligne"><span class="h">'+dCourt(x.date)+'</span><div class="q"><b>'+hm(x.debut)+' · '+esc(motif(x.motif).nom)+'</b><small>'+esc(pro(x.pro).nom)+'</small></div>'+puce(x.statut)+'</div>'}).join(''):'<p class="vide">Aucun rendez-vous.</p>')+'</div>'+
+    '<p class="note" style="margin-top:10px">Le dossier médical reste dans votre logiciel (CareConnect, HealthOne…). L\'agenda ne garde que l\'administratif.</p>'+
+    '<div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn clair" type="button" id="fR">Nouveau rendez-vous</button><button class="btn" type="button" id="fOk">Enregistrer</button></div>');
+  $('fOk').onclick=function(){p.prenom=$('fP').value.trim()||p.prenom;p.nom=$('fN').value.trim()||p.nom;p.naissance=$('fD').value||p.naissance;p.niss=$('fS').value;p.mutuelle=$('fM').value;p.traitant=$('fT').value;p.tel=$('fG').value;p.email=$('fE').value;p.sms=$('fSms').checked;p.bloque=$('fB').checked;if(p.niss&&p.niss!=='à compléter'&&p.mutuelle!=='à compléter')p.nouveau=false;save();fermer();rendre();toast('Fiche enregistrée.')};
+  $('fR').onclick=function(){var v=pnom(p)+' · '+p.niss;fermer();nouveauRdv({pro:p.traitant});$('nPat').value=v};
+}
+
+/* ---------- Liste d'attente ---------- */
+VUES_R.attente=function(){
+  var html=tete('Liste d\'attente','Patients qui veulent un rendez-vous plus tôt. Dès qu\'un créneau se libère, proposez-le en un clic.','<button class="btn" type="button" id="wAdd">Ajouter un patient</button>');
+  html+='<div class="carte">'+(S.attente.length?S.attente.map(function(a){var p=pat(a.patient),b=premiere(a.motif,a.pro);return'<div class="ligne"><span class="h">'+dCourt(a.ajoute)+'</span><div class="q"><b>'+esc(pnom(p))+'</b><small>'+esc(pro(a.pro).nom)+' · '+esc(motif(a.motif).nom)+' · '+esc(a.souhait)+(b?' · premier créneau : '+dLong(b.date)+' à '+hm(b.debut):'')+'</small></div><button class="btn petit" type="button" data-prop="'+a.id+'">Proposer par SMS</button><button class="btn clair petit" type="button" data-wdel="'+a.id+'">Retirer</button></div>'}).join(''):'<p class="vide">La liste d\'attente est vide.</p>')+'</div>';
+  return html;
+};
+AP.attente=function(){
+  document.querySelectorAll('[data-prop]').forEach(function(b){b.onclick=function(){var a=S.attente.find(function(x){return x.id===b.dataset.prop}),c=premiere(a.motif,a.pro);toast(c?'SMS simulé : « Un créneau s\'est libéré le '+dLong(c.date)+' à '+hm(c.debut)+'. Répondez OUI pour le réserver. »':'Aucun créneau libre.')}});
+  document.querySelectorAll('[data-wdel]').forEach(function(b){b.onclick=function(){S.attente=S.attente.filter(function(x){return x.id!==b.dataset.wdel});save();rendre()}});
+  $('wAdd').onclick=function(){
+    ouvrir('<h3>Ajouter à la liste d\'attente</h3><div class="form"><label>Patient<select id="wP">'+S.pats.slice().sort(function(a,b){return a.nom.localeCompare(b.nom)}).map(function(p){return'<option value="'+p.id+'">'+esc(p.nom+' '+p.prenom)+'</option>'}).join('')+'</select></label>'+
+      '<div class="f2"><label'+(SOLO?' hidden':'')+'>Praticien<select id="wPr">'+PROS.map(function(p){return'<option value="'+p.id+'">'+esc(p.nom)+'</option>'}).join('')+'</select></label><label>Motif<select id="wM">'+MOTIFS.map(function(m){return'<option value="'+m.id+'">'+esc(m.nom)+'</option>'}).join('')+'</select></label></div>'+
+      '<label>Disponibilités du patient<input id="wS" placeholder="Ex. : le matin, pas le mercredi"></label></div><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn" type="button" id="wOk">Ajouter</button></div>');
+    $('wOk').onclick=function(){S.attente.push({id:'w'+Date.now(),patient:$('wP').value,pro:$('wPr').value,motif:$('wM').value,souhait:$('wS').value||'Dès que possible',ajoute:AUJ});save();fermer();rendre()};
+  };
+};
+
+/* ---------- Absences ---------- */
+VUES_R.abs=function(){
+  var html=tete('Absences et remplacements','Congés, formations, maladie. Les patients qui réservent en ligne voient le message et le remplaçant.','<button class="btn" type="button" id="aAdd">Ajouter une absence</button>');
+  var l=S.absences.slice().sort(function(a,b){return a.du<b.du?1:-1});
+  html+='<div class="carte tablewrap"><table><thead><tr><th>Praticien</th><th>Du</th><th>Au</th><th>Remplaçant</th><th>Message aux patients</th><th>Rdv concernés</th><th></th></tr></thead><tbody>'+l.map(function(a){
+    var n=actifs(S.rdvs.filter(function(r){return r.pro===a.pro&&r.date>=a.du&&r.date<=a.au})).length;
+    return'<tr><td><b>'+esc(pro(a.pro).nom)+'</b>'+(a.au<AUJ?'<br><small class="note">passée</small>':'')+'</td><td>'+dLong(a.du)+'</td><td>'+dLong(a.au)+'</td><td>'+(a.remplacant?esc(remp(a)):'–')+'</td><td>'+esc(a.message)+'</td><td>'+(n?'<span class="puce p-absent">'+n+' à déplacer</span>':'0')+'</td><td>'+(n&&a.au>=AUJ?'<button class="btn clair petit" type="button" data-depl="'+a.id+'">Prévenir les patients</button> ':'')+'<button class="btn clair petit danger" type="button" data-adel="'+a.id+'">Supprimer</button></td></tr>';
+  }).join('')+'</tbody></table></div>';
+  return html;
+};
+AP.abs=function(){
+  document.querySelectorAll('[data-adel]').forEach(function(b){b.onclick=function(){S.absences=S.absences.filter(function(x){return x.id!==b.dataset.adel});save();rendre()}});
+  document.querySelectorAll('[data-depl]').forEach(function(b){b.onclick=function(){var a=S.absences.find(function(x){return x.id===b.dataset.depl}),l=actifs(S.rdvs.filter(function(r){return r.pro===a.pro&&r.date>=a.du&&r.date<=a.au}));if(!confirm(l.length+' patients vont recevoir un SMS les invitant à reprendre rendez-vous'+(a.remplacant?' avec '+remp(a):'')+'. Leurs rendez-vous seront annulés. Continuer ?'))return;l.forEach(function(r){r.statut='annule'});S.smsCredit-=l.length;save();rendre();toast(l.length+' SMS simulés envoyés.')}});
+  $('aAdd').onclick=function(){
+    ouvrir('<h3>Ajouter une absence</h3><div class="form"><label'+(SOLO?' hidden':'')+'>Praticien<select id="aP">'+PROS.map(function(p){return'<option value="'+p.id+'">'+esc(p.nom)+'</option>'}).join('')+'</select></label>'+
+      '<div class="f2"><label>Du<input type="date" id="aD" value="'+AUJ+'"></label><label>Au<input type="date" id="aA" value="'+plus(AUJ,6)+'"></label></div>'+
+      (SOLO?'<label>Remplaçant (facultatif)<input id="aR" placeholder="Ex. : Dr Thomas Henry, 064 55 66 77"></label>':'<label>Remplaçant<select id="aR"><option value="">Aucun</option>'+PROS.map(function(p){return'<option value="'+p.id+'">'+esc(p.nom)+'</option>'}).join('')+'</select></label>')+
+      '<label>Message affiché aux patients<input id="aM" value="Absent pour congés."></label><p class="err" id="aErr" hidden></p></div><div class="pied"><button class="btn clair" type="button" data-fermer>Fermer</button><button class="btn" type="button" id="aOk">Ajouter</button></div>');
+    $('aOk').onclick=function(){if($('aA').value<$('aD').value){$('aErr').textContent='La fin est avant le début.';$('aErr').hidden=false;return}if(!SOLO&&$('aR').value===$('aP').value){$('aErr').textContent='Le remplaçant doit être un autre praticien.';$('aErr').hidden=false;return}S.absences.push({id:'a'+Date.now(),pro:$('aP').value,du:$('aD').value,au:$('aA').value,remplacant:$('aR').value,message:$('aM').value});save();fermer();rendre()};
+  };
+};
+
+/* ---------- Réservation en ligne ---------- */
+VUES_R.ligne=function(){
+  var L=S.ligne,html=tete('Réservation en ligne','Ce que les patients peuvent réserver eux-mêmes, depuis le site du '+LIEU+' ou un lien.','<button class="btn clair" type="button" id="lAp">Voir ce que voit le patient</button>');
+  html+='<div class="grille g2"><div class="carte"><h2>Règles</h2><div class="form">'+
+    '<label class="chk"><input type="checkbox" id="lA"'+(L.actif?' checked':'')+'> Réservation en ligne activée</label>'+
+    '<label class="chk"><input type="checkbox" id="lC"'+(L.connus?' checked':'')+'> Réservée aux patients déjà connus du '+LIEU+'</label>'+
+    '<div class="f2"><label>Délai minimum avant le rendez-vous<select id="lD">'+[1,2,4,12,24].map(function(h){return'<option value="'+h+'"'+(L.delai===h?' selected':'')+'>'+h+' h</option>'}).join('')+'</select></label><label>Réservable jusqu\'à<select id="lH">'+[7,14,30,60,90].map(function(d){return'<option value="'+d+'"'+(L.horizon===d?' selected':'')+'>'+d+' jours à l\'avance</option>'}).join('')+'</select></label></div>'+
+    '<label>Message affiché sur la page de réservation<textarea id="lM">'+esc(L.message)+'</textarea></label>'+
+    '<p class="note">Les patients bloqués (trop d\'absences non excusées) voient un message les invitant à téléphoner.</p></div></div>'+
+    '<div class="carte"><h2>Motifs proposés</h2><div class="tablewrap"><table><thead><tr><th>Motif</th><th>Durée</th><th>En ligne</th><th>Nouveaux patients</th></tr></thead><tbody>'+MOTIFS.map(function(m,i){var c=motif(m.id);return'<tr><td><span class="m'+i+'" style="display:inline-flex;align-items:center;gap:8px"><i class="pastille"></i>'+esc(m.nom)+'</span><br><small class="note">'+m.pros.map(function(p){return pro(p).court}).join(', ')+'</small></td><td><select data-mdur="'+m.id+'" style="width:86px;min-height:34px;padding:4px 6px">'+[10,15,20,30,45,60].map(function(d){return'<option'+(c.duree===d?' selected':'')+'>'+d+'</option>'}).join('')+'</select></td><td><input type="checkbox" data-ml="'+m.id+'"'+(c.ligne?' checked':'')+' style="width:18px;min-height:0"></td><td><input type="checkbox" data-mn="'+m.id+'"'+(c.nouveaux?' checked':'')+' style="width:18px;min-height:0"></td></tr>'}).join('')+'</tbody></table></div></div></div>'+
+    '<p style="margin-top:16px"><button class="btn" type="button" id="lOk">Enregistrer</button></p>';
+  return html;
+};
+AP.ligne=function(){$('lAp').onclick=function(){enr(true);apercu()};$('lOk').onclick=function(){enr()};function enr(muet){
+  var L=S.ligne;L.actif=$('lA').checked;L.connus=$('lC').checked;L.delai=+$('lD').value;L.horizon=+$('lH').value;L.message=$('lM').value;
+  S.motifs.forEach(function(c){c.ligne=document.querySelector('[data-ml="'+c.id+'"]').checked;c.nouveaux=document.querySelector('[data-mn="'+c.id+'"]').checked;c.duree=+document.querySelector('[data-mdur="'+c.id+'"]').value});
+  save();if(!muet)toast('Réglages de réservation enregistrés.');
+}};
+
+/* ---------- Rappels ---------- */
+VUES_R.msg=function(){
+  var ex=S.rdvs.find(function(r){return r.date>AUJ&&r.statut==='prevu'})||S.rdvs[0];
+  var html=tete('Rappels SMS et e-mail','Envoyés automatiquement. Variables : {patient} {praticien} {date} {heure} {centre} {adresse} {lien}','<span class="puce p-ligne">'+S.smsCredit+' SMS restants</span>');
+  html+='<div class="grille g3">'+[['confirmation','Confirmation','À la prise de rendez-vous'],['rappel','Rappel','Avant le rendez-vous'],['annulation','Annulation','Si le centre annule']].map(function(t){
+    return'<div class="carte"><h2>'+t[1]+'<small>'+t[2]+'</small></h2><textarea data-txt="'+t[0]+'" style="min-height:120px">'+esc(S.textes[t[0]])+'</textarea><p class="note" data-cpt="'+t[0]+'"></p><p class="note" style="margin-top:8px"><b>Aperçu :</b> <span data-ap="'+t[0]+'"></span></p></div>';
+  }).join('')+'</div><div class="carte" style="margin-top:16px"><div class="form"><label style="max-width:320px">Envoyer le rappel<select id="mH">'+[[24,'24 h avant'],[48,'48 h avant'],[2,'2 h avant']].map(function(o){return'<option value="'+o[0]+'"'+(S.rappelH===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label><p class="note">Les rappels réduisent fortement les rendez-vous oubliés. Un patient peut refuser les SMS dans sa fiche : il reçoit alors un e-mail.</p><p><button class="btn" type="button" id="mOk">Enregistrer</button></p></div></div>';
+  U.ex=ex;return html;
+};
+AP.msg=function(){
+  function maj(){document.querySelectorAll('[data-txt]').forEach(function(t){var k=t.dataset.txt,v=remplir(t.value,U.ex),n=v.length,u=Math.ceil(n/153)||1;document.querySelector('[data-ap="'+k+'"]').textContent=v;document.querySelector('[data-cpt="'+k+'"]').textContent=n+' caractères · '+(n<=160?'1 SMS':u+' SMS');})}
+  document.querySelectorAll('[data-txt]').forEach(function(t){t.oninput=maj});maj();
+  $('mOk').onclick=function(){document.querySelectorAll('[data-txt]').forEach(function(t){S.textes[t.dataset.txt]=t.value});S.rappelH=+$('mH').value;save();toast('Textes enregistrés.')};
+};
+
+/* ---------- Statistiques ---------- */
+VUES_R.stats=function(){
+  var d0=plus(AUJ,-28),l=S.rdvs.filter(function(r){return r.date>=d0&&r.date<AUJ}),a=actifs(l),abs=l.filter(function(r){return r.statut==='absent'}).length,ann=l.filter(function(r){return r.statut==='annule'}).length,lig=a.filter(function(r){return r.source==='en ligne'}).length;
+  var nouv=a.filter(function(r){return r.motif==='premiere'||r.motif==='bilan'}).length;
+  function barres(items){var mx=Math.max.apply(null,items.map(function(i){return i[1]}))||1;return'<div class="barres">'+items.map(function(i){return'<div class="barre"><span>'+esc(i[0])+'</span><i style="width:'+(i[1]/mx*100)+'%;'+(i[2]?'background:'+i[2]:'')+'"></i><em>'+i[1]+'</em></div>'}).join('')+'</div>'}
+  var html=tete('Statistiques','Les 4 dernières semaines (du '+dCourt(d0)+' à hier).');
+  html+='<div class="kpis"><div class="kpi"><span>Rendez-vous honorés ou manqués</span><b>'+a.length+'</b></div><div class="kpi"><span>Réservés en ligne</span><b>'+Math.round(lig/(a.length||1)*100)+' %</b><small>'+lig+' rendez-vous</small></div><div class="kpi"><span>Absences non excusées</span><b>'+Math.round(abs/(a.length||1)*1000)/10+' %</b><small>'+abs+' rendez-vous</small></div><div class="kpi"><span>Annulations</span><b>'+ann+'</b></div><div class="kpi"><span>Nouveaux patients</span><b>'+nouv+'</b></div></div>';
+  var occ=PROS.map(function(p){var dispo=0,pris=0;for(var k=d0;k<AUJ;k=plus(k,1)){if(absent(p.id,k))continue;(p.h[jour(k).getDay()]||[]).forEach(function(iv){dispo+=iv[1]-iv[0]})}actifs(l.filter(function(r){return r.pro===p.id})).forEach(function(r){pris+=r.duree});return[p.nom,Math.round(pris/(dispo||1)*100)]});
+  html+='<div class="grille g2">'+(SOLO?'':'<div class="carte"><h2>Rendez-vous par praticien</h2>'+barres(PROS.map(function(p){return[p.nom,a.filter(function(r){return r.pro===p.id}).length]}))+'</div>')+
+    '<div class="carte"><h2>Taux de remplissage<small>temps réservé / temps ouvert, en %</small></h2>'+barres(occ)+'</div>'+
+    '<div class="carte"><h2>Par motif</h2>'+barres(MOTIFS.map(function(m){return[m.nom,a.filter(function(r){return r.motif===m.id}).length]}).filter(function(i){return i[1]}))+'</div>';
+  var js=[1,2,3,4,5,6].map(function(w){return[JOURS[w].slice(0,3),a.filter(function(r){return jour(r.date).getDay()===w}).length]}),mx=Math.max.apply(null,js.map(function(x){return x[1]}))||1;
+  html+='<div class="carte"><h2>Par jour de la semaine</h2><div class="cols">'+js.map(function(x){return'<div><b style="color:var(--encre)">'+x[1]+'</b><i style="height:'+(x[1]/mx*120)+'px"></i>'+x[0]+'</div>'}).join('')+'</div></div></div>';
+  return html;
+};
+
+/* ---------- Centre et intégrations ---------- */
+VUES_R.regl=function(){
+  var I=S.integrations;
+  var html=tete(SOLO?'Cabinet et intégrations':'Centre et intégrations','Horaires et liens avec vos logiciels.');
+  html+='<div class="grille g2"><div class="carte"><h2>'+(SOLO?'Horaires de consultation':'Praticiens et horaires')+'</h2>'+PROS.map(function(p){return'<div class="ligne"><div class="q"><b>'+esc(p.nom)+'</b><small>'+esc(p.spec)+'<br>'+[1,2,3,4,5,6].filter(function(w){return p.h[w]}).map(function(w){return JOURS[w].slice(0,3)+'. '+p.h[w].map(function(iv){return hm(iv[0])+'–'+hm(iv[1])}).join(', ')}).join(' · ')+'</small></div></div>'}).join('')+'<p class="note" style="margin-top:8px">'+(SOLO?'Un télésecrétariat ou un remplaçant peut recevoir son propre accès.':'Chaque praticien a son compte et ne voit que son agenda. Le secrétariat voit tout le centre.')+'</p></div>'+
+    '<div class="carte"><h2>Intégrations</h2><div class="form">'+
+    '<label class="chk"><input type="checkbox" data-int="careconnect"'+(I.careconnect?' checked':'')+'> Logiciel médical CareConnect : patients et rendez-vous synchronisés, dossier ouvert depuis l\'agenda</label>'+
+    '<label class="chk"><input type="checkbox" data-int="google"'+(I.google?' checked':'')+'> Google Agenda, Apple ou Outlook : les rendez-vous apparaissent dans l\'agenda personnel</label>'+
+    '<label class="chk"><input type="checkbox" data-int="ehealth"'+(I.ehealth?' checked':'')+'> Lecture de la carte eID à l\'accueil pour créer la fiche patient</label>'+
+    '<p class="note">eAttest, MyCareNet et le dossier médical restent dans le logiciel médical : l\'agenda ne remplace pas le DMI.</p></div></div>'+
+    '<div class="carte"><h2>Sécurité et RGPD</h2><p class="note">Données hébergées dans l\'Union européenne, chiffrées, sauvegarde quotidienne. Connexion personnelle par praticien, double authentification. Journal des accès. Contrat de sous-traitance signé avec le centre. Aucune donnée médicale : seulement l\'administratif et le motif du rendez-vous.</p></div>'+
+    '<div class="carte"><h2>'+esc(CENTRE.nom)+'</h2><p>'+esc(CENTRE.adresse)+'<br>'+esc(CENTRE.tel)+'</p><p style="margin-top:12px"><button class="btn clair petit" type="button" id="reset2">Remettre la démo à zéro</button></p></div></div>';
+  return html;
+};
+AP.regl=function(){$('reset2').onclick=function(){$('reset').click()};document.querySelectorAll('[data-int]').forEach(function(c){c.onchange=function(){S.integrations[c.dataset.int]=c.checked;save();toast('Intégration '+(c.checked?'activée':'désactivée')+' (simulation).')}})};
+
+$('reset').onclick=function(){if(!confirm('Remettre toutes les données de la démo à zéro ?'))return;S=generer();S.jour=AUJ;save();vue='bord';rendre();toast('Démo remise à zéro.')};
+setInterval(function(){if(vue==='bord'||vue==='salle')rendre()},60000);
+rendre();
+})();
+</script>
+</body>
+</html>
