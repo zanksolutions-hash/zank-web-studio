@@ -178,7 +178,23 @@ input,select,textarea{background:rgba(255,255,255,.75);border-color:rgba(255,255
 .fen{background:rgba(255,255,255,.78)}
 .voile{background:rgba(19,48,58,.25);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .demo{background:rgba(255,248,230,.6);border-color:rgba(240,223,170,.8);-webkit-backdrop-filter:var(--verre);backdrop-filter:var(--verre)}
+/* Écran fixe, sans barre de défilement */
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+@media(min-width:901px){
+  html,body{height:100%;overflow:hidden}
+  .app{height:100vh;min-height:0}
+  .main{height:calc(100vh - 40px);overflow-y:auto}
+  .cal{max-height:calc(100vh - 190px)}
+}
+@media(min-width:901px) and (min-height:720px){
+  .main:has(.fit){display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+  .fit{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,1.15fr) minmax(0,1fr);gap:16px}
+  .fit>.grille{min-height:0;margin:0!important}
+  .fit .carte{overflow-y:auto;min-height:0}
+}
 @media(max-width:900px){
+  .fit>.grille+.grille{margin-top:16px}
   .app{padding:10px;gap:12px}
   .cote{height:auto;top:10px;border-radius:16px}
   .main{padding:0 0 60px}
@@ -419,7 +435,7 @@ VUES_R.bord=function(){
     '<div class="kpi"><span>En salle d\'attente</span><b>'+sal.length+'</b><small>'+(sal.length?'attente la plus longue '+Math.max.apply(null,sal.map(function(x){return nm-x.arrivee}))+' min':'personne')+'</small></div>'+
     '<div class="kpi"><span>Réservés en ligne (7 j)</span><b>'+sem.length+'</b><small>sans appel au secrétariat</small></div>'+
     '<div class="kpi"><span>Absences non excusées (30 j)</span><b>'+String(base?Math.round(abs/base*1000)/10:0).replace('.',',')+' %</b><small>'+abs+' rendez-vous perdus</small></div></div>';
-  html+='<div class="grille g3">'+MES().map(function(p){
+  html+='<div class="fit"><div class="grille g3">'+MES().map(function(p){
     var a=absent(p.id,AUJ),lp=actifs(duJour(AUJ,p.id)),suiv=lp.filter(function(x){return x.statut==='prevu'||x.statut==='arrive'||x.statut==='consult'}).slice(0,5);
     return'<div class="carte"><h2>'+esc(p.nom)+'<small>'+lp.length+' rdv</small></h2>'+(a?'<p class="vide">Absent aujourd\'hui.</p>':suiv.length?suiv.map(ligneRdv).join(''):'<p class="vide">Plus de rendez-vous aujourd\'hui.</p>')+'<p style="margin-top:8px"><button class="btn clair petit" type="button" data-go="cal" data-jour="'+AUJ+'">Voir l\'agenda</button></p></div>';
   }).join('')+'</div>';
