@@ -406,7 +406,7 @@ document.getElementById('y').textContent=new Date().getFullYear();
 /* Agenda de prise de rendez-vous */
 (()=>{
   const API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8790':'https://zank-rdv.zank-solutions.workers.dev';
-  const SITE='demo',f=document.getElementById('resa');if(!f)return;
+  const SITE='instant-soin',f=document.getElementById('resa');if(!f)return;
   const $=id=>document.getElementById(id),prest=$('r-prest'),jours=$('r-jours'),e2=$('r-e2'),e3=$('r-e3'),err=$('r-err'),ok=$('r-ok'),recap=$('r-recap');
   const heure=m=>Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');
   const date=(j,o)=>new Intl.DateTimeFormat('fr-BE',Object.assign({timeZone:'UTC'},o)).format(new Date(j+'T12:00:00Z'));
