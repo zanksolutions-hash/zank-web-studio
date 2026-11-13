@@ -94,8 +94,9 @@ tr.clic:hover td{background:#f7fafb}
 .col .ferme{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,#f3f5f7 0 6px,#eaeef1 6px 12px)}
 .col .abs{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,#fbe7e3 0 6px,#f6d6cf 6px 12px);display:flex;align-items:flex-start;justify-content:center;padding-top:10px;font-size:12px;font-weight:600;color:var(--rouge);text-align:center}
 .col .trait{position:absolute;left:0;right:0;border-top:1px solid #eef2f5}
-.col .maint{position:absolute;left:0;right:0;border-top:2px solid var(--rouge);z-index:2}
-.rdv{position:absolute;left:3px;right:3px;border-radius:7px;background:var(--f);border-left:3px solid var(--c);color:var(--x);padding:3px 7px;font-size:12px;line-height:1.25;overflow:hidden;cursor:pointer;text-align:left;z-index:1}
+.maint{position:absolute;left:0;right:0;border-top:2px solid var(--rouge);pointer-events:none}
+.maint:before{content:"";position:absolute;left:-4px;top:-6px;width:10px;height:10px;border-radius:50%;background:var(--rouge);z-index:3}
+.rdv{position:absolute;left:3px;right:3px;border-radius:7px;background:var(--f);border-left:3px solid var(--c);color:var(--x);padding:3px 7px;font-size:12px;line-height:1.25;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:pointer;text-align:left;z-index:1}
 .rdv b{font-weight:650}
 .rdv.annule{opacity:.45;text-decoration:line-through}
 .rdv.absent{background:var(--rouge-f);border-left-color:var(--rouge);color:var(--rouge)}
@@ -165,7 +166,7 @@ body{background:#dfeef0 fixed;background-image:radial-gradient(620px 620px at 8%
 .cote{border-radius:20px;height:calc(100vh - 40px);top:20px}
 .carte,.kpi,.cal{border-radius:20px}
 .main{padding:6px 16px 60px 0}
-.colh{background:rgba(255,255,255,.72);-webkit-backdrop-filter:var(--verre);backdrop-filter:var(--verre)}
+.colh{background:rgba(240,248,249,.96);-webkit-backdrop-filter:var(--verre);backdrop-filter:var(--verre)}
 .menu button[aria-current=page]{background:rgba(255,255,255,.75);color:#0b5f63;box-shadow:0 2px 8px rgba(20,60,70,.08)}
 .menu button:hover{background:rgba(255,255,255,.5)}
 .menu .nb{background:#e8590c}
@@ -181,6 +182,7 @@ input,select,textarea{background:rgba(255,255,255,.75);border-color:rgba(255,255
   .app{padding:10px;gap:12px}
   .cote{height:auto;top:10px;border-radius:16px}
   .main{padding:0 0 60px}
+  .carte{overflow-x:auto;min-width:0}
 }
 </style>
 </head>
@@ -206,7 +208,7 @@ input,select,textarea{background:rgba(255,255,255,.75);border-color:rgba(255,255
 'use strict';
 var MODE='centre';try{MODE=localStorage.getItem('agenda-sante-mode')==='solo'?'solo':'centre'}catch(e){}
 var SOLO=MODE==='solo',LIEU=SOLO?'cabinet':'centre';
-var CLE='agenda-sante-demo-v2-'+MODE;
+var CLE='agenda-sante-demo-v5-'+MODE;
 var $=function(id){return document.getElementById(id)};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function pad(n){return String(n).padStart(2,'0')}
@@ -214,8 +216,9 @@ function cle(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate
 function jour(k){var p=k.split('-');return new Date(+p[0],p[1]-1,+p[2])}
 function plus(k,n){var d=jour(k);d.setDate(d.getDate()+n);return cle(d)}
 function hm(m){return Math.floor(m/60)+':'+pad(m%60)}
-function nowMin(){var d=new Date();return d.getHours()*60+d.getMinutes()}
-var AUJ=cle(new Date());
+var SIMU=null;
+function nowMin(){if(SIMU!=null)return SIMU;var d=new Date();return d.getHours()*60+d.getMinutes()}
+var AUJ=(function(){var d=new Date();if(d.getDay()===0)d.setDate(d.getDate()+1);return cle(d)})();
 var JOURS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 function dLong(k){var d=jour(k);return JOURS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()]}
@@ -252,7 +255,12 @@ var MOTIFS=[
   {id:'bilan',nom:'Bilan kiné (première séance)',duree:45,pros:['martin'],ligne:true,nouveaux:true,poids:2}
 ];
 if(SOLO){PROS=PROS.slice(0,1);MOTIFS=MOTIFS.filter(function(m){return m.pros.indexOf('dubois')>=0}).map(function(m){return Object.assign({},m,{pros:['dubois']})})}
+/* Hors des heures de consultation, la démo se place en pleine matinée */
+SIMU=(function(){var d=new Date(),m=d.getHours()*60+d.getMinutes(),dw=jour(AUJ).getDay(),o=1e9,f=0,ouvert=false;
+  PROS.forEach(function(p){(p.h[dw]||[]).forEach(function(iv){o=Math.min(o,iv[0]);f=Math.max(f,iv[1]);if(m>=iv[0]+20&&m<=iv[1]-20)ouvert=true})});
+  return cle(d)===AUJ&&ouvert?null:Math.min(o+140,f-40)})();
 var PRENOMS=['Emma','Lucas','Louise','Noah','Alice','Arthur','Julie','Louis','Camille','Hugo','Chloé','Nathan','Manon','Théo','Sarah','Mathis','Léa','Victor','Inès','Tom','Marie','Jean','Nicole','André','Martine','Paul','Monique','Yves','Fatima','Mehdi','Giulia','Marco'];
+var FEMMES=['Emma','Louise','Alice','Julie','Camille','Chloé','Manon','Sarah','Léa','Inès','Marie','Nicole','Martine','Monique','Fatima','Giulia'];
 var NOMS=['Peeters','Janssens','Maes','Jacobs','Mertens','Willems','Claes','Goossens','Wouters','De Smet','Dupont','Lambot','Dubrulle','Lejeune','Renard','Leroy','Bastin','Collard','Gilson','Hennuy','Rossi','Benali','Moreau','Delhaye','Lemaire','Fontaine','Mathieu','Simon'];
 var MUTS=['Solidaris','Mutualité chrétienne','Partenamut','Mutualité libérale','Helan','Mutualité neutre'];
 
@@ -261,9 +269,9 @@ function niss(r,an,mo,j,seq){var base=pad(an%100)+pad(mo)+pad(j)+String(seq).pad
 
 function generer(){
   var r=rnd(20261113),pick=function(a){return a[Math.floor(r()*a.length)]};
-  var pats=[];
+  var pats=[],noms={};
   for(var i=0;i<60;i++){
-    var an=1940+Math.floor(r()*80),mo=1+Math.floor(r()*12),j=1+Math.floor(r()*28),pr=pick(PRENOMS),no=pick(NOMS);
+    var an=1940+Math.floor(r()*80),mo=1+Math.floor(r()*12),j=1+Math.floor(r()*28),pr,no;do{pr=pick(PRENOMS);no=pick(NOMS)}while(noms[pr+no]);noms[pr+no]=1;
     pats.push({id:'p'+i,prenom:pr,nom:no,naissance:an+'-'+pad(mo)+'-'+pad(j),niss:niss(r,an,mo,j,1+Math.floor(r()*997)),
       mutuelle:pick(MUTS),tel:'04'+(70+Math.floor(r()*30))+' '+pad(Math.floor(r()*100))+' '+pad(Math.floor(r()*100))+' '+pad(Math.floor(r()*100)),
       email:(pr+'.'+no).toLowerCase().normalize('NFD').replace(/[^a-z.]/g,'')+'@exemple.be',traitant:pick(PROS.filter(function(x){return x.id!=='martin'}).map(function(x){return x.id})),sms:r()>.1,bloque:false,nouveau:false,cree:plus(AUJ,-400-Math.floor(r()*900))});
@@ -281,7 +289,7 @@ function generer(){
             var ms=MOTIFS.filter(function(m){return m.pros.indexOf(p.id)>=0}),tot=ms.reduce(function(a,m){return a+m.poids},0),x=r()*tot,m=ms[0];
             for(var q=0;q<ms.length;q++){x-=ms[q].poids;if(x<=0){m=ms[q];break}}
             if(t+m.duree>iv[1])break;
-            var pool=m.id==='premiere'||m.id==='bilan'?pats.slice(40):pats.slice(0,57),pat=pick(pool),essai=0;
+            var pool=m.id==='premiere'||m.id==='bilan'?pats.slice(40):pats.slice(0,57);if(m.id==='gyneco')pool=pool.filter(function(q){return FEMMES.indexOf(q.prenom)>=0});var pat=pick(pool),essai=0;
             while(vus[k+pat.id]&&essai++<20)pat=pick(pool);
             vus[k+pat.id]=1;
             var st='prevu',arr=null;
@@ -289,7 +297,7 @@ function generer(){
             else if(off===0){
               if(t+m.duree<=nm)st=r()<.05?'absent':'termine';
               else if(t<=nm)st='consult';
-              else if(t-25<=nm&&r()<.75){st='arrive';arr=Math.max(t-25,nm-Math.floor(r()*18))}
+              else if(t-25<=nm&&m.id!=='domicile'&&r()<.75){st='arrive';arr=Math.max(t-25,nm-Math.floor(r()*18))}
             }else if(r()<.03)st='annule';
             rdvs.push({id:'r'+(id++),pro:p.id,date:k,debut:t,duree:m.duree,motif:m.id,patient:pat.id,statut:st,arrivee:arr,source:m.id==='domicile'?'téléphone':r()<.42?'en ligne':'téléphone',note:m.id==='domicile'?'Adresse du patient, sonner deux fois':'',cree:plus(k,-1-Math.floor(r()*12))});
             t+=m.duree;
@@ -324,7 +332,14 @@ function generer(){
 }
 var S;
 try{S=JSON.parse(localStorage.getItem(CLE))}catch(e){}
-if(!S||S.v!==1||S.jour!==AUJ){S=generer();S.jour=AUJ}
+if(!S||S.v!==1||S.jour!==AUJ||S.h>nowMin()+5){S=generer();S.jour=AUJ}
+function rattraper(){var nm=nowMin();S.rdvs.forEach(function(x,i){
+  if(x.date!==AUJ||x.statut==='annule'||x.statut==='absent'||x.statut==='termine')return;
+  if(x.debut+x.duree<=nm)x.statut='termine';
+  else if(x.debut<=nm)x.statut='consult';
+  else if(x.statut==='prevu'&&x.motif!=='domicile'&&x.debut-20<=nm&&i%4){x.statut='arrive';x.arrivee=Math.max(x.debut-20,nm-12)}
+});S.h=nm}
+rattraper();
 function save(){try{localStorage.setItem(CLE,JSON.stringify(S))}catch(e){}}
 save();
 
@@ -342,7 +357,7 @@ function actifs(l){return l.filter(function(x){return x.statut!=='annule'})}
 function duJour(k,p){return S.rdvs.filter(function(x){return x.date===k&&(!p||x.pro===p)}).sort(function(a,b){return a.debut-b.debut})}
 function absent(p,k){return S.absences.find(function(a){return a.pro===p&&k>=a.du&&k<=a.au})}
 function toast(t){var e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){e.hidden=true},3200)}
-function remplir(t,v){var p=pat(v.patient);return t.replace(/\{patient\}/g,p.prenom).replace(/\{praticien\}/g,pro(v.pro).nom).replace(/\{date\}/g,dLong(v.date)).replace(/\{heure\}/g,hm(v.debut)).replace(/\{centre\}/g,CENTRE.nom).replace(/\{adresse\}/g,CENTRE.adresse).replace(/\{lien\}/g,'tilleuls.be/rdv')}
+function remplir(t,v){var p=pat(v.patient);return t.replace(/\{patient\}/g,p.prenom).replace(/\{praticien\}/g,pro(v.pro).nom).replace(/\{date\}/g,dLong(v.date)).replace(/\{heure\}/g,hm(v.debut)).replace(/\{centre\}/g,CENTRE.nom).replace(/\{adresse\}/g,CENTRE.adresse).replace(/\{lien\}/g,SOLO?'drdubois.be/rdv':'tilleuls.be/rdv')}
 
 /* créneau libre : dans les horaires, hors absence, sans chevauchement */
 function libre(p,k,t,d,sauf){
@@ -399,11 +414,11 @@ VUES_R.bord=function(){
   var sem=S.rdvs.filter(function(x){return x.date>plus(AUJ,-7)&&x.date<=AUJ&&x.source==='en ligne'});
   var mois=S.rdvs.filter(function(x){return x.date>plus(AUJ,-30)&&x.date<AUJ}),abs=mois.filter(function(x){return x.statut==='absent'}).length,base=actifs(mois).length;
   var html=tete(ROLE()?'Bonjour '+esc(pro(ROLE()).court):'Bonjour','Nous sommes '+dLong(AUJ)+'. Voici la journée du '+LIEU+'.','<button class="btn" type="button" id="nouv">Nouveau rendez-vous</button><button class="btn clair" type="button" id="dispo">Première disponibilité</button>');
-  html+='<div class="demo"><span>Maquette de démonstration : patients, numéros et rendez-vous sont inventés. Les SMS et e-mails sont simulés.</span><span class="outils"><button class="btn petit '+(SOLO?'on':'clair')+'" type="button" data-mode="solo">Cabinet individuel</button><button class="btn petit '+(SOLO?'clair':'on')+'" type="button" data-mode="centre">Centre médical</button></span></div>';
+  html+='<div class="demo"><span>Maquette de démonstration : patients, numéros et rendez-vous sont inventés. Les SMS et e-mails sont simulés.'+(SIMU!=null?' Hors des heures de consultation, la démo se place à '+hm(SIMU)+'.':'')+'</span><span class="outils"><button class="btn petit '+(SOLO?'on':'clair')+'" type="button" data-mode="solo">Cabinet individuel</button><button class="btn petit '+(SOLO?'clair':'on')+'" type="button" data-mode="centre">Centre médical</button></span></div>';
   html+='<div class="kpis"><div class="kpi"><span>Rendez-vous aujourd\'hui</span><b>'+l.length+'</b><small>'+l.filter(function(x){return x.statut==='termine'}).length+' terminés</small></div>'+
     '<div class="kpi"><span>En salle d\'attente</span><b>'+sal.length+'</b><small>'+(sal.length?'attente la plus longue '+Math.max.apply(null,sal.map(function(x){return nm-x.arrivee}))+' min':'personne')+'</small></div>'+
     '<div class="kpi"><span>Réservés en ligne (7 j)</span><b>'+sem.length+'</b><small>sans appel au secrétariat</small></div>'+
-    '<div class="kpi"><span>Absences non excusées (30 j)</span><b>'+(base?Math.round(abs/base*1000)/10:0)+' %</b><small>'+abs+' rendez-vous perdus</small></div></div>';
+    '<div class="kpi"><span>Absences non excusées (30 j)</span><b>'+String(base?Math.round(abs/base*1000)/10:0).replace('.',',')+' %</b><small>'+abs+' rendez-vous perdus</small></div></div>';
   html+='<div class="grille g3">'+MES().map(function(p){
     var a=absent(p.id,AUJ),lp=actifs(duJour(AUJ,p.id)),suiv=lp.filter(function(x){return x.statut==='prevu'||x.statut==='arrive'||x.statut==='consult'}).slice(0,5);
     return'<div class="carte"><h2>'+esc(p.nom)+'<small>'+lp.length+' rdv</small></h2>'+(a?'<p class="vide">Absent aujourd\'hui.</p>':suiv.length?suiv.map(ligneRdv).join(''):'<p class="vide">Plus de rendez-vous aujourd\'hui.</p>')+'<p style="margin-top:8px"><button class="btn clair petit" type="button" data-go="cal" data-jour="'+AUJ+'">Voir l\'agenda</button></p></div>';
@@ -414,7 +429,7 @@ VUES_R.bord=function(){
     '<div class="carte"><h2>À traiter</h2>'+
     (function(){var d=l.filter(function(x){return x.motif==='domicile'&&x.statut==='prevu'});return d.length?'<div class="ligne"><span class="puce">Domicile</span><div class="q"><b>'+d.length+' visite'+(d.length>1?'s':'')+' à domicile aujourd\'hui</b><small>'+d.map(function(x){return hm(x.debut)+' '+esc(pat(x.patient).nom)}).join(' · ')+'</small></div></div>':''})()+
     nouveaux.map(function(p){return'<div class="ligne"><span class="puce p-ligne">Nouveau</span><div class="q"><b>'+esc(pnom(p))+'</b><small>Inscrit en ligne, fiche à compléter (NISS, mutuelle)</small></div><button class="btn clair petit" type="button" data-pat="'+p.id+'">Compléter</button></div>'}).join('')+
-    (S.attente.length?'<div class="ligne"><span class="puce p-arrive">'+S.attente.length+'</span><div class="q"><b>Patients en liste d\'attente</b><small>À prévenir dès qu\'un créneau se libère</small></div><button class="btn clair petit" type="button" data-go="attente">Voir</button></div>':'')+
+    (S.attente.length?'<div class="ligne"><span class="puce p-arrive">'+S.attente.length+'</span><div class="q"><b>'+(S.attente.length>1?'Patients':'Patient')+' en liste d\'attente</b><small>À prévenir dès qu\'un créneau se libère</small></div><button class="btn clair petit" type="button" data-go="attente">Voir</button></div>':'')+
     S.absences.filter(function(a){return a.au>=AUJ}).map(function(a){return'<div class="ligne"><span class="puce p-absent">Absence</span><div class="q"><b>'+esc(pro(a.pro).nom)+'</b><small>du '+dCourt(a.du)+' au '+dCourt(a.au)+(a.remplacant?' · remplacé par '+esc(remp(a)):'')+'</small></div><button class="btn clair petit" type="button" data-go="abs">Gérer</button></div>'}).join('')+
     '</div></div>';
   return html;
@@ -719,7 +734,7 @@ VUES_R.ligne=function(){
     '<div class="f2"><label>Délai minimum avant le rendez-vous<select id="lD">'+[1,2,4,12,24].map(function(h){return'<option value="'+h+'"'+(L.delai===h?' selected':'')+'>'+h+' h</option>'}).join('')+'</select></label><label>Réservable jusqu\'à<select id="lH">'+[7,14,30,60,90].map(function(d){return'<option value="'+d+'"'+(L.horizon===d?' selected':'')+'>'+d+' jours à l\'avance</option>'}).join('')+'</select></label></div>'+
     '<label>Message affiché sur la page de réservation<textarea id="lM">'+esc(L.message)+'</textarea></label>'+
     '<p class="note">Les patients bloqués (trop d\'absences non excusées) voient un message les invitant à téléphoner.</p></div></div>'+
-    '<div class="carte"><h2>Motifs proposés</h2><div class="tablewrap"><table><thead><tr><th>Motif</th><th>Durée</th><th>En ligne</th><th>Nouveaux patients</th></tr></thead><tbody>'+MOTIFS.map(function(m,i){var c=motif(m.id);return'<tr><td><span class="m'+i+'" style="display:inline-flex;align-items:center;gap:8px"><i class="pastille"></i>'+esc(m.nom)+'</span><br><small class="note">'+m.pros.map(function(p){return pro(p).court}).join(', ')+'</small></td><td><select data-mdur="'+m.id+'" style="width:86px;min-height:34px;padding:4px 6px">'+[10,15,20,30,45,60].map(function(d){return'<option'+(c.duree===d?' selected':'')+'>'+d+'</option>'}).join('')+'</select></td><td><input type="checkbox" data-ml="'+m.id+'"'+(c.ligne?' checked':'')+' style="width:18px;min-height:0"></td><td><input type="checkbox" data-mn="'+m.id+'"'+(c.nouveaux?' checked':'')+' style="width:18px;min-height:0"></td></tr>'}).join('')+'</tbody></table></div></div></div>'+
+    '<div class="carte"><h2>Motifs proposés</h2><div class="tablewrap"><table><thead><tr><th>Motif</th><th>Durée</th><th>En ligne</th><th>Nouveaux patients</th></tr></thead><tbody>'+MOTIFS.map(function(m,i){var c=motif(m.id);return'<tr><td><span class="m'+i+'" style="display:inline-flex;align-items:center;gap:8px"><i class="pastille"></i>'+esc(m.nom)+'</span>'+(SOLO?'':'<br><small class="note">'+m.pros.map(function(p){return pro(p).court}).join(', ')+'</small>')+'</td><td><select data-mdur="'+m.id+'" style="width:86px;min-height:34px;padding:4px 6px">'+[10,15,20,30,45,60].map(function(d){return'<option'+(c.duree===d?' selected':'')+'>'+d+'</option>'}).join('')+'</select></td><td><input type="checkbox" data-ml="'+m.id+'"'+(c.ligne?' checked':'')+' style="width:18px;min-height:0"></td><td><input type="checkbox" data-mn="'+m.id+'"'+(c.nouveaux?' checked':'')+' style="width:18px;min-height:0"></td></tr>'}).join('')+'</tbody></table></div></div></div>'+
     '<p style="margin-top:16px"><button class="btn" type="button" id="lOk">Enregistrer</button></p>';
   return html;
 };
@@ -733,7 +748,7 @@ AP.ligne=function(){$('lAp').onclick=function(){enr(true);apercu()};$('lOk').onc
 VUES_R.msg=function(){
   var ex=S.rdvs.find(function(r){return r.date>AUJ&&r.statut==='prevu'})||S.rdvs[0];
   var html=tete('Rappels SMS et e-mail','Envoyés automatiquement. Variables : {patient} {praticien} {date} {heure} {centre} {adresse} {lien}','<span class="puce p-ligne">'+S.smsCredit+' SMS restants</span>');
-  html+='<div class="grille g3">'+[['confirmation','Confirmation','À la prise de rendez-vous'],['rappel','Rappel','Avant le rendez-vous'],['annulation','Annulation','Si le centre annule']].map(function(t){
+  html+='<div class="grille g3">'+[['confirmation','Confirmation','À la prise de rendez-vous'],['rappel','Rappel','Avant le rendez-vous'],['annulation','Annulation','Si le '+LIEU+' annule']].map(function(t){
     return'<div class="carte"><h2>'+t[1]+'<small>'+t[2]+'</small></h2><textarea data-txt="'+t[0]+'" style="min-height:120px">'+esc(S.textes[t[0]])+'</textarea><p class="note" data-cpt="'+t[0]+'"></p><p class="note" style="margin-top:8px"><b>Aperçu :</b> <span data-ap="'+t[0]+'"></span></p></div>';
   }).join('')+'</div><div class="carte" style="margin-top:16px"><div class="form"><label style="max-width:320px">Envoyer le rappel<select id="mH">'+[[24,'24 h avant'],[48,'48 h avant'],[2,'2 h avant']].map(function(o){return'<option value="'+o[0]+'"'+(S.rappelH===o[0]?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label><p class="note">Les rappels réduisent fortement les rendez-vous oubliés. Un patient peut refuser les SMS dans sa fiche : il reçoit alors un e-mail.</p><p><button class="btn" type="button" id="mOk">Enregistrer</button></p></div></div>';
   U.ex=ex;return html;
@@ -750,7 +765,7 @@ VUES_R.stats=function(){
   var nouv=a.filter(function(r){return r.motif==='premiere'||r.motif==='bilan'}).length;
   function barres(items){var mx=Math.max.apply(null,items.map(function(i){return i[1]}))||1;return'<div class="barres">'+items.map(function(i){return'<div class="barre"><span>'+esc(i[0])+'</span><i style="width:'+(i[1]/mx*100)+'%;'+(i[2]?'background:'+i[2]:'')+'"></i><em>'+i[1]+'</em></div>'}).join('')+'</div>'}
   var html=tete('Statistiques','Les 4 dernières semaines (du '+dCourt(d0)+' à hier).');
-  html+='<div class="kpis"><div class="kpi"><span>Rendez-vous honorés ou manqués</span><b>'+a.length+'</b></div><div class="kpi"><span>Réservés en ligne</span><b>'+Math.round(lig/(a.length||1)*100)+' %</b><small>'+lig+' rendez-vous</small></div><div class="kpi"><span>Absences non excusées</span><b>'+Math.round(abs/(a.length||1)*1000)/10+' %</b><small>'+abs+' rendez-vous</small></div><div class="kpi"><span>Annulations</span><b>'+ann+'</b></div><div class="kpi"><span>Nouveaux patients</span><b>'+nouv+'</b></div></div>';
+  html+='<div class="kpis"><div class="kpi"><span>Rendez-vous honorés ou manqués</span><b>'+a.length+'</b></div><div class="kpi"><span>Réservés en ligne</span><b>'+Math.round(lig/(a.length||1)*100)+' %</b><small>'+lig+' rendez-vous</small></div><div class="kpi"><span>Absences non excusées</span><b>'+String(Math.round(abs/(a.length||1)*1000)/10).replace('.',',')+' %</b><small>'+abs+' rendez-vous</small></div><div class="kpi"><span>Annulations</span><b>'+ann+'</b></div><div class="kpi"><span>Nouveaux patients</span><b>'+nouv+'</b></div></div>';
   var occ=PROS.map(function(p){var dispo=0,pris=0;for(var k=d0;k<AUJ;k=plus(k,1)){if(absent(p.id,k))continue;(p.h[jour(k).getDay()]||[]).forEach(function(iv){dispo+=iv[1]-iv[0]})}actifs(l.filter(function(r){return r.pro===p.id})).forEach(function(r){pris+=r.duree});return[p.nom,Math.round(pris/(dispo||1)*100)]});
   html+='<div class="grille g2">'+(SOLO?'':'<div class="carte"><h2>Rendez-vous par praticien</h2>'+barres(PROS.map(function(p){return[p.nom,a.filter(function(r){return r.pro===p.id}).length]}))+'</div>')+
     '<div class="carte"><h2>Taux de remplissage<small>temps réservé / temps ouvert, en %</small></h2>'+barres(occ)+'</div>'+
@@ -770,14 +785,14 @@ VUES_R.regl=function(){
     '<label class="chk"><input type="checkbox" data-int="google"'+(I.google?' checked':'')+'> Google Agenda, Apple ou Outlook : les rendez-vous apparaissent dans l\'agenda personnel</label>'+
     '<label class="chk"><input type="checkbox" data-int="ehealth"'+(I.ehealth?' checked':'')+'> Lecture de la carte eID à l\'accueil pour créer la fiche patient</label>'+
     '<p class="note">eAttest, MyCareNet et le dossier médical restent dans le logiciel médical : l\'agenda ne remplace pas le DMI.</p></div></div>'+
-    '<div class="carte"><h2>Sécurité et RGPD</h2><p class="note">Données hébergées dans l\'Union européenne, chiffrées, sauvegarde quotidienne. Connexion personnelle par praticien, double authentification. Journal des accès. Contrat de sous-traitance signé avec le centre. Aucune donnée médicale : seulement l\'administratif et le motif du rendez-vous.</p></div>'+
+    '<div class="carte"><h2>Sécurité et RGPD</h2><p class="note">Données hébergées dans l\'Union européenne, chiffrées, sauvegarde quotidienne. Connexion personnelle par praticien, double authentification. Journal des accès. Contrat de sous-traitance signé avec le '+LIEU+'. Aucune donnée médicale : seulement l\'administratif et le motif du rendez-vous.</p></div>'+
     '<div class="carte"><h2>'+esc(CENTRE.nom)+'</h2><p>'+esc(CENTRE.adresse)+'<br>'+esc(CENTRE.tel)+'</p><p style="margin-top:12px"><button class="btn clair petit" type="button" id="reset2">Remettre la démo à zéro</button></p></div></div>';
   return html;
 };
 AP.regl=function(){$('reset2').onclick=function(){$('reset').click()};document.querySelectorAll('[data-int]').forEach(function(c){c.onchange=function(){S.integrations[c.dataset.int]=c.checked;save();toast('Intégration '+(c.checked?'activée':'désactivée')+' (simulation).')}})};
 
 $('reset').onclick=function(){if(!confirm('Remettre toutes les données de la démo à zéro ?'))return;S=generer();S.jour=AUJ;save();vue='bord';rendre();toast('Démo remise à zéro.')};
-setInterval(function(){if(vue==='bord'||vue==='salle')rendre()},60000);
+setInterval(function(){rattraper();save();if((vue==='bord'||vue==='salle')&&!document.querySelector('.voile:not([hidden])'))rendre()},60000);
 rendre();
 })();
 </script>
