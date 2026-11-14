@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="fr-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Majorino Home Design | Cuisines et mobilier sur mesure à Charleroi</title>
+<meta name="description" content="Majorino Home Design conçoit et pose des cuisines italiennes et du mobilier sur mesure : meubles TV, dressings, salles de bain et aménagements intérieurs dans la région de Charleroi. Artisan belge. Devis au 0471 13 62 10.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Majorino Home Design | Cuisines et mobilier sur mesure">
+<meta property="og:image" content="img/c3.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/c3.jpg">
+<style>
+:root{
+  --ink:#191714;--ink-2:#24211d;--paper:#f3efe8;--paper-2:#e9e3d9;--line:rgba(25,23,20,.14);
+  --muted:#6f685e;--brass:#a48553;--brass-l:#c9ad7e;--white:#fbf9f5;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:Jost,system-ui,sans-serif;
+  --pad:clamp(20px,5vw,72px);--ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font:300 17px/1.7 var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;padding-bottom:38px;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(38px,5.4vw,76px)}
+em{font-style:italic;color:var(--brass)}
+.label{font:400 11.5px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:14px}
+.label::before{content:"";width:34px;height:1px;background:currentColor}
+.wrap{padding-inline:var(--pad);max-width:1480px;margin-inline:auto}
+section{padding-block:clamp(80px,11vw,168px)}
+.btn{display:inline-flex;align-items:center;gap:14px;font:400 12.5px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;padding:19px 30px;border:1px solid currentColor;transition:background .4s var(--ease),color .4s var(--ease),border-color .4s}
+.btn i{width:22px;height:1px;background:currentColor;transition:width .4s var(--ease)}
+.btn:hover i{width:36px}
+.btn.fill{background:var(--white);color:var(--ink);border-color:var(--white)}
+.btn.fill:hover{background:var(--brass-l);border-color:var(--brass-l)}
+.btn.dark:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.btn.ghost:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
+
+/* header */
+header{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:22px var(--pad);color:var(--white);transition:background .5s,padding .5s,color .5s,box-shadow .5s}
+header.solid{background:rgba(243,239,232,.92);backdrop-filter:blur(14px);color:var(--ink);padding-block:10px;box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;align-items:center;gap:14px;line-height:1}
+.brand img{height:74px;width:auto;filter:brightness(0) invert(1);transition:filter .5s,height .5s}
+header.solid:not(.open) .brand img{filter:none;height:58px}
+.brand .bt{display:flex;flex-direction:column}
+.brand b{font:500 23px/1 var(--serif);letter-spacing:.22em}
+.brand .bt span{font:400 9.5px/1 var(--sans);letter-spacing:.44em;margin-top:7px;opacity:.8;text-transform:uppercase}
+nav{display:flex;gap:clamp(18px,2.6vw,40px);align-items:center}
+nav a{font:400 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;position:relative;padding-block:8px}
+nav a:not(.tel)::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+nav a:not(.tel):hover::after{transform:scaleX(1);transform-origin:left}
+nav .tel{border:1px solid currentColor;padding:13px 20px;letter-spacing:.14em;transition:background .4s,color .4s}
+nav .tel:hover{background:var(--brass);border-color:var(--brass);color:#fff}
+.burger{display:none;background:none;border:0;color:inherit;width:44px;height:44px;cursor:pointer;position:relative}
+.burger::before,.burger::after{content:"";position:absolute;left:9px;right:9px;height:1px;background:currentColor;transition:transform .4s var(--ease),top .4s var(--ease)}
+.burger::before{top:17px}.burger::after{top:26px}
+.open .burger::before{top:22px;transform:rotate(45deg)}.open .burger::after{top:22px;transform:rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;height:100svh;min-height:620px;padding:0;color:var(--white);display:flex;align-items:flex-end;overflow:hidden;background:var(--ink)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 46%;animation:zoom 16s var(--ease) both}
+@keyframes zoom{from{transform:scale(1.12)}to{transform:scale(1)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,.6) 0,rgba(20,18,15,.1) 26%,rgba(20,18,15,.35) 50%,rgba(20,18,15,.9) 100%),linear-gradient(90deg,rgba(20,18,15,.5) 0,rgba(20,18,15,0) 60%)}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-bottom:clamp(64px,9vh,110px);display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px}
+.hero .label{color:var(--white);text-shadow:0 1px 12px rgba(0,0,0,.5);margin-bottom:26px}
+.hero h1{font-size:clamp(46px,8.2vw,128px);max-width:11ch}
+.hero h1 span{display:block;overflow:hidden}
+.hero h1 span b{display:block;font-weight:400;transform:translateY(105%);animation:rise 1.2s var(--ease) forwards}
+.hero h1 span:nth-child(2) b{animation-delay:.12s}.hero h1 span:nth-child(3) b{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.hero-side{max-width:340px;opacity:0;animation:fade 1.2s .7s forwards}
+.hero-side p{font-size:16.5px;margin-bottom:28px;color:rgba(251,249,245,.86)}
+@keyframes fade{to{opacity:1}}
+.scroll{position:absolute;z-index:2;left:50%;bottom:22px;width:1px;height:46px;background:rgba(255,255,255,.3);overflow:hidden}
+.scroll::after{content:"";position:absolute;inset:0;background:#fff;animation:drop 2.4s var(--ease) infinite}
+@keyframes drop{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
+
+.hero video{position:absolute;top:50%;left:50%;height:max(324vh,182vw);aspect-ratio:9/16;max-width:none;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .9s ease}
+.hero video.on{opacity:1}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+.ph{overflow:hidden;position:relative;background:var(--paper-2)}
+.ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.14);transition:transform 1.8s var(--ease)}
+.ph::after{content:"";position:absolute;inset:0;background:var(--paper);transform-origin:top;transition:transform 1.3s var(--ease)}
+.ph.in::after{transform:scaleY(0)}.ph.in img{transform:none}
+
+/* intro */
+.intro .wrap{display:grid;grid-template-columns:1fr 2.2fr;gap:clamp(30px,6vw,110px)}
+.intro p.big{font:400 clamp(27px,3.5vw,50px)/1.22 var(--serif);letter-spacing:-.005em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(48px,6vw,88px);border-top:1px solid var(--line)}
+.facts div{padding:28px 24px 0 0}
+.facts b{display:block;font:400 30px/1.1 var(--serif);margin-bottom:8px}
+.facts span{font-size:15px;color:var(--muted)}
+
+/* cuisine */
+.cuisine{padding-top:0}
+.cuisine .wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,5vw,90px);align-items:end}
+.cuisine .a{aspect-ratio:5/4}
+.cuisine .b{aspect-ratio:4/5;max-width:420px;margin-bottom:44px}
+.cuisine h2{margin:22px 0 26px}
+.cuisine p{color:var(--muted);max-width:44ch;margin-bottom:34px}
+
+/* univers */
+.univers{background:var(--ink);color:var(--white)}
+.univers .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,110px);align-items:start}
+.univers h2{margin:22px 0 clamp(36px,5vw,64px)}
+.univers .label{color:var(--brass-l)}
+.list{list-style:none;padding:0;border-top:1px solid rgba(255,255,255,.16)}
+.list li{border-bottom:1px solid rgba(255,255,255,.16);padding:26px 0;display:grid;grid-template-columns:54px 1fr;cursor:default;transition:padding .5s var(--ease),opacity .4s;opacity:.5}
+.list li.on{opacity:1;padding-left:14px}
+.list small{font:400 12px/1 var(--sans);letter-spacing:.2em;color:var(--brass-l);padding-top:13px}
+.list h3{font-size:clamp(27px,3vw,40px)}
+.list p{grid-column:2;color:rgba(251,249,245,.72);font-size:16px;max-height:0;overflow:hidden;transition:max-height .6s var(--ease),margin .6s var(--ease)}
+.list li.on p{max-height:140px;margin-top:10px}
+.stage{position:sticky;top:96px;aspect-ratio:4/5;overflow:hidden;background:var(--ink-2)}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s var(--ease),transform 1.6s var(--ease)}
+.stage img.on{opacity:1;transform:none}
+
+/* détail */
+.detail .wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,6vw,110px);align-items:center}
+.detail .ph{aspect-ratio:1}
+.detail h2{margin:22px 0 26px}
+.detail p{color:var(--muted);max-width:46ch}
+.detail p+p{margin-top:16px}
+
+/* galerie */
+.galerie{padding-top:0}
+.galerie .head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:clamp(36px,5vw,64px);flex-wrap:wrap}
+.galerie h2{margin-top:22px}
+.galerie .head p{color:var(--muted);max-width:36ch}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(10px,1.4vw,22px)}
+.grid button{border:0;padding:0;cursor:zoom-in;display:block}
+.grid .g1{grid-column:span 7;aspect-ratio:7/5}
+.grid .g2{grid-column:span 5;aspect-ratio:1}
+.grid .g3,.grid .g4,.grid .g5{grid-column:span 4;aspect-ratio:4/5}
+.grid .g6{grid-column:span 6;aspect-ratio:4/3}
+.video{background:var(--paper-2)}
+.video .wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(34px,6vw,110px);align-items:center}
+.video h2{margin:22px 0 26px}
+.video p{color:var(--muted);max-width:48ch}.video p+p{margin-top:16px}
+.video .btn{margin-top:34px}
+.reel{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden;box-shadow:0 40px 80px -40px rgba(25,23,20,.55)}
+.reel img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.reel:hover img{transform:scale(1.04)}
+.reel button{position:absolute;inset:0;border:0;background:rgba(25,23,20,.18);cursor:pointer;display:grid;place-items:center}
+.reel button span{width:86px;height:86px;border:1px solid #fff;border-radius:50%;display:grid;place-items:center;backdrop-filter:blur(6px);background:rgba(25,23,20,.3);transition:transform .5s var(--ease),background .4s}
+.reel button span::after{content:"";border-left:16px solid #fff;border-block:10px solid transparent;margin-left:5px}
+.reel button:hover span{transform:scale(1.1);background:var(--brass)}
+.reel iframe{position:absolute;left:0;top:50%;width:100%;height:316.05%;transform:translateY(-50%);border:0}
+.reel-link{display:inline-block;margin-top:18px;font:400 11.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px}
+.reel-link:hover{color:var(--ink)}
+.grid .ph:hover img{transform:scale(1.05);transition-duration:1.2s}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(20,18,15,.95);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .4s;cursor:zoom-out;padding:24px}
+.lb.on{opacity:1;pointer-events:auto}
+.lb img{max-width:100%;max-height:calc(100vh - 48px);object-fit:contain}
+
+/* démarche */
+.demarche{background:var(--paper-2)}
+.demarche h2{margin:22px 0 clamp(44px,6vw,84px);max-width:16ch}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.steps div{padding:30px 28px 0 0;position:relative}
+.steps div::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--brass)}
+.steps small{font:400 12px/1 var(--sans);letter-spacing:.22em;color:var(--brass)}
+.steps h3{font-size:30px;margin:16px 0 12px}
+.steps p{font-size:15.5px;color:var(--muted)}
+
+/* avis */
+.avis{text-align:center}
+.avis .label{justify-content:center}.avis .label::after{content:"";width:34px;height:1px;background:currentColor}
+.avis h2{margin:22px 0 clamp(40px,5vw,72px)}
+.avis-grid{display:grid;grid-template-columns:repeat(3,1fr);text-align:left;border-top:1px solid var(--line)}
+.avis figure{padding:38px clamp(20px,2.6vw,40px) 6px;display:flex;flex-direction:column;justify-content:space-between;gap:30px}
+.avis figure+figure{border-left:1px solid var(--line)}
+.avis figure::before{content:"\201C";font:400 72px/.6 var(--serif);color:var(--brass);height:26px}
+.avis blockquote{font:400 italic clamp(21px,1.9vw,27px)/1.38 var(--serif);flex:1}
+.avis figcaption{font:400 12px/1.5 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.avis figcaption b{display:block;font-weight:500;color:var(--ink)}
+@media (max-width:980px){.avis-grid{grid-template-columns:1fr}.avis figure{padding-inline:0}.avis figure+figure{border-left:0;border-top:1px solid var(--line)}}
+
+/* contact */
+.contact{background:var(--ink);color:var(--white);position:relative;overflow:hidden}
+.contact .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(34px,7vw,130px);position:relative}
+.contact .label{color:var(--brass-l)}
+.contact h2{margin:22px 0 28px}
+.contact .lead{color:rgba(251,249,245,.74);max-width:42ch;margin-bottom:44px}
+.coord{list-style:none;padding:0;border-top:1px solid rgba(255,255,255,.16)}
+.coord li{display:grid;grid-template-columns:130px 1fr;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.16);align-items:baseline}
+.coord span{font:400 11.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--brass-l)}
+.coord a,.coord b{font:400 24px/1.2 var(--serif);transition:color .3s}
+.coord a:hover{color:var(--brass-l)}
+form{display:grid;gap:22px;align-content:start}
+form h3{font-size:32px;margin-bottom:6px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+label{display:block;font:400 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:rgba(251,249,245,.6)}
+input,select,textarea{width:100%;margin-top:10px;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.28);color:var(--white);font:300 17px/1.4 var(--sans);padding:10px 0;border-radius:0;outline:0;transition:border-color .3s}
+select option{color:#111}
+textarea{resize:vertical;min-height:96px}
+input:focus,select:focus,textarea:focus{border-color:var(--brass-l)}
+form .btn{justify-self:start;cursor:pointer;margin-top:8px}
+form small{color:rgba(251,249,245,.5);font-size:13.5px}
+
+footer{background:var(--ink);color:rgba(251,249,245,.6);border-top:1px solid rgba(255,255,255,.12);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-block:30px;align-items:center}
+footer a:hover{color:var(--white)}
+.flogo{height:92px;width:auto;filter:brightness(0) invert(1);opacity:.92}
+footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;font-size:12px}
+
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:400 13px/1.35 var(--sans);text-align:center}
+.demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:500}
+@media (min-width:561px){.demo-bar .short{display:none}}
+@media (max-width:560px){.demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}.demo-bar .long{display:none}body{padding-bottom:34px}}
+
+@media (max-width:980px){
+  .burger{display:block;z-index:2}
+  nav{position:fixed;inset:0;background:var(--ink);color:var(--white);flex-direction:column;justify-content:center;gap:30px;opacity:0;pointer-events:none;transition:opacity .4s}
+  nav a{font-size:15px}
+  .open nav{opacity:1;pointer-events:auto}
+  header.open{color:var(--white);background:none;box-shadow:none;backdrop-filter:none}
+  .hero .wrap,.intro .wrap,.cuisine .wrap,.video .wrap,.univers .wrap,.detail .wrap,.contact .wrap{grid-template-columns:1fr}
+  .hero-side{max-width:480px}
+  .cuisine .b{display:none}
+  .stage{position:relative;top:0;order:-1;aspect-ratio:4/3}
+  .steps{grid-template-columns:1fr 1fr;row-gap:44px}
+  .steps div:nth-child(n+3){border-top:1px solid var(--line)}
+  .detail .ph{order:-1}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .facts{grid-template-columns:1fr}.facts div{padding:22px 0;border-bottom:1px solid var(--line)}
+  .grid .g1,.grid .g2{grid-column:span 12}.grid .g3,.grid .g4{grid-column:span 6}.grid .g5,.grid .g6{grid-column:span 12;aspect-ratio:4/3}
+  .steps{grid-template-columns:1fr}.steps div:nth-child(n+2){border-top:1px solid var(--line)}
+  .f2{grid-template-columns:1fr}
+  .coord li{grid-template-columns:1fr;gap:8px}
+  .scroll{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}.ph::after{display:none}.ph img{transform:none}
+  .hero h1 span b{transform:none}.hero-side{opacity:1}.hero video{display:none}
+}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brand" href="#top" aria-label="Majorino Home Design, accueil"><img src="img/logo.png" alt="Majorino Home Design" width="991" height="696"></a>
+  <nav id="nav">
+    <a href="#cuisines">Cuisines</a>
+    <a href="#univers">Sur mesure</a>
+    <a href="#realisations">Réalisations</a>
+    <a href="#demarche">Démarche</a>
+    <a href="#contact">Contact</a>
+    <a class="tel" href="tel:+32471136210">0471 13 62 10</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"></button>
+</header>
+
+<main id="top">
+<section class="hero">
+  <img src="img/c3.jpg" alt="Cuisine italienne sur mesure aux façades crème, plan de travail en pierre sombre et niche en bois" fetchpriority="high">
+  <video src="img/reel.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+  <div class="wrap">
+    <div>
+      <p class="label">Cuisines et mobilier sur mesure · Charleroi</p>
+      <h1><span><b>Votre intérieur,</b></span><span><b><em>sur mesure.</em></b></span></h1>
+    </div>
+    <div class="hero-side">
+      <p>Cuisines italiennes, meubles sur mesure, dressings et salles de bain : tout est dessiné pour votre maison et posé par un artisan belge.</p>
+      <a class="btn fill" href="#contact">Demander un devis <i></i></a>
+    </div>
+  </div>
+  <span class="scroll" aria-hidden="true"></span>
+</section>
+
+<section class="intro">
+  <div class="wrap">
+    <p class="label rv">La maison</p>
+    <div>
+      <p class="big rv">Majorino Home Design conçoit des intérieurs où chaque ligne a sa raison d'être. Des cuisines <em>made in Italy</em> et du mobilier sur mesure, pensés au millimètre pour les maisons de la région de Charleroi.</p>
+      <div class="facts">
+        <div class="rv"><b>Cuisines italiennes</b><span>Des cuisines fabriquées en Italie, aux dimensions exactes de votre pièce.</span></div>
+        <div class="rv" style="--d:.1s"><b>Mobilier sur mesure</b><span>Meubles TV, dressings, salles de bain, rangements : chaque meuble est conçu pour sa place.</span></div>
+        <div class="rv" style="--d:.2s"><b>Artisan belge</b><span>Un seul interlocuteur, de la première visite à la pose, à Charleroi et alentours.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cuisine" id="cuisines">
+  <div class="wrap">
+    <div class="ph a"><img src="img/c2.jpg" alt="Cuisine en L avec îlot, façades crème à gorges noires et plan de travail marbré sombre" loading="lazy"></div>
+    <div>
+      <div class="ph b"><img src="img/c1.jpg" alt="Détail d'une façade crème, d'une crédence en pierre et d'une étagère en métal noir" loading="lazy"></div>
+      <p class="label rv">La cuisine</p>
+      <h2 class="rv">Le cœur de la maison, <em>dessiné pour vous.</em></h2>
+      <p class="rv">Façades sans poignée, pierre sombre, bois chaleureux, colonnes toute hauteur : nous composons avec vous une cuisine à la fois belle à regarder et simple à vivre, adaptée à votre pièce et à vos habitudes.</p>
+      <a class="btn dark rv" href="#contact">Parler de votre cuisine <i></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="video">
+  <div class="wrap">
+    <div>
+      <p class="label rv">En vidéo</p>
+      <h2 class="rv">Une belle cuisine, <em>pour chaque budget.</em></h2>
+      <p class="rv">Nous avons pensé à tous les budgets : une sélection de panneaux du niveau 1 au niveau 10, du plus accessible au plus haut de gamme, sans compromis sur la qualité, les finitions et le rendu final.</p>
+      <p class="rv">Parce qu'une belle cuisine n'est pas une question de budget, mais de choix et de savoir-faire.</p>
+      <a class="btn dark rv" href="#contact">Demander un devis <i></i></a>
+    </div>
+    <div class="rv">
+      <div class="reel" id="reel">
+        <img src="img/reel.jpg" alt="Aperçu de la vidéo : cuisine avec îlot dans une pièce ouverte sur l'extérieur" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="univers" id="univers">
+  <div class="wrap">
+    <div>
+      <p class="label rv">Sur mesure</p>
+      <h2 class="rv">Toute la maison, <em>une même signature.</em></h2>
+      <ul class="list" id="list">
+        <li class="on" data-i="0"><small>01</small><h3>Cuisines</h3><p>Cuisines italiennes sur mesure, avec îlot, en L ou linéaires, du plan à la pose.</p></li>
+        <li data-i="1"><small>02</small><h3>Meubles sur mesure</h3><p>Meubles TV, compositions murales à niches, bibliothèques : dessinés pour votre séjour.</p></li>
+        <li data-i="2"><small>03</small><h3>Dressings et placards</h3><p>Rangements toute hauteur, intégrés au mur, qui font oublier qu'ils sont là.</p></li>
+        <li data-i="3"><small>04</small><h3>Salle de bain et buanderie</h3><p>Meubles vasque, plans en bois et buanderies fonctionnelles, dans les mêmes finitions.</p></li>
+        <li data-i="4"><small>05</small><h3>Aménagement intérieur</h3><p>Habillages muraux, escaliers, portes verrière et éclairages : l'ensemble de la pièce.</p></li>
+      </ul>
+    </div>
+    <div class="stage rv" id="stage">
+      <img class="on" src="img/c3.jpg" alt="Cuisine ouverte sur la salle à manger" loading="lazy">
+      <img src="img/r5.jpg" style="object-position:88% 50%" alt="Séjour avec composition murale blanche à niches, réalisée sur mesure" loading="lazy">
+      <img src="img/c4.jpg" alt="Placards toute hauteur aux façades crème" loading="lazy">
+      <img src="img/r4.jpg" alt="Salle de bain avec meuble vasque suspendu et plan en bois" loading="lazy">
+      <img src="img/r6.jpg" alt="Porte verrière en acier noir" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="detail">
+  <div class="wrap">
+    <div class="ph"><img src="img/c1.jpg" alt="Tiroirs sans poignée et plan de travail en pierre sombre" loading="lazy"></div>
+    <div>
+      <p class="label rv">Le détail</p>
+      <h2 class="rv">Chaque centimètre <em>compte.</em></h2>
+      <p class="rv">Un angle est souvent difficile à aménager. Nous n'en perdons aucun : avec nos paniers d'angle, il suffit de tirer le premier pour que le second, placé à l'arrière, vienne de lui-même vers vous.</p>
+      <p class="rv">Tiroirs à sortie totale, colonnes, niches éclairées : des solutions discrètes qui rendent la cuisine plus pratique au quotidien.</p>
+    </div>
+  </div>
+</section>
+
+<section class="galerie" id="realisations">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="label rv">Réalisations</p><h2 class="rv">Chez nos clients, <em>pièce par pièce.</em></h2></div>
+      <p class="rv">Meubles TV, compositions murales, salles de bain, escaliers, verrières : des chantiers réalisés dans la région.</p>
+    </div>
+    <div class="grid">
+      <button class="ph g1"><img src="img/r3.jpg" alt="Meuble TV suspendu blanc et bois avec panneau mural texturé" loading="lazy"></button>
+      <button class="ph g2"><img src="img/r4.jpg" alt="Salle de bain : baignoire îlot, meuble vasque et plan en bois" loading="lazy"></button>
+      <button class="ph g3"><img src="img/r1.jpg" alt="Mur en parement de pierre avec panneaux en bois sombre" loading="lazy"></button>
+      <button class="ph g4"><img src="img/r2.jpg" alt="Escalier habillé de bois" loading="lazy"></button>
+      <button class="ph g5"><img src="img/r6.jpg" alt="Porte verrière en acier noir" loading="lazy"></button>
+      <button class="ph g6"><img src="img/r5.jpg" alt="Séjour avec composition murale blanche à niches" loading="lazy"></button>
+      <button class="ph g6"><img src="img/r7.jpg" alt="Estrade en bois devant une baignoire îlot" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<section class="galerie" id="galerie">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="label rv">Inspirations</p><h2 class="rv">Matières, lignes, <em>lumière.</em></h2></div>
+      <p class="rv">Quelques ambiances issues de nos collections. Chaque projet est ensuite adapté à votre pièce.</p>
+    </div>
+    <div class="grid">
+      <button class="ph g1"><img src="img/c3.jpg" alt="Cuisine crème et bois ouverte sur le séjour" loading="lazy"></button>
+      <button class="ph g2"><img src="img/c5.jpg" alt="Vitrine éclairée en verre fumé" loading="lazy"></button>
+      <button class="ph g3"><img src="img/p1.jpg" alt="Bibliothèque murale et fauteuil lounge" loading="lazy"></button>
+      <button class="ph g4"><img src="img/c4.jpg" alt="Colonnes de rangement toute hauteur" loading="lazy"></button>
+      <button class="ph g5"><img src="img/p2.jpg" alt="Composition murale rétroéclairée" loading="lazy"></button>
+      <button class="ph g6"><img src="img/k1.jpg" alt="Cuisine claire avec îlot en pierre face à une baie vitrée" loading="lazy"></button>
+      <button class="ph g6"><img src="img/k2.jpg" alt="Cuisine ouverte en bois clair avec étagères vitrées" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<section class="demarche" id="demarche">
+  <div class="wrap">
+    <p class="label rv">Notre démarche</p>
+    <h2 class="rv">De la première idée <em>à la pose.</em></h2>
+    <div class="steps">
+      <div class="rv"><small>01</small><h3>Rencontre</h3><p>Nous venons chez vous, écoutons vos envies et prenons les mesures de la pièce.</p></div>
+      <div class="rv" style="--d:.1s"><small>02</small><h3>Conception</h3><p>Plans, choix des finitions et des rangements, puis un devis clair et détaillé.</p></div>
+      <div class="rv" style="--d:.2s"><small>03</small><h3>Fabrication</h3><p>Votre mobilier est fabriqué en Italie, aux dimensions exactes de votre projet.</p></div>
+      <div class="rv" style="--d:.3s"><small>04</small><h3>Pose</h3><p>Installation soignée chez vous, avec les réglages et finitions jusqu'au dernier détail.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="avis">
+  <div class="wrap">
+    <p class="label rv">Ils nous recommandent</p>
+    <h2 class="rv">La parole <em>à nos clients.</em></h2>
+    <div class="avis-grid">
+      <figure class="rv"><blockquote>Le savoir-faire avec passion. Il a des idées et des mains en or, le travail fourni est incroyable : il ressuscite des maisons et change l'atmosphère en un incroyable cocon.</blockquote><figcaption><b>Vanessa P.</b>Avis Facebook</figcaption></figure>
+      <figure class="rv" style="--d:.12s"><blockquote>Nous voulions refaire notre salon et notre salle à manger après dix ans. Plus que satisfaits : un travail méticuleux, énormément de goût et surtout des idées incroyables.</blockquote><figcaption><b>Emmanuelle P. T.</b>Avis Facebook</figcaption></figure>
+      <figure class="rv" style="--d:.24s"><blockquote>Travail de qualité, propre et minutieux. Mon meuble de salon, ma salle à manger, tout a retrouvé un éclat moderne et avec du style. À recommander les yeux fermés.</blockquote><figcaption><b>David T.</b>Avis Facebook</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div>
+      <p class="label rv">Contact</p>
+      <h2 class="rv">Un projet ? <em style="white-space:nowrap">Parlons-en.</em></h2>
+      <p class="lead rv">Une cuisine à refaire, un dressing à créer, une pièce à aménager : contactez-nous pour un devis. Nous intervenons dans la région de Charleroi et alentours.</p>
+      <ul class="coord rv">
+        <li><span>Téléphone</span><a href="tel:+32471136210">0471 13 62 10</a></li>
+        <li><span>WhatsApp</span><a href="https://wa.me/32471136210" target="_blank" rel="noopener">Écrire sur WhatsApp</a></li>
+        <li><span>E-mail</span><a href="mailto:majorinohome@gmail.com">majorinohome@gmail.com</a></li>
+        <li><span>Zone</span><b>Charleroi et alentours</b></li>
+      </ul>
+    </div>
+    <form id="form" class="rv">
+      <h3>Demande de devis</h3>
+      <div class="f2">
+        <label>Nom<input name="nom" required autocomplete="name"></label>
+        <label>Téléphone<input name="tel" type="tel" required autocomplete="tel"></label>
+      </div>
+      <label>Votre projet
+        <select name="projet">
+          <option>Cuisine</option><option>Dressing ou placards</option><option>Meuble de salle de bain</option><option>Buanderie</option><option>Séjour, meuble TV, bibliothèque</option><option>Aménagement intérieur</option>
+        </select>
+      </label>
+      <label>Message<textarea name="msg" placeholder=""></textarea></label>
+      <button class="btn ghost" type="submit">Envoyer la demande <i></i></button>
+      <small>Votre demande s'ouvre dans votre messagerie, prête à être envoyée.</small>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="flogo" src="img/logo.png" alt="Majorino Home Design" width="991" height="696" loading="lazy">
+    <span>© 2026 Majorino Home Design · Charleroi</span>
+    <div class="soc">
+      <a href="https://www.facebook.com/profile.php?id=61572039912912" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.tiktok.com/@majorinohomedesign" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-label="Photo agrandie"><img alt=""></div>
+
+<div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Majorino Home Design par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+
+<script>
+const hv=document.querySelector('.hero video');const hon=()=>hv.classList.add('on');hv.addEventListener('playing',hon,{once:true});if(!hv.paused&&hv.currentTime>0)hon();
+hv.addEventListener('timeupdate',()=>{if(hv.currentTime>6.3&&!hv.paused){hv.classList.remove('on');setTimeout(()=>{hv.pause();hv.remove()},1000)}});
+const hd=document.getElementById('hd'),burger=document.getElementById('burger');
+const onScroll=()=>hd.classList.toggle('solid',scrollY>innerHeight*.7);
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+burger.onclick=()=>burger.setAttribute('aria-expanded',hd.classList.toggle('open'));
+document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>{hd.classList.remove('open');burger.setAttribute('aria-expanded',false)});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rv,.ph').forEach(el=>io.observe(el));
+
+const items=[...document.querySelectorAll('#list li')],imgs=[...document.querySelectorAll('#stage img')];
+const pick=i=>{items.forEach((l,k)=>l.classList.toggle('on',k===i));imgs.forEach((m,k)=>m.classList.toggle('on',k===i))};
+items.forEach((l,i)=>{l.onmouseenter=()=>pick(i);l.onclick=()=>pick(i)});
+
+const reel=document.getElementById('reel');
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();const f=document.createElement('iframe');f.src='https://www.facebook.com/plugins/video.php?href='+encodeURIComponent('https://www.facebook.com/reel/1616193376670678')+'&show_text=false';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.title='Vidéo Majorino Home Design';reel.appendChild(f)}},{rootMargin:'400px'}).observe(reel);
+
+const lb=document.getElementById('lb');
+document.querySelectorAll('.grid button').forEach(b=>b.onclick=()=>{lb.firstElementChild.src=b.firstElementChild.src;lb.classList.add('on')});
+lb.onclick=()=>lb.classList.remove('on');
+addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+
+document.getElementById('form').onsubmit=e=>{
+  e.preventDefault();const f=new FormData(e.target);
+  const corps=`Nom : ${f.get('nom')}\nTéléphone : ${f.get('tel')}\nProjet : ${f.get('projet')}\n\n${f.get('msg')}`;
+  location.href='mailto:majorinohome@gmail.com?subject='+encodeURIComponent('Demande de devis : '+f.get('projet'))+'&body='+encodeURIComponent(corps);
+};
+</script>
+</body>
+</html>
