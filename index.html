@@ -378,7 +378,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:40px}
 :root{
   --bg:#fff; --bg-2:#f6f5f4; --surface:#fff; --surface-2:#f6f5f4;
   --line:rgba(0,0,0,.1); --line-2:rgba(0,0,0,.16);
-  --text:#191918; --muted:#615d59; --dim:#8f8a85;
+  --text:#191918; --muted:#615d59; --dim:#716c67;
   --indigo:#e8590c; --violet:#e8590c; --cyan:#e8590c; --lime:#e8590c;
   --grad:linear-gradient(#e8590c,#e8590c);
   --radius:6px;
@@ -477,6 +477,11 @@ nav#nav.scrolled{border-color:var(--line)}
 .chip,.badge-pill b,.step .when,.billing .save{border-radius:3px}
 .show-frame{border-radius:4px}.compare,.promise,.faq summary .pm{border-radius:6px}
 .burger{border-radius:5px}.plan-tag{border-radius:3px}
+.nav-links a.nav-phone{color:var(--text);font-weight:600;white-space:nowrap}
+.nav-tel{display:none}
+@media (max-width:1060px){.nav-tel{display:grid;place-items:center;width:44px;height:44px;margin-left:14px;border:1px solid var(--line);border-radius:5px;color:var(--text)}.nav-tel .ic{width:20px;height:20px}}
+@media (min-width:861px) and (max-width:1060px){.nav-links a.nav-phone{display:none}}
+@media (max-width:860px){.nav-tel{margin-left:auto;margin-right:10px}}
 
 /* ===== Animations variées façon Wix ===== */
 #wx-progress{position:fixed;top:0;left:0;height:3px;width:100%;background:#e8590c;transform-origin:0 50%;transform:scaleX(0);z-index:999}
@@ -874,8 +879,10 @@ nav#nav.scrolled{border-color:var(--line)}
       <a href="#avantages">Avantages</a>
       <a href="#tarifs">Tarifs</a>
       <a href="#faq">FAQ</a>
+      <a href="tel:+32499469864" class="nav-phone">+32 499 469 864</a>
       <a href="#contact" class="btn btn-primary">Ma maquette offerte</a>
     </div>
+    <a href="tel:+32499469864" class="nav-tel" aria-label="Appeler le +32 499 469 864"><svg class="ic"><use href="#i-phone"/></svg></a>
     <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </nav>
@@ -1234,7 +1241,7 @@ nav#nav.scrolled{border-color:var(--line)}
         </label>
         <div class="row2">
           <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel" placeholder="0470 12 34 56"></label>
-          <label>E-mail<input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.fr"></label>
+          <label>E-mail<input name="email" type="email" required autocomplete="email" placeholder="vous@exemple.be"></label>
         </div>
         <label>Votre site actuel (facultatif)<input name="site_actuel" type="url" placeholder="https://"></label>
         <button class="btn btn-primary" type="submit">Je veux ma maquette gratuite <svg class="ic"><use href="#i-arrow"/></svg></button>
