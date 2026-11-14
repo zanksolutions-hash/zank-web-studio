@@ -7,11 +7,11 @@
 <meta name="description" content="Majorino Home Design conçoit et pose des cuisines italiennes et du mobilier sur mesure : meubles TV, dressings, salles de bain et aménagements intérieurs dans la région de Charleroi. Artisan belge. Devis au 0471 13 62 10.">
 <meta name="robots" content="noindex">
 <meta property="og:title" content="Majorino Home Design | Cuisines et mobilier sur mesure">
-<meta property="og:image" content="img/c3.jpg">
+<meta property="og:image" content="img/armony/2-system-1.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="img/c3.jpg">
+<link rel="preload" as="image" href="img/armony/2-system-1.webp">
 <style>
 :root{
   --ink:#191714;--ink-2:#24211d;--paper:#f3efe8;--paper-2:#e9e3d9;--line:rgba(25,23,20,.14);
@@ -78,7 +78,7 @@ nav .tel:hover{background:var(--brass);border-color:var(--brass);color:#fff}
 .scroll::after{content:"";position:absolute;inset:0;background:#fff;animation:drop 2.4s var(--ease) infinite}
 @keyframes drop{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
 
-.hero video{position:absolute;top:50%;left:50%;height:max(324vh,182vw);aspect-ratio:9/16;max-width:none;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .9s ease}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .9s ease}
 .hero video.on{opacity:1}
 
 /* reveal */
@@ -138,6 +138,18 @@ nav .tel:hover{background:var(--brass);border-color:var(--brass);color:#fff}
 .grid .g1{grid-column:span 7;aspect-ratio:7/5}
 .grid .g2{grid-column:span 5;aspect-ratio:1}
 .grid .g3,.grid .g4,.grid .g5{grid-column:span 4;aspect-ratio:4/5}
+.coll{padding-top:0}
+.coll .head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:clamp(36px,5vw,64px);flex-wrap:wrap}
+.coll h2{margin-top:22px}.coll .head p{color:var(--muted);max-width:38ch}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,22px)}
+.coll-grid figure{margin:0;aspect-ratio:3/2;color:#fff}
+.coll-grid figure:hover img{transform:scale(1.06);transition-duration:1.4s}
+.coll-grid figcaption{position:absolute;inset:auto 0 0 0;padding:60px 22px 18px;background:linear-gradient(180deg,rgba(20,18,15,0),rgba(20,18,15,.78));display:flex;flex-direction:column;gap:4px}
+.coll-grid b{font:400 30px/1 var(--serif);letter-spacing:.02em}
+.coll-grid span{font-size:13.5px;opacity:.82}
+.reel video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+@media (max-width:980px){.coll-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.coll-grid{grid-template-columns:1fr}}
 .grid .g6{grid-column:span 6;aspect-ratio:4/3}
 .video{background:var(--paper-2)}
 .video .wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(34px,6vw,110px);align-items:center}
@@ -251,6 +263,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
   <a class="brand" href="#top" aria-label="Majorino Home Design, accueil"><img src="img/logo.png" alt="Majorino Home Design" width="991" height="696"></a>
   <nav id="nav">
     <a href="#cuisines">Cuisines</a>
+    <a href="#collections">Collections</a>
     <a href="#univers">Sur mesure</a>
     <a href="#realisations">Réalisations</a>
     <a href="#demarche">Démarche</a>
@@ -262,8 +275,8 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 
 <main id="top">
 <section class="hero">
-  <img src="img/c3.jpg" alt="Cuisine italienne sur mesure aux façades crème, plan de travail en pierre sombre et niche en bois" fetchpriority="high">
-  <video src="img/reel.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
+  <img src="img/armony/2-system-1.webp" alt="Cuisine italienne sur mesure aux façades crème, vitrine en verre fumé et niche en bois" fetchpriority="high">
+  <video src="img/ouverture.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
   <div class="wrap">
     <div>
       <p class="label">Cuisines et mobilier sur mesure · Charleroi</p>
@@ -283,7 +296,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
     <div>
       <p class="big rv">Majorino Home Design conçoit des intérieurs où chaque ligne a sa raison d'être. Des cuisines <em>made in Italy</em> et du mobilier sur mesure, pensés au millimètre pour les maisons de la région de Charleroi.</p>
       <div class="facts">
-        <div class="rv"><b>Cuisines italiennes</b><span>Des cuisines fabriquées en Italie, aux dimensions exactes de votre pièce.</span></div>
+        <div class="rv"><b>Cuisines italiennes</b><span>Des cuisines Armony Cucine, fabriquées en Italie aux dimensions exactes de votre pièce.</span></div>
         <div class="rv" style="--d:.1s"><b>Mobilier sur mesure</b><span>Meubles TV, dressings, salles de bain, rangements : chaque meuble est conçu pour sa place.</span></div>
         <div class="rv" style="--d:.2s"><b>Artisan belge</b><span>Un seul interlocuteur, de la première visite à la pose, à Charleroi et alentours.</span></div>
       </div>
@@ -293,13 +306,30 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 
 <section class="cuisine" id="cuisines">
   <div class="wrap">
-    <div class="ph a"><img src="img/c2.jpg" alt="Cuisine en L avec îlot, façades crème à gorges noires et plan de travail marbré sombre" loading="lazy"></div>
+    <div class="ph a"><img src="img/armony/2-system-8.webp" alt="Cuisine en L avec îlot, façades crème à profilés noirs et plan de travail marbré sombre" loading="lazy"></div>
     <div>
-      <div class="ph b"><img src="img/c1.jpg" alt="Détail d'une façade crème, d'une crédence en pierre et d'une étagère en métal noir" loading="lazy"></div>
-      <p class="label rv">La cuisine</p>
+      <div class="ph b"><img src="img/armony/2-system-7.webp" alt="Détail d'une façade crème, d'une crédence en pierre et d'une étagère en métal noir" loading="lazy"></div>
+      <p class="label rv">La cuisine · Armony Cucine</p>
       <h2 class="rv">Le cœur de la maison, <em>dessiné pour vous.</em></h2>
       <p class="rv">Façades sans poignée, pierre sombre, bois chaleureux, colonnes toute hauteur : nous composons avec vous une cuisine à la fois belle à regarder et simple à vivre, adaptée à votre pièce et à vos habitudes.</p>
       <a class="btn dark rv" href="#contact">Parler de votre cuisine <i></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="coll" id="collections">
+  <div class="wrap">
+    <div class="head">
+      <div><p class="label rv">Les collections</p><h2 class="rv">Six lignes, <em>une infinité de cuisines.</em></h2></div>
+      <p class="rv">Les collections Armony Cucine, à composer avec vous : finitions, plans de travail, poignées et rangements.</p>
+    </div>
+    <div class="coll-grid">
+      <figure class="ph"><img src="img/armony/system.webp" alt="Cuisine Armony System" loading="lazy"><figcaption><b>System</b><span>Collection Armony Cucine</span></figcaption></figure>
+      <figure class="ph"><img src="img/armony/riga.webp" alt="Cuisine Armony Riga" loading="lazy"><figcaption><b>Riga</b><span>Collection Armony Cucine</span></figcaption></figure>
+      <figure class="ph"><img src="img/armony/yota.webp" alt="Cuisine Armony Yota" loading="lazy"><figcaption><b>Yota</b><span>Collection Armony Cucine</span></figcaption></figure>
+      <figure class="ph"><img src="img/armony/equa.webp" alt="Cuisine Armony Equa" loading="lazy"><figcaption><b>Equa</b><span>Collection Armony Cucine</span></figcaption></figure>
+      <figure class="ph"><img src="img/armony/rho.webp" alt="Cuisine Armony Rho" loading="lazy"><figcaption><b>Rho</b><span>Collection Armony Cucine</span></figcaption></figure>
+      <figure class="ph"><img src="img/armony/quadro.webp" alt="Cuisine Armony Quadro" loading="lazy"><figcaption><b>Quadro</b><span>Collection Armony Cucine</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -314,9 +344,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
       <a class="btn dark rv" href="#contact">Demander un devis <i></i></a>
     </div>
     <div class="rv">
-      <div class="reel" id="reel">
-        <img src="img/reel.jpg" alt="Aperçu de la vidéo : cuisine avec îlot dans une pièce ouverte sur l'extérieur" loading="lazy">
-      </div>
+      <div class="reel"><video src="img/armony/film.mp4" controls preload="none" playsinline poster="img/armony/yota.webp"></video></div>
     </div>
   </div>
 </section>
@@ -335,9 +363,9 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
       </ul>
     </div>
     <div class="stage rv" id="stage">
-      <img class="on" src="img/c3.jpg" alt="Cuisine ouverte sur la salle à manger" loading="lazy">
+      <img class="on" src="img/armony/2-system-9.webp" alt="Cuisine ouverte sur la salle à manger et le séjour" loading="lazy">
       <img src="img/r5.jpg" style="object-position:88% 50%" alt="Séjour avec composition murale blanche à niches, réalisée sur mesure" loading="lazy">
-      <img src="img/c4.jpg" alt="Placards toute hauteur aux façades crème" loading="lazy">
+      <img src="img/armony/2-system-4.webp" alt="Placards toute hauteur aux façades crème" loading="lazy">
       <img src="img/r4.jpg" alt="Salle de bain avec meuble vasque suspendu et plan en bois" loading="lazy">
       <img src="img/r6.jpg" alt="Porte verrière en acier noir" loading="lazy">
     </div>
@@ -346,7 +374,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 
 <section class="detail">
   <div class="wrap">
-    <div class="ph"><img src="img/c1.jpg" alt="Tiroirs sans poignée et plan de travail en pierre sombre" loading="lazy"></div>
+    <div class="ph"><img src="img/armony/1-systemyota-3.webp" alt="Tiroir intérieur d'un îlot en bois sous un plan en pierre claire" loading="lazy"></div>
     <div>
       <p class="label rv">Le détail</p>
       <h2 class="rv">Chaque centimètre <em>compte.</em></h2>
@@ -381,13 +409,13 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
       <p class="rv">Quelques ambiances issues de nos collections. Chaque projet est ensuite adapté à votre pièce.</p>
     </div>
     <div class="grid">
-      <button class="ph g1"><img src="img/c3.jpg" alt="Cuisine crème et bois ouverte sur le séjour" loading="lazy"></button>
-      <button class="ph g2"><img src="img/c5.jpg" alt="Vitrine éclairée en verre fumé" loading="lazy"></button>
-      <button class="ph g3"><img src="img/p1.jpg" alt="Bibliothèque murale et fauteuil lounge" loading="lazy"></button>
-      <button class="ph g4"><img src="img/c4.jpg" alt="Colonnes de rangement toute hauteur" loading="lazy"></button>
-      <button class="ph g5"><img src="img/p2.jpg" alt="Composition murale rétroéclairée" loading="lazy"></button>
-      <button class="ph g6"><img src="img/k1.jpg" alt="Cuisine claire avec îlot en pierre face à une baie vitrée" loading="lazy"></button>
-      <button class="ph g6"><img src="img/k2.jpg" alt="Cuisine ouverte en bois clair avec étagères vitrées" loading="lazy"></button>
+      <button class="ph g1"><img src="img/armony/2-living-2.webp" alt="Séjour avec composition murale bleue et bois autour du téléviseur" loading="lazy"></button>
+      <button class="ph g2"><img src="img/armony/2-system-10.webp" alt="Bibliothèque rétroéclairée derrière la table à manger" loading="lazy"></button>
+      <button class="ph g3"><img src="img/armony/2-system-2.webp" alt="Cuisine vue depuis le couloir, colonnes en bois" loading="lazy"></button>
+      <button class="ph g4"><img src="img/armony/2-living-3.webp" alt="Meuble suspendu bleu nuit, détail" loading="lazy"></button>
+      <button class="ph g5"><img src="img/armony/1-systemyota-2.webp" style="object-position:70% 50%" alt="Îlot en bois et colonnes sombres sous une verrière" loading="lazy"></button>
+      <button class="ph g6"><img src="img/armony/1-systemyota-1.webp" alt="Cuisine avec îlot en bois et colonnes gris foncé" loading="lazy"></button>
+      <button class="ph g6"><img src="img/armony/2-living-1.webp" alt="Séjour ouvert avec meuble TV mural" loading="lazy"></button>
     </div>
   </div>
 </section>
@@ -466,7 +494,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 
 <script>
 const hv=document.querySelector('.hero video');const hon=()=>hv.classList.add('on');hv.addEventListener('playing',hon,{once:true});if(!hv.paused&&hv.currentTime>0)hon();
-hv.addEventListener('timeupdate',()=>{if(hv.currentTime>6.3&&!hv.paused){hv.classList.remove('on');setTimeout(()=>{hv.pause();hv.remove()},1000)}});
+hv.addEventListener('timeupdate',()=>{if(hv.duration&&hv.currentTime>hv.duration-1.2&&!hv.paused){hv.classList.remove('on');setTimeout(()=>{hv.pause();hv.remove()},1000)}});
 const hd=document.getElementById('hd'),burger=document.getElementById('burger');
 const onScroll=()=>hd.classList.toggle('solid',scrollY>innerHeight*.7);
 addEventListener('scroll',onScroll,{passive:true});onScroll();
@@ -479,9 +507,6 @@ document.querySelectorAll('.rv,.ph').forEach(el=>io.observe(el));
 const items=[...document.querySelectorAll('#list li')],imgs=[...document.querySelectorAll('#stage img')];
 const pick=i=>{items.forEach((l,k)=>l.classList.toggle('on',k===i));imgs.forEach((m,k)=>m.classList.toggle('on',k===i))};
 items.forEach((l,i)=>{l.onmouseenter=()=>pick(i);l.onclick=()=>pick(i)});
-
-const reel=document.getElementById('reel');
-new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();const f=document.createElement('iframe');f.src='https://www.facebook.com/plugins/video.php?href='+encodeURIComponent('https://www.facebook.com/reel/1616193376670678')+'&show_text=false';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.title='Vidéo Majorino Home Design';reel.appendChild(f)}},{rootMargin:'400px'}).observe(reel);
 
 const lb=document.getElementById('lb');
 document.querySelectorAll('.grid button').forEach(b=>b.onclick=()=>{lb.firstElementChild.src=b.firstElementChild.src;lb.classList.add('on')});
