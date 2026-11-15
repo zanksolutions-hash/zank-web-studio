@@ -20,10 +20,7 @@
 <meta name="theme-color" content="#15110e">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&display=swap" rel="stylesheet">
+<link href="fonts/gf-efb6068e0c.css" rel="stylesheet">
 <script>document.documentElement.classList.add('js')</script>
 <style>
 :root{
@@ -1280,7 +1277,7 @@ nav#nav.scrolled{border-color:var(--line)}
 const I = (n, c='') => `<svg class="ic ${c}"><use href="#i-${n}"/></svg>`;
 const STARS = `<span class="st">${I('star').repeat(5)}</span>`;
 // Photos libres de droits (Unsplash) : remplacez-les par celles de vos clients
-const P = (id, w=1400) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
+const P = (id, w=1400) => `img/u/${id}-${w}.jpg`;
 const IMG = (id, w, alt) => `<img src="${P(id,w)}" alt="${alt}" decoding="async">`;
 
 /* ---------- Les 5 sites de démonstration ---------- */
