@@ -80,6 +80,7 @@ nav .tel:hover{background:var(--brass);border-color:var(--brass);color:#fff}
 
 .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .9s ease}
 .hero video.on{opacity:1}
+.hero>img{transition:opacity .9s ease}.hero.wait>img{opacity:0}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);transition-delay:var(--d,0s)}
@@ -117,8 +118,8 @@ nav .tel:hover{background:var(--brass);border-color:var(--brass);color:#fff}
 .list h3{font-size:clamp(27px,3vw,40px)}
 .list p{grid-column:2;color:rgba(251,249,245,.72);font-size:16px;max-height:0;overflow:hidden;transition:max-height .6s var(--ease),margin .6s var(--ease)}
 .list li.on p{max-height:140px;margin-top:10px}
-.stage{position:sticky;top:120px;width:100%;aspect-ratio:4/5;max-height:calc(100vh - 200px);max-height:calc(100svh - 200px);overflow:hidden;background:var(--ink-2)}
-.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s var(--ease),transform 1.6s var(--ease)}
+.stage{position:sticky;top:120px;width:100%;aspect-ratio:4/5;max-height:calc(100vh - 200px);max-height:calc(100svh - 200px);overflow:hidden}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.08);transition:opacity .9s var(--ease),transform 1.6s var(--ease)}
 .stage img.on{opacity:1;transform:none}
 
 /* détail */
@@ -253,7 +254,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}.ph::after{display:none}.ph img{transform:none}
-  .hero h1 span b{transform:none}.hero-side{opacity:1}.hero video{display:none}
+  .hero h1 span b{transform:none}.hero-side{opacity:1}.hero video{display:none}.hero.wait>img{opacity:1}
 }
 </style>
 </head>
@@ -274,7 +275,7 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 </header>
 
 <main id="top">
-<section class="hero">
+<section class="hero wait">
   <img src="img/armony/2-system-1.webp" alt="Cuisine italienne sur mesure aux façades crème, vitrine en verre fumé et niche en bois" fetchpriority="high">
   <video src="img/ouverture.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video>
   <div class="wrap">
@@ -493,8 +494,11 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Majorino Home Design par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 
 <script>
-const hv=document.querySelector('.hero video');const hon=()=>hv.classList.add('on');hv.addEventListener('playing',hon,{once:true});if(!hv.paused&&hv.currentTime>0)hon();
-hv.addEventListener('timeupdate',()=>{if(hv.duration&&hv.currentTime>hv.duration-1.2&&!hv.paused){hv.classList.remove('on');setTimeout(()=>{hv.pause();hv.remove()},1000)}});
+const hero=document.querySelector('.hero'),hv=hero.querySelector('video'),hi=hero.querySelector(':scope>img');
+const photo=now=>{if(now){hi.style.transition='none';hi.offsetWidth}hero.classList.remove('wait')};
+const hon=()=>hv.classList.add('on');hv.addEventListener('playing',hon,{once:true});if(!hv.paused&&hv.currentTime>0)hon();
+hv.addEventListener('error',()=>photo());setTimeout(()=>{if(!hv.classList.contains('on'))photo()},6000);
+hv.addEventListener('timeupdate',()=>{if(hv.duration&&hv.currentTime>hv.duration-1.2&&!hv.paused&&hv.classList.contains('on')){photo(true);hv.classList.remove('on');setTimeout(()=>{hv.pause();hv.remove()},1000)}});
 const hd=document.getElementById('hd'),burger=document.getElementById('burger');
 const onScroll=()=>hd.classList.toggle('solid',scrollY>innerHeight*.7);
 addEventListener('scroll',onScroll,{passive:true});onScroll();
