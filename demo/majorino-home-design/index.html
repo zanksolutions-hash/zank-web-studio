@@ -237,7 +237,9 @@ footer .soc{display:flex;gap:26px;letter-spacing:.16em;text-transform:uppercase;
   .hero .wrap,.intro .wrap,.cuisine .wrap,.video .wrap,.univers .wrap,.detail .wrap,.contact .wrap{grid-template-columns:1fr}
   .hero-side{max-width:480px}
   .cuisine .b{display:none}
-  .stage{position:relative;top:0;order:-1;aspect-ratio:4/3;max-height:calc(100svh - 160px)}
+  .stage{position:sticky;top:var(--hh,78px);z-index:5;order:-1;aspect-ratio:3/2;max-height:36svh;background:var(--ink);box-shadow:0 -24px 0 var(--ink),0 16px 0 var(--ink)}
+  .list li{transition:opacity .4s}.list li.on{padding-left:0}
+  .list li p{max-height:none;margin-top:10px}
   .steps{grid-template-columns:1fr 1fr;row-gap:44px}
   .steps div:nth-child(n+3){border-top:1px solid var(--line)}
   .detail .ph{order:-1}
@@ -511,6 +513,9 @@ document.querySelectorAll('.rv,.ph').forEach(el=>io.observe(el));
 const items=[...document.querySelectorAll('#list li')],imgs=[...document.querySelectorAll('#stage img')];
 const pick=i=>{items.forEach((l,k)=>l.classList.toggle('on',k===i));imgs.forEach((m,k)=>m.classList.toggle('on',k===i))};
 items.forEach((l,i)=>{l.onmouseenter=()=>pick(i);l.onclick=()=>pick(i)});
+const mq=matchMedia('(max-width:980px)'),stg=document.getElementById('stage');let cur=0;
+new ResizeObserver(()=>document.documentElement.style.setProperty('--hh',hd.offsetHeight+'px')).observe(hd);
+addEventListener('scroll',()=>{if(!mq.matches)return;const y=stg.getBoundingClientRect().bottom+90;let n=0;items.forEach((l,k)=>{if(l.getBoundingClientRect().top<=y)n=k});if(n!==cur){cur=n;pick(n)}},{passive:true});
 
 const lb=document.getElementById('lb');
 document.querySelectorAll('.grid button').forEach(b=>b.onclick=()=>{lb.firstElementChild.src=b.firstElementChild.src;lb.classList.add('on')});
