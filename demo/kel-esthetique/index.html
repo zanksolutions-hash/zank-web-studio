@@ -90,6 +90,22 @@ section{padding:clamp(60px,9vw,112px) 0}
 .heures button[aria-pressed=true]{background:var(--terre-t);border-color:var(--terre-t);color:#fff}
 .choisi{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:center;min-height:50px;font-size:16px}
 
+.pro{margin:22px 0 0;font-size:15.5px}
+.pro a{color:var(--terre-t);font-weight:700}
+#resa{background:#fff}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:12px;min-width:0}
+legend{font:400 22px var(--serif);padding:0;margin-bottom:10px}
+.rj{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;max-height:232px;overflow-y:auto;padding:2px}
+.rj button{display:grid;gap:2px;text-align:center;background:var(--lin);border:1px solid var(--sable2);border-radius:10px;padding:10px 6px;color:var(--brun);font:400 13.5px 'Nunito Sans',sans-serif;cursor:pointer}
+.rj button b{font-weight:700;font-size:16px}
+.rj button:hover{border-color:var(--terre-t)}
+.rj button[aria-pressed=true]{background:var(--terre-t);border-color:var(--terre-t);color:#fff}
+.r-note{font-size:13px;color:var(--gris);margin:0}
+.recap{background:var(--lin);border-radius:10px;padding:12px 14px;font-size:15px;margin:0}
+.err{margin:0;padding:12px 14px;border-radius:10px;background:#f6e3df;color:#8a2f22;font-weight:700;font-size:14.5px}
+#resa.fini{align-content:center;text-align:center;min-height:300px}
+#resa.fini .ok{background:transparent;font-size:17px}
+.merci{display:block;font:400 clamp(32px,4.5vw,42px)/1.1 var(--serif);color:var(--terre-t);margin-bottom:10px}
 .etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:e}
 .etape{border-top:2px solid var(--brun);padding-top:20px;counter-increment:e}
 .etape::before{content:'0' counter(e);font:400 15px var(--serif);color:var(--terre-t)}
@@ -158,7 +174,7 @@ footer b{font:400 24px var(--serif);color:#fff}
 <nav>
   <div class="wrap">
     <a class="marque" href="#" aria-label="Kel'esthétique, accueil">Kel'<span>esthétique</span></a>
-    <div class="liens"><a href="#prestations">Prestations</a><a href="#tarifs">Tarifs</a><a href="#agenda">Disponibilités</a><a href="#reserver">Réserver</a><a href="#questions">Questions</a><a href="#contact">Contact</a></div>
+    <div class="liens"><a href="#prestations">Prestations</a><a href="#tarifs">Tarifs</a><a href="#agenda">Réserver</a><a href="#questions">Questions</a><a href="#contact">Contact</a></div>
     <a class="btn" href="#agenda">Prendre rendez-vous</a>
   </div>
 </nav>
@@ -170,7 +186,7 @@ footer b{font:400 24px var(--serif);color:#fff}
       <h1>Votre moment beauté, <em>en douceur et en élégance.</em></h1>
       <p class="lead">Soins visage, rehaussement de cils, massages, ongles&nbsp;: Kel'esthétique vous reçoit à Courcelles sur rendez-vous, en soirée et le week-end, quand vous avez enfin du temps pour vous.</p>
       <div class="ctas">
-        <a class="btn terre" href="#agenda">Voir les disponibilités</a>
+        <a class="btn terre" href="#agenda">Réserver en ligne</a>
         <a class="btn clair" href="#tarifs">Voir les tarifs</a>
       </div>
       <ul class="proof"><li><b>Diplômée</b> et certifiée</li><li><b>Sur rendez-vous</b>, soirs et week-ends</li><li><b>Courcelles</b></li></ul>
@@ -231,19 +247,37 @@ footer b{font:400 24px var(--serif);color:#fff}
 <section class="agenda" id="agenda">
   <div class="wrap">
     <div>
-      <span class="tag">Disponibilités</span>
-      <h2>L'agenda de décembre <em>est ouvert.</em></h2>
-      <p class="note" style="font-size:18px;margin-top:16px">Choisissez un créneau libre, il est repris dans votre demande. Les créneaux de décembre sont limités&nbsp;: pensez à réserver à l'avance.</p>
-      <p class="note">Sur un vrai site, cet agenda se met à jour en un clic au lieu de republier une image chaque mois.</p>
+      <span class="tag">Réserver en ligne</span>
+      <h2>Votre rendez-vous <em>en trois clics.</em></h2>
+      <p class="note" style="font-size:18px;margin-top:16px">Choisissez votre soin, un jour libre et laissez vos coordonnées. Le rendez-vous est enregistré tout de suite et vous recevez un e-mail de confirmation.</p>
+      <p class="note">Les créneaux affichés sont ceux réellement libres&nbsp;: plus besoin de republier une image de disponibilités chaque mois.</p>
+      <p class="pro"><a href="https://zank-rdv.zank-solutions.workers.dev/agenda/kel-esthetique" target="_blank" rel="noopener">Espace pro&nbsp;: voir l'agenda et le tableau de bord</a></p>
     </div>
-    <div>
-      <div class="semaines" id="semaines">
-        <button type="button" aria-pressed="true" data-s="0">Du 7 au 13 déc.</button>
-        <button type="button" aria-pressed="false" data-s="1">Du 14 au 20 déc.</button>
-      </div>
-      <div class="jours" id="jours"></div>
-      <p class="choisi" id="choisi" aria-live="polite">Aucun créneau choisi pour l'instant.</p>
-    </div>
+    <!-- Agenda : rendez-vous enregistrés par le Worker zank-rdv (dossier rdv-worker/) -->
+    <form id="resa" novalidate>
+      <fieldset>
+        <legend>1. Votre soin</legend>
+        <select id="r-prest" name="prestation" required aria-label="Votre soin" disabled><option value="">Chargement…</option></select>
+      </fieldset>
+      <fieldset id="r-e2" hidden>
+        <legend>2. Votre jour</legend>
+        <div class="rj" id="r-jours"></div>
+        <p class="r-note">Un horaire proposé par jour, à la suite des rendez-vous déjà pris.</p>
+      </fieldset>
+      <fieldset id="r-e3" hidden>
+        <legend>3. Vos coordonnées</legend>
+        <p class="recap" id="r-recap" aria-live="polite"></p>
+        <label>Nom et prénom<input name="nom" required autocomplete="name"></label>
+        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+        <label>GSM (facultatif)<input name="telephone" type="tel" autocomplete="tel" placeholder="0470 12 34 56"></label>
+        <input name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+        <button class="btn terre" type="submit">Confirmer le rendez-vous</button>
+      </fieldset>
+      <p class="err" id="r-err" role="alert" hidden></p>
+      <p class="ok" id="r-ok" role="status" hidden></p>
+      <button class="btn clair" type="button" id="r-autre" hidden>Prendre un autre rendez-vous</button>
+      <p class="r-note">Démonstration&nbsp;: les rendez-vous pris ici sont des essais. Vos données servent uniquement à gérer le rendez-vous.</p>
+    </form>
   </div>
 </section>
 
@@ -254,9 +288,9 @@ footer b{font:400 24px var(--serif);color:#fff}
       <h2>Trois étapes, <em>et c'est noté.</em></h2>
     </div>
     <div class="etapes">
-      <div class="etape"><h3>Choisissez</h3><p>La prestation qui vous fait envie et un créneau libre dans l'agenda.</p></div>
-      <div class="etape"><h3>Envoyez</h3><p>Votre demande part en message, avec la prestation souhaitée et vos disponibilités.</p></div>
-      <div class="etape"><h3>C'est confirmé</h3><p>Vous recevez une réponse pour fixer le rendez-vous. Il ne reste qu'à venir.</p></div>
+      <div class="etape"><h3>Choisissez</h3><p>Le soin qui vous fait envie et un jour libre dans l'agenda en ligne.</p></div>
+      <div class="etape"><h3>Envoyez</h3><p>Vos coordonnées, et le rendez-vous est enregistré. Aucun message à écrire.</p></div>
+      <div class="etape"><h3>C'est confirmé</h3><p>Vous recevez un e-mail de confirmation, avec un lien pour déplacer ou annuler si besoin.</p></div>
     </div>
   </div>
 </section>
@@ -277,8 +311,8 @@ footer b{font:400 24px var(--serif);color:#fff}
   <div class="wrap">
     <div class="head"><span class="tag">Questions fréquentes</span><h2>Avant de <em>réserver.</em></h2></div>
     <div class="faq">
-      <details open><summary>Comment prendre rendez-vous&nbsp;?</summary><p>Envoyez un message avec la prestation souhaitée et vos disponibilités, ou choisissez un créneau dans l'agenda ci-dessus.</p></details>
-      <details><summary>Quand recevez-vous&nbsp;?</summary><p>Sur rendez-vous uniquement, surtout en soirée et le week-end. Les créneaux libres du mois sont affichés dans l'agenda.</p></details>
+      <details open><summary>Comment prendre rendez-vous&nbsp;?</summary><p>En ligne, à toute heure, dans la rubrique Réserver. Pour la pose de gel et la madérothérapie, envoyez un message.</p></details>
+      <details><summary>Quand recevez-vous&nbsp;?</summary><p>Sur rendez-vous uniquement, surtout en soirée et le week-end. Les créneaux libres sont affichés dans l'agenda en ligne.</p></details>
       <details><summary>Quels sont les tarifs&nbsp;?</summary><p>Soins visage de 35 à 70&nbsp;€, rehaussement de cils de 45 à 60&nbsp;€, massages de 30 à 70&nbsp;€ selon la durée. Le détail figure dans la rubrique Tarifs. La madérothérapie bénéficie d'un tarif réduit pour son lancement.</p></details>
       <details><summary>Où a lieu le rendez-vous&nbsp;?</summary><p>À Courcelles. L'adresse précise vous est donnée à la confirmation du rendez-vous.</p></details>
     </div>
@@ -290,16 +324,16 @@ footer b{font:400 24px var(--serif);color:#fff}
     <div>
       <span class="tag">Contact</span>
       <h2>Réservez votre <em>moment beauté.</em></h2>
-      <p>Infos et rendez-vous en message privé, ou avec le formulaire. Indiquez la prestation souhaitée et vos disponibilités.</p>
+      <p>Pour réserver, utilisez l'agenda en ligne. Pour une question ou un soin sur mesure, écrivez en message privé ou avec le formulaire.</p>
       <a class="btn" href="https://www.facebook.com/people/Kel-Esth%C3%A9tique/61595292188532/" target="_blank" rel="noopener">Écrire sur Facebook</a>
       <p class="acces">Courcelles · sur rendez-vous uniquement.</p>
     </div>
     <form data-web3>
-      <h3>Demander un rendez-vous</h3>
+      <h3>Une question&nbsp;?</h3>
       <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
       <label>Téléphone<input name="tel" type="tel" autocomplete="tel" required></label>
       <label>Prestation<select name="prestation"><option>Soin visage</option><option>Rehaussement de cils</option><option>Massage</option><option>Madérothérapie</option><option>Pose de gel sur ongles naturels</option><option>Je ne sais pas encore</option></select></label>
-      <label>Créneau souhaité<input name="creneau" id="creneau" placeholder="Samedi 12 décembre à 10:30"></label>
+      <label>Votre message<input name="message" placeholder="Une question, une envie particulière"></label>
       <button class="btn terre" type="submit">Envoyer ma demande</button>
       <p class="ok" role="status" hidden></p>
     </form>
@@ -315,33 +349,6 @@ footer b{font:400 24px var(--serif);color:#fff}
 
 <script>
 const $=id=>document.getElementById(id);
-/* Créneaux repris du visuel de décembre publié sur Facebook */
-const SOIR=['19:00','20:00'],JEU=['9:30','11:00','19:00'],DIM=['9:00','10:30','12:00','13:00','14:00','15:30','17:00','18:00'];
-const AGENDA=[
- [['Lundi','7 décembre',SOIR],['Mardi','8 décembre',SOIR],['Mercredi','9 décembre',SOIR],['Jeudi','10 décembre',JEU],['Samedi','12 décembre',['9:00','10:30','17:00','18:30','20:00']],['Dimanche','13 décembre',DIM]],
- [['Lundi','14 décembre',SOIR],['Mardi','15 décembre',SOIR],['Mercredi','16 décembre',SOIR],['Jeudi','17 décembre',JEU],['Dimanche','20 décembre',DIM]]
-];
-function semaine(s){
-  const z=$('jours');z.innerHTML='';
-  AGENDA[s].forEach(([j,d,hs])=>{
-    const l=document.createElement('div');l.className='jour';
-    const b=document.createElement('b');b.textContent=j;const sm=document.createElement('small');sm.textContent=d;b.append(sm);
-    const h=document.createElement('div');h.className='heures';
-    hs.forEach(t=>{const x=document.createElement('button');x.type='button';x.textContent=t;x.setAttribute('aria-pressed','false');x.setAttribute('aria-label',j+' '+d+' à '+t);x.onclick=()=>choisir(x,j+' '+d+' à '+t);h.append(x)});
-    l.append(b,h);z.append(l);
-  });
-}
-function choisir(x,texte){
-  document.querySelectorAll('.heures button').forEach(b=>b.setAttribute('aria-pressed',b===x));
-  $('creneau').value=texte;
-  const c=$('choisi');c.textContent='';
-  const s=document.createElement('span');s.textContent='Créneau choisi : '+texte+'.';
-  const a=document.createElement('a');a.className='btn terre';a.href='#contact';a.textContent='Demander ce créneau';
-  c.append(s,a);
-}
-const sem=[...$('semaines').children];
-sem.forEach(b=>b.onclick=()=>{sem.forEach(x=>x.setAttribute('aria-pressed',x===b));semaine(+b.dataset.s)});
-semaine(0);
 /* Tarifs repris de son visuel du 18 octobre */
 const TARIFS=[
  [['Express','30 min','35 €'],['Nettoyant','Imperfections','45 €'],['Hydratant','','50 €'],['Relaxant + massage','','55 €'],['Purifiant profond','Avec extraction','65 €'],['Visage + décolleté','','70 €']],
@@ -352,6 +359,59 @@ function famille(f){const z=$('prix');z.innerHTML='';TARIFS[f].forEach(([n,d,p])
 const fam=[...$('familles').children];
 fam.forEach(b=>b.onclick=()=>{fam.forEach(x=>x.setAttribute('aria-pressed',x===b));famille(+b.dataset.f)});
 famille(0);
+/* Agenda de prise de rendez-vous (Worker zank-rdv) */
+(()=>{
+  const API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8790':'https://zank-rdv.zank-solutions.workers.dev';
+  const SITE='kel-esthetique',f=$('resa'),prest=$('r-prest'),jours=$('r-jours'),e2=$('r-e2'),e3=$('r-e3'),err=$('r-err'),ok=$('r-ok'),recap=$('r-recap');
+  const heure=m=>Math.floor(m/60)+'h'+String(m%60).padStart(2,'0');
+  const date=(j,o)=>new Intl.DateTimeFormat('fr-BE',Object.assign({timeZone:'UTC'},o)).format(new Date(j+'T12:00:00Z'));
+  const el=(t,txt)=>{const e=document.createElement(t);e.textContent=txt;return e};
+  const note=txt=>{const e=el('p',txt);e.className='r-note';return e};
+  const erreur=m=>{err.textContent=m;err.hidden=!m};
+  const appel=(chemin,opt)=>fetch(API+chemin,opt).then(r=>r.json().then(d=>({status:r.status,d})));
+  const HS='Agenda indisponible pour le moment. Écrivez-nous en message privé.';
+  let soins=[],p=null,c=null;
+  function charger(){
+    c=null;e3.hidden=true;jours.replaceChildren(note('Recherche des disponibilités…'));e2.hidden=false;
+    return appel('/creneaux?site='+SITE+'&prestation='+p.id).then(({d})=>{
+      if(!d.jours||!d.jours.length){jours.replaceChildren(note('Aucune disponibilité pour le moment : écrivez-nous.'));return}
+      jours.replaceChildren(...d.jours.map(j=>{
+        const b=el('button','');b.type='button';b.setAttribute('aria-pressed',false);
+        b.append(el('span',date(j.jour,{weekday:'short',day:'numeric',month:'short'})),el('b',heure(j.debut)));
+        b.onclick=()=>{c=j;jours.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));erreur('');
+          recap.textContent=p.nom+' ('+p.duree+' min, '+p.prix+' €) · '+date(j.jour,{weekday:'long',day:'numeric',month:'long'})+' de '+heure(j.debut)+' à '+heure(j.fin);
+          e3.hidden=false;f.elements.nom.focus({preventScroll:true})};
+        return b}));
+    }).catch(()=>{jours.replaceChildren();erreur(HS)});
+  }
+  $('r-autre').onclick=()=>{
+    f.classList.remove('fini');[...f.children].forEach(x=>{x.hidden=false});
+    ok.hidden=true;$('r-autre').hidden=true;err.hidden=true;e2.hidden=true;e3.hidden=true;f.reset();prest.value='';p=null;c=null;
+  };
+  appel('/config?site='+SITE).then(({d})=>{
+    soins=d.prestations;
+    const o0=el('option','Choisir un soin…');o0.value='';
+    prest.replaceChildren(o0,...[...new Set(soins.map(x=>x.groupe))].map(g=>{const og=document.createElement('optgroup');og.label=g;soins.filter(x=>x.groupe===g).forEach(x=>{const o=el('option',x.nom+' · '+x.duree+' min · '+x.prix+' €');o.value=x.id;og.append(o)});return og}));
+    prest.disabled=false;
+  }).catch(()=>{prest.replaceChildren();erreur(HS)});
+  prest.addEventListener('change',()=>{p=soins.find(x=>x.id===prest.value)||null;erreur('');if(p)charger();else{c=null;e2.hidden=true;e3.hidden=true}});
+  f.addEventListener('submit',e=>{
+    e.preventDefault();if(!p||!c)return;
+    if(!f.checkValidity()){f.reportValidity();return}
+    const bt=f.querySelector('[type=submit]');bt.disabled=true;erreur('');
+    const v=f.elements;
+    appel('/reserver',{method:'POST',body:JSON.stringify({site:SITE,prestation:p.id,jour:c.jour,debut:c.debut,nom:v.nom.value,telephone:v.telephone.value,email:v.email.value,sms:false,web:v.web.value})})
+    .then(({status,d})=>{
+      bt.disabled=false;
+      if(status===409){erreur("Ce créneau vient d'être réservé. Voici les disponibilités à jour.");return charger()}
+      if(!d.ok){erreur(d.erreur||'Une erreur est survenue. Réessayez.');return}
+      [...f.children].forEach(x=>{x.hidden=x!==ok&&x.id!=='r-autre'});f.classList.add('fini');
+      const mot=el('span','Merci');mot.className='merci';
+      ok.replaceChildren(mot,'Rendez-vous confirmé : '+recap.textContent+'.'+(d.email?' Un e-mail de confirmation vient de vous être envoyé.':''));
+      ok.hidden=false;$('r-autre').hidden=false;
+    }).catch(()=>{bt.disabled=false;erreur('Connexion impossible. Réessayez dans un instant.')});
+  });
+})();
 document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
   e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
 }));
