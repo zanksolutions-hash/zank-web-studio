@@ -627,19 +627,24 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   function rank(p){var b=bk(p)||{};return p.pin?0:p.urgent?1:b.slot==='am'?2:b.slot==='pm'?4:3}
   function ordered(){
     var todo=S.patients.filter(nd),done=S.patients.filter(function(p){return p.done});
-    var G={},out=[],cur='@';
+    /* on enchaîne toujours vers la visite la plus proche de la précédente ; le point de départ est la
+       dernière visite faite (l'ordre ne bouge plus quand on relève sa position en route) */
+    var G={},out=[],cur='@',lastDone=done.slice().sort(function(a,b){return(b.doneAt||0)-(a.doneAt||0)})[0];
+    if(lastDone&&S.mx&&S.mx.ids.indexOf(lastDone.id)>=0&&!(S.pos&&S.pos.t>lastDone.doneAt+15*60000))cur=lastDone.id;
+    function dd(a,p){var l=leg(a,p.id);return l?l.d:(a==='@'&&p.dist!=null?p.dist:null)}
     todo.forEach(function(p){var k=rank(p);(G[k]=G[k]||[]).push(p)});
     Object.keys(G).sort().forEach(function(k){
       var g=G[k];
-      if(S.set.mode==='short'){
-        while(g.length){
-          var best=0,bd=Infinity;
-          g.forEach(function(p,i){var l=leg(cur,p.id),d=l?l.d:(p.dist==null?1e12:p.dist);if(d<bd){bd=d;best=i}});
-          var p=g.splice(best,1)[0];out.push(p);cur=p.id;
-        }
-      }else{
-        g.sort(function(a,b){return(b.dist==null?-1:b.dist)-(a.dist==null?-1:a.dist)});
-        out=out.concat(g);
+      /* « du plus loin » : on commence par la visite la plus éloignée, sauf si on est déjà sur place */
+      if(S.set.mode!=='short'&&!out.length&&!done.length){
+        var here=g.findIndex(function(p){var x=dd('@',p);return x!=null&&x<300}),far=0,fd=-1;
+        g.forEach(function(p,i){var x=dd('@',p);if(x!=null&&x>fd){fd=x;far=i}});
+        var f=g.splice(here>=0?here:far,1)[0];out.push(f);cur=f.id;
+      }
+      while(g.length){
+        var best=0,bd=Infinity;
+        g.forEach(function(p,i){var x=dd(cur,p);x=x==null?1e12:x;if(x<bd){bd=x;best=i}});
+        var p=g.splice(best,1)[0];out.push(p);cur=p.id;
       }
     });
     done.sort(function(a,b){return(a.doneAt||0)-(b.doneAt||0)});
@@ -747,7 +752,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
       if(!navigator.geolocation)return ko(new Error('La localisation n\'est pas disponible sur cet appareil.'));
       navigator.geolocation.getCurrentPosition(function(p){ok({lat:p.coords.latitude,lon:p.coords.longitude,t:Date.now()})},function(e){
         ko(new Error(e.code===1?'Localisation refusée : autorisez-la dans les réglages du navigateur.':'Position introuvable, réessayez à l\'extérieur ou avec le GPS activé.'));
-      },{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+      },{enableHighAccuracy:true,timeout:15000,maximumAge:5000});
     });
   }
 
