@@ -63,7 +63,7 @@ section{padding:clamp(60px,9vw,112px) 0}
 .onglets button:focus-visible{outline:2px solid var(--taupe);outline-offset:2px}
 .onglets button[aria-pressed=true]{background:var(--noir);border-color:var(--noir);color:#fff}
 .pose{display:grid;grid-template-columns:.9fr 1.1fr;background:#fff;border-radius:26px;overflow:hidden;border:1px solid var(--ligne)}
-.pose img{width:100%;height:100%;min-height:340px;max-height:460px;object-fit:cover;object-position:50% 36%}
+.pose img{width:100%;height:100%;min-height:340px;max-height:460px;object-fit:cover;transition:opacity .25s}
 .pose>div{padding:clamp(26px,3.6vw,48px)}
 .pose h3{font-size:clamp(32px,3.4vw,46px);margin-bottom:12px}
 .pose p{margin:0;color:var(--gris);font-size:17.5px}
@@ -201,7 +201,7 @@ footer b{font:400 28px/1 var(--serif);color:#fff}
       <button type="button" aria-pressed="false">Volume russe</button>
     </div>
     <div class="pose" aria-live="polite">
-      <img src="../../img/u/e4629783b94dee.webp" width="1100" height="1650" loading="lazy" alt="Pose d'extensions de cils à la pince">
+      <img id="p-img" src="../../img/u/49f3e2ffea5141.webp" width="1100" height="733" loading="lazy" alt="">
       <div>
         <h3 id="p-titre"></h3>
         <p id="p-texte"></p>
@@ -311,12 +311,12 @@ footer b{font:400 28px/1 var(--serif);color:#fff}
 <script>
 const $=id=>document.getElementById(id);
 const POSES=[
- ['Cil à cil','Une extension posée sur chaque cil naturel. Le regard est allongé et ouvert, comme avec un mascara bien appliqué, sans effet chargé.','Naturel','1 h 30','3 à 4 sem.'],
- ['Volume mixte','Un mélange de cil à cil et de bouquets légers. Plus de densité que le cil à cil, tout en restant facile à porter au quotidien.','Étoffé','2 h','3 à 4 sem.'],
- ['Volume russe','Des bouquets de cils très fins, créés à la main et posés sur chaque cil naturel. La frange est dense et le regard intense.','Intense','2 h 30','3 à 4 sem.']
+ ['Cil à cil','Une extension posée sur chaque cil naturel. Le regard est allongé et ouvert, comme avec un mascara bien appliqué, sans effet chargé.','Naturel','1 h 30','3 à 4 sem.','49f3e2ffea5141','32% 45%','Regard naturel aux cils allongés'],
+ ['Volume mixte','Un mélange de cil à cil et de bouquets légers. Plus de densité que le cil à cil, tout en restant facile à porter au quotidien.','Étoffé','2 h','3 à 4 sem.','8c66d81bed8f03','50% 45%','Regard aux cils étoffés'],
+ ['Volume russe','Des bouquets de cils très fins, créés à la main et posés sur chaque cil naturel. La frange est dense et le regard intense.','Intense','2 h 30','3 à 4 sem.','20178a356b3a50','60% 50%','Frange de cils dense, en volume russe']
 ];
 const onglets=[...$('onglets').children];
-function pose(i){const [t,p,e,d,te]=POSES[i];$('p-titre').textContent=t;$('p-texte').textContent=p;$('p-effet').textContent=e;$('p-duree').textContent=d;$('p-tenue').textContent=te;onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('f-pose').value=t}
+function pose(i){const [t,p,e,d,te,ph,pos,alt]=POSES[i],im=$('p-img'),src='../../img/u/'+ph+'.webp';if(!im.src.endsWith(ph+'.webp')){im.style.opacity=0;const n=new Image();n.onload=()=>{im.src=src;im.style.opacity=1};n.src=src}im.style.objectPosition=pos;im.alt=alt;$('p-titre').textContent=t;$('p-texte').textContent=p;$('p-effet').textContent=e;$('p-duree').textContent=d;$('p-tenue').textContent=te;onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('f-pose').value=t}
 onglets.forEach((b,n)=>b.onclick=()=>pose(n));
 pose(0);
 
