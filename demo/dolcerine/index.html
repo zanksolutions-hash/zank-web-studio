@@ -111,8 +111,55 @@ input[type=range]{width:100%;padding:0;border:0;accent-color:var(--fram);height:
 .faq p{margin:0;padding:0 24px 22px;color:var(--gris)}
 
 .contact{background:var(--rose)}
-.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:start}
-.contact .lead{font-size:18px;color:var(--gris);margin:18px 0 24px;max-width:28em}
+[hidden]{display:none!important}
+.module{max-width:860px}
+.module .onglets button{background:#fff;border-color:#fff}
+.module .onglets button[aria-pressed=true]{background:var(--choco);border-color:var(--choco)}
+.pan{background:#fff;padding:clamp(22px,3.4vw,40px)}
+.pas{list-style:none;margin:0 0 8px;padding:0;display:flex;gap:8px;counter-reset:p;font-size:14.5px;color:var(--gris)}
+.pas li{flex:1;counter-increment:p;border-top:3px solid var(--ligne);padding-top:10px}
+.pas li::before{content:counter(p) '. '}
+.pas li.on{border-color:var(--fram);color:var(--choco);font-weight:500}
+.pas li.fait{border-color:var(--rose2)}
+.etp{display:grid;gap:14px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:500;font-size:14.5px;margin-bottom:8px}
+.puces{display:flex;flex-wrap:wrap;gap:8px}
+.puce{display:block;position:relative;font-weight:400}
+.puce input{position:absolute;inset:0;opacity:0;width:100%;height:100%;padding:0;cursor:pointer}
+.puce span{display:block;padding:9px 16px;border-radius:999px;border:1px solid var(--rose2);font-size:15.5px}
+.puce input:checked+span{background:var(--fram);border-color:var(--fram);color:#fff}
+.puce input:focus-visible+span{outline:2px solid var(--fram);outline-offset:2px}
+.jours{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.jours button,.heures button{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;border:1px solid var(--rose2);border-radius:14px;padding:10px 6px;background:#fff}
+.jours b{display:block;font:500 26px/1.1 var(--serif)}
+.jours small{display:block;font-size:13px;color:var(--gris)}
+.jours i{display:block;font-style:normal;font-size:12px;color:var(--gris)}
+.jours button:disabled{opacity:.45;cursor:not-allowed;background:var(--creme)}
+.heures{display:flex;flex-wrap:wrap;gap:8px;min-height:44px}
+.heures button{padding:10px 18px;border-radius:999px}
+.jours button[aria-pressed=true],.heures button[aria-pressed=true]{background:var(--choco);border-color:var(--choco);color:#fff}
+.jours button[aria-pressed=true] small{color:#e9d6cd}
+.jours button:focus-visible,.heures button:focus-visible,.qte button:focus-visible{outline:2px solid var(--fram);outline-offset:2px}
+.aide{margin:0;font-size:15px;color:var(--gris)}
+.err{margin:0;color:var(--fram2);font-weight:500;font-size:15px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.actions .btn:last-child{margin-left:auto}
+.recap{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;background:var(--creme);border-radius:14px;padding:16px 18px;font-size:15.5px}
+.recap dt{color:var(--gris)}
+.recap dd{margin:0}
+.resume{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;background:var(--creme);border-radius:14px;padding:16px 18px}
+.resume b{display:block;font:500 24px/1.2 var(--serif)}
+.resume span{font-size:15px;color:var(--gris)}
+.resume .reste{background:var(--rose);border-radius:999px;padding:6px 14px;color:var(--fram2);font-weight:500}
+.qte{display:flex;align-items:center;gap:12px;font-weight:500;font-size:15px}
+.qte button{all:unset;box-sizing:border-box;cursor:pointer;width:40px;height:40px;border-radius:50%;border:1px solid var(--rose2);text-align:center;font-size:22px;line-height:38px}
+.qte output{font:500 26px var(--serif);min-width:1.2em;text-align:center}
+.qte b{margin-left:auto;font:500 26px var(--serif);color:var(--fram)}
+.fin{border-radius:24px}
+.fin h3{font-size:clamp(28px,3vw,38px);margin-bottom:10px}
+.fin p{margin:0 0 16px;color:var(--gris)}
+.fin .ok{color:var(--choco)}
 .acces{margin:20px 0 0;font-size:15.5px;color:var(--gris);max-width:30em}
 form{background:var(--creme);padding:clamp(22px,3vw,36px);display:grid;gap:14px;border-radius:24px}
 form h3{font-size:30px;margin-bottom:4px}
@@ -132,7 +179,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
 
 @media (max-width:980px){
   .liens{display:none}
-  .hero .wrap,.crea,.taille .wrap,.academy .wrap,.contact .wrap{grid-template-columns:1fr}
+  .hero .wrap,.crea,.taille .wrap,.academy .wrap{grid-template-columns:1fr}
   .visual{max-width:520px;margin-inline:auto;width:100%}
   .crea img{min-height:0;aspect-ratio:16/11}
   .etapes{grid-template-columns:1fr 1fr}
@@ -145,6 +192,8 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
   .marque small{display:none}
   nav .btn{padding:9px 14px;font-size:14px}
   .etapes,.dates,.duo{grid-template-columns:1fr}
+  .jours{grid-template-columns:repeat(4,1fr)}
+  .pas{font-size:13px}
   .visual{padding:0 0 16px 14px}
   .visual::before{inset:16px 14px 0 0}
   .demo-bar{padding:7px 12px;font-size:11.5px;gap:6px}.demo-bar .long{display:none}
@@ -160,7 +209,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
   <div class="wrap">
     <a class="marque" href="#" aria-label="Dolcerine, accueil"><b>Dolcerine</b><small>Cake design</small></a>
     <div class="liens"><a href="#creations">Créations</a><a href="#taille">Quelle taille&nbsp;?</a><a href="#commander">Commander</a><a href="#academy">Academy</a><a href="#questions">Questions</a></div>
-    <a class="btn" href="#contact">Demander un devis</a>
+    <a class="btn" href="#contact">Commander en ligne</a>
   </div>
 </nav>
 
@@ -171,7 +220,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
       <h1>Des gâteaux qui racontent <em>vos plus belles histoires.</em></h1>
       <p class="lead">Anniversaire, mariage, baptême ou baby shower&nbsp;: Dolcerine imagine et réalise à la main un gâteau unique, aussi beau à regarder que bon à partager.</p>
       <div class="ctas">
-        <a class="btn" href="#contact">Demander un devis</a>
+        <a class="btn" href="#contact">Commander en ligne</a>
         <a class="btn clair" href="#creations">Voir les créations</a>
       </div>
     </div>
@@ -202,7 +251,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
         <h3 id="c-titre"></h3>
         <p id="c-texte"></p>
         <ul id="c-tags"></ul>
-        <a class="btn" href="#contact" id="c-btn">Demander un devis</a>
+        <a class="btn" href="#contact" id="c-btn">Commander ce gâteau</a>
       </div>
     </div>
   </div>
@@ -220,7 +269,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
       <output id="p-nb" for="parts">20 <small>parts</small></output>
       <input type="range" id="parts" min="8" max="80" step="2" value="20">
       <div class="conseil" aria-live="polite"><b id="p-format"></b><span id="p-detail"></span></div>
-      <a class="btn" href="#contact" id="p-btn">Demander un devis pour ce format</a>
+      <a class="btn" href="#contact" id="p-btn">Commander ce format</a>
     </div>
   </div>
 </section>
@@ -273,33 +322,94 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
       <details open><summary>Combien de temps à l'avance faut-il commander&nbsp;?</summary><p>Le plus tôt possible&nbsp;: chaque gâteau est fait sur mesure et les dates se remplissent vite, surtout au printemps et en fin d'année.</p></details>
       <details><summary>Puis-je envoyer une photo d'inspiration&nbsp;?</summary><p>Oui, c'est même conseillé. Dolcerine s'en inspire pour créer un gâteau qui reste unique.</p></details>
       <details><summary>Quels parfums sont possibles&nbsp;?</summary><p>Ils se choisissent ensemble au moment du devis, selon vos goûts et la saison. Signalez toute allergie dès la demande.</p></details>
-      <details><summary>Comment s'inscrire à la masterclass&nbsp;?</summary><p>Avec le formulaire ci-dessous ou en message privé sur Facebook. Les places sont limitées pour que chacune soit accompagnée.</p></details>
+      <details><summary>Comment s'inscrire à la masterclass&nbsp;?</summary><p>Avec la réservation en ligne ci-dessous ou en message privé sur Facebook. Les places sont limitées pour que chacune soit accompagnée.</p></details>
     </div>
   </div>
 </section>
 
 <section class="contact" id="contact">
   <div class="wrap">
-    <div>
-      <span class="tag">Contact</span>
+    <div class="head">
+      <span class="tag">Commande et réservation en ligne</span>
       <h2>Racontez-moi <em>votre fête.</em></h2>
-      <p class="lead">Décrivez votre projet en quelques lignes&nbsp;: vous recevez une proposition et un prix, sans engagement.</p>
-      <a class="btn clair" href="https://www.facebook.com/Dolcerinecake/" target="_blank" rel="noopener">Écrire sur Facebook</a>
-      <p class="acces">Dolcerine travaille sur commande, à La Louvière. Retrait du gâteau sur rendez-vous.</p>
+      <p>Composez votre gâteau et choisissez votre créneau de retrait, réservez une place en masterclass ou un rendez-vous dégustation. Dolcerine confirme chaque demande personnellement.</p>
     </div>
-    <form data-web3>
-      <h3>Demande de devis</h3>
-      <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
-      <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
-      <div class="duo">
-        <label>Votre demande<select name="demande" id="f-demande"><option>Anniversaire</option><option>Mariage</option><option>Enfants</option><option>Baptême ou baby shower</option><option>Masterclass Dolcerine Academy</option><option>Autre</option></select></label>
-        <label>Date de la fête<input name="date" type="date"></label>
+    <div class="module">
+      <div class="onglets" id="m-onglets">
+        <button type="button" aria-pressed="true">Commander un gâteau</button>
+        <button type="button" aria-pressed="false">Masterclass</button>
+        <button type="button" aria-pressed="false">Rendez-vous dégustation</button>
       </div>
-      <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" placeholder="20"></label>
-      <label>Votre idée<textarea name="idee" placeholder="Thème, couleurs, prénom à inscrire…"></textarea></label>
-      <button class="btn" type="submit">Envoyer ma demande</button>
-      <p class="ok" role="status" hidden></p>
-    </form>
+
+      <form class="pan" id="m-0" novalidate>
+        <ol class="pas" id="pas"><li class="on">Le gâteau</li><li>Le retrait</li><li>Vos coordonnées</li></ol>
+        <div class="etp">
+          <div class="duo">
+            <label>Occasion<select name="demande" id="f-demande"><option>Anniversaire</option><option>Mariage</option><option>Enfants</option><option>Baptême ou baby shower</option><option>Autre</option></select></label>
+            <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" value="20" required></label>
+          </div>
+          <fieldset><legend>Biscuit</legend><div class="puces">
+            <label class="puce"><input type="radio" name="biscuit" value="Vanille" checked><span>Vanille</span></label>
+            <label class="puce"><input type="radio" name="biscuit" value="Chocolat"><span>Chocolat</span></label>
+            <label class="puce"><input type="radio" name="biscuit" value="Citron"><span>Citron</span></label>
+            <label class="puce"><input type="radio" name="biscuit" value="Red velvet"><span>Red velvet</span></label>
+          </div></fieldset>
+          <fieldset><legend>Garniture</legend><div class="puces">
+            <label class="puce"><input type="radio" name="garniture" value="Framboise" checked><span>Framboise</span></label>
+            <label class="puce"><input type="radio" name="garniture" value="Chocolat praliné"><span>Chocolat praliné</span></label>
+            <label class="puce"><input type="radio" name="garniture" value="Vanille et fruits rouges"><span>Vanille et fruits rouges</span></label>
+            <label class="puce"><input type="radio" name="garniture" value="Caramel beurre salé"><span>Caramel beurre salé</span></label>
+            <label class="puce"><input type="radio" name="garniture" value="Spéculoos"><span>Spéculoos</span></label>
+          </div></fieldset>
+          <label>Votre idée<textarea name="idee" placeholder="Thème, couleurs, prénom à inscrire, allergies…"></textarea></label>
+          <label>Photo d'inspiration (facultatif)<input type="file" accept="image/*"></label>
+        </div>
+        <div class="etp" hidden>
+          <p class="aide">Choisissez le jour puis l'heure de retrait à La Louvière. Les commandes se prennent au moins dix jours à l'avance.</p>
+          <div class="jours" id="j-retrait"></div>
+          <div class="heures" id="h-retrait" aria-live="polite"></div>
+        </div>
+        <div class="etp" hidden>
+          <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
+          <div class="duo">
+          <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="prenom@exemple.be" required></label>
+        </div>
+          <dl class="recap" id="recap"></dl>
+        </div>
+        <p class="err" role="alert" hidden></p>
+        <div class="actions"><button type="button" class="btn clair" id="prec" hidden>Retour</button><button type="submit" class="btn" id="suiv">Continuer</button></div>
+      </form>
+
+      <form class="pan" id="m-1" hidden>
+        <div class="resume"><div><b>Masterclass layer cake</b><span>27, 28 et 29 novembre, en direct · 35 € les trois jours</span></div><span class="reste">7 places restantes sur 12</span></div>
+        <div class="qte"><span>Nombre de places</span><button type="button" id="q-moins" aria-label="Une place de moins">–</button><output id="q-nb">1</output><button type="button" id="q-plus" aria-label="Une place de plus">+</button><b id="q-total">35 €</b></div>
+        <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
+        <div class="duo">
+          <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="prenom@exemple.be" required></label>
+        </div>
+        <p class="aide">Vous recevez les informations de paiement et la liste du matériel avec la confirmation.</p>
+        <div class="actions"><button class="btn" type="submit">Réserver ma place</button></div>
+      </form>
+
+      <form class="pan" id="m-2" hidden novalidate>
+        <p class="aide">Pour un mariage ou une grande réception&nbsp;: trente minutes pour goûter les saveurs et parler de votre projet.</p>
+        <div class="jours" id="j-degu"></div>
+        <div class="heures" id="h-degu" aria-live="polite"></div>
+        <label>Votre projet<select name="projet"><option>Mariage</option><option>Grande réception</option><option>Autre</option></select></label>
+        <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
+        <div class="duo">
+          <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="prenom@exemple.be" required></label>
+        </div>
+        <p class="err" role="alert" hidden></p>
+        <div class="actions"><button class="btn" type="submit">Réserver ce rendez-vous</button></div>
+      </form>
+
+      <div class="pan fin" id="m-fin" tabindex="-1" hidden></div>
+    </div>
+    <p class="acces">Une question avant de commander&nbsp;? <a href="https://www.facebook.com/Dolcerinecake/" target="_blank" rel="noopener">Écrivez à Dolcerine sur Facebook</a>.</p>
   </div>
 </section>
 
@@ -336,11 +446,64 @@ function parts(){
   $('p-nb').innerHTML=n+' <small>parts</small>';$('p-format').textContent=f[1];$('p-detail').textContent=f[2];
 }
 $('parts').addEventListener('input',parts);parts();
-$('p-btn').onclick=()=>{$('f-parts').value=$('parts').value};
-$('a-btn').onclick=()=>{$('f-demande').value='Masterclass Dolcerine Academy'};
-document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
-  e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
-}));
+/* Module de commande et de réservation. Maquette : rien n'est envoyé, la demande est gardée
+   dans l'onglet (sessionStorage) pour être montrée dans gestion.html. */
+const mo=[...$('m-onglets').children],pans=[0,1,2].map(i=>$('m-'+i));
+function onglet(i){mo.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));pans.forEach((p,n)=>p.hidden=n!==i);$('m-fin').hidden=true;$('m-onglets').hidden=false}
+mo.forEach((b,n)=>b.onclick=()=>onglet(n));
+const erreur=(f,t)=>{const e=f.querySelector('.err');e.textContent=t;e.hidden=!t};
+const champs=e=>[...e.querySelectorAll('input,select,textarea')].every(i=>i.reportValidity());
+const coord=f=>{const d=new FormData(f);return{nom:d.get('nom'),tel:d.get('tel'),email:d.get('email')}};
+/* Jours et heures d'exemple, calculés à partir d'aujourd'hui (dimanches exclus) */
+function grille(idJ,idH,dec,nb,pleins,heures){
+  const J=$(idJ),H=$(idH),t=new Date(),sel={};
+  const presse=(c,b)=>[...c.children].forEach(x=>x.setAttribute('aria-pressed',x===b));
+  for(let i=0,k=0;k<nb;i++){
+    const d=new Date(t.getFullYear(),t.getMonth(),t.getDate()+dec+i);if(!d.getDay())continue;
+    const b=document.createElement('button'),n=k;b.type='button';b.setAttribute('aria-pressed',false);
+    b.innerHTML='<small>'+d.toLocaleDateString('fr-BE',{weekday:'short'})+'</small><b>'+d.getDate()+'</b><small>'+d.toLocaleDateString('fr-BE',{month:'short'})+'</small>';
+    if(pleins.includes(k)){b.disabled=true;b.innerHTML+='<i>Complet</i>'}
+    b.onclick=()=>{presse(J,b);sel.jour=d.toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});sel.t=d.getTime();sel.heure='';
+      H.replaceChildren(...heures.filter((_,x)=>(x+n)%4).map(h=>{const x=document.createElement('button');x.type='button';x.textContent=h;x.setAttribute('aria-pressed',false);x.onclick=()=>{presse(H,x);sel.heure=h};return x}))};
+    J.append(b);k++;
+  }
+  return sel;
+}
+const F=$('m-0'),etps=[...F.querySelectorAll('.etp')],retrait=grille('j-retrait','h-retrait',10,12,[2,7],['10 h','11 h 30','14 h','16 h','17 h 30']);
+let pas=0;
+const gateau=()=>{const d=new FormData(F);return{gateau:d.get('demande')+', '+d.get('parts')+' parts',saveurs:'Biscuit '+d.get('biscuit').toLowerCase()+', garniture '+d.get('garniture').toLowerCase(),idee:d.get('idee')}};
+function aller(n){
+  pas=n;etps.forEach((e,i)=>e.hidden=i!==n);[...$('pas').children].forEach((l,i)=>l.className=i===n?'on':i<n?'fait':'');
+  $('prec').hidden=!n;$('suiv').textContent=n<2?'Continuer':'Envoyer ma demande';erreur(F,'');
+  if(n===2){const g=gateau();$('recap').replaceChildren(...[['Gâteau',g.gateau],['Saveurs',g.saveurs],['Retrait',retrait.jour+' à '+retrait.heure],['Prix','Confirmé par Dolcerine après lecture de votre demande']].flatMap(([a,b])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=a;dd.textContent=b;return[dt,dd]}))}
+}
+$('prec').onclick=()=>aller(pas-1);
+F.onsubmit=e=>{
+  e.preventDefault();if(!champs(etps[pas]))return;
+  if(pas===1&&!(retrait.jour&&retrait.heure))return erreur(F,'Choisissez un jour puis une heure de retrait.');
+  if(pas<2)return aller(pas+1);
+  fin('commande',{...gateau(),...coord(F),quand:retrait.jour+' à '+retrait.heure,t:retrait.t},'Votre demande est bien partie.','Dolcerine vous répond avec un prix dans les 48 heures. Votre créneau du '+retrait.jour+' à '+retrait.heure+' est réservé en attendant.');
+};
+let q=1;const qte=n=>{q=Math.min(4,Math.max(1,q+n));$('q-nb').textContent=q;$('q-total').textContent=q*35+' €'};
+$('q-moins').onclick=()=>qte(-1);$('q-plus').onclick=()=>qte(1);
+$('m-1').onsubmit=e=>{e.preventDefault();fin('masterclass',{...coord(e.target),places:q},'Votre place est réservée.','Masterclass layer cake des 27, 28 et 29 novembre, '+q+(q>1?' places':' place')+', '+q*35+' €. La confirmation arrive par e-mail.')};
+const degu=grille('j-degu','h-degu',2,6,[1],['10 h','13 h 30','15 h','18 h']);
+$('m-2').onsubmit=e=>{
+  e.preventDefault();const f=e.target;if(!(degu.jour&&degu.heure))return erreur(f,'Choisissez un jour puis une heure.');
+  erreur(f,'');if(!champs(f))return;
+  fin('degustation',{...coord(f),projet:new FormData(f).get('projet'),quand:degu.jour+' à '+degu.heure,t:degu.t},'Votre rendez-vous est demandé.','Dégustation le '+degu.jour+' à '+degu.heure+'. Dolcerine vous confirme le rendez-vous par e-mail.');
+};
+function fin(type,d,titre,texte){
+  let l=[];try{l=JSON.parse(sessionStorage.getItem('dolcerine-demo'))||[]}catch(e){}
+  const no='DOL-'+(143+l.length);l.push({type,no,...d});try{sessionStorage.setItem('dolcerine-demo',JSON.stringify(l))}catch(e){}
+  pans.forEach(p=>p.hidden=true);$('m-onglets').hidden=true;
+  const f=$('m-fin');f.innerHTML='<span class="tag"></span><h3></h3><p></p><p class="ok">Ceci est une maquette : rien n\'est envoyé. Sur le vrai site, vous recevez un e-mail de confirmation et Dolcerine retrouve la demande dans son espace de gestion.</p><div class="ctas"><a class="btn" href="gestion.html">Voir la demande côté Dolcerine</a><button type="button" class="btn clair">Nouvelle demande</button></div>';
+  f.querySelector('.tag').textContent='Demande n° '+no;f.querySelector('h3').textContent=titre;f.querySelector('p').textContent=texte;
+  f.querySelector('button').onclick=()=>{aller(0);onglet(0)};f.hidden=false;f.focus();
+}
+$('c-btn').onclick=()=>onglet(0);
+$('p-btn').onclick=()=>{$('f-parts').value=$('parts').value;onglet(0)};
+$('a-btn').onclick=()=>onglet(1);
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Dolcerine par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 <script src="/demo/motion-14.9.0.js"></script>

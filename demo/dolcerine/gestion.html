@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Dolcerine · Espace de gestion (aperçu)</title>
+<meta name="theme-color" content="#fdf5ef">
+<link href="../../fonts/gf-63377dcd3a.css" rel="stylesheet">
+<style>
+:root{--creme:#fdf5ef;--rose:#f7dfe0;--rose2:#eec3c8;--fram:#a83355;--fram2:#8a2644;--choco:#3a2420;--caramel:#c98f4f;--gris:#6f5c57;--ligne:#eddcd4;--vert:#2f6b4f;--serif:'Fraunces',Georgia,serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--creme);color:var(--choco);font:400 16px/1.55 'Outfit',system-ui,sans-serif;padding-bottom:70px}
+.wrap{width:min(1040px,100% - 32px);margin-inline:auto}
+header{background:#fff;border-bottom:1px solid var(--ligne)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.marque{display:flex;align-items:baseline;gap:12px}
+.marque b{font:italic 500 28px/1 var(--serif);color:var(--fram)}
+.marque small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris)}
+header a{font-size:15px;color:var(--gris)}
+h1{font:500 clamp(30px,4vw,42px)/1.1 var(--serif);margin:34px 0 6px;letter-spacing:-.02em}
+.sous{margin:0 0 24px;color:var(--gris)}
+.tuiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:26px}
+.tuile{background:#fff;border:1px solid var(--ligne);border-radius:18px;padding:16px 20px;font-size:14.5px;color:var(--gris)}
+.tuile b{display:block;font:500 34px/1.1 var(--serif);color:var(--choco)}
+.onglets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.onglets button,.btn,.mini{all:unset;box-sizing:border-box;cursor:pointer;font-weight:500}
+.onglets button{padding:10px 20px;border-radius:999px;border:1px solid var(--rose2);background:#fff;font-size:15.5px}
+.onglets button[aria-pressed=true]{background:var(--choco);border-color:var(--choco);color:#fff}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--fram);outline-offset:2px}
+.liste{display:grid;gap:12px}
+.carte{background:#fff;border:1px solid var(--ligne);border-radius:18px;padding:18px 22px;display:grid;gap:6px}
+.carte.neuf{border-color:var(--fram);box-shadow:0 0 0 3px var(--rose)}
+.tete{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.tete b{font:500 22px/1.2 var(--serif)}
+.no{font-size:13.5px;color:var(--gris)}
+.badge{margin-left:auto;font-size:13px;font-weight:500;border-radius:999px;padding:4px 12px;background:var(--rose);color:var(--fram2)}
+.badge.e1{background:#f6e8d6;color:#7a531f}
+.badge.e2{background:#dcefe4;color:var(--vert)}
+.badge.e3{background:#eee;color:#666}
+.nv{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--fram);border-radius:999px;padding:3px 10px}
+.carte p{margin:0}
+.carte .g{color:var(--gris);font-size:15px}
+.outils{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;padding-top:12px;border-top:1px solid var(--ligne)}
+.outils input{width:110px;padding:9px 12px;border:1px solid var(--rose2);border-radius:10px;font:400 16px 'Outfit',sans-serif}
+.btn{padding:10px 18px;border-radius:999px;background:var(--fram);color:#fff;font-size:15px}
+.btn:hover{background:var(--fram2)}
+.btn.clair{background:transparent;color:var(--choco);box-shadow:inset 0 0 0 1.5px var(--rose2)}
+.jour{font:500 20px/1.2 var(--serif);margin:14px 0 2px}
+.jour::first-letter{text-transform:uppercase}
+.ligne{background:#fff;border:1px solid var(--ligne);border-radius:14px;padding:12px 18px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+.ligne time{font-weight:500;min-width:64px}
+.ligne .type{font-size:13px;border-radius:999px;padding:3px 10px;background:var(--rose);color:var(--fram2)}
+.ligne .type.d{background:#f6e8d6;color:#7a531f}
+.ligne .g{color:var(--gris);font-size:15px;margin-left:auto}
+.mini{font-size:14px;border-radius:999px;padding:5px 12px;box-shadow:inset 0 0 0 1.5px var(--rose2)}
+.mini[aria-pressed=true]{background:#dcefe4;color:var(--vert);box-shadow:none}
+.jauge{height:10px;border-radius:999px;background:var(--rose);overflow:hidden;margin:6px 0 14px}
+.jauge i{display:block;height:100%;background:var(--fram);border-radius:999px}
+.depot{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#fff;border:1.5px dashed var(--rose2);border-radius:18px;padding:18px 22px;margin-bottom:14px}
+.depot p{margin:0;color:var(--gris);font-size:15px;flex:1 1 260px}
+.depot input{position:absolute;opacity:0;width:1px;height:1px}
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.gal figure{margin:0;position:relative;border-radius:14px;overflow:hidden;background:var(--rose)}
+.gal img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.gal button{all:unset;cursor:pointer;position:absolute;right:8px;top:8px;background:rgba(43,26,23,.78);color:#fff;font-size:13px;border-radius:999px;padding:4px 10px}
+.vide{color:var(--gris);margin:0}
+.demo-bar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;background:#111;color:#f3f3f3;font:500 13px/1.35 system-ui,sans-serif;text-align:center}
+.demo-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+@media (max-width:640px){
+  .tuiles{grid-template-columns:1fr}
+  .tuile{display:flex;align-items:baseline;gap:10px}.tuile b{font-size:26px}
+  .gal{grid-template-columns:repeat(2,1fr)}
+  .marque small{display:none}
+  .ligne .g{margin-left:0;flex-basis:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="marque"><b>Dolcerine</b><small>Espace de gestion</small></span>
+    <a href="./#contact">Retour au site</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Bonjour Dolcerine</h1>
+  <p class="sous">Aperçu avec des données fictives. Les demandes que vous envoyez depuis la maquette apparaissent ici, en tête de liste.</p>
+
+  <div class="tuiles">
+    <div class="tuile"><b id="t-valider">0</b>demandes à valider</div>
+    <div class="tuile"><b id="t-agenda">0</b>retraits et rendez-vous à venir</div>
+    <div class="tuile"><b id="t-places">0</b>places prises en masterclass</div>
+  </div>
+
+  <div class="onglets" id="onglets">
+    <button type="button" aria-pressed="true">Commandes</button>
+    <button type="button" aria-pressed="false">Agenda</button>
+    <button type="button" aria-pressed="false">Masterclass</button>
+    <button type="button" aria-pressed="false">Galerie</button>
+  </div>
+
+  <div class="liste" id="v-0"></div>
+  <div class="liste" id="v-1" hidden></div>
+  <div class="liste" id="v-2" hidden></div>
+  <div id="v-3" hidden>
+    <label class="depot">
+      <input type="file" id="photos" accept="image/*" multiple>
+      <p>Ajoutez vos photos depuis l'iPad ou le téléphone&nbsp;: elles apparaissent aussitôt dans la galerie du site.</p>
+      <span class="btn">Ajouter des photos</span>
+    </label>
+    <div class="gal" id="gal"></div>
+  </div>
+</main>
+
+<script>
+/* Aperçu de l'espace de gestion : données fictives, rien n'est enregistré. */
+const $=id=>document.getElementById(id);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const dj=n=>{const t=new Date(),d=new Date(t.getFullYear(),t.getMonth(),t.getDate()+n);if(!d.getDay())d.setDate(d.getDate()+1);return d.getTime()};
+const jour=t=>new Date(t).toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
+const ETATS=['À valider','Prix envoyé','Confirmée','Refusée'];
+const CMD=[
+ {no:'DOL-142',nom:'Camille Dupont',tel:'0470 12 34 56',gateau:'Anniversaire, 20 parts',saveurs:'Biscuit vanille, garniture framboise',idee:'Thème licorne pastel, prénom « Léa », 6 ans.',t:dj(12),h:'14 h',etat:0},
+ {no:'DOL-141',nom:'Élise Lambert',tel:'0471 23 45 67',gateau:'Mariage, 60 parts',saveurs:'Biscuit citron, garniture vanille et fruits rouges',idee:'Trois étages, blanc et or, fleurs en sucre assorties au bouquet.',t:dj(38),h:'10 h',etat:1,prix:320},
+ {no:'DOL-140',nom:'Manon Leroy',tel:'0472 34 56 78',gateau:'Baptême ou baby shower, 30 parts',saveurs:'Biscuit vanille, garniture caramel beurre salé',idee:'Bleu ciel, petits nuages et prénom « Jules ».',t:dj(5),h:'11 h 30',etat:2,prix:145},
+ {no:'DOL-139',nom:'Sophie Martin',tel:'0473 45 67 89',gateau:'Enfants, 14 parts',saveurs:'Biscuit chocolat, garniture chocolat praliné',idee:'Dinosaures, tons verts.',t:dj(3),h:'16 h',etat:2,prix:85}
+];
+const DEG=[{nom:'Julie Renard',tel:'0474 56 78 90',projet:'Mariage',t:dj(4),h:'15 h'},{nom:'Laura Petit',tel:'0475 67 89 01',projet:'Grande réception',t:dj(9),h:'10 h'}];
+const MC=[{nom:'Nathalie Dubois',places:1,paye:true},{nom:'Chloé Mertens',places:2,paye:true},{nom:'Inès Claes',places:1,paye:false},{nom:'Pauline Jacobs',places:1,paye:true}];
+/* Demandes envoyées depuis la maquette dans cet onglet */
+try{(JSON.parse(sessionStorage.getItem('dolcerine-demo'))||[]).forEach(d=>{
+  const hm=String(d.quand||'').split(' à ')[1]||'';
+  if(d.type==='commande')CMD.unshift({...d,h:hm,etat:0,neuf:true});
+  else if(d.type==='degustation')DEG.unshift({...d,h:hm,neuf:true});
+  else if(d.type==='masterclass')MC.unshift({nom:d.nom,places:+d.places||1,paye:false,neuf:true});
+})}catch(e){}
+
+function commandes(){
+  $('v-0').replaceChildren(...CMD.map(c=>{
+    const k=el('article','carte'+(c.neuf?' neuf':'')),t=el('div','tete');
+    t.append(el('b','',c.nom),el('span','no',c.no));if(c.neuf)t.append(el('span','nv','Nouveau'));
+    t.append(el('span','badge e'+c.etat,ETATS[c.etat]+(c.prix&&c.etat?' · '+c.prix+' €':'')));
+    k.append(t,el('p','',c.gateau+' · '+c.saveurs));if(c.idee)k.append(el('p','g',c.idee));
+    k.append(el('p','g','Retrait '+jour(c.t)+' à '+c.h+' · '+c.tel));
+    if(c.etat<2){
+      const o=el('div','outils');
+      if(c.etat===0){
+        const i=el('input');i.type='number';i.min=1;i.placeholder='Prix en €';i.setAttribute('aria-label','Prix proposé en euros');
+        const b=el('button','btn','Envoyer le prix'),r=el('button','btn clair','Refuser');b.type=r.type='button';
+        b.onclick=()=>{if(!(+i.value>0)){i.focus();return}c.prix=+i.value;c.etat=1;rendre()};r.onclick=()=>{c.etat=3;rendre()};
+        o.append(i,b,r);
+      }else{
+        const b=el('button','btn','Le client a accepté');b.type='button';b.onclick=()=>{c.etat=2;rendre()};o.append(b);
+      }
+      k.append(o);
+    }
+    return k;
+  }));
+}
+function agenda(){
+  const l=[...CMD.filter(c=>c.etat<3).map(c=>({t:c.t,h:c.h,type:'Retrait',qui:c.nom,quoi:c.gateau+(c.etat<2?' (à confirmer)':'')})),...DEG.map(d=>({t:d.t,h:d.h,type:'Dégustation',qui:d.nom,quoi:d.projet}))].sort((a,b)=>a.t-b.t);
+  const out=[];let av;
+  l.forEach(x=>{
+    if(x.t!==av){out.push(el('h2','jour',jour(x.t)));av=x.t}
+    const r=el('div','ligne'),ti=el('time','',x.h);r.append(ti,el('span','type'+(x.type==='Retrait'?'':' d'),x.type),el('b','',x.qui),el('span','g',x.quoi));out.push(r);
+  });
+  $('v-1').replaceChildren(...out);return l.length;
+}
+function masterclass(){
+  const pris=MC.reduce((s,m)=>s+m.places,0),j=el('div','jauge'),i=el('i');i.style.width=Math.min(100,pris/12*100)+'%';j.append(i);
+  $('v-2').replaceChildren(el('p','vide','Layer cake, 27, 28 et 29 novembre · '+pris+' places prises sur 12'),j,...MC.map(m=>{
+    const r=el('div','ligne'+(m.neuf?' carte neuf':''));if(m.neuf)r.style.display='flex';
+    const b=el('button','mini',m.paye?'Payé':'Paiement attendu');b.type='button';b.setAttribute('aria-pressed',m.paye);b.onclick=()=>{m.paye=!m.paye;rendre()};
+    r.append(el('b','',m.nom),el('span','g',m.places+(m.places>1?' places':' place')+' · '+m.places*35+' €'),b);return r;
+  }));
+  return pris;
+}
+function rendre(){
+  commandes();const n=agenda(),p=masterclass();
+  $('t-valider').textContent=CMD.filter(c=>!c.etat).length;$('t-agenda').textContent=n;$('t-places').textContent=p+' / 12';
+}
+rendre();
+
+const PHOTOS=['a14caa6d060fd7','c938ccd52238a7','504b2d5fbeba6f','dfe084c9206a7c','a2e56fcb9fd60b'];
+function photo(src){const f=el('figure'),i=el('img'),b=el('button','','Retirer');i.src=src;i.alt='';i.loading='lazy';b.type='button';b.onclick=()=>f.remove();f.append(i,b);return f}
+$('gal').append(...PHOTOS.map(p=>photo('../../img/u/'+p+'.webp')));
+$('photos').onchange=e=>{[...e.target.files].forEach(f=>$('gal').prepend(photo(URL.createObjectURL(f))));e.target.value=''};
+
+const ong=[...$('onglets').children];
+ong.forEach((b,n)=>b.onclick=()=>{ong.forEach((x,i)=>{x.setAttribute('aria-pressed',i===n);$('v-'+i).hidden=i!==n})});
+</script>
+<div class="demo-bar" role="note">Aperçu de démonstration réalisé pour Dolcerine par Zank Solutions. Données fictives. <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
+</body>
+</html>
