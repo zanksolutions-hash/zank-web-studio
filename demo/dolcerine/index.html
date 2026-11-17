@@ -147,6 +147,16 @@ legend{padding:0;font-weight:500;font-size:14.5px;margin-bottom:8px}
 .depot input{position:absolute;inset:0;opacity:0;width:100%;height:100%;padding:0;cursor:pointer}
 .depot .btn{padding:9px 18px;font-size:15px}
 .depot em{font-style:normal;color:var(--gris);font-size:15px;overflow-wrap:anywhere}
+.lib{display:block;font-weight:500;font-size:14.5px;margin-bottom:5px}
+.sel{position:relative}
+.sel>button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;padding:12px 44px 12px 14px;border:1px solid var(--rose2);border-radius:10px;font-size:16px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%23a83355' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 15px center/13px}
+.sel>button:hover{border-color:var(--fram)}
+.sel>button:focus-visible,.sel>button[aria-expanded=true]{outline:2px solid var(--fram);outline-offset:1px}
+.sel ul{position:absolute;z-index:20;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:#fff;border:1px solid var(--ligne);border-radius:14px;box-shadow:0 22px 44px -20px rgba(58,36,32,.5)}
+.sel li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;cursor:pointer}
+.sel li.act{background:var(--rose)}
+.sel li[aria-selected=true]{color:var(--fram);font-weight:500}
+.sel li[aria-selected=true]::after{content:'';flex:none;width:6px;height:11px;margin-right:5px;border:solid var(--fram);border-width:0 2px 2px 0;transform:rotate(45deg)}
 .aide{margin:0;font-size:15px;color:var(--gris)}
 .err{margin:0;color:var(--fram2);font-weight:500;font-size:15px}
 .actions{display:flex;gap:12px;flex-wrap:wrap}
@@ -350,8 +360,10 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
       <form class="pan" id="m-0" novalidate>
         <ol class="pas" id="pas"><li class="on">Le gâteau</li><li>Le retrait</li><li>Vos coordonnées</li></ol>
         <div class="etp">
-          <fieldset><legend>Occasion</legend><div class="puces"><label class="puce"><input type="radio" name="demande" value="Anniversaire" checked><span>Anniversaire</span></label><label class="puce"><input type="radio" name="demande" value="Mariage"><span>Mariage</span></label><label class="puce"><input type="radio" name="demande" value="Enfants"><span>Enfants</span></label><label class="puce"><input type="radio" name="demande" value="Baptême ou baby shower"><span>Baptême ou baby shower</span></label><label class="puce"><input type="radio" name="demande" value="Autre"><span>Autre</span></label></div></fieldset>
-          <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" value="20" required style="max-width:160px"></label>
+          <div class="duo">
+            <div><span class="lib" id="l-demande">Occasion</span><div class="sel" id="s-demande" data-nom="demande" data-lib="l-demande" data-choix="Anniversaire|Mariage|Enfants|Baptême ou baby shower|Autre"></div></div>
+            <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" value="20" required></label>
+          </div>
           <fieldset><legend>Biscuit</legend><div class="puces">
             <label class="puce"><input type="radio" name="biscuit" value="Vanille" checked><span>Vanille</span></label>
             <label class="puce"><input type="radio" name="biscuit" value="Chocolat"><span>Chocolat</span></label>
@@ -401,7 +413,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
         <p class="aide">Pour un mariage ou une grande réception&nbsp;: trente minutes pour goûter les saveurs et parler de votre projet.</p>
         <div class="jours" id="j-degu"></div>
         <div class="heures" id="h-degu" aria-live="polite"></div>
-        <fieldset><legend>Votre projet</legend><div class="puces"><label class="puce"><input type="radio" name="projet" value="Mariage" checked><span>Mariage</span></label><label class="puce"><input type="radio" name="projet" value="Grande réception"><span>Grande réception</span></label><label class="puce"><input type="radio" name="projet" value="Autre"><span>Autre</span></label></div></fieldset>
+        <div><span class="lib" id="l-projet">Votre projet</span><div class="sel" id="s-projet" data-nom="projet" data-lib="l-projet" data-choix="Mariage|Grande réception|Autre"></div></div>
         <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
         <div class="duo">
           <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
@@ -426,6 +438,27 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
 
 <script>
 const $=id=>document.getElementById(id);
+/* Menu déroulant maison : celui du navigateur ne se laisse pas habiller */
+document.querySelectorAll('.sel').forEach(s=>{
+  const ch=s.dataset.choix.split('|'),inp=document.createElement('input'),b=document.createElement('button'),ul=document.createElement('ul');
+  let act=0;
+  inp.type='hidden';inp.name=s.dataset.nom;b.type='button';b.id='b-'+s.dataset.nom;
+  b.setAttribute('aria-haspopup','listbox');b.setAttribute('aria-expanded',false);b.setAttribute('aria-labelledby',s.dataset.lib+' '+b.id);
+  ul.setAttribute('role','listbox');ul.setAttribute('aria-labelledby',s.dataset.lib);ul.hidden=true;
+  const marque=()=>[...ul.children].forEach((li,i)=>li.classList.toggle('act',i===act));
+  const ouvrir=o=>{ul.hidden=!o;b.setAttribute('aria-expanded',o);if(o){act=Math.max(0,ch.indexOf(inp.value));marque()}};
+  const choisir=v=>{inp.value=v;b.textContent=v;[...ul.children].forEach(li=>li.setAttribute('aria-selected',li.textContent===v))};
+  ch.forEach((v,i)=>{const li=document.createElement('li');li.setAttribute('role','option');li.textContent=v;li.onclick=()=>{choisir(v);ouvrir(false);b.focus()};li.onmousemove=()=>{act=i;marque()};ul.append(li)});
+  b.onclick=()=>ouvrir(ul.hidden);
+  b.onkeydown=e=>{
+    const o=!ul.hidden,k=e.key;
+    if(k==='ArrowDown'||k==='ArrowUp'){e.preventDefault();if(!o)return ouvrir(true);act=(act+(k==='ArrowDown'?1:ch.length-1))%ch.length;marque()}
+    else if((k==='Enter'||k===' ')&&o){e.preventDefault();choisir(ch[act]);ouvrir(false)}
+    else if(k==='Escape'||k==='Tab')ouvrir(false);
+  };
+  document.addEventListener('click',e=>{if(!s.contains(e.target))ouvrir(false)});
+  s.choisir=choisir;s.append(inp,b,ul);choisir(ch[0]);
+});
 const CREAS=[
  ['Anniversaire','Un prénom, un âge, une passion&nbsp;: le gâteau reprend ce qui lui ressemble. Ballons en sucre, dorures, fleurs ou personnages modelés à la main.',['Number cake','Layer cake','Décor modelé','Dès 8 parts'],'c938ccd52238a7','45% 50%','Gâteau d\'anniversaire rose et blanc décoré de ballons et d\'un ourson en sucre'],
  ['Mariage','La pièce montée de votre grand jour, assortie à vos couleurs et à vos fleurs. Plusieurs étages, des finitions nettes et des parfums choisis ensemble.',['Pièce montée','Fleurs en sucre','Plusieurs parfums','Dès 30 parts'],'504b2d5fbeba6f','50% 40%','Pièce montée à trois étages ornée d\'une cascade de roses en sucre'],
@@ -438,7 +471,7 @@ function crea(i){
   im.style.objectPosition=pos;im.alt=alt;
   $('c-titre').textContent=t;$('c-texte').innerHTML=p;
   $('c-tags').replaceChildren(...tags.map(x=>{const li=document.createElement('li');li.textContent=x;return li}));
-  onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('m-0').elements.demande.value=t;
+  onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('s-demande').choisir(t);
 }
 onglets.forEach((b,n)=>b.onclick=()=>crea(n));
 crea(0);
