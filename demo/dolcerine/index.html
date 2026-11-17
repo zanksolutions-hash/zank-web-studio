@@ -141,6 +141,12 @@ legend{padding:0;font-weight:500;font-size:14.5px;margin-bottom:8px}
 .jours button[aria-pressed=true],.heures button[aria-pressed=true]{background:var(--choco);border-color:var(--choco);color:#fff}
 .jours button[aria-pressed=true] small{color:#e9d6cd}
 .jours button:focus-visible,.heures button:focus-visible,.qte button:focus-visible{outline:2px solid var(--fram);outline-offset:2px}
+.depot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;position:relative;border:1.5px dashed var(--rose2);border-radius:14px;padding:12px 14px;font-weight:400}
+.depot:hover{border-color:var(--fram)}
+.depot:focus-within{outline:2px solid var(--fram);outline-offset:2px}
+.depot input{position:absolute;inset:0;opacity:0;width:100%;height:100%;padding:0;cursor:pointer}
+.depot .btn{padding:9px 18px;font-size:15px}
+.depot em{font-style:normal;color:var(--gris);font-size:15px;overflow-wrap:anywhere}
 .aide{margin:0;font-size:15px;color:var(--gris)}
 .err{margin:0;color:var(--fram2);font-weight:500;font-size:15px}
 .actions{display:flex;gap:12px;flex-wrap:wrap}
@@ -344,10 +350,8 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
       <form class="pan" id="m-0" novalidate>
         <ol class="pas" id="pas"><li class="on">Le gâteau</li><li>Le retrait</li><li>Vos coordonnées</li></ol>
         <div class="etp">
-          <div class="duo">
-            <label>Occasion<select name="demande" id="f-demande"><option>Anniversaire</option><option>Mariage</option><option>Enfants</option><option>Baptême ou baby shower</option><option>Autre</option></select></label>
-            <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" value="20" required></label>
-          </div>
+          <fieldset><legend>Occasion</legend><div class="puces"><label class="puce"><input type="radio" name="demande" value="Anniversaire" checked><span>Anniversaire</span></label><label class="puce"><input type="radio" name="demande" value="Mariage"><span>Mariage</span></label><label class="puce"><input type="radio" name="demande" value="Enfants"><span>Enfants</span></label><label class="puce"><input type="radio" name="demande" value="Baptême ou baby shower"><span>Baptême ou baby shower</span></label><label class="puce"><input type="radio" name="demande" value="Autre"><span>Autre</span></label></div></fieldset>
+          <label>Nombre de parts<input name="parts" id="f-parts" type="number" min="4" max="300" value="20" required style="max-width:160px"></label>
           <fieldset><legend>Biscuit</legend><div class="puces">
             <label class="puce"><input type="radio" name="biscuit" value="Vanille" checked><span>Vanille</span></label>
             <label class="puce"><input type="radio" name="biscuit" value="Chocolat"><span>Chocolat</span></label>
@@ -362,7 +366,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
             <label class="puce"><input type="radio" name="garniture" value="Spéculoos"><span>Spéculoos</span></label>
           </div></fieldset>
           <label>Votre idée<textarea name="idee" placeholder="Thème, couleurs, prénom à inscrire, allergies…"></textarea></label>
-          <label>Photo d'inspiration (facultatif)<input type="file" accept="image/*"></label>
+          <fieldset><legend>Photo d'inspiration (facultatif)</legend><label class="depot"><input type="file" accept="image/*" id="f-photo" aria-label="Photo d'inspiration"><span class="btn clair">Choisir une photo</span><em id="f-photo-nom">Aucune photo choisie</em></label></fieldset>
         </div>
         <div class="etp" hidden>
           <p class="aide">Choisissez le jour puis l'heure de retrait à La Louvière. Les commandes se prennent au moins dix jours à l'avance.</p>
@@ -397,7 +401,7 @@ footer b{font:italic 500 30px/1 var(--serif);color:#fff}
         <p class="aide">Pour un mariage ou une grande réception&nbsp;: trente minutes pour goûter les saveurs et parler de votre projet.</p>
         <div class="jours" id="j-degu"></div>
         <div class="heures" id="h-degu" aria-live="polite"></div>
-        <label>Votre projet<select name="projet"><option>Mariage</option><option>Grande réception</option><option>Autre</option></select></label>
+        <fieldset><legend>Votre projet</legend><div class="puces"><label class="puce"><input type="radio" name="projet" value="Mariage" checked><span>Mariage</span></label><label class="puce"><input type="radio" name="projet" value="Grande réception"><span>Grande réception</span></label><label class="puce"><input type="radio" name="projet" value="Autre"><span>Autre</span></label></div></fieldset>
         <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
         <div class="duo">
           <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
@@ -434,7 +438,7 @@ function crea(i){
   im.style.objectPosition=pos;im.alt=alt;
   $('c-titre').textContent=t;$('c-texte').innerHTML=p;
   $('c-tags').replaceChildren(...tags.map(x=>{const li=document.createElement('li');li.textContent=x;return li}));
-  onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('f-demande').value=t;
+  onglets.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('m-0').elements.demande.value=t;
 }
 onglets.forEach((b,n)=>b.onclick=()=>crea(n));
 crea(0);
@@ -501,6 +505,7 @@ function fin(type,d,titre,texte){
   f.querySelector('.tag').textContent='Demande n° '+no;f.querySelector('h3').textContent=titre;f.querySelector('p').textContent=texte;
   f.querySelector('button').onclick=()=>{aller(0);onglet(0)};f.hidden=false;f.focus();
 }
+$('f-photo').onchange=e=>{const f=e.target.files[0];$('f-photo-nom').textContent=f?f.name:'Aucune photo choisie'};
 $('c-btn').onclick=()=>onglet(0);
 $('p-btn').onclick=()=>{$('f-parts').value=$('parts').value;onglet(0)};
 $('a-btn').onclick=()=>onglet(1);
