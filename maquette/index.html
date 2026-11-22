@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Votre maquette offerte · Zank Solutions</title>
+<!-- Lien court des publications : webstudio.zanksolutions.be/maquette (?a=B pour une autre accroche) -->
+<script>
+var q = new URLSearchParams(location.search), a = q.get("a") || q.get("accroche") || "A";
+q.delete("a"); q.set("accroche", a);
+location.replace("https://zank-campagne.zank-solutions.workers.dev/?" + q.toString());
+</script>
+<meta http-equiv="refresh" content="1;url=https://zank-campagne.zank-solutions.workers.dev/?accroche=A">
+</head>
+<body style="font-family:system-ui,sans-serif;padding:24px">
+<p><a href="https://zank-campagne.zank-solutions.workers.dev/?accroche=A">Ouvrir le questionnaire pour recevoir votre maquette</a></p>
+</body>
+</html>
