@@ -244,6 +244,10 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
 .cal button[aria-pressed=true] i{color:#8ce99a}
 @media(max-width:380px){.cal button i{font-size:8.5px;letter-spacing:-.02em}}
 .ver{text-align:center;font-size:12.5px;color:var(--muted);margin:22px 0 8px}
+.acces{margin:14px 0 0;padding:14px 16px;border-radius:18px;background:#fff;font-size:14.5px;line-height:1.45}
+.acces b{display:block;font-size:15.5px}.acces a{color:inherit;font-weight:600}
+.acces.fin{background:#111;color:#fff}
+body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
 .back.tap{cursor:pointer}.back .rgo{display:inline-block;margin-top:8px;font-weight:600;color:#1f7a34;text-decoration:underline;text-underline-offset:3px}
 #rSeg{margin:2px 0 14px}
 .back{padding:14px 18px;border-radius:22px;border:1px dashed #cfcfca;color:var(--muted);font-size:14.5px;text-align:center}
@@ -379,6 +383,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
 
   <section class="view" data-view="tour">
     <div class="hello"><p>Bonjour<b>Docteur</b></p><button class="chip" type="button" id="date" aria-label="Ouvrir l'agenda"></button></div>
+    <div class="acces" id="acces" hidden></div>
     <div class="days" id="days" data-noswipe role="group" aria-label="Jour de la tournée"></div>
     <h1 id="dayT">Votre tournée <em>du jour</em></h1>
     <div class="locate">
@@ -455,6 +460,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     <div class="panel pad" id="syP">
       <p class="f">Mon compte</p>
       <p class="acc"><b id="accName"></b><span id="accMail"></span></p>
+      <p class="hint" id="accAbo" style="margin:0 0 10px"></p>
       <p class="hint" id="syMsg" role="status"></p>
       <button class="pill soft wide" type="button" id="syNow">Synchroniser maintenant</button>
       <button class="pill soft wide" type="button" id="pwBtn">Changer le mot de passe</button>
@@ -477,7 +483,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
       <input type="file" id="imp" accept="application/json,.json" hidden>
       <p class="hint">Le fichier contient vos fiches, vos tournées types, vos réglages et vos kilomètres. Gardez-le en lieu sûr : il n'existe aucune copie ailleurs.</p>
     </div>
-    <p class="ver">Domicile · version 1.1.1</p>
+    <p class="ver">Domicile · version 1.3.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -753,7 +759,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     return new Promise(function(ok,ko){
       if(!navigator.geolocation)return ko(new Error('La localisation n\'est pas disponible sur cet appareil.'));
       navigator.geolocation.getCurrentPosition(function(p){ok({lat:p.coords.latitude,lon:p.coords.longitude,t:Date.now()})},function(e){
-        ko(new Error(e.code===1?'Localisation refusée : autorisez-la dans les réglages du navigateur.':'Position introuvable, réessayez à l\'extérieur ou avec le GPS activé.'));
+        stat('e_geo');ko(new Error(e.code===1?'Localisation refusée : autorisez-la dans les réglages du navigateur.':'Position introuvable, réessayez à l\'extérieur ou avec le GPS activé.'));
       },{enableHighAccuracy:true,timeout:15000,maximumAge:5000});
     });
   }
@@ -761,7 +767,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   /* distances par la route : matrice complète entre la position et tous les arrêts à faire */
   function distances(){
     var todo=S.patients.filter(nd);
-    if(!todo.length||!S.pos)return Promise.resolve();
+    if(!todo.length||!S.pos||expire())return Promise.resolve();
     var home=retPt()?[retPt()]:[],pts=[S.pos].concat(todo,home);
     var url=OSRM+pts.map(function(p){return(+p.lon).toFixed(6)+','+(+p.lat).toFixed(6)}).join(';')+'?annotations=distance,duration';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
@@ -772,7 +778,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
       });
       S.mx={ids:['@'].concat(todo.map(function(p){return p.id}),home.length?['H']:[]),d:j.distances,t:j.durations,at:Date.now()};
       save();
-    }).catch(function(){throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
+    }).catch(function(){stat('e_route');throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
   }
   function refresh(){return distances().then(render,function(e){render();fail(e)})}
 
@@ -782,7 +788,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     say('');busy(b,true,'Localisation…');
     var k=S.set[S.set.retTo]?S.set.retTo:S.set.cab?'cab':S.set.dom?'dom':null;
     (future()&&k?Promise.resolve({lat:S.set[k].lat,lon:S.set[k].lon,t:Date.now(),from:k}):locate()).then(function(p){S.pos=p;save();busy(b,false);busy(b,true,'Calcul…');return distances()})
-      .then(function(){busy(b,false);render();say('')})
+      .then(function(){busy(b,false);render();say('');stat('calc');stat(S.set.mode==='short'?'mode_court':'mode_loin')})
       .catch(function(e){busy(b,false);render();fail(e)});
   });
 
@@ -858,7 +864,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
         /* kilomètres : trajet depuis l'arrêt précédent du jour, ou depuis la position relevée */
         var last=S.patients.filter(function(x){return x.done&&x.doneDay===day()}).sort(function(x,y){return y.doneAt-x.doneAt})[0];
         var l=leg(last?last.id:'@',p.id),d=l?l.d:(p.dist||0);
-        p.done=true;p.doneAt=Date.now();p.doneDay=day();p.km=d;
+        stat('fait');p.done=true;p.doneAt=Date.now();p.doneDay=day();p.km=d;
         S.log[p.doneDay]=(S.log[p.doneDay]||0)+d;
         if(f){p.prevVisit=f.lastVisit||null;f.lastVisit=p.doneAt}
       }else{
@@ -900,7 +906,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
       first.toLocaleDateString('fr-BE',{month:'long',year:'numeric'})+'</b><button type="button" data-calm="'+mk(next)+'" aria-label="Mois suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div><div class="cal">'+h+'</div>';
     $('goSheet').classList.add('center');sheet();
   }
-  $('date').addEventListener('click',function(){openCal(S.cur.slice(0,7))});
+  $('date').addEventListener('click',function(){stat('agenda');openCal(S.cur.slice(0,7))});
 
   $('startT').addEventListener('change',function(){if(/^\d\d:\d\d$/.test(this.value)){S.start=this.value;store();render()}});
 
@@ -1024,7 +1030,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     var blob=new Blob([JSON.stringify({app:'tournee',v:1,date:day(),book:S.book,groups:S.groups,set:S.set,log:S.log},null,1)],{type:'application/json'});
     var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='tournee-carnet-'+day()+'.json';
     document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
-    say('Carnet exporté : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.');
+    stat('export');say('Carnet exporté : '+S.book.length+' fiche'+(S.book.length>1?'s':'')+'.');
   });
   $('impBtn').addEventListener('click',function(){$('imp').click()});
   $('imp').addEventListener('change',function(){
@@ -1055,7 +1061,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   }
   function sheet(){var d=$('goSheet');if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','')}
   $('goBtn').addEventListener('click',function(){
-    var todo=ordered().filter(nd);if(!todo.length)return;
+    var todo=ordered().filter(nd);if(!todo.length)return;stat('lancer');
     var home=retPt()?[retPt()]:[],next=todo[0];
     var g=todo.slice(0,GMAX-home.length).concat(home),a=todo.slice(0,AMAX-home.length).concat(home);
     function txt(n,max){return 'Toute la tournée : '+n+' arrêt'+(n>1?'s':'')+(home.length?', retour compris':'')+(todo.length+home.length>max?' (les premiers seulement)':'')}
@@ -1074,7 +1080,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
       appL('https://maps.apple.com/?daddr='+ll(pt)+'&dirflg=d','Plans',d)+
       appL('https://waze.com/ul?ll='+ll(pt)+'&navigate=yes','Waze',d);
   }
-  function navSheet(title,hint,pt){
+  function navSheet(title,hint,pt){stat('aller');
     $('goT').innerHTML=title;$('goHint').textContent=hint||'';
     $('goApps').innerHTML=navApps(pt,'Itinéraire depuis votre position');
     sheet();
@@ -1125,7 +1131,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     var r=e.target.closest('[data-retto]');if(r){setRetTo(r.dataset.retto);return openRet()}
     var cm=e.target.closest('[data-calm]');if(cm)return openCal(cm.dataset.calm);
     var cd=e.target.closest('[data-cal]');
-    if(cd){$('goSheet').close();tab('tour');if(cd.dataset.cal!==S.cur){useDay(cd.dataset.cal);store();render();say('');if(S.patients.some(nd)&&S.pos&&!S.mx)refresh()}return}
+    if(cd){$('goSheet').close();tab('tour');if(cd.dataset.cal!==S.cur){if(cd.dataset.cal>day())stat('planif');useDay(cd.dataset.cal);store();render();say('');if(S.patients.some(nd)&&S.pos&&!S.mx)refresh()}return}
     var b=e.target.closest('[data-evadd]');if(!b)return;
     var v=evFound[+b.dataset.evadd];if(!v)return;
     S.patients.push({id:newId(),ev:true,pin:true,name:'Recharge',addr:v.name,label:v.name,lat:v.lat,lon:v.lon,urgent:false,done:false,dist:null,dur:null});
@@ -1213,14 +1219,33 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   /* nouvelle clé de données (inscription, mot de passe oublié) */
   function newDK(){var dk=rnd(32);return kidOf(dk).then(function(kid){return{dk:dk,kid:kid}})}
 
+  var VER=(document.querySelector('.ver').textContent.match(/[0-9.]+$/)||[''])[0];
   function api(path,opt){
-    opt=opt||{};opt.headers={'content-type':'application/json'};
+    opt=opt||{};opt.headers={'content-type':'application/json','x-version':VER};
     if(Y&&Y.session)opt.headers.authorization='Bearer '+Y.session;
     return fetch(API+path,opt).then(function(r){return r.json().catch(function(){return{}}).then(function(j){j._s=r.status;return j})},
       function(){throw{erreur:'Pas de connexion internet. Réessayez dans un instant.',hors:true}});
   }
   function post(path,body){return api(path,{method:'POST',body:JSON.stringify(body||{})})}
   function ok(j){if(j._s!==200)throw j;return j}
+  /* compteurs d'usage (tournées calculées, erreurs, appli de guidage choisie…) : des nombres seulement, envoyés avec la synchronisation */
+  var STK='domicile-stats';
+  function statLire(){try{return JSON.parse(localStorage.getItem(STK)||'{}')||{}}catch(e){return{}}}
+  function stat(k){try{var o=statLire();o[k]=(o[k]||0)+1;localStorage.setItem(STK,JSON.stringify(o))}catch(e){}}
+  function statFlush(){
+    if(!Y||!Y.session)return;
+    var o=statLire();if(!Object.keys(o).length)return;
+    try{localStorage.removeItem(STK)}catch(e){}
+    post('/stats',{c:o}).then(function(j){if(j._s>=500)throw 0},function(){throw 0}).catch(function(){
+      try{var p=statLire();Object.keys(o).forEach(function(k){p[k]=(p[k]||0)+o[k]});localStorage.setItem(STK,JSON.stringify(p))}catch(e){}
+    });
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.app-l,a[href^="sms:"]');if(!a)return;
+    if(!a.classList.contains('app-l'))return stat('sms');
+    var t=(a.querySelector('b')||{}).textContent||'';stat(/Waze/.test(t)?'nav_waze':/Plans/.test(t)?'nav_plans':'nav_google');
+  });
+  document.addEventListener('visibilitychange',function(){if(document.hidden)statFlush()});
 
   /* ---------- synchronisation ---------- */
   function payload(){
@@ -1260,28 +1285,52 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   function push(n){
     var g=gen;
     return seal(payload()).then(function(d){return api('/v',{method:'PUT',body:JSON.stringify({base:Y.ver,data:d,nb:S.book.length,kid:Y.kid})})}).then(function(j){
-      if(j._s===200){Y.ver=j.ver;if(g===gen)Y.dirty=false;ysave();return}
+      if(j._s===200){Y.ver=j.ver;if(g===gen)Y.dirty=false;ysave();setAcces(j.acces);return}
       if(j._s===409&&!j.cle&&n<3)return pull(j).then(function(){return push(n+1)});
       throw j;
     });
   }
+  /* essai gratuit et abonnement : la date de fin vient du serveur ; passé cette date, la tournée et la synchro s'arrêtent, le carnet reste lisible */
+  function expire(){var a=Y&&Y.acces;return!!(a&&a.fin&&Date.now()>a.fin)}
+  function setAcces(a){if(!a||!Y)return;Y.acces=a;ysave();renderAcces()}
+  function renderAcces(){
+    var a=Y&&Y.acces,e=$('acces'),x=expire(),CONTACT='<a href="mailto:info@zanksolutions.be?subject=Abonnement%20Domicile">info@zanksolutions.be</a>';
+    document.body.classList.toggle('expire',x);
+    if(!a){e.hidden=true;$('accAbo').textContent='';return}
+    var j=a.fin?Math.max(0,Math.ceil((a.fin-Date.now())/864e5)):null,d=a.fin?dstr(a.fin):'';
+    if(x){
+      e.className='acces fin';e.hidden=false;
+      e.innerHTML='<b>'+(a.etat==='essai'||!a.abonne&&a.etat!=='abonne'?'Votre essai gratuit est terminé':'Votre abonnement est arrivé à échéance')+'</b>Votre carnet reste lisible et exportable. Pour reprendre vos tournées, activez votre abonnement : '+CONTACT+'.';
+      $('accAbo').textContent='Accès terminé le '+d+'.';
+    }else if(a.etat==='abonne'){
+      e.hidden=j>7;e.className='acces';
+      e.innerHTML='<b>Abonnement à renouveler</b>Il se termine '+(j<=1?'aujourd\'hui':'dans '+j+' jours')+', le '+d+'.';
+      $('accAbo').textContent='Abonnement actif jusqu\'au '+d+'.';
+    }else{
+      e.hidden=j==null;e.className='acces';
+      e.innerHTML='<b>Essai gratuit : '+(j<=1?'dernier jour':'encore '+j+' jours')+'</b>Pour continuer ensuite, écrivez à '+CONTACT+'.';
+      $('accAbo').textContent=j==null?'':'Essai gratuit jusqu\'au '+d+'.';
+    }
+  }
   function ysay(t,err){var e=$('syMsg');e.textContent=t||'';e.className='hint'+(err?' err':'')}
   /* session expirée, compte suspendu ou mot de passe changé ailleurs : retour à l'écran de connexion */
   function oops(e){
+    if(e&&e._s===402){setAcces(e.acces);ysay(e.erreur||'Accès terminé.',true);return}
     if(e&&(e._s===401||e._s===403||e.cle)){
       var mail=Y&&Y.moi&&Y.moi.email;Y=null;ysave();
       lock('aLogin',e.cle?'Votre mot de passe a été changé sur un autre appareil. Reconnectez-vous avec le nouveau.':e.erreur||'Session expirée. Reconnectez-vous.');
       if(mail)$('lMail').value=mail;
       return;
     }
+    if(!(e&&e.hors))stat('e_sync');
     ysay(e&&e.erreur||'Synchronisation impossible pour le moment.',true);
   }
   function sync(){
     if(!Y||!Y.dk)return Promise.resolve();
     if(running)return running;
     clearTimeout(timer);
-    running=(Y.dirty?push(0):api('/v').then(function(j){if(j._s!==200)throw j;if(j.kid!==Y.kid)throw{cle:true};return pull(j).then(function(){if(Y.dirty)return push(0)})}))
-      .then(function(){Y.at=Date.now();ysave();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y&&Y.dirty},oops)
+    running=(Y.dirty&&!expire()?push(0):api('/v').then(function(j){if(j._s!==200)throw j;if(j.kid!==Y.kid)throw{cle:true};setAcces(j.acces);return pull(j).then(function(){if(Y.dirty)return push(0)})}))
+      .then(function(){Y.at=Date.now();ysave();statFlush();ysay('Synchronisé à '+new Date(Y.at).toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})+'.');return Y&&Y.dirty},oops)
       .then(function(again){running=null;if(again&&Y)later()});
     return running;
   }
@@ -1299,6 +1348,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
   function unlock(){document.body.classList.remove('locked');$('auth').hidden=true;renderSync();render()}
   function renderSync(){
     var m=Y&&Y.moi;if(!m)return;
+    renderAcces();
     $('accName').textContent=[m.prenom,m.nom].join(' ');$('accMail').textContent=m.email;
     var h=document.querySelector('[data-view=tour] .hello b');if(h)h.textContent=nomAffiche(m)||'Docteur';
   }
@@ -1313,7 +1363,7 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
     var last=null;try{last=localStorage.getItem(LAST)}catch(e){}
     if(last&&last!==moi.email){S.book=[];S.groups=[];S.patients=[];S.plan={};S.du={};S.mx=null;S.pos=null;S.log={};S.tomb={};S.h={};S.ot=0;stamp(true);store()}
     try{localStorage.setItem(LAST,moi.email)}catch(e){}
-    Y={session:session,moi:moi,dk:b64(dk),kid:kid,ver:fresh?0:-1,dirty:S.book.length>0||S.groups.length>0||Object.keys(S.du||{}).length>0};gen++;ysave();
+    Y={session:session,moi:moi,acces:moi.acces||null,dk:b64(dk),kid:kid,ver:fresh?0:-1,dirty:S.book.length>0||S.groups.length>0||Object.keys(S.du||{}).length>0};gen++;ysave();
     if(!S.set.cab&&moi.adresse&&!$('sCab').value)$('sCab').value=moi.adresse;
   }
   function done(){unlock();sync()}
