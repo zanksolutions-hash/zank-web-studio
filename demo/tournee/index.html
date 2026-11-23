@@ -243,6 +243,11 @@ button.chip svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-widt
 .cal button i{display:block;font-style:normal;font-size:9.5px;font-weight:600;color:#1f7a34;white-space:nowrap}
 .cal button[aria-pressed=true] i{color:#8ce99a}
 @media(max-width:380px){.cal button i{font-size:8.5px;letter-spacing:-.02em}}
+textarea.sig{display:block;width:100%;min-height:110px;padding:14px 18px;border:1px solid var(--line);border-radius:22px;background:#fff;font:inherit;font-size:16px;resize:vertical}
+textarea.sig:focus{outline:2px solid var(--ink);outline-offset:1px}
+.maj{position:sticky;top:10px;z-index:7;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:10px 10px 10px 16px;border-radius:18px;background:var(--ink);color:#fff;font-size:14.5px;box-shadow:var(--shadow)}
+.maj button{border:0;border-radius:99px;padding:9px 14px;background:#fff;color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.maj[hidden]{display:none}
 .ver{text-align:center;font-size:12.5px;color:var(--muted);margin:22px 0 8px}
 .acces{margin:14px 0 0;padding:14px 16px;border-radius:18px;background:#fff;font-size:14.5px;line-height:1.45}
 .acces b{display:block;font-size:15.5px}.acces a{color:inherit;font-weight:600}
@@ -379,6 +384,7 @@ body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
   </div>
 </div>
 <div class="app">
+  <div class="maj" id="maj" role="status" hidden><span>Nouvelle version disponible</span><button type="button" id="majGo">Mettre à jour</button></div>
   <p class="msg" id="msg" role="status" hidden></p>
 
   <section class="view" data-view="tour">
@@ -483,7 +489,13 @@ body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
       <input type="file" id="imp" accept="application/json,.json" hidden>
       <p class="hint">Le fichier contient vos fiches, vos tournées types, vos réglages et vos kilomètres. Gardez-le en lieu sûr : il n'existe aucune copie ailleurs.</p>
     </div>
-    <p class="ver">Domicile · version 1.3.0</p>
+    <div class="panel pad">
+      <p class="f" style="margin-top:0">Un problème, une idée ?</p>
+      <textarea class="sig" id="sigT" maxlength="1500" aria-label="Votre message" placeholder="Décrivez ce qui ne va pas ou ce qui vous manque."></textarea>
+      <button class="pill wide" type="button" id="sigGo">Envoyer à Zank Solutions</button>
+      <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
+    </div>
+    <p class="ver">Domicile · version 1.4.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -778,9 +790,17 @@ body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
       });
       S.mx={ids:['@'].concat(todo.map(function(p){return p.id}),home.length?['H']:[]),d:j.distances,t:j.durations,at:Date.now()};
       save();
-    }).catch(function(){stat('e_route');throw new Error('Le calcul d\'itinéraire a échoué. Vérifiez la connexion et réessayez.')});
+    }).catch(function(e){
+      /* pas de réseau ou service d'itinéraire en panne : ordre estimé à vol d'oiseau plutôt qu'une erreur */
+      var hors=e!==0||navigator.onLine===false;if(!hors)stat('e_route');
+      var d=pts.map(function(a){return pts.map(function(b){return a===b?0:Math.round(hav(a,b)*1.3)})});
+      todo.forEach(function(p,i){p.dist=d[0][i+1];p.dur=Math.round(p.dist/11);p.unroutable=false});
+      S.mx={ids:['@'].concat(todo.map(function(p){return p.id}),home.length?['H']:[]),d:d,t:d.map(function(l){return l.map(function(x){return Math.round(x/11)})}),at:Date.now(),approx:true};
+      save();
+      return(hors?'Pas de réseau':'Le calcul par la route ne répond pas')+' : ordre et distances estimés à vol d\'oiseau. Recalculez plus tard pour les trajets réels.';
+    });
   }
-  function refresh(){return distances().then(render,function(e){render();fail(e)})}
+  function refresh(){return distances().then(function(m){render();if(m)say(m)},function(e){render();fail(e)})}
 
   $('calc').addEventListener('click',function(){
     var b=this;
@@ -788,7 +808,7 @@ body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
     say('');busy(b,true,'Localisation…');
     var k=S.set[S.set.retTo]?S.set.retTo:S.set.cab?'cab':S.set.dom?'dom':null;
     (future()&&k?Promise.resolve({lat:S.set[k].lat,lon:S.set[k].lon,t:Date.now(),from:k}):locate()).then(function(p){S.pos=p;save();busy(b,false);busy(b,true,'Calcul…');return distances()})
-      .then(function(){busy(b,false);render();say('');stat('calc');stat(S.set.mode==='short'?'mode_court':'mode_loin')})
+      .then(function(m){busy(b,false);render();say(m||'');stat('calc');stat(S.set.mode==='short'?'mode_court':'mode_loin')})
       .catch(function(e){busy(b,false);render();fail(e)});
   });
 
@@ -1537,7 +1557,22 @@ body.expire .pill.go,body.expire #goBtn,body.expire #calc{display:none}
   renderSync();
   sync();
   setInterval(render,60000);
-  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(function(){});
+  $('sigGo').addEventListener('click',function(){
+    var b=this,t=$('sigT').value.trim(),m=$('sigMsg');
+    function dire(x,err){m.textContent=x;m.className='hint'+(err?' err':'')}
+    if(t.length<5)return dire('Écrivez quelques mots avant d\'envoyer.',true);
+    b.disabled=true;dire('Envoi…');
+    post('/signal',{message:t}).then(ok).then(function(){$('sigT').value='';dire('Merci, votre message est bien parti.')},function(e){dire(e&&e.erreur||'Envoi impossible pour le moment.',true)}).then(function(){b.disabled=false});
+  });
+  /* nouvelle version : le bandeau apparaît quand elle est prête, un appui recharge l'appli */
+  $('majGo').addEventListener('click',function(){location.reload()});
+  if('serviceWorker' in navigator&&location.protocol==='https:'){
+    var dejaLa=!!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange',function(){if(dejaLa)$('maj').hidden=false;dejaLa=true});
+    navigator.serviceWorker.register('sw.js').then(function(r){
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)r.update().catch(function(){})});
+    }).catch(function(){});
+  }
 })();
 </script>
 <p style="text-align:center;font:12px/1.5 system-ui,sans-serif;margin:24px 16px;opacity:.65"><a href="https://webstudio.zanksolutions.be/applis.html#domicile" target="_blank" rel="noopener" style="color:inherit">Mentions légales et confidentialité</a></p>
