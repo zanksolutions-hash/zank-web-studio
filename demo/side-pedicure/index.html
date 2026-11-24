@@ -92,6 +92,13 @@ section{padding:clamp(60px,9vw,110px) 0}
 .jour button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .jour s{padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.14);color:#7f97a3;font-size:15px}
 .dispo .note{margin:22px 0 0;font-size:14.5px;color:#b3c9d2}
+.dispo .note a{color:#fff}
+.dispo .soin{display:block;max-width:440px;margin-bottom:22px;font-weight:600;color:#fff}
+.dispo select{display:block;width:100%;margin-top:8px;padding:12px 14px;border-radius:12px;border:1px solid var(--petrole-c);background:var(--marine2);color:#fff;font:inherit}
+.jours .vide{grid-column:1/-1;margin:0;color:#b3c9d2}
+.recap{background:var(--ciel);border-radius:12px;padding:12px 14px;font-size:15px;margin:0}
+.err{color:#a3261a;font-size:15px;margin:0}
+.piege{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
 .avis{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .avis figure{margin:0;background:#fff;border:1px solid var(--ligne);border-radius:16px;padding:26px 28px}
@@ -230,10 +237,13 @@ footer b{font:italic 500 28px/1 var(--serif);color:#fff}
     <div class="head">
       <span class="tag">Disponibilités</span>
       <h2>Les places libres, <em>toujours à jour.</em></h2>
-      <p>Choisissez un horaire&nbsp;: il est repris dans votre demande de rendez-vous. Les créneaux déjà pris sont barrés.</p>
+      <p>Choisissez votre soin, puis un horaire libre&nbsp;: il est repris dans votre réservation.</p>
     </div>
+    <!-- Agenda : rendez-vous enregistrés par le Worker zank-rdv (dossier rdv-worker/) -->
+    <label class="soin">Votre soin<select id="d-soin" disabled><option value="">Chargement…</option></select></label>
     <div class="jours" id="jours"></div>
-    <p class="note">Créneaux d'exemple. Sur le site final, les places se mettent à jour toutes seules à chaque réservation&nbsp;: plus besoin de publier un visuel des disponibilités du mois.</p>
+    <p class="note">Les créneaux affichés sont ceux réellement libres&nbsp;: ils se mettent à jour à chaque réservation, plus besoin de publier un visuel des disponibilités du mois.</p>
+    <p class="note"><a href="https://zank-rdv.zank-solutions.workers.dev/agenda/side-pedicure" target="_blank" rel="noopener">Espace pro&nbsp;: voir l'agenda et le tableau de bord</a></p>
   </div>
 </section>
 
@@ -264,19 +274,21 @@ footer b{font:italic 500 28px/1 var(--serif);color:#fff}
     <div>
       <span class="tag">Rendez-vous</span>
       <h2>Réservez <em>dès maintenant.</em></h2>
-      <p class="lead">Envoyez votre demande avec l'horaire souhaité&nbsp;: Side vous confirme le rendez-vous.</p>
+      <p class="lead">Choisissez un horaire et laissez vos coordonnées&nbsp;: le rendez-vous est enregistré tout de suite et vous recevez un e-mail de confirmation.</p>
       <a class="btn clair" href="https://www.facebook.com/share/1E5qZMRX57/" target="_blank" rel="noopener">Écrire sur Facebook</a>
       <p class="acces">Pédicure médicale à domicile, sur rendez-vous, dans la région de Charleroi.</p>
     </div>
-    <form data-web3>
-      <h3>Demande de rendez-vous</h3>
-      <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
-      <label>GSM<input name="tel" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
+    <form id="resa" novalidate>
+      <h3>Votre rendez-vous</h3>
+      <p class="recap" id="f-recap">Choisissez d'abord un soin et un horaire dans les <a href="#dispo">disponibilités</a>.</p>
+      <label>Nom et prénom<input name="nom" autocomplete="name" required minlength="2"></label>
+      <label>GSM<input name="telephone" type="tel" autocomplete="tel" placeholder="0470 12 34 56" required></label>
+      <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="vous@exemple.be" required></label>
       <label>Commune<input name="commune" autocomplete="address-level2" placeholder="Charleroi" required></label>
-      <label>Ce qui vous gêne<select name="motif" id="f-motif"><option>Un cor</option><option>De la corne, des durillons</option><option>Un ongle épais</option><option>Un ongle incarné</option><option>Des crevasses</option><option>Un simple entretien</option></select></label>
-      <label>Horaire souhaité<input name="creneau" id="f-creneau" placeholder="Jeudi 26 novembre à 14 h"></label>
-      <button class="btn" type="submit">Envoyer la demande</button>
-      <p class="ok" role="status" hidden></p>
+      <input class="piege" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" type="submit">Confirmer le rendez-vous</button>
+      <p class="err" id="f-err" role="alert" hidden></p>
+      <p class="ok" id="f-ok" role="status" hidden></p>
     </form>
   </div>
 </section>
@@ -298,32 +310,64 @@ const GENES=[
  ['Des crevasses','Les talons très secs se fendillent et finissent par faire mal à la marche.','La peau épaissie est retirée et les talons sont soignés, avec des conseils pour les garder souples.'],
  ['Un simple entretien','Rien de douloureux, mais des pieds difficiles à atteindre ou à entretenir seul.','Coupe et limage des ongles, retrait de la corne et hydratation : des pieds nets et confortables.']
 ];
+let voulu='',choisir=id=>{voulu=id}; /* soin correspondant à la gêne choisie, repris par l'agenda */
 const puces=[...$('puces').children];
-function gene(i){const [t,c,s]=GENES[i];$('f-titre').textContent=t;$('f-cause').innerHTML='<b>D\'où ça vient. </b>'+c;$('f-soin').innerHTML='<b>Le soin. </b>'+s;puces.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));$('f-motif').value=t}
+function gene(i){const [t,c,s]=GENES[i];$('f-titre').textContent=t;$('f-cause').innerHTML='<b>D\'où ça vient. </b>'+c;$('f-soin').innerHTML='<b>Le soin. </b>'+s;puces.forEach((b,n)=>b.setAttribute('aria-pressed',n===i));choisir(['cor','cor','epais','incarne','complet','entretien'][i])}
 puces.forEach((b,n)=>b.onclick=()=>gene(n));
 gene(0);
 
-/* Disponibilités d'exemple : quatre prochains jours de semaine, certains créneaux barrés */
+/* Agenda de prise de rendez-vous (Worker zank-rdv) */
 (()=>{
-  const HEURES=['9 h','12 h','14 h','15 h','16 h'],PRIS=[[0,2],[1,3,4],[0],[2,3]];
-  const d=new Date();let n=0;
-  while(n<4){
-    d.setDate(d.getDate()+1);if(d.getDay()===0||d.getDay()===6)continue;
-    const nom=d.toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'});
-    const j=document.createElement('div');j.className='jour';
-    const h=document.createElement('h3');h.textContent=nom;const l=document.createElement('div');
-    HEURES.forEach((x,i)=>{
-      if(PRIS[n].includes(i)){const s=document.createElement('s');s.textContent=x;s.setAttribute('aria-label',x+', complet');l.append(s);return}
-      const b=document.createElement('button');b.type='button';b.textContent=x;b.setAttribute('aria-pressed',false);
-      b.onclick=()=>{document.querySelectorAll('.jour button').forEach(o=>o.setAttribute('aria-pressed',o===b));
-        $('f-creneau').value=nom.charAt(0).toUpperCase()+nom.slice(1)+' à '+x;$('contact').scrollIntoView();$('f-creneau').focus({preventScroll:true})};
-      l.append(b)});
-    j.append(h,l);$('jours').append(j);n++;
+  const API=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://localhost:8790':'https://zank-rdv.zank-solutions.workers.dev';
+  const SITE='side-pedicure',f=$('resa'),soin=$('d-soin'),jours=$('jours'),recap=$('f-recap'),err=$('f-err'),ok=$('f-ok');
+  const VIDE=recap.innerHTML;
+  const heure=m=>Math.floor(m/60)+' h'+(m%60?' '+String(m%60).padStart(2,'0'):'');
+  const date=(j,o)=>new Intl.DateTimeFormat('fr-BE',Object.assign({timeZone:'UTC'},o)).format(new Date(j+'T12:00:00Z'));
+  const el=(t,txt)=>{const e=document.createElement(t);e.textContent=txt;return e};
+  const note=txt=>{const e=el('p',txt);e.className='vide';return e};
+  const erreur=m=>{err.textContent=m;err.hidden=!m};
+  const appel=(chemin,opt)=>fetch(API+chemin,opt).then(r=>r.json().then(d=>({status:r.status,d})));
+  const HS='Agenda indisponible pour le moment. Écrivez à Side sur Facebook.';
+  let soins=[],p=null,c=null;
+  function charger(){
+    c=null;recap.innerHTML=VIDE;
+    if(!p){jours.replaceChildren(note('Choisissez un soin pour voir les horaires libres.'));return Promise.resolve()}
+    jours.replaceChildren(note('Recherche des disponibilités…'));
+    return appel('/creneaux?site='+SITE+'&prestation='+p.id).then(({d})=>{
+      if(!d.jours||!d.jours.length){jours.replaceChildren(note('Aucune disponibilité pour le moment : écrivez à Side sur Facebook.'));return}
+      jours.replaceChildren(...d.jours.slice(0,8).map(j=>{
+        const carte=document.createElement('div');carte.className='jour';
+        const l=document.createElement('div'),b=el('button',heure(j.debut));b.type='button';b.setAttribute('aria-pressed',false);
+        b.onclick=()=>{c=j;jours.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));erreur('');ok.hidden=true;
+          recap.textContent=p.nom+' ('+p.duree+' min) · '+date(j.jour,{weekday:'long',day:'numeric',month:'long'})+' de '+heure(j.debut)+' à '+heure(j.fin);
+          $('contact').scrollIntoView();f.elements.nom.focus({preventScroll:true})};
+        l.append(b);carte.append(el('h3',date(j.jour,{weekday:'long',day:'numeric',month:'long'})),l);return carte}));
+    }).catch(()=>{jours.replaceChildren(note(HS))});
   }
+  choisir=id=>{voulu=id;if(soins.length&&soin.value!==id){soin.value=id;p=soins.find(x=>x.id===id)||null;charger()}};
+  appel('/config?site='+SITE).then(({d})=>{
+    soins=d.prestations;
+    const o0=el('option','Choisir un soin…');o0.value='';
+    soin.replaceChildren(o0,...[...new Set(soins.map(x=>x.groupe))].map(g=>{const og=document.createElement('optgroup');og.label=g;soins.filter(x=>x.groupe===g).forEach(x=>{const o=el('option',x.nom+' · '+x.duree+' min');o.value=x.id;og.append(o)});return og}));
+    soin.disabled=false;soin.value=voulu;p=soins.find(x=>x.id===voulu)||null;charger();
+  }).catch(()=>{soin.replaceChildren();jours.replaceChildren(note(HS))});
+  soin.addEventListener('change',()=>{p=soins.find(x=>x.id===soin.value)||null;erreur('');charger()});
+  f.addEventListener('submit',e=>{
+    e.preventDefault();ok.hidden=true;
+    if(!p||!c){erreur("Choisissez d'abord un soin et un horaire dans les disponibilités.");return}
+    if(!f.checkValidity()){f.reportValidity();return}
+    const bt=f.querySelector('[type=submit]');bt.disabled=true;erreur('');
+    const v=f.elements,quoi=recap.textContent;
+    appel('/reserver',{method:'POST',body:JSON.stringify({site:SITE,prestation:p.id,jour:c.jour,debut:c.debut,nom:v.nom.value,telephone:v.telephone.value,email:v.email.value,commune:v.commune.value,sms:false,web:v.web.value})})
+    .then(({status,d})=>{
+      bt.disabled=false;
+      if(status===409){erreur("Cet horaire vient d'être réservé. Choisissez-en un autre dans les disponibilités à jour.");return charger()}
+      if(!d.ok){erreur(d.erreur||'Une erreur est survenue. Réessayez.');return}
+      f.reset();charger();
+      ok.textContent='Merci. Rendez-vous confirmé : '+quoi+'.'+(d.email?' Un e-mail de confirmation vient de vous être envoyé.':'');ok.hidden=false;
+    }).catch(()=>{bt.disabled=false;erreur('Connexion impossible. Réessayez dans un instant.')});
+  });
 })();
-document.querySelectorAll('form[data-web3]').forEach(f=>f.addEventListener('submit',e=>{
-  e.preventDefault();const ok=f.querySelector('.ok');ok.textContent="Ceci est une maquette : le formulaire sera relié à votre boîte e-mail à la mise en ligne.";ok.hidden=false;
-}));
 </script>
 <div class="demo-bar" role="note"><span class="long">Maquette de démonstration réalisée pour Side, pédicure spécialisée, par Zank Solutions. Ce n'est pas le site officiel.</span><span class="short">Maquette de démo, non officielle ·</span> <a href="https://webstudio.zanksolutions.be" target="_blank" rel="noopener">webstudio.zanksolutions.be</a></div>
 <script src="/demo/motion-14.9.0.js"></script>
