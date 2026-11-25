@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arno Sol – Coach sportif à Mons | Réserve ta séance</title>
+<meta name="description" content="Arno Sol, personal trainer à Mons : perte de poids, prise de muscle, suivi personnalisé. Réserve ta séance en ligne.">
+<link rel="icon" href="favicon.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--card:#161616;--sable:#1d1d1d;--txt:#f5f5f5;--mut:#a3a3a3;--line:#2a2a2a;--nude:#f26a1b;--nude2:#ff8a3d;--ok:#3ccf7a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif}
+*{font-variant-numeric:lining-nums}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+.w{max-width:1100px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:'Bebas Neue',sans-serif;font-weight:500;line-height:1.08;margin:0}
+h2{font-size:clamp(32px,4.5vw,48px)}
+h2 em,h1 em{color:var(--nude);font-style:italic}
+.eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.22em;color:var(--nude);margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--txt);background:var(--txt);color:#fff;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:14px 26px;cursor:pointer;text-decoration:none;white-space:nowrap;transition:.2s}
+.btn:hover{background:var(--nude2);border-color:var(--nude2)}
+.btn.l{background:transparent;color:var(--txt)}
+.btn.l:hover{background:var(--txt);color:#fff}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+nav{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .w{display:flex;align-items:center;justify-content:space-between;height:72px;gap:14px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mono{display:inline-grid;place-items:center;width:44px;height:44px;border:1px solid var(--nude);border-radius:50%;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--nude);letter-spacing:.02em}
+.logo b{font-family:'Bebas Neue',sans-serif;font-weight:600;font-size:22px;line-height:1}
+.logo small{display:block;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut);margin-top:3px}
+.menu{display:flex;gap:26px;font-size:14px}
+.menu a{text-decoration:none;color:var(--mut)}
+.menu a:hover{color:var(--txt)}
+nav .btn{padding:10px 20px;font-size:13px}
+@media(max-width:880px){.menu{display:none}}
+.hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-top:80px;padding-bottom:80px}
+.hero h1{font-size:clamp(44px,6.4vw,78px)}
+.hero p{font-size:18px;color:var(--mut);max-width:500px;margin:22px 0 30px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.avis{display:flex;align-items:center;gap:10px;margin-top:28px;font-size:14px;color:var(--mut)}
+.avis b{color:var(--txt);font-size:15px}
+.etoiles{color:var(--nude);letter-spacing:2px}
+.visu{position:relative;aspect-ratio:4/5;border-radius:220px 220px 24px 24px;background:var(--sable);overflow:hidden;display:grid;place-items:center}
+.visu::before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(169,127,109,.45);top:14%}
+.visu::after{content:"";position:absolute;width:46%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(169,127,109,.3);top:26%}
+.visu .big{position:relative;font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,12vw,140px);color:var(--nude);line-height:1}
+.visu .tag{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(255,255,255,.85);border-radius:16px;padding:14px 16px;font-size:14px}
+.visu .tag b{display:block;font-family:'Bebas Neue',sans-serif;font-size:20px;font-weight:600}
+@media(max-width:820px){.hero .w{grid-template-columns:1fr;padding-top:40px;padding-bottom:50px;gap:36px}.visu{max-width:340px;justify-self:center;width:100%}}
+section{padding:84px 0}
+.apropos{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.apropos .w{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.apropos p{color:var(--mut)}
+.points{display:grid;gap:14px;margin-top:20px}
+.points div{display:flex;gap:14px;align-items:flex-start}
+.points i{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--nude);color:var(--nude);display:grid;place-items:center;font-style:normal;font-size:13px;margin-top:2px}
+@media(max-width:820px){.apropos .w{grid-template-columns:1fr;gap:30px}}
+.carte-soins{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+@media(max-width:900px){.carte-soins{grid-template-columns:1fr}}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px}
+.cat h3{font-size:28px;margin-bottom:6px}
+.cat>p{color:var(--mut);font-size:14px;margin:0 0 14px}
+.li{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.li span:last-child{white-space:nowrap;color:var(--nude2);font-weight:500}
+.laser{margin-top:18px;background:var(--sable);border-radius:22px;padding:24px 26px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.laser b{font-family:'Bebas Neue',sans-serif;font-size:21px;font-weight:600;display:block}
+.laser p{margin:4px 0 0;font-size:14px;color:var(--mut)}
+@media(max-width:820px){.laser{grid-template-columns:1fr}}
+#rdv{background:var(--card);border-top:1px solid var(--line)}
+.book{display:grid;grid-template-columns:1fr 330px;gap:24px;margin-top:34px}
+.book>*{min-width:0}
+@media(max-width:900px){.book{grid-template-columns:1fr}}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:26px}
+.step{margin-bottom:26px}
+.step:last-child{margin-bottom:0}
+.step>b{display:flex;align-items:center;gap:12px;font-family:'Bebas Neue',sans-serif;font-weight:600;font-size:22px;margin-bottom:12px}
+.step>b i{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--nude);color:var(--nude);font-family:Inter;font-style:normal;font-size:13px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer}
+.tab.on{background:var(--txt);border-color:var(--txt);color:#fff}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px 15px;cursor:pointer;text-align:left;font-size:14px;font-weight:500;display:flex;justify-content:space-between;gap:10px}
+.chip span:last-child{color:var(--nude2);white-space:nowrap}
+.chip:hover{border-color:var(--nude)}
+.chip.on{border-color:var(--txt);background:var(--txt);color:#fff}
+.chip.on span:last-child{color:#e8cfc4}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.day{flex:0 0 76px;scroll-snap-align:start;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:12px 4px;text-align:center;cursor:pointer}
+.day b{display:block;font-family:'Bebas Neue',sans-serif;font-size:28px;font-weight:500;line-height:1}
+.day small{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em}
+.day.on{background:var(--txt);border-color:var(--txt);color:#fff}
+.day.on small{color:#cbbfb6}
+.day:disabled{opacity:.35;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.slot{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 0;cursor:pointer;font-weight:500}
+.slot:hover{border-color:var(--nude)}
+.slot.on{background:var(--txt);color:#fff;border-color:var(--txt)}
+.vide{color:var(--mut);font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:5px}
+input,select,textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--nude)}
+textarea{min-height:70px;resize:vertical}
+.prep{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;font-size:14px;color:var(--mut);margin-top:12px}
+.prep b{color:var(--txt)}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--mut);margin-top:10px}
+.ck input{width:auto;margin-top:4px}
+.recap{position:sticky;top:92px;align-self:start;background:var(--card)}
+.recap dl{margin:0 0 18px;display:grid;gap:12px}
+.recap dt{font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--nude)}
+.recap dd{margin:2px 0 0;font-weight:500}
+.recap .btn{width:100%}
+.recap p{font-size:13px;color:var(--mut);margin:12px 0 0}
+.done{text-align:center;padding:24px 0}
+.gerer{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+@media(max-width:820px){.gerer{grid-template-columns:1fr}}
+.res{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.infos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+@media(max-width:820px){.infos{grid-template-columns:1fr}}
+.info{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.info h3{font-size:24px;margin-bottom:10px}
+.info p{margin:0;color:var(--mut);font-size:15px}
+.info table{width:100%;font-size:15px}
+.info td{padding:3px 0}
+.info td:last-child{text-align:right}
+.info tr.auj td{color:var(--nude2);font-weight:600}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(--mut)}
+footer .w{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.mob-cta{display:none}
+@media(max-width:720px){nav .btn{display:none}.mob-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(13,13,13,.96);border-top:1px solid var(--line);padding:10px 12px;gap:8px}.mob-cta .btn{flex:1;padding:12px}footer{padding-bottom:90px}}
+
+*{font-variant-numeric:lining-nums}
+.btn{background:var(--nude);border-color:var(--nude);color:#111;font-weight:700}
+.btn:hover{background:var(--nude2);border-color:var(--nude2);color:#111}
+.btn.l{background:transparent;color:var(--txt);border-color:#555}
+.btn.l:hover{background:var(--txt);color:#111}
+.tab.on,.chip.on,.day.on,.slot.on,.seg button.on{background:var(--nude)!important;border-color:var(--nude)!important;color:#111!important}
+.chip.on span:last-child,.day.on small{color:#111!important}
+h1,h2,h3{letter-spacing:.01em}
+h2 em,h1 em{font-family:'Permanent Marker',cursive;font-style:normal;font-size:.82em;color:var(--nude)}
+
+.logo img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--nude)}
+.logo b{font-size:26px;letter-spacing:.02em}
+.hero h1{font-size:clamp(54px,8vw,96px);line-height:.95;text-transform:uppercase}
+.visu{border-radius:22px;background:#000;aspect-ratio:auto}
+.visu::before,.visu::after{display:none}
+.visu img{width:100%;height:auto;display:block}
+.points i{border-color:var(--nude)}
+.day b{font-size:32px}
+.rdv-sous{font-family:'Permanent Marker',cursive;color:var(--nude);font-size:20px}
+</style>
+</head>
+<body>
+<nav><div class="w">
+  <a class="logo" href="#"><img src="arno.jpg" alt=""><span><b>Arno Sol</b><small>Personal trainer</small></span></a>
+  <div class="menu"><a href="#apropos">Le coach</a><a href="#soins">Formules</a><a href="#rdv">Réserver</a><a href="#infos">Infos pratiques</a></div>
+  <a class="btn" href="#rdv">Prendre RDV</a>
+</div></nav>
+
+<header class="hero"><div class="w">
+  <div>
+    <div class="eyebrow">Coach sportif · Mons</div>
+    <h1>Ton objectif,<br><em>mon métier</em></h1>
+    <p>Perte de poids, prise de muscle, remise en forme : un accompagnement personnalisé, à ton rythme et en toute sécurité.</p>
+    <div class="cta"><a class="btn" href="#rdv">Réserver ma séance</a><a class="btn l" href="#soins">Voir les formules</a></div>
+    <div class="avis"><span class="etoiles">★★★★★</span><span><b>Recommandé à 100 %</b> · 7 avis</span></div>
+  </div>
+  <div class="visu"><img src="affiche.jpg" alt="Arno Sol en séance de coaching"></div>
+</div></header>
+
+<section class="apropos" id="apropos"><div class="w">
+  <div>
+    <div class="eyebrow">Le coach</div>
+    <h2>Un coach à tes côtés, <em>à chaque étape</em></h2>
+  </div>
+  <div>
+    <p>Arno t'accompagne avec une méthode efficace et adaptée à toi. On fait le point sur ton objectif, puis on avance séance après séance.</p>
+    <div class="points">
+      <div><i>1</i><span>Perte de poids et remise en forme : retrouve ton énergie et ta confiance.</span></div>
+      <div><i>2</i><span>Prise de muscle et performance : progresse à ton rythme, en toute sécurité.</span></div>
+      <div><i>3</i><span>Suivi personnalisé et motivation, pour des résultats durables.</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="soins"><div class="w">
+  <div class="eyebrow">Formules</div>
+  <h2>Choisis ta <em>formule</em></h2>
+  <div class="carte-soins" id="carte"></div>
+  <div class="laser">
+    <div><b>Première fois ?</b><p>Commence par une séance découverte : bilan, objectif et premier entraînement.</p></div>
+    <div><b>À prévoir</b><p>Tenue de sport, baskets propres, bouteille d'eau et serviette.</p></div>
+    <div><b>Tarifs</b><p>Les tarifs sont donnés lors de la séance découverte, selon la formule choisie.</p></div>
+  </div>
+</div></section>
+
+<section id="rdv"><div class="w">
+  <div class="eyebrow">Réservation en ligne</div>
+  <h2>Réserve ta <em>séance</em></h2>
+  <div class="book" id="book">
+    <div class="panel">
+      <div class="step"><b><i>1</i>Ta séance</b><div class="tabs" id="tabsCat"></div><div class="chips" id="chSoins"></div><div id="prep"></div></div>
+      <div class="step"><b><i>2</i>Le jour</b><div class="days" id="chJours"></div></div>
+      <div class="step"><b><i>3</i>L'heure</b><div class="slots" id="chHeures"><span class="vide">Choisis d'abord un jour.</span></div></div>
+      <div class="step"><b><i>4</i>Tes coordonnées</b>
+        <form id="fRdv" class="grid2">
+          <div><label for="nom">Prénom et nom</label><input id="nom" autocomplete="name" required></div>
+          <div><label for="tel">GSM</label><input id="tel" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56" required></div>
+          <div style="grid-column:1/-1"><label for="note">Ton objectif, en quelques mots (facultatif)</label><textarea id="note"></textarea></div>
+          <label class="ck" style="grid-column:1/-1"><input type="checkbox" id="cgv" required>J'ai noté qu'une annulation se fait au moins 24 h à l'avance.</label>
+        </form>
+      </div>
+    </div>
+    <div class="panel recap" id="recap"></div>
+  </div>
+</div></section>
+
+<section id="gerer" style="padding-top:0;background:var(--card)"><div class="w gerer">
+  <div><div class="eyebrow">Ma séance</div><h2>Un <em>empêchement</em> ?</h2>
+    <p style="color:var(--mut)">Retrouve tes séances avec ton GSM. Merci d'annuler au moins 24 h à l'avance pour libérer le créneau.</p></div>
+  <div><form id="fGerer" style="display:flex;gap:8px"><input id="gsmG" inputmode="tel" placeholder="Ton GSM" required><button class="btn">Voir</button></form><div id="mesRdv"></div></div>
+</div></section>
+
+<section id="infos"><div class="w">
+  <div class="eyebrow">Infos pratiques</div>
+  <h2>Où on <em>s'entraîne</em></h2>
+  <div class="infos">
+    <div class="info"><h3>Lieu</h3><p>En salle à Mons (Basic-Fit) ou chez toi, dans la région de Mons.</p><p style="margin-top:10px">Le lieu exact est confirmé avec ta séance.</p></div>
+    <div class="info"><h3>Disponibilités</h3><table id="tH"></table></div>
+    <div class="info"><h3>Contact</h3><p><a href="tel:+32497237299" style="color:var(--nude2);font-weight:600">0497 23 72 99</a><br><a href="mailto:arnosol.trainer@gmail.com" style="color:var(--nude2)">arnosol.trainer@gmail.com</a></p><p style="margin-top:10px">Appel, SMS ou Messenger.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="w"><span>Arno Sol – Personal trainer · Mons</span><span>Site réalisé par Zank Solutions</span></div></footer>
+<div class="mob-cta"><a class="btn l" href="tel:+32497237299">Appeler</a><a class="btn" href="#rdv">Prendre RDV</a></div>
+
+<script src="commun.js"></script>
+<script>
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const DESC={coach:'Une heure avec Arno, en salle ou chez toi.',suivi:'Pour garder le cap entre les séances.'};
+carte.innerHTML=CATS.map(([k,n])=>`<div class="cat"><h3>${n}</h3><p>${DESC[k]}</p>${SOINS.filter(s=>s.cat===k).map(s=>`<div class="li"><span>${esc(s.nom)}</span><span>${prixTxt(s)}</span></div>`).join('')}</div>`).join('');
+const plage=d=>{const h=HORAIRES[d];return h?h.map(([a,b])=>fmtH(a)+' – '+fmtH(b)).join(' · '):'Fermé'};
+tH.innerHTML=[1,2,3,4,5,6,0].map(d=>`<tr class="${d===new Date().getDay()?'auj':''}"><td>${JOURS[d]}</td><td>${plage(d)}</td></tr>`).join('');
+
+let D=charger(),cat='coach',sel={soin:null,date:null,heure:null},fini=null;
+const BOOK=book.innerHTML;
+function rendre(){
+  if(fini){book.innerHTML=fini;return}
+  if(!document.getElementById('chSoins'))book.innerHTML=BOOK;
+  tabsCat.innerHTML=CATS.map(([k,n])=>`<button type="button" class="tab ${cat===k?'on':''}" data-c="${k}">${n}</button>`).join('');
+  chSoins.innerHTML=SOINS.filter(s=>s.cat===cat).map(s=>`<button type="button" class="chip ${sel.soin===s.id?'on':''}" data-s="${s.id}"><span>${esc(s.nom)}</span><span>${prixTxt(s)}</span></button>`).join('');
+  prep.innerHTML=sel.soin==='decouv'?'<div class="prep"><b>Séance découverte :</b> on fait le point sur ton objectif, ta forme et tes disponibilités, puis premier entraînement.</div>':'';
+  const dur=sel.soin?soin(sel.soin).duree:30;
+  const js=[];for(let i=0;i<35&&js.length<12;i++){const d=jour(i);if(HORAIRES[new Date(d+'T12:00').getDay()])js.push(d)}
+  chJours.innerHTML=js.map(d=>{const n=creneaux(D,d,dur).length,dt=new Date(d+'T12:00');
+    return `<button type="button" class="day ${sel.date===d?'on':''}" data-d="${d}" ${n?'':'disabled'}><small>${dt.toLocaleDateString('fr-BE',{weekday:'short'})}</small><b>${dt.getDate()}</b><small>${n?dt.toLocaleDateString('fr-BE',{month:'short'}):'complet'}</small></button>`}).join('');
+  if(sel.date){const c=creneaux(D,sel.date,dur);if(!c.includes(sel.heure))sel.heure=null;
+    chHeures.innerHTML=c.length?c.map(h=>`<button type="button" class="slot ${sel.heure===h?'on':''}" data-h="${h}">${fmtH(h)}</button>`).join(''):'<span class="vide">Plus de créneau ce jour-là.</span>'}
+  const s=sel.soin&&soin(sel.soin),ok=sel.soin&&sel.date&&sel.heure;
+  recap.innerHTML=`<h3 style="font-size:28px;margin-bottom:16px">Ta réservation</h3><dl>
+    <div><dt>Séance</dt><dd>${s?esc(s.nom):'–'}</dd></div>
+    <div><dt>Tarif</dt><dd>${s?prixTxt(s):'–'}</dd></div>
+    <div><dt>Date</dt><dd>${sel.date?fmtDate(sel.date):'–'}${sel.heure?' à '+fmtH(sel.heure):''}</dd></div></dl>
+    <button class="btn" id="bValider" ${ok?'':'disabled'}>Confirmer</button>
+    <p>Arno te confirme le lieu par SMS.</p>`;
+  tabsCat.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{cat=b.dataset.c;rendre()});
+  chSoins.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{sel.soin=b.dataset.s;rendre()});
+  chJours.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{sel.date=b.dataset.d;rendre()});
+  chHeures.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{sel.heure=b.dataset.h;rendre();if(innerWidth<900)recap.scrollIntoView({behavior:'smooth',block:'center'})});
+  bValider.onclick=valider;
+}
+function valider(){
+  if(!fRdv.reportValidity())return;
+  if(telNorm(tel.value).length<9){tel.focus();return alert('Numéro de GSM incomplet.')}
+  D=charger();const s=soin(sel.soin);
+  if(!creneaux(D,sel.date,s.duree).includes(sel.heure)){alert('Ce créneau vient d\'être pris, choisis-en un autre.');sel.heure=null;return rendre()}
+  const r={id:uid(),date:sel.date,heure:sel.heure,soin:s.id,duree:s.duree,nom:nom.value.trim(),tel:tel.value.trim(),note:note.value.trim(),statut:'ok',cree:Date.now()};
+  D.rdv.push(r);enregistrer(D);
+  fini=`<div class="panel done" style="grid-column:1/-1"><div class="eyebrow">C'est réservé</div><h3 style="font-size:48px">On se voit bientôt</h3>
+    <p style="font-size:17px">${esc(s.nom)}<br><b>${fmtDate(r.date)} à ${fmtH(r.heure)}</b></p>
+    <p style="color:var(--mut)">Arno te confirme le lieu par SMS au ${esc(r.tel)}.<br>Pense à ta tenue de sport, ta bouteille d'eau et ta serviette.</p>
+    <button class="btn l" onclick="fini=null;sel={soin:null,date:null,heure:null};rendre()">Nouvelle réservation</button></div>`;
+  rendre();book.scrollIntoView({behavior:'smooth'});
+}
+function mesRendezVous(){
+  const t=telNorm(gsmG.value);if(t.length<9){mesRdv.innerHTML='';return}
+  D=charger();
+  const l=D.rdv.filter(r=>telNorm(r.tel)===t&&r.date>=jour(0)&&r.statut==='ok').sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
+  mesRdv.innerHTML=l.length?l.map(r=>`<div class="res"><div><b>${fmtDate(r.date)} à ${fmtH(r.heure)}</b><br><span style="color:var(--mut)">${esc(soin(r.soin).nom)}</span></div>
+    <button class="btn l" style="padding:9px 16px" data-a="${r.id}">Annuler</button></div>`).join('')
+    :'<div class="res" style="color:var(--mut)">Aucune séance à venir avec ce numéro.</div>';
+  mesRdv.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const r=D.rdv.find(x=>x.id===b.dataset.a);
+    const h=(new Date(r.date+'T'+r.heure)-new Date())/36e5;
+    if(h<24&&!confirm('Ta séance a lieu dans moins de 24 h : elle pourra être comptée. Annuler quand même ?'))return;
+    if(h>=24&&!confirm('Annuler cette séance ?'))return;
+    r.statut='ann';enregistrer(D);mesRendezVous();rendre()});
+}
+fGerer.onsubmit=e=>{e.preventDefault();mesRendezVous()};
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre()}});
+rendre();
+</script>
+</body>
+</html>
