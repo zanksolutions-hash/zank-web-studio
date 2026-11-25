@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Borriello Gym – Gestion des cours</title>
+<link rel="icon" href="favicon.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;1,700&family=Barlow:wght@400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f2ef;--card:#ffffff;--line:#e2ddd8;--txt:#141414;--mut:#6b645e;--rose:#d7262c;--rose2:#b51d22;--ok:#1f9d55;--warn:#c27c0e;--ko:#c81e1e;--r:14px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 Barlow,system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+.logo{font-family:'Kaushan Script',cursive;font-size:26px;color:#fff;letter-spacing:.5px}
+.logo span{color:var(--rose)}
+.wrap{max-width:1180px;margin:0 auto;padding:20px;display:grid;grid-template-columns:320px 1fr;gap:20px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:0 0 12px;font-weight:600}
+.btn{border:1px solid var(--line);background:#f1eeeb;border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--rose)}
+.btn.p{background:var(--rose);border-color:var(--rose);color:#fff}
+.btn.p:hover{background:var(--rose2)}
+.btn.s{padding:5px 10px;font-size:13px}
+.seances{display:flex;flex-direction:column;gap:8px}
+.se{padding:12px;border-radius:12px;border:1px solid var(--line);cursor:pointer;background:#faf8f6}
+.se.on{border-color:var(--rose);background:#fdf0f0}
+.se b{display:block}
+.se small{color:var(--mut)}
+.bar{height:6px;background:#ece7e2;border-radius:6px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--rose)}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.top h1{margin:0;font-size:24px}
+.top p{margin:4px 0 0;color:var(--mut)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#faf8f6;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{font-size:26px;display:block}
+.stat small{color:var(--mut)}
+.stat.hl b{color:var(--rose)}
+form.add{display:grid;grid-template-columns:1.3fr 1fr auto;gap:8px;margin-bottom:14px}
+@media(max-width:600px){form.add{grid-template-columns:1fr}}
+input,select{background:#ffffff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--rose)}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tab{padding:6px 12px;border-radius:20px;border:1px solid var(--line);cursor:pointer;font-size:13px;background:none}
+.tab.on{background:var(--rose);border-color:var(--rose);color:#fff}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--mut);font-weight:600;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.act{text-align:right;white-space:nowrap}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;font-weight:600}
+.t-ins{background:#fbe3e4;color:var(--rose2)}
+.t-att{background:#fbefd9;color:var(--warn)}
+.t-ann{background:#eeeae6;color:var(--mut);text-decoration:line-through}
+.t-pre{background:#dff3e7;color:var(--ok)}
+.t-abs{background:#fbe3e4;color:var(--ko)}
+.pay{cursor:pointer;border:none;background:none;font-size:13px;color:var(--mut);padding:0}
+.pay.ok{color:var(--ok);font-weight:600}
+.mut{color:var(--mut)}
+.empty{padding:24px;text-align:center;color:var(--mut)}
+dialog{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:var(--r);padding:20px;width:min(420px,92vw)}
+dialog::backdrop{background:#000a}
+dialog label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+textarea{width:100%;min-height:150px;background:#ffffff;border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--txt);font:14px/1.5 Barlow,sans-serif}
+a.btn{color:inherit;text-decoration:none;display:inline-block}
+.wrap>*{min-width:0}
+@media(max-width:860px){
+  .seances{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+  .se{flex:0 0 200px;scroll-snap-align:start}
+}
+@media(max-width:600px){
+  header{padding:12px 14px;flex-wrap:wrap;position:static}
+  header>div{flex-wrap:wrap}
+  header .btn{padding:7px 10px;font-size:13px;white-space:nowrap}
+  .wrap{padding:12px;gap:12px}
+  .card{padding:14px}
+  .top h1{font-size:20px}
+  .top>div:last-child{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  thead{display:none}
+  table,tbody{display:block}
+  tr{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
+  td{padding:0;border:none}
+  td:first-child{display:none}
+  td:nth-child(2){font-weight:600}
+  td:nth-child(3){grid-row:2;font-size:13px}
+  td:nth-child(4){grid-column:2;grid-row:1;text-align:right}
+  td:nth-child(5){grid-row:3}
+  td.act{grid-column:2;grid-row:2/4;align-self:end;display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+}
+.gsm-opts{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:6px 0 4px}
+.gsm-opts .ck{display:flex;align-items:center;gap:6px;margin:0;color:var(--txt);font-size:14px}
+.gsm-opts .ck input{width:auto}
+.gsm-opts select{flex:1 1 100%}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+
+header{background:#fff}
+.lg{height:46px;width:auto;display:block}
+.btn.p,.tab.on{color:#fff}
+.toast{background:#141414;color:#fff}
+</style>
+</head>
+<body>
+<header>
+  <img class="lg" src="logo.png" alt="Borriello Gym">
+  <div style="display:flex;gap:8px">
+    <a class="btn" href="./" target="_blank">Page d'inscription</a>
+    <button class="btn" id="bReset" title="Remettre les données de démo">Réinitialiser</button>
+    <button class="btn p" id="bNew">+ Nouvelle séance</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="card">
+    <h2>Séances</h2>
+    <div class="seances" id="listeSeances"></div>
+  </aside>
+
+  <main class="card" id="detail"></main>
+</div>
+
+<dialog id="dlgSeance">
+  <form method="dialog" id="fSeance">
+    <h2 id="dlgTitre">Nouvelle séance</h2>
+    <label>Cours</label>
+    <select name="cours"><option>Boxe anglaise</option><option>Boxe enfants</option><option>Cardio boxe</option><option>Compétiteurs</option><option>Cours d'essai</option></select>
+    <label>Date</label><input type="date" name="date" required>
+    <label>Heure</label><input type="time" name="heure" value="18:30" required>
+    <label>Lieu</label><input name="lieu" value="Borriello Gym, chaussée de Mariemont 27, Morlanwelz" required>
+    <label>Nombre de places</label><input type="number" name="places" min="1" value="20" required>
+    <label>Prix (€)</label><input type="number" name="prix" min="0" step="0.5" value="0">
+    <div class="row"><button class="btn" value="cancel" formnovalidate>Annuler</button><button class="btn p" value="ok">Enregistrer</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgPost">
+  <h2>Texte pour Facebook</h2>
+  <textarea id="txtPost"></textarea>
+  <div class="row"><button class="btn" onclick="dlgPost.close()">Fermer</button><button class="btn p" id="bCopier">Copier</button></div>
+</dialog>
+
+<dialog id="dlgGsm" style="width:min(560px,94vw)">
+  <h2>Prévenir les participants</h2>
+  <div class="gsm-opts">
+    <label class="ck"><input type="checkbox" id="gIns" checked> Inscrits</label>
+    <label class="ck"><input type="checkbox" id="gAtt"> Liste d'attente</label>
+    <select id="gFmt">
+      <option value="int">+32470123456, séparés par des virgules (SMS groupé, WhatsApp)</option>
+      <option value="ligne">0470 12 34 56, un par ligne</option>
+    </select>
+  </div>
+  <label>Numéros <span id="gCount" class="mut"></span></label>
+  <textarea id="gNums" readonly style="min-height:90px"></textarea>
+  <div id="gWarn" class="mut" style="font-size:13px;margin-top:4px"></div>
+  <div class="row" style="margin-top:8px"><button class="btn p" id="gCopyNums">Copier les numéros</button></div>
+  <label>Message</label>
+  <select id="gModele" style="margin-bottom:8px">
+    <option value="rappel">Rappel de la séance</option>
+    <option value="horaire">Changement d'horaire</option>
+    <option value="lieu">Changement de lieu</option>
+    <option value="annul">Séance annulé</option>
+    <option value="libre">Message libre</option>
+  </select>
+  <textarea id="gMsg" style="min-height:130px"></textarea>
+  <div class="row">
+    <button class="btn" onclick="dlgGsm.close()">Fermer</button>
+    <a class="btn" id="gSms" href="#">Ouvrir un SMS groupé</a>
+    <button class="btn p" id="gCopyMsg">Copier le message</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="commun.js"></script>
+<script>
+let D=charger();
+let filtre='tous';
+const save=()=>enregistrer(D);
+const S=()=>D.seances.find(s=>s.id===D.sel)||D.seances[0];
+// Rafraîchit quand une inscription arrive depuis la page publique (autre onglet)
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre()}});
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+
+function rendre(){
+  const ls=[...D.seances].sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
+  const auj=jour(0);
+  listeSeances.innerHTML=ls.map(s=>{
+    const n=actifs(s).length,pass=s.date<auj;
+    return `<div class="se ${s.id===D.sel?'on':''}" data-id="${s.id}" style="${pass?'opacity:.55':''}">
+      <b>${esc(s.cours)} · ${s.heure.replace(':','h')}</b>
+      <small>${s.date===auj?'Ce soir':fmtDate(s.date)}${pass?' (passée)':''}</small>
+      <div class="bar"><i style="width:${Math.min(100,n/s.places*100)}%"></i></div>
+      <small>${n}/${s.places} inscrits${s.inscrits.some(i=>i.statut==='att')?' · '+s.inscrits.filter(i=>i.statut==='att').length+' en attente':''}</small>
+    </div>`}).join('');
+  listeSeances.querySelectorAll('.se').forEach(e=>e.onclick=()=>{D.sel=e.dataset.id;filtre='tous';save();rendre()});
+
+  const s=S();if(!s){detail.innerHTML='<div class="empty">Aucune séance.</div>';return}
+  const att=s.inscrits.filter(i=>i.statut==='att').length;
+  const payes=s.inscrits.filter(i=>i.paye&&i.statut!=='ann').length;
+  const pass=s.date<auj;
+  const liste=s.inscrits.filter(i=>filtre==='tous'?i.statut!=='ann':i.statut===filtre)
+    .sort((a,b)=>({att:1}[a.statut]||0)-({att:1}[b.statut]||0)||a.ts-b.ts);
+  const actions=i=>{
+    if(i.statut==='ann')return `<button class="btn s" data-a="reins" data-i="${i.id}">Réinscrire</button>`;
+    if(pass)return `<button class="btn s" data-a="pre" data-i="${i.id}">Présent</button> <button class="btn s" data-a="abs" data-i="${i.id}">Absent</button>`;
+    return `${i.statut==='att'&&restant(s)>0?`<button class="btn s" data-a="promo" data-i="${i.id}">Passer inscrit</button> `:''}<button class="btn s" data-a="ann" data-i="${i.id}">Annuler</button>`;
+  };
+  detail.innerHTML=`
+  <div class="top">
+    <div><h1>${esc(s.cours)} – ${s.date===auj?'ce soir':fmtDate(s.date)} à ${s.heure.replace(':','h')}</h1>
+    <p>${esc(s.lieu)}${s.prix?' · '+s.prix+' € la séance':''}</p></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn p" id="bGsm">Prévenir les participants</button>
+      <button class="btn" id="bPost">Texte Facebook</button>
+      <button class="btn" id="bCsv">Export CSV</button>
+      <button class="btn" id="bEdit">Modifier</button>
+      <button class="btn" id="bDel">Supprimer</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>${actifs(s).length}</b><small>inscrits / ${s.places}</small></div>
+    <div class="stat hl"><b>${restant(s)}</b><small>places restantes</small></div>
+    <div class="stat"><b>${att}</b><small>en liste d'attente</small></div>
+    <div class="stat"><b>${s.prix?payes*s.prix+' €':payes}</b><small>${payes} payé${payes>1?'s':''} sur ${actifs(s).length}</small></div>
+  </div>
+  ${pass?'':`<form class="add" id="fAdd">
+    <input name="nom" placeholder="Nom et prénom" required>
+    <input name="tel" placeholder="GSM (ex. 0470 12 34 56)">
+    <button class="btn p">${restant(s)>0?'Inscrire':'Ajouter en attente'}</button>
+  </form>`}
+  <div class="tabs">${[['tous','Tous'],['ins','Inscrits'],['att','Attente'],['pre','Présents'],['abs','Absents'],['ann','Annulés']]
+    .map(([k,l])=>`<button class="tab ${filtre===k?'on':''}" data-f="${k}">${l}</button>`).join('')}</div>
+  ${liste.length?`<table><thead><tr><th>#</th><th>Nom</th><th>GSM</th><th>Statut</th><th>Paiement</th><th></th></tr></thead><tbody>
+  ${liste.map((i,n)=>`<tr><td class="mut">${n+1}</td><td>${esc(i.nom)}</td><td class="mut">${esc(i.tel||'–')}</td>
+    <td><span class="tag t-${i.statut}">${STATUTS[i.statut]}</span></td>
+    <td><button class="pay ${i.paye?'ok':''}" data-a="pay" data-i="${i.id}">${i.paye?'Payé':'À payer'}</button></td>
+    <td class="act">${actions(i)}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">Personne ici.</div>'}`;
+
+  detail.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{filtre=b.dataset.f;rendre()});
+  detail.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>action(b.dataset.a,b.dataset.i));
+  const f=document.getElementById('fAdd');
+  if(f)f.onsubmit=e=>{e.preventDefault();const nom=f.nom.value.trim();if(!nom)return;
+    if(s.inscrits.some(i=>i.nom.toLowerCase()===nom.toLowerCase()&&i.statut!=='ann'))return toast('Déjà inscrit');
+    const st=restant(s)>0?'ins':'att';
+    s.inscrits.push({id:uid(),nom,tel:f.tel.value.trim(),statut:st,paye:false,ts:Date.now()});
+    save();rendre();toast(st==='ins'?nom+' inscrit':nom+' en liste d\'attente')};
+  bPost.onclick=post;bCsv.onclick=csv;bGsm.onclick=gsm;
+  bEdit.onclick=()=>ouvrir(s);
+  bDel.onclick=()=>{if(confirm('Supprimer cette séance et ses inscriptions ?')){D.seances=D.seances.filter(x=>x!==s);D.sel=D.seances[0]?.id;save();rendre()}};
+}
+
+function action(a,id){
+  const s=S(),i=s.inscrits.find(x=>x.id===id);
+  if(a==='pay')i.paye=!i.paye;
+  else if(a==='ann'){const etait=i.statut,suiv=annuler(s,i);
+    if(suiv)toast(suiv.nom+' passe de l\'attente à inscrit');else if(etait==='ins')toast('Une place se libère')}
+  else if(a==='reins')i.statut=restant(s)>0?'ins':'att';
+  else if(a==='promo')i.statut='ins';
+  else if(a==='pre'||a==='abs')i.statut=a;
+  save();rendre();
+}
+
+function post(){
+  const s=S(),r=restant(s);
+  txtPost.value=`${s.date===jour(0)?'CE SOIR':fmtDate(s.date).toUpperCase()}, ON PASSE EN MODE ${s.cours.toUpperCase()} !
+
+${s.heure.replace(':','h')} – ${s.lieu}
+Déjà ${actifs(s).length} inscrits !
+${r>0?`Plus que ${r} place${r>1?'s':''} restante${r>1?'s':''}.`:'Complet ! Liste d\'attente ouverte.'}
+
+Inscription en ligne : ${new URL('./',location.href).href}`;
+  dlgPost.showModal();
+}
+bCopier.onclick=()=>{navigator.clipboard.writeText(txtPost.value);toast('Copié')};
+
+// --- Numéros des participants, prêts à coller dans la messagerie ---
+const intl=t=>{let d=telNorm(t);if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='32'+d.slice(1);return '+'+d};
+const local=t=>{const d=intl(t).replace('+32','0');return d.length===10?d.replace(/(\d{4})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4'):d};
+const MODELES={
+  rappel:s=>`Salut à tous ! Petit rappel : ${s.cours} ${s.date===jour(0)?'ce soir':fmtDate(s.date)} à ${s.heure.replace(':','h')}, ${s.lieu}. Gants, bandes, protège-dents et bouteille d'eau. À tout à l'heure ! Borriello Gym`,
+  horaire:s=>`Salut à tous ! Changement d'horaire pour le ${s.cours} du ${fmtDate(s.date)} : on commence à [nouvelle heure] au lieu de ${s.heure.replace(':','h')}. Merci de me confirmer que c'est bon pour vous. Borriello Gym`,
+  lieu:s=>`Salut à tous ! Le ${s.cours} du ${fmtDate(s.date)} à ${s.heure.replace(':','h')} aura lieu exceptionnellement à [nouveau lieu]. À bientôt ! Borriello Gym`,
+  annul:s=>`Salut à tous, je suis désolée mais le ${s.cours} du ${fmtDate(s.date)} à ${s.heure.replace(':','h')} est annulé. Je vous tiens au courant pour la prochaine séance. Borriello Gym`,
+  libre:()=>''
+};
+function gsmListe(){
+  const s=S(),st=[];if(gIns.checked)st.push('ins','pre','abs');if(gAtt.checked)st.push('att');
+  const vus=new Set(),ok=[],ko=[];
+  s.inscrits.filter(i=>st.includes(i.statut)).forEach(i=>{const d=telNorm(i.tel);
+    if(d.length<9){ko.push(i.nom);return}const k=intl(i.tel);if(vus.has(k))return;vus.add(k);ok.push(i.tel)});
+  gNums.value=gFmt.value==='int'?ok.map(intl).join(', '):ok.map(local).join('\n');
+  gCount.textContent='('+ok.length+')';
+  gWarn.textContent=ko.length?'Sans numéro valable : '+ko.join(', '):'';
+  gSms.href='sms:'+ok.map(intl).join(',')+'?body='+encodeURIComponent(gMsg.value);
+}
+function gsm(){gModele.value='rappel';gMsg.value=MODELES.rappel(S());gsmListe();dlgGsm.showModal()}
+[gIns,gAtt,gFmt].forEach(e=>e.onchange=gsmListe);
+gModele.onchange=()=>{gMsg.value=MODELES[gModele.value](S());gsmListe()};
+gMsg.oninput=gsmListe;
+gCopyNums.onclick=()=>{navigator.clipboard.writeText(gNums.value);toast(gCount.textContent.replace(/\D/g,'')+' numéros copiés')};
+gCopyMsg.onclick=()=>{navigator.clipboard.writeText(gMsg.value);toast('Message copié')};
+
+function csv(){
+  const s=S(),l=[['Nom','GSM','Statut','Paiement']].concat(s.inscrits.map(i=>[i.nom,i.tel,STATUTS[i.statut],i.paye?'Payé':'À payer']));
+  const b=new Blob(['﻿'+l.map(r=>r.map(c=>'"'+String(c||'').replace(/"/g,'""')+'"').join(';')).join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`borriello-gym-${s.cours}-${s.date}.csv`;a.click();
+}
+
+let edition=null;
+function ouvrir(s){
+  edition=s||null;const f=fSeance;
+  dlgTitre.textContent=s?'Modifier la séance':'Nouvelle séance';
+  f.cours.value=s?.cours||'Boxe anglaise';f.date.value=s?.date||jour(1);f.heure.value=s?.heure||'18:30';
+  f.lieu.value=s?.lieu||'Borriello Gym, chaussée de Mariemont 27, Morlanwelz';f.places.value=s?.places||16;f.prix.value=s?.prix??0;
+  dlgSeance.showModal();
+}
+dlgSeance.onclose=()=>{
+  if(dlgSeance.returnValue!=='ok')return;const f=fSeance;
+  const v={cours:f.cours.value,date:f.date.value,heure:f.heure.value,lieu:f.lieu.value,places:+f.places.value,prix:+f.prix.value||0};
+  if(edition)Object.assign(edition,v);else{const s={id:uid(),...v,inscrits:[]};D.seances.push(s);D.sel=s.id}
+  save();rendre();
+};
+bNew.onclick=()=>ouvrir();
+bReset.onclick=()=>{if(confirm('Remettre les données de démonstration ?')){D=demo();save();rendre()}};
+rendre();
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Borriello Gym – Réserve ta place au cours</title>
+<meta name="description" content="Salle de boxe à Morlanwelz : réserve ta place aux cours en ligne.">
+<link rel="icon" href="favicon.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,700;1,700&family=Barlow:wght@400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f2ef;--card:#ffffff;--line:#e2ddd8;--txt:#141414;--mut:#6b645e;--rose:#d7262c;--rose2:#b51d22;--ok:#1f9d55;--warn:#c27c0e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.5 Barlow,system-ui,sans-serif}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px 60px}
+header{text-align:center;padding:42px 0 26px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.logo{font-family:'Kaushan Script',cursive;font-size:44px;line-height:1;color:#fff}
+.logo span{color:var(--rose)}
+.brush{display:inline-block;margin-top:14px;background:var(--rose);color:#fff;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.02em;font-size:22px;padding:6px 18px;transform:rotate(-2deg);border-radius:4px}
+header p{color:var(--mut);margin:18px 0 0}
+h2{font-family:'Kaushan Script',cursive;font-size:26px;margin:0 0 14px;font-weight:700}
+.se{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.se h3{margin:0;font-size:19px}
+.se .q{color:var(--rose2);font-weight:600}
+.se .q::first-letter{text-transform:uppercase}
+.se .l{color:var(--mut);font-size:14px}
+.pl{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;background:#fbe3e4;color:var(--rose2)}
+.pl.full{background:#fbefd9;color:var(--warn)}
+.pl.few{background:var(--rose);color:#fff}
+.btn{border:none;background:var(--rose);color:#fff;font-weight:700;border-radius:12px;padding:12px 18px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--rose2)}
+.btn.g{background:#f1eeeb;border:1px solid var(--line)}
+.btn.g:hover{border-color:var(--rose)}
+.btn.s{padding:8px 12px;font-size:14px}
+@media(max-width:480px){.se{grid-template-columns:1fr}.se .btn{width:100%}}
+section{margin-top:38px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+label{display:block;font-size:14px;color:var(--mut);margin:12px 0 5px}
+input{width:100%;background:#ffffff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+input:focus{outline:none;border-color:var(--rose)}
+.mut{color:var(--mut);font-size:14px}
+.res{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.res:last-child{border:none}
+dialog{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:18px;padding:22px;width:min(440px,94vw)}
+dialog::backdrop{background:#000b}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.ok{text-align:center;padding:8px 0}
+.ok .big{font-family:'Kaushan Script',cursive;font-size:32px;color:var(--rose)}
+footer{text-align:center;color:var(--mut);font-size:13px;margin-top:50px}
+footer a{color:var(--mut)}
+
+header{background:#fff;border:1px solid var(--line);border-radius:12px;padding:26px 18px;border-top:5px solid var(--rose)}
+.lg{width:min(320px,80%);height:auto;display:block;margin:0 auto}
+.new{display:inline-block;margin-top:8px;background:#141414;color:#fff;font:italic 700 16px 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.06em;padding:5px 14px;transform:skew(-8deg)}
+header h1{font:italic 700 clamp(30px,8vw,42px)/1 'Barlow Condensed',sans-serif;text-transform:uppercase;margin:18px 0 0}
+h2{font:italic 700 26px 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.btn{color:#fff;border-radius:6px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:.03em}
+.btn.g{color:var(--txt)}
+.pl.few{color:#fff}
+.se,.box,dialog{border-radius:10px}
+.se{border-left:4px solid var(--rose)}
+.ok .big{font-family:'Kaushan Script',cursive}
+.contact{text-align:center;margin-top:40px;color:var(--mut)}.contact span{display:block;font-family:'Kaushan Script',cursive;font-size:32px;color:var(--rose)}.contact a{color:var(--rose);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="lg" src="logo.png" alt="Borriello Gym">
+    <div class="new">Salle de boxe · Morlanwelz</div>
+    <h1>Réserve ta place au cours</h1>
+    <p>Débutants, confirmés et compétiteurs.<br>Choisis ton cours, laisse ton nom et ton GSM : ta place est gardée.</p>
+  </header>
+
+  <h2>Prochaines séances</h2>
+  <div id="liste"></div>
+
+  <section>
+    <h2>Annuler mon inscription</h2>
+    <div class="box">
+      <form id="fCherche">
+        <label for="gsmA">Ton numéro de GSM</label>
+        <div style="display:flex;gap:8px"><input id="gsmA" inputmode="tel" placeholder="0470 12 34 56" required><button class="btn">Voir</button></div>
+      </form>
+      <div id="mesRes"></div>
+      <p class="mut" style="margin:12px 0 0">Tu ne peux plus venir ? Annule pour laisser ta place à la personne suivante sur la liste d'attente.</p>
+    </div>
+  </section>
+
+  <section class="contact"><span>Contact</span>Chaussée de Mariemont 27, 7140 Morlanwelz<br><a href="mailto:borriellogym@gmail.com">borriellogym@gmail.com</a> · <a href="https://www.facebook.com/share/1ENnCjMEAx/" target="_blank" rel="noopener">Facebook</a></section>
+  <footer>Borriello Gym · Morlanwelz</footer>
+</div>
+
+<dialog id="dlg">
+  <form id="fIns">
+    <h2 id="dTitre" style="margin-bottom:4px"></h2>
+    <div class="mut" id="dInfo"></div>
+    <label for="nom">Prénom et nom</label><input id="nom" name="nom" autocomplete="name" required>
+    <label for="tel">GSM</label><input id="tel" name="tel" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56" required>
+    <p class="mut" id="dNote"></p>
+    <div class="row"><button type="button" class="btn g" onclick="dlg.close()">Retour</button><button class="btn" id="dBtn">Je m'inscris</button></div>
+  </form>
+  <div id="dOk" class="ok" hidden></div>
+</dialog>
+
+<script src="commun.js"></script>
+<script>
+let D=charger(),choix=null;
+const futures=()=>D.seances.filter(s=>s.date>=jour(0)).sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
+const quand=s=>s.date===jour(0)?'Ce soir':fmtDate(s.date);
+
+function rendre(){
+  const l=futures();
+  liste.innerHTML=l.length?l.map(s=>{const r=restant(s);
+    return `<div class="se"><div>
+      <h3>${esc(s.cours)}</h3>
+      <div class="q">${quand(s)} · ${fmtHeure(s.heure)}</div>
+      <div class="l">${esc(s.lieu)}${s.prix?' · '+s.prix+' €':''}</div>
+      <span class="pl ${r===0?'full':r<=3?'few':''}">${r===0?'Complet · liste d\'attente':r+' place'+(r>1?'s':'')+' restante'+(r>1?'s':'')}</span>
+    </div><button class="btn${r===0?' g':''}" data-id="${s.id}">${r===0?'Liste d\'attente':'Je m\'inscris'}</button></div>`}).join('')
+    :'<p class="mut">Pas de séance programmée pour l\'instant.</p>';
+  liste.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>ouvrir(b.dataset.id));
+}
+
+function ouvrir(id){
+  D=charger();choix=D.seances.find(s=>s.id===id);const r=restant(choix);
+  dTitre.textContent=choix.cours+' – '+quand(choix).toLowerCase()+' à '+fmtHeure(choix.heure);
+  dInfo.textContent=choix.lieu+(choix.prix?' · '+choix.prix+' €':'');
+  dNote.textContent=r>0?'Arrive 10 minutes avant le début du cours.':'C\'est complet : on te prévient dès qu\'une place se libère.';
+  dBtn.textContent=r>0?'Je m\'inscris':'M\'ajouter en liste d\'attente';
+  fIns.hidden=false;dOk.hidden=true;
+  try{const m=JSON.parse(localStorage.getItem('megajump-moi')||'{}');nom.value=m.nom||'';tel.value=m.tel||''}catch(e){}
+  dlg.showModal();
+}
+
+fIns.onsubmit=e=>{
+  e.preventDefault();D=charger();const s=D.seances.find(x=>x.id===choix.id);
+  const n=nom.value.trim(),t=tel.value.trim();
+  if(telNorm(t).length<9){tel.focus();return alert('Numéro de GSM incomplet.')}
+  const deja=s.inscrits.find(i=>telNorm(i.tel)===telNorm(t)&&i.statut!=='ann');
+  let msg;
+  if(deja)msg=`Tu es déjà ${deja.statut==='att'?'sur la liste d\'attente':'inscrit'} pour cette séance.`;
+  else{const st=restant(s)>0?'ins':'att';
+    s.inscrits.push({id:uid(),nom:n,tel:t,statut:st,paye:false,ts:Date.now()});enregistrer(D);
+    msg=st==='ins'?'Ta place est réservée.':'Tu es sur la liste d\'attente. Tu passeras inscrit dès qu\'une place se libère.'}
+  try{localStorage.setItem('megajump-moi',JSON.stringify({nom:n,tel:t}))}catch(e){}
+  fIns.hidden=true;dOk.hidden=false;
+  dOk.innerHTML=`<div class="big">${deja?'Déjà fait':'C\'est noté !'}</div><p>${msg}</p>
+    <p class="mut">${esc(s.cours)} · ${quand(s)} à ${fmtHeure(s.heure)}<br>${esc(s.lieu)}</p>
+    <button class="btn" onclick="dlg.close()">Fermer</button>`;
+  rendre();
+};
+
+function mesReservations(){
+  const t=telNorm(gsmA.value);if(t.length<9){mesRes.innerHTML='';return}
+  D=charger();
+  const l=futures().flatMap(s=>s.inscrits.filter(i=>telNorm(i.tel)===t&&(i.statut==='ins'||i.statut==='att')).map(i=>({s,i})));
+  mesRes.innerHTML=l.length?'<div style="margin-top:10px">'+l.map(({s,i})=>`<div class="res"><div><b>${esc(s.cours)}</b> · ${quand(s)} à ${fmtHeure(s.heure)}
+    <div class="mut">${i.statut==='att'?'Liste d\'attente':'Inscrit'}</div></div>
+    <button class="btn g s" data-s="${s.id}" data-i="${i.id}">Annuler</button></div>`).join('')+'</div>'
+    :'<p class="mut">Aucune inscription à venir avec ce numéro.</p>';
+  mesRes.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
+    if(!confirm('Annuler cette inscription ?'))return;
+    D=charger();const s=D.seances.find(x=>x.id===b.dataset.s);annuler(s,s.inscrits.find(x=>x.id===b.dataset.i));
+    enregistrer(D);mesReservations();rendre();
+  });
+}
+fCherche.onsubmit=e=>{e.preventDefault();mesReservations()};
+try{gsmA.value=JSON.parse(localStorage.getItem('megajump-moi')||'{}').tel||''}catch(e){}
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre()}});
+rendre();
+</script>
+</body>
+</html>
