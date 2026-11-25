@@ -5,99 +5,104 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Atelier Carzedda – Agenda des rendez-vous</title>
 <meta name="robots" content="noindex">
+<link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f2ee;--card:#fff;--ink:#16181a;--mut:#5f6368;--line:#e2ded6;--red:#c8102e;--red2:#a00d24;--ok:#1f8a4c;--warn:#b26a00;--blue:#1c5fb8}
+:root{--bg:#0b0b0b;--card:#121212;--card2:#181818;--txt:#efe9df;--mut:#9b958b;--line:#2b2822;--or:#f4ac2e;--or2:#ffc05a;--orl:rgba(244,172,46,.35);--ok:#5cc28a;--blue:#7fb0ff}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 Inter,system-ui,sans-serif}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:inherit}
-h1,h2,h3{font-family:Archivo,sans-serif;margin:0;line-height:1.1}
-header{background:var(--ink);color:#fff}
+h1,h2,h3{font-family:Saira,sans-serif;margin:0;line-height:1.1;font-weight:400}
+header{border-bottom:1px solid var(--line)}
 header .w{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;flex-wrap:wrap}
-.logo{font-family:Archivo,sans-serif;font-weight:900;font-size:19px;display:flex;align-items:center;gap:10px}
-.logo i{display:inline-grid;place-items:center;width:32px;height:32px;background:var(--red);border-radius:8px;font-style:normal;font-size:14px}
-.logo small{font-family:Inter;font-weight:500;color:#9aa0a6;font-size:13px}
+.logo{font-family:Saira,sans-serif;font-weight:300;font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:12px;line-height:1.3}
+.logo img{height:40px}
+.logo small{font-family:Inter;letter-spacing:.02em;text-transform:none;color:var(--mut);font-size:13px}
 .hb{display:flex;gap:8px;flex-wrap:wrap}
 .w{max-width:1240px;margin:0 auto}
 main.w{padding:20px}
-.btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;cursor:pointer;font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
-.btn:hover{border-color:var(--ink)}
-.btn.p{background:var(--red);border-color:var(--red);color:#fff}
-.btn.p:hover{background:var(--red2)}
-.btn.d{background:transparent;border-color:#3a3e42;color:#fff}
-.btn.d:hover{border-color:#fff}
-.btn.s{padding:5px 10px;font-size:13px}
-.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card2);border-radius:999px;padding:8px 15px;cursor:pointer;font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--orl)}
+.btn.p{background:var(--or);border-color:var(--or);color:#0b0b0b;font-weight:600}
+.btn.p:hover{background:var(--or2)}
+.btn.d{background:transparent}
+.btn.s{padding:5px 12px;font-size:13px}
+.btn.ok{background:var(--or);border-color:var(--or);color:#0b0b0b;font-weight:600}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.stat b{font-family:Archivo,sans-serif;font-size:30px;display:block}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 18px}
+.stat b{font-family:Saira,sans-serif;font-weight:300;font-size:34px;display:block;line-height:1.1}
 .stat small{color:var(--mut)}
-.stat.hl b{color:var(--red)}
+.stat.hl{border-color:var(--orl)}
+.stat.hl b{color:var(--or)}
 .cols{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}
+.cols>*{min-width:0}
 @media(max-width:980px){.cols{grid-template-columns:1fr}}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
-.card h2{font-size:18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
-.cnt{font-family:Inter;font-size:12px;background:var(--red);color:#fff;border-radius:20px;padding:2px 9px}
-.dem{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px;margin-bottom:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.card h2{font-size:18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.04em}
+.cnt{font-family:Inter;font-size:12px;background:var(--or);color:#0b0b0b;font-weight:700;border-radius:20px;padding:2px 9px}
+.dem{border:1px solid var(--line);border-left:3px solid var(--or);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--card2)}
 .dem b{display:block}
 .dem .m{color:var(--mut);font-size:13px}
 .dem .a{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .vide{color:var(--mut);font-size:14px;padding:10px 0}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.nav{display:flex;align-items:center;gap:6px}
-.nav h2{font-size:20px;margin:0 8px;min-width:0}
+.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nav h2{font-size:21px;margin:0 8px;min-width:0;font-weight:300}
 .nav h2::first-letter{text-transform:uppercase}
-.seg{display:flex;border:1.5px solid var(--line);border-radius:9px;overflow:hidden}
-.seg button{border:none;background:#fff;padding:7px 13px;cursor:pointer;font-weight:600;font-size:14px}
-.seg button.on{background:var(--ink);color:#fff}
-input.q{border:1.5px solid var(--line);border-radius:9px;padding:8px 12px;width:200px;background:#fff}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:var(--card2);padding:7px 14px;cursor:pointer;font-weight:500;font-size:14px}
+.seg button.on{background:var(--or);color:#0b0b0b}
+input.q{border:1px solid var(--line);border-radius:999px;padding:8px 14px;width:200px;background:var(--card2)}
+input.q:focus{outline:none;border-color:var(--or)}
 @media(max-width:600px){input.q{width:100%}}
-/* jour */
 .rdv{display:grid;grid-template-columns:62px 1fr auto;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
 .rdv:first-child{border-top:none}
-.rdv .h{font-family:Archivo,sans-serif;font-size:19px;font-weight:800}
-.rdv .h small{display:block;font-family:Inter;font-size:12px;color:var(--mut);font-weight:500}
-.rdv .who b{font-size:16px}
+.rdv .h{font-family:Saira,sans-serif;font-size:21px;font-weight:300;color:var(--or)}
+.rdv .h small{display:block;font-family:Inter;font-size:12px;color:var(--mut)}
+.rdv .who b{font-size:16px;font-weight:600}
 .rdv .m{color:var(--mut);font-size:14px}
-.rdv .note{font-size:13px;background:#faf8f4;border-radius:8px;padding:6px 10px;margin-top:6px}
-.pl{display:inline-block;font-family:Archivo,sans-serif;font-weight:700;font-size:12px;color:var(--red);border:1.5px solid var(--red);border-radius:4px;padding:0 6px;margin-left:6px;letter-spacing:.04em}
+.rdv .note{font-size:13px;background:var(--card2);border-radius:10px;padding:6px 10px;margin-top:6px}
+.pl{display:inline-block;font-family:Saira,sans-serif;font-size:12px;color:var(--or);border:1px solid var(--orl);border-radius:999px;padding:0 8px;margin-left:6px;letter-spacing:.08em}
 .acts{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
 .acts .r{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
-.t-dem{background:#fff1dc;color:var(--warn)}
-.t-ok{background:#e6effb;color:var(--blue)}
-.t-arr{background:#16181a;color:#fff}
-.t-fin{background:#e3f3ea;color:var(--ok)}
-.t-ann{background:#eee;color:#888;text-decoration:line-through}
-.rdv.s-ann{opacity:.55}
-@media(max-width:640px){.rdv{grid-template-columns:52px 1fr}.acts{grid-column:1/-1;align-items:stretch}.acts .r{justify-content:flex-start}}
-/* semaine */
-.sem{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:20px;border:1px solid}
+.t-dem{color:var(--or);border-color:var(--orl)}
+.t-ok{color:var(--blue);border-color:rgba(127,176,255,.35)}
+.t-arr{color:#0b0b0b;background:var(--txt);border-color:var(--txt)}
+.t-fin{color:var(--ok);border-color:rgba(92,194,138,.35)}
+.t-ann{color:var(--mut);border-color:var(--line);text-decoration:line-through}
+.rdv.s-ann{opacity:.5}
+@media(max-width:640px){.rdv{grid-template-columns:54px 1fr}.acts{grid-column:1/-1;align-items:stretch}.acts .r{justify-content:flex-start}}
+.sem{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
 @media(max-width:900px){.sem{grid-template-columns:1fr}}
-.sj{background:#faf8f4;border-radius:10px;padding:8px;min-height:120px}
-.sj h3{font-family:Inter;font-size:13px;font-weight:700;text-transform:capitalize;margin-bottom:8px;display:flex;justify-content:space-between}
-.sj.auj{outline:2px solid var(--red)}
-.mini{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:8px;padding:6px 8px;margin-bottom:6px;font-size:12.5px;cursor:pointer}
-.mini.dem{border-left-color:var(--warn)}.mini.arr{border-left-color:var(--ink)}.mini.fin{border-left-color:var(--ok)}.mini.ann{display:none}
+.sj{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:8px;min-height:120px}
+.sj h3{font-family:Inter;font-size:13px;font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between}
+.sj.auj{border-color:var(--or)}
+.sj.auj h3{color:var(--or)}
+.mini{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:10px;padding:6px 8px;margin-bottom:6px;font-size:12.5px;cursor:pointer}
+.mini:hover{border-color:var(--orl)}
+.mini.dem{border-left-color:var(--or)}.mini.arr{border-left-color:var(--txt)}.mini.fin{border-left-color:var(--ok)}.mini.ann{display:none}
 .mini b{display:block;font-size:13px}
-dialog{border:none;border-radius:16px;padding:22px;width:min(520px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.3)}
-dialog::backdrop{background:rgba(20,22,24,.55)}
-dialog h2{font-size:22px;margin-bottom:12px}
+dialog{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:22px;padding:22px;width:min(520px,94vw)}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+dialog h2{font-size:24px;margin-bottom:12px;font-weight:300}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:520px){.g2{grid-template-columns:1fr}}
-label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:8px 0 4px}
-dialog input,dialog select,dialog textarea{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff}
+label{display:block;font-size:13px;color:var(--mut);margin:8px 0 4px}
+dialog input,dialog select,dialog textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--card2);color-scheme:dark}
+dialog input:focus,dialog select:focus,dialog textarea:focus{outline:none;border-color:var(--or)}
 .row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--or);color:#0b0b0b;padding:10px 18px;border-radius:999px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
 .toast.on{opacity:1}
+@media(max-width:600px){header .btn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
 <header><div class="w">
-  <div class="logo"><i>AC</i><span>Atelier Carzedda<br><small>Agenda des rendez-vous</small></span></div>
+  <div class="logo"><img src="monogramme.png" alt=""><span>Atelier Carzedda<br><small>Agenda des rendez-vous</small></span></div>
   <div class="hb">
     <a class="btn d" href="./" target="_blank">Voir le site</a>
     <button class="btn d" id="bReset">Réinitialiser</button>
