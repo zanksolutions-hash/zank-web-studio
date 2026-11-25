@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atelier Carzedda – Garage à Estinnes-au-Mont | Rendez-vous en ligne</title>
+<meta name="description" content="Atelier Carzedda, garage à Estinnes-au-Mont : entretien, pneus, freins, diagnostic, climatisation. Prenez rendez-vous en ligne.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f2ee;--card:#fff;--ink:#16181a;--mut:#5f6368;--line:#e2ded6;--red:#c8102e;--red2:#a00d24;--dark:#1d2023;--ok:#1f8a4c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+.w{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:Archivo,sans-serif;line-height:1.08;margin:0}
+h2{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.01em}
+.eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--red);margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;background:var(--red);color:#fff;font-weight:700;border-radius:10px;padding:14px 22px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--red2)}
+.btn.l{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.l:hover{background:var(--ink);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(244,242,238,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .w{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
+.logo{font-family:Archivo,sans-serif;font-weight:900;font-size:21px;letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{display:inline-grid;place-items:center;width:34px;height:34px;background:var(--ink);color:#fff;border-radius:8px;font-style:normal;font-size:16px}
+.menu{display:flex;gap:24px;font-weight:500;font-size:15px}
+.menu a{text-decoration:none;color:var(--mut)}
+.menu a:hover{color:var(--ink)}
+nav .btn{padding:10px 16px;font-size:15px}
+@media(max-width:820px){.menu{display:none}}
+/* hero */
+.hero{padding:70px 0 60px}
+.hero .w{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}
+.hero h1{font-size:clamp(38px,6vw,68px);font-weight:900;letter-spacing:-.02em}
+.hero h1 span{color:var(--red)}
+.hero p{font-size:19px;color:var(--mut);max-width:520px;margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.plaque{background:#fff;border:3px solid var(--red);border-radius:10px;padding:18px 22px;font-family:Archivo,sans-serif;font-weight:800;color:var(--red);font-size:clamp(24px,3.4vw,40px);letter-spacing:.05em;text-align:center;white-space:nowrap;box-shadow:0 18px 40px -20px rgba(0,0,0,.35);transform:rotate(-3deg);position:relative}
+.plaque::before{content:"B";position:absolute;left:0;top:0;bottom:0;width:38px;background:#003399;color:#fc0;font-size:18px;display:grid;place-items:end center;padding-bottom:10px;border-radius:6px 0 0 6px;letter-spacing:0}
+.plaque{padding-left:58px}
+.hero-card{display:flex;flex-direction:column;gap:18px}
+.infos{background:var(--dark);color:#fff;border-radius:16px;padding:22px;display:grid;gap:14px;font-size:15px}
+.infos b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#9aa0a6;font-weight:600}
+@media(max-width:820px){.hero{padding:40px 0}.hero .w{grid-template-columns:1fr;gap:34px}}
+/* sections */
+section{padding:70px 0}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+@media(max-width:900px){.services{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.services{grid-template-columns:1fr}}
+.sv{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.sv .n{font-family:Archivo,sans-serif;font-weight:800;color:var(--red);font-size:14px}
+.sv h3{font-size:19px;margin:8px 0 6px}
+.sv p{margin:0;color:var(--mut);font-size:14px}
+.etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:30px}
+@media(max-width:720px){.etapes{grid-template-columns:1fr}}
+.et{border-top:3px solid var(--ink);padding-top:16px}
+.et h3{font-size:20px;margin-bottom:6px}
+.et p{margin:0;color:var(--mut)}
+/* rdv */
+#rdv{background:var(--dark);color:#fff}
+#rdv .eyebrow{color:#ff6b7f}
+.book{display:grid;grid-template-columns:1fr 340px;gap:24px;margin-top:30px}
+.book>*{min-width:0}
+@media(max-width:900px){.book{grid-template-columns:1fr}}
+@media(max-width:720px){nav .btn{display:none}.logo{font-size:19px}}
+.panel{background:#fff;color:var(--ink);border-radius:16px;padding:22px}
+.step{margin-bottom:24px}
+.step:last-child{margin-bottom:0}
+.step>b{display:flex;align-items:center;gap:10px;font-family:Archivo,sans-serif;font-size:18px;margin-bottom:12px}
+.step>b i{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-size:14px;font-weight:500;text-align:left}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip small{display:block;color:var(--mut);font-weight:400}
+.chip.on small{color:#c9cdd1}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.day{flex:0 0 74px;scroll-snap-align:start;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 4px;text-align:center;cursor:pointer}
+.day b{display:block;font-family:Archivo,sans-serif;font-size:22px}
+.day small{display:block;font-size:12px;color:var(--mut);text-transform:capitalize}
+.day.on{background:var(--red);border-color:var(--red);color:#fff}
+.day.on small{color:#ffd9de}
+.day:disabled{opacity:.35;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.slot{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 0;cursor:pointer;font-weight:600}
+.slot:hover{border-color:var(--ink)}
+.slot.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.vide{color:var(--mut);font-size:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin-bottom:5px}
+input,select,textarea{width:100%;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+.recap{position:sticky;top:86px;align-self:start}
+.recap dl{margin:0 0 18px;display:grid;gap:12px}
+.recap dt{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:600}
+.recap dd{margin:2px 0 0;font-weight:600}
+.recap .btn{width:100%}
+.recap p{font-size:13px;color:var(--mut);margin:12px 0 0}
+.done{text-align:center;padding:20px 0}
+.done .code{display:inline-block;font-family:Archivo,sans-serif;font-weight:800;font-size:30px;letter-spacing:.15em;border:2px dashed var(--ink);border-radius:10px;padding:6px 16px;margin:12px 0}
+/* gérer */
+.gerer{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+@media(max-width:820px){.gerer{grid-template-columns:1fr}}
+.res{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
+.res .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+@media(max-width:820px){.contact{grid-template-columns:1fr}}
+table.h{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+table.h td{padding:11px 16px;border-bottom:1px solid var(--line)}
+table.h tr:last-child td{border:none}
+table.h td:last-child{text-align:right;font-weight:600}
+table.h tr.auj td{background:#fff4f5;color:var(--red)}
+.map{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.note{font-size:13px;color:var(--mut);margin-top:10px}
+footer{background:var(--ink);color:#9aa0a6;padding:30px 0;font-size:14px}
+footer .w{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mob-cta{display:none}
+@media(max-width:720px){.mob-cta{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:10px 12px;gap:8px}.mob-cta .btn{flex:1;padding:12px}footer{padding-bottom:90px}}
+</style>
+</head>
+<body>
+<nav><div class="w">
+  <a class="logo" href="#"><i>AC</i>Atelier Carzedda</a>
+  <div class="menu"><a href="#services">Services</a><a href="#rdv">Rendez-vous</a><a href="#gerer">Mon rendez-vous</a><a href="#contact">Horaires et accès</a></div>
+  <a class="btn" href="#rdv">Prendre rendez-vous</a>
+</div></nav>
+
+<header class="hero"><div class="w">
+  <div>
+    <div class="eyebrow">Garage à Estinnes-au-Mont</div>
+    <h1>Votre voiture entre de <span>bonnes mains</span>.</h1>
+    <p>Entretien, pneus, freins, diagnostic : réservez votre passage à l'atelier en ligne, en deux minutes, sans attendre au téléphone.</p>
+    <div class="cta"><a class="btn" href="#rdv">Prendre rendez-vous</a><a class="btn l" href="tel:+32476749654">0476 74 96 54</a></div>
+  </div>
+  <div class="hero-card">
+    <div class="plaque">RDV-EN-LIGNE</div>
+    <div class="infos">
+      <div><b>Adresse</b>Rue des Trieux 163, 7120 Estinnes-au-Mont</div>
+      <div><b>Aujourd'hui</b><span id="ouvAuj"></span></div>
+      <div><b>Téléphone</b><a href="tel:+32476749654">0476 74 96 54</a></div>
+    </div>
+  </div>
+</div></header>
+
+<section id="services"><div class="w">
+  <div class="eyebrow">Services</div>
+  <h2>Tout l'entretien de votre véhicule</h2>
+  <div class="services" id="listeServices"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+  <div class="eyebrow">Comment ça marche</div>
+  <h2>Trois étapes, et on s'occupe du reste</h2>
+  <div class="etapes">
+    <div class="et"><h3>1. Vous réservez</h3><p>Choisissez la prestation, le jour et l'heure qui vous arrangent.</p></div>
+    <div class="et"><h3>2. On confirme</h3><p>Le garage valide votre rendez-vous et vous recontacte si besoin d'un devis.</p></div>
+    <div class="et"><h3>3. Vous déposez la voiture</h3><p>On vous appelle dès qu'elle est prête.</p></div>
+  </div>
+</div></section>
+
+<section id="rdv"><div class="w">
+  <div class="eyebrow">Rendez-vous en ligne</div>
+  <h2>Réservez votre passage à l'atelier</h2>
+  <div class="book" id="book">
+    <div class="panel">
+      <div class="step"><b><i>1</i>Prestation</b><div class="chips" id="chServices"></div></div>
+      <div class="step"><b><i>2</i>Jour</b><div class="days" id="chJours"></div></div>
+      <div class="step"><b><i>3</i>Heure de dépôt</b><div class="slots" id="chHeures"><span class="vide">Choisissez d'abord un jour.</span></div></div>
+      <div class="step"><b><i>4</i>Vos coordonnées</b>
+        <form id="fRdv" class="grid2">
+          <div><label for="nom">Nom et prénom</label><input id="nom" autocomplete="name" required></div>
+          <div><label for="tel">GSM</label><input id="tel" inputmode="tel" autocomplete="tel" placeholder="0470 12 34 56" required></div>
+          <div><label for="voiture">Marque et modèle</label><input id="voiture" placeholder="ex. Peugeot 208" required></div>
+          <div><label for="plaque">Plaque (facultatif)</label><input id="plaque" placeholder="1-ABC-123"></div>
+          <div style="grid-column:1/-1"><label for="note">Précisions (bruit, voyant allumé…)</label><textarea id="note"></textarea></div>
+        </form>
+      </div>
+    </div>
+    <div class="panel recap" id="recap"></div>
+  </div>
+</div></section>
+
+<section id="gerer"><div class="w gerer">
+  <div>
+    <div class="eyebrow">Mon rendez-vous</div>
+    <h2>Un empêchement ?</h2>
+    <p style="color:var(--mut)">Retrouvez votre rendez-vous avec votre GSM pour le consulter ou l'annuler. La place sera libérée pour un autre client.</p>
+  </div>
+  <div>
+    <form id="fGerer" style="display:flex;gap:8px"><input id="gsmG" inputmode="tel" placeholder="Votre GSM" required><button class="btn">Rechercher</button></form>
+    <div id="mesRdv"></div>
+  </div>
+</div></section>
+
+<section id="contact" style="padding-top:0"><div class="w">
+  <div class="eyebrow">Horaires et accès</div>
+  <h2>Passez nous voir</h2>
+  <div class="contact" style="margin-top:30px">
+    <div><table class="h" id="tHoraires"></table><p class="note">Horaires indicatifs, à confirmer avec le garage.</p></div>
+    <div class="map">
+      <h3 style="font-size:22px">Atelier Carzedda</h3>
+      <p>Rue des Trieux 163<br>7120 Estinnes-au-Mont</p>
+      <p><a href="tel:+32476749654"><b>0476 74 96 54</b></a></p>
+      <a class="btn l" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Rue+des+Trieux+163+7120+Estinnes">Itinéraire</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="w"><span>Atelier Carzedda · Rue des Trieux 163, 7120 Estinnes-au-Mont</span><span>Site réalisé par Zank Solutions</span></div></footer>
+<div class="mob-cta"><a class="btn l" href="tel:+32476749654">Appeler</a><a class="btn" href="#rdv">Rendez-vous</a></div>
+
+<script src="commun.js"></script>
+<script>
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const DESC={entretien:'Vidange, filtres, niveaux, révision selon carnet.',pneus:'Montage, équilibrage, permutation, été / hiver.',freins:'Plaquettes, disques, liquide de frein.',
+  diag:'Lecture des codes défaut, voyant allumé.',ct:'Vérification complète avant le passage au contrôle.',clim:'Recharge et contrôle d\'étanchéité.',
+  distrib:'Gros travaux, sur devis préalable.',autre:'Un bruit, un doute : on regarde ensemble.'};
+let D=charger(),sel={service:null,date:null,heure:null},fini=null;
+
+const plage=d=>{const h=HORAIRES[d];return h?h.map(([a,b])=>fmtH(a)+' – '+fmtH(b)).join(' · '):'Fermé'};
+ouvAuj.textContent=plage(new Date().getDay());
+tHoraires.innerHTML=[1,2,3,4,5,6,0].map(d=>`<tr class="${d===new Date().getDay()?'auj':''}"><td>${JOURS[d]}</td><td>${plage(d)}</td></tr>`).join('');
+listeServices.innerHTML=SERVICES.filter(s=>s.id!=='autre').map((s,i)=>`<div class="sv"><div class="n">${String(i+1).padStart(2,'0')}</div><h3>${esc(s.nom.split(' (')[0])}</h3><p>${DESC[s.id]}</p></div>`).join('');
+
+const BOOK=book.innerHTML;
+function rendre(){
+  if(fini){book.innerHTML=fini;return}
+  if(!document.getElementById('chServices'))book.innerHTML=BOOK;
+  chServices.innerHTML=SERVICES.map(s=>`<button type="button" class="chip ${sel.service===s.id?'on':''}" data-s="${s.id}">${esc(s.nom)}<small>${s.duree>=120?'Journée, sur devis':'Environ '+(s.duree>=60?s.duree/60+' h':s.duree+' min')}</small></button>`).join('');
+  const dur=sel.service?svc(sel.service).duree:30;
+  const js=[];for(let i=0;i<21&&js.length<14;i++){const d=jour(i);if(HORAIRES[new Date(d+'T12:00').getDay()])js.push(d)}
+  chJours.innerHTML=js.map(d=>{const n=creneaux(D,d,dur).length;const dt=new Date(d+'T12:00');
+    return `<button type="button" class="day ${sel.date===d?'on':''}" data-d="${d}" ${n?'':'disabled'}><small>${dt.toLocaleDateString('fr-BE',{weekday:'short'})}</small><b>${dt.getDate()}</b><small>${n?dt.toLocaleDateString('fr-BE',{month:'short'}):'complet'}</small></button>`}).join('');
+  if(sel.date){const c=creneaux(D,sel.date,dur);if(!c.includes(sel.heure))sel.heure=null;
+    chHeures.innerHTML=c.length?c.map(h=>`<button type="button" class="slot ${sel.heure===h?'on':''}" data-h="${h}">${fmtH(h)}</button>`).join(''):'<span class="vide">Plus de place ce jour-là.</span>'}
+  const ok=sel.service&&sel.date&&sel.heure;
+  recap.innerHTML=`<h3 style="font-size:22px;margin-bottom:16px">Votre rendez-vous</h3><dl>
+    <div><dt>Prestation</dt><dd>${sel.service?esc(svc(sel.service).nom):'–'}</dd></div>
+    <div><dt>Date</dt><dd>${sel.date?fmtDate(sel.date):'–'}</dd></div>
+    <div><dt>Dépôt du véhicule</dt><dd>${sel.heure?fmtH(sel.heure):'–'}</dd></div></dl>
+    <button class="btn" id="bValider" ${ok?'':'disabled'}>Confirmer le rendez-vous</button>
+    <p>Gratuit et sans engagement. Le garage confirme votre demande par SMS ou par téléphone.</p>`;
+  chServices.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{sel.service=b.dataset.s;rendre()});
+  chJours.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{sel.date=b.dataset.d;rendre()});
+  chHeures.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{sel.heure=b.dataset.h;rendre();if(innerWidth<900)recap.scrollIntoView({behavior:'smooth',block:'center'})});
+  bValider.onclick=valider;
+}
+
+function valider(){
+  if(!fRdv.reportValidity())return;
+  if(telNorm(tel.value).length<9){tel.focus();return alert('Numéro de GSM incomplet.')}
+  D=charger();
+  if(!creneaux(D,sel.date,svc(sel.service).duree).includes(sel.heure)){alert('Ce créneau vient d\'être pris, choisissez-en un autre.');sel.heure=null;return rendre()}
+  const r={id:ref(),date:sel.date,heure:sel.heure,service:sel.service,duree:svc(sel.service).duree,nom:nom.value.trim(),tel:tel.value.trim(),
+    voiture:voiture.value.trim(),plaque:plaque.value.trim().toUpperCase(),note:note.value.trim(),statut:'dem',cree:Date.now()};
+  D.rdv.push(r);enregistrer(D);
+  fini=`<div class="panel done" style="grid-column:1/-1"><h3 style="font-size:28px">Demande envoyée</h3>
+    <p>${esc(svc(r.service).nom)}<br><b>${fmtDate(r.date)} à ${fmtH(r.heure)}</b><br>${esc(r.voiture)}</p>
+    <div>Votre code de rendez-vous</div><div class="code">${r.id}</div>
+    <p style="color:var(--mut)">Le garage vous confirme le rendez-vous au ${esc(r.tel)}.<br>Pour annuler, utilisez « Mon rendez-vous » plus bas avec votre GSM.</p>
+    <button class="btn l" onclick="fini=null;sel={service:null,date:null,heure:null};location.hash='';location.hash='rdv';rendre()">Nouveau rendez-vous</button></div>`;
+  rendre();book.scrollIntoView({behavior:'smooth'});
+}
+
+function mesRendezVous(){
+  const t=telNorm(gsmG.value);if(t.length<9){mesRdv.innerHTML='';return}
+  D=charger();
+  const l=D.rdv.filter(r=>telNorm(r.tel)===t&&r.date>=jour(0)&&(r.statut==='dem'||r.statut==='ok')).sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
+  mesRdv.innerHTML=l.length?l.map(r=>`<div class="res"><div class="row"><div><b>${fmtDate(r.date)} à ${fmtH(r.heure)}</b><br>
+    <span style="color:var(--mut)">${esc(svc(r.service).nom)} · ${esc(r.voiture)} · ${STATUTS[r.statut]}</span></div>
+    <button class="btn l" style="padding:9px 14px" data-a="${r.id}">Annuler</button></div></div>`).join('')
+    :'<div class="res" style="color:var(--mut)">Aucun rendez-vous à venir avec ce numéro.</div>';
+  mesRdv.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(!confirm('Annuler ce rendez-vous ?'))return;
+    D=charger();D.rdv.find(r=>r.id===b.dataset.a).statut='ann';enregistrer(D);mesRendezVous();rendre()});
+}
+fGerer.onsubmit=e=>{e.preventDefault();mesRendezVous()};
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre()}});
+rendre();
+</script>
+</body>
+</html>

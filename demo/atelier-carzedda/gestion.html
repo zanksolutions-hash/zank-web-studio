@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atelier Carzedda – Agenda des rendez-vous</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f2ee;--card:#fff;--ink:#16181a;--mut:#5f6368;--line:#e2ded6;--red:#c8102e;--red2:#a00d24;--ok:#1f8a4c;--warn:#b26a00;--blue:#1c5fb8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+h1,h2,h3{font-family:Archivo,sans-serif;margin:0;line-height:1.1}
+header{background:var(--ink);color:#fff}
+header .w{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;flex-wrap:wrap}
+.logo{font-family:Archivo,sans-serif;font-weight:900;font-size:19px;display:flex;align-items:center;gap:10px}
+.logo i{display:inline-grid;place-items:center;width:32px;height:32px;background:var(--red);border-radius:8px;font-style:normal;font-size:14px}
+.logo small{font-family:Inter;font-weight:500;color:#9aa0a6;font-size:13px}
+.hb{display:flex;gap:8px;flex-wrap:wrap}
+.w{max-width:1240px;margin:0 auto}
+main.w{padding:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;cursor:pointer;font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.p{background:var(--red);border-color:var(--red);color:#fff}
+.btn.p:hover{background:var(--red2)}
+.btn.d{background:transparent;border-color:#3a3e42;color:#fff}
+.btn.d:hover{border-color:#fff}
+.btn.s{padding:5px 10px;font-size:13px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.stat b{font-family:Archivo,sans-serif;font-size:30px;display:block}
+.stat small{color:var(--mut)}
+.stat.hl b{color:var(--red)}
+.cols{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.card h2{font-size:18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.cnt{font-family:Inter;font-size:12px;background:var(--red);color:#fff;border-radius:20px;padding:2px 9px}
+.dem{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px;margin-bottom:10px}
+.dem b{display:block}
+.dem .m{color:var(--mut);font-size:13px}
+.dem .a{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.vide{color:var(--mut);font-size:14px;padding:10px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.nav{display:flex;align-items:center;gap:6px}
+.nav h2{font-size:20px;margin:0 8px;min-width:0}
+.nav h2::first-letter{text-transform:uppercase}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:none;background:#fff;padding:7px 13px;cursor:pointer;font-weight:600;font-size:14px}
+.seg button.on{background:var(--ink);color:#fff}
+input.q{border:1.5px solid var(--line);border-radius:9px;padding:8px 12px;width:200px;background:#fff}
+@media(max-width:600px){input.q{width:100%}}
+/* jour */
+.rdv{display:grid;grid-template-columns:62px 1fr auto;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
+.rdv:first-child{border-top:none}
+.rdv .h{font-family:Archivo,sans-serif;font-size:19px;font-weight:800}
+.rdv .h small{display:block;font-family:Inter;font-size:12px;color:var(--mut);font-weight:500}
+.rdv .who b{font-size:16px}
+.rdv .m{color:var(--mut);font-size:14px}
+.rdv .note{font-size:13px;background:#faf8f4;border-radius:8px;padding:6px 10px;margin-top:6px}
+.pl{display:inline-block;font-family:Archivo,sans-serif;font-weight:700;font-size:12px;color:var(--red);border:1.5px solid var(--red);border-radius:4px;padding:0 6px;margin-left:6px;letter-spacing:.04em}
+.acts{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.acts .r{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
+.t-dem{background:#fff1dc;color:var(--warn)}
+.t-ok{background:#e6effb;color:var(--blue)}
+.t-arr{background:#16181a;color:#fff}
+.t-fin{background:#e3f3ea;color:var(--ok)}
+.t-ann{background:#eee;color:#888;text-decoration:line-through}
+.rdv.s-ann{opacity:.55}
+@media(max-width:640px){.rdv{grid-template-columns:52px 1fr}.acts{grid-column:1/-1;align-items:stretch}.acts .r{justify-content:flex-start}}
+/* semaine */
+.sem{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media(max-width:900px){.sem{grid-template-columns:1fr}}
+.sj{background:#faf8f4;border-radius:10px;padding:8px;min-height:120px}
+.sj h3{font-family:Inter;font-size:13px;font-weight:700;text-transform:capitalize;margin-bottom:8px;display:flex;justify-content:space-between}
+.sj.auj{outline:2px solid var(--red)}
+.mini{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:8px;padding:6px 8px;margin-bottom:6px;font-size:12.5px;cursor:pointer}
+.mini.dem{border-left-color:var(--warn)}.mini.arr{border-left-color:var(--ink)}.mini.fin{border-left-color:var(--ok)}.mini.ann{display:none}
+.mini b{display:block;font-size:13px}
+dialog{border:none;border-radius:16px;padding:22px;width:min(520px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(20,22,24,.55)}
+dialog h2{font-size:22px;margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;font-weight:600;color:var(--mut);margin:8px 0 4px}
+dialog input,dialog select,dialog textarea{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff}
+.row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header><div class="w">
+  <div class="logo"><i>AC</i><span>Atelier Carzedda<br><small>Agenda des rendez-vous</small></span></div>
+  <div class="hb">
+    <a class="btn d" href="./" target="_blank">Voir le site</a>
+    <button class="btn d" id="bReset">Réinitialiser</button>
+    <button class="btn p" id="bNew">+ Rendez-vous</button>
+  </div>
+</div></header>
+
+<main class="w">
+  <div class="stats" id="stats"></div>
+  <div class="cols">
+    <aside class="card"><h2>À confirmer <span class="cnt" id="nDem"></span></h2><div id="demandes"></div></aside>
+    <section class="card">
+      <div class="bar">
+        <div class="nav"><button class="btn s" id="bPrev" aria-label="Précédent">&larr;</button><button class="btn s" id="bAuj">Aujourd'hui</button><button class="btn s" id="bNext" aria-label="Suivant">&rarr;</button><h2 id="titre"></h2></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><input class="q" id="q" placeholder="Nom, plaque, voiture…"><div class="seg"><button data-v="jour">Jour</button><button data-v="sem">Semaine</button></div><button class="btn" id="bCsv">CSV</button></div>
+      </div>
+      <div id="vue"></div>
+    </section>
+  </div>
+</main>
+
+<dialog id="dlg"><form id="fR" method="dialog">
+  <h2 id="dTitre">Rendez-vous</h2>
+  <div class="g2">
+    <div style="grid-column:1/-1"><label>Prestation</label><select name="service" id="fService"></select></div>
+    <div><label>Date</label><input type="date" name="date" required></div>
+    <div><label>Heure</label><input type="time" name="heure" step="900" required></div>
+    <div><label>Client</label><input name="nom" required></div>
+    <div><label>GSM</label><input name="tel" inputmode="tel" required></div>
+    <div><label>Véhicule</label><input name="voiture"></div>
+    <div><label>Plaque</label><input name="plaque"></div>
+    <div style="grid-column:1/-1"><label>Note</label><textarea name="note" rows="2"></textarea></div>
+    <div><label>Statut</label><select name="statut" id="fStatut"></select></div>
+  </div>
+  <div class="row"><button class="btn" value="x" formnovalidate>Fermer</button><button class="btn p" value="ok">Enregistrer</button></div>
+</form></dialog>
+<div class="toast" id="toast"></div>
+
+<script src="commun.js"></script>
+<script>
+let D=charger(),cur=jour(0),vueM=innerWidth<900?'jour':'sem',edit=null;
+const save=()=>enregistrer(D);
+const toastT=t=>{toast.textContent=t;toast.classList.add('on');setTimeout(()=>toast.classList.remove('on'),1800)};
+const tri=(a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure);
+const lundi=d=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()-((x.getDay()+6)%7));return iso(x)};
+const plus=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return iso(x)};
+const filtre=r=>{const t=q.value.trim().toLowerCase();return !t||[r.nom,r.plaque,r.voiture,r.tel].join(' ').toLowerCase().includes(t)};
+const finH=r=>hh(min(r.heure)+r.duree);
+const sms=(r,txt)=>`sms:${telNorm(r.tel).replace(/^0/,'+32')}?body=${encodeURIComponent(txt)}`;
+const txtConf=r=>`Bonjour, votre rendez-vous à l'Atelier Carzedda est confirmé le ${fmtDate(r.date)} à ${fmtH(r.heure)} (${svc(r.service).nom}). Rue des Trieux 163, Estinnes-au-Mont. À bientôt !`;
+const txtPret=r=>`Bonjour, votre ${r.voiture||'véhicule'} est prêt(e) à l'Atelier Carzedda. Vous pouvez venir la récupérer. Merci !`;
+
+function rendre(){
+  const auj=jour(0),lu=lundi(auj),sem=D.rdv.filter(r=>r.date>=lu&&r.date<=plus(lu,6)&&actif(r));
+  const dem=D.rdv.filter(r=>r.statut==='dem'&&r.date>=auj).sort(tri);
+  stats.innerHTML=`<div class="stat"><b>${D.rdv.filter(r=>r.date===auj&&actif(r)).length}</b><small>rendez-vous aujourd'hui</small></div>
+    <div class="stat hl"><b>${dem.length}</b><small>à confirmer</small></div>
+    <div class="stat"><b>${D.rdv.filter(r=>r.statut==='arr').length}</b><small>véhicules au garage</small></div>
+    <div class="stat"><b>${sem.length}</b><small>cette semaine</small></div>`;
+  nDem.textContent=dem.length;
+  demandes.innerHTML=dem.length?dem.map(r=>`<div class="dem"><b>${esc(r.nom)}</b>
+    <div class="m">${fmtCourt(r.date)} à ${fmtH(r.heure)} · ${esc(svc(r.service).nom)}</div>
+    <div class="m">${esc(r.voiture)}${r.plaque?' <span class="pl">'+esc(r.plaque)+'</span>':''}</div>
+    ${r.note?`<div class="m" style="margin-top:4px">« ${esc(r.note)} »</div>`:''}
+    <div class="a"><button class="btn s ok" data-a="ok" data-i="${r.id}">Confirmer</button><a class="btn s" href="tel:${telNorm(r.tel)}">Appeler</a><button class="btn s" data-a="edit" data-i="${r.id}">Déplacer</button><button class="btn s" data-a="ann" data-i="${r.id}">Refuser</button></div></div>`).join('')
+    :'<div class="vide">Aucune demande en attente.</div>';
+
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.v===vueM));
+  if(vueM==='jour'){
+    titre.textContent=cur===auj?'Aujourd\'hui':fmtDate(cur);
+    const l=D.rdv.filter(r=>r.date===cur&&filtre(r)).sort(tri);
+    const h=HORAIRES[new Date(cur+'T12:00').getDay()];
+    vue.innerHTML=(!h?'<div class="vide">Garage fermé ce jour-là.</div>':'')+(l.length?l.map(ligne).join(''):h?'<div class="vide">Aucun rendez-vous.</div>':'');
+  }else{
+    const lu2=lundi(cur);titre.textContent='Semaine du '+fmtCourt(lu2);
+    vue.innerHTML='<div class="sem">'+[0,1,2,3,4,5].map(i=>{const d=plus(lu2,i),l=D.rdv.filter(r=>r.date===d&&filtre(r)).sort(tri);
+      return `<div class="sj ${d===auj?'auj':''}"><h3><span>${fmtCourt(d)}</span><span style="color:var(--mut)">${l.filter(actif).length}</span></h3>
+      ${l.map(r=>`<div class="mini ${r.statut}" data-a="jour" data-d="${d}"><b>${fmtH(r.heure)} ${esc(r.nom.split(' ')[0])}</b>${esc(svc(r.service).nom.split(' (')[0])}<br><span style="color:var(--mut)">${esc(r.voiture)}</span></div>`).join('')}</div>`}).join('')+'</div>';
+  }
+  document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>action(b.dataset.a,b.dataset.i,b.dataset.d));
+}
+
+function ligne(r){
+  const a={dem:`<button class="btn s ok" data-a="ok" data-i="${r.id}">Confirmer</button>`,
+    ok:`<button class="btn s" data-a="arr" data-i="${r.id}">Voiture déposée</button>`,
+    arr:`<button class="btn s ok" data-a="fin" data-i="${r.id}">Terminé</button><a class="btn s" href="${sms(r,txtPret(r))}">SMS « prête »</a>`,
+    fin:'',ann:`<button class="btn s" data-a="ok" data-i="${r.id}">Rétablir</button>`}[r.statut];
+  return `<div class="rdv s-${r.statut}"><div class="h">${fmtH(r.heure)}<small>${r.duree>=120?'journée':'→ '+fmtH(finH(r))}</small></div>
+    <div class="who"><b>${esc(r.nom)}</b> <span class="tag t-${r.statut}">${STATUTS[r.statut]}</span>
+      <div class="m">${esc(svc(r.service).nom)}</div>
+      <div class="m">${esc(r.voiture)}${r.plaque?'<span class="pl">'+esc(r.plaque)+'</span>':''} · <a href="tel:${telNorm(r.tel)}">${esc(r.tel)}</a></div>
+      ${r.note?`<div class="note">${esc(r.note)}</div>`:''}</div>
+    <div class="acts"><div class="r">${a}</div><div class="r">${r.statut==='ok'?`<a class="btn s" href="${sms(r,txtConf(r))}">SMS confirmation</a>`:''}<button class="btn s" data-a="edit" data-i="${r.id}">Modifier</button>${r.statut==='dem'||r.statut==='ok'?`<button class="btn s" data-a="ann" data-i="${r.id}">Annuler</button>`:''}</div></div></div>`;
+}
+
+function action(a,id,d){
+  if(a==='jour'){cur=d;vueM='jour';return rendre()}
+  const r=D.rdv.find(x=>x.id===id);
+  if(a==='edit')return ouvrir(r);
+  if(a==='ann'&&!confirm('Annuler le rendez-vous de '+r.nom+' ?'))return;
+  r.statut=a;save();rendre();
+  toastT({ok:'Rendez-vous confirmé',arr:'Véhicule au garage',fin:'Travaux terminés',ann:'Rendez-vous annulé'}[a]);
+}
+
+fService.innerHTML=SERVICES.map(s=>`<option value="${s.id}">${esc(s.nom)}</option>`).join('');
+fStatut.innerHTML=Object.entries(STATUTS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+function ouvrir(r){
+  edit=r||null;dTitre.textContent=r?'Modifier le rendez-vous':'Nouveau rendez-vous';
+  const v=r||{service:'entretien',date:cur,heure:'08:00',nom:'',tel:'',voiture:'',plaque:'',note:'',statut:'ok'};
+  for(const k of['service','date','heure','nom','tel','voiture','plaque','note','statut'])fR.elements[k].value=v[k]||'';
+  dlg.showModal();
+}
+dlg.onclose=()=>{
+  if(dlg.returnValue!=='ok')return;const f=fR.elements;
+  const v={service:f.service.value,date:f.date.value,heure:f.heure.value,nom:f.nom.value.trim(),tel:f.tel.value.trim(),voiture:f.voiture.value.trim(),
+    plaque:f.plaque.value.trim().toUpperCase(),note:f.note.value.trim(),statut:f.statut.value};
+  v.duree=edit&&edit.service===v.service?edit.duree:svc(v.service).duree;
+  if(edit)Object.assign(edit,v);else D.rdv.push({id:ref(),cree:Date.now(),...v});
+  cur=v.date;save();rendre();toastT('Enregistré');
+};
+
+bNew.onclick=()=>ouvrir();
+bPrev.onclick=()=>{cur=plus(cur,vueM==='jour'?-1:-7);rendre()};
+bNext.onclick=()=>{cur=plus(cur,vueM==='jour'?1:7);rendre()};
+bAuj.onclick=()=>{cur=jour(0);rendre()};
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{vueM=b.dataset.v;rendre()});
+q.oninput=rendre;
+bCsv.onclick=()=>{
+  const l=[['Date','Heure','Client','GSM','Véhicule','Plaque','Prestation','Statut','Note']].concat(D.rdv.slice().sort(tri).map(r=>[r.date,r.heure,r.nom,r.tel,r.voiture,r.plaque,svc(r.service).nom,STATUTS[r.statut],r.note]));
+  const b=new Blob(['﻿'+l.map(x=>x.map(c=>'"'+String(c||'').replace(/"/g,'""')+'"').join(';')).join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='carzedda-rendez-vous.csv';a.click();
+};
+bReset.onclick=()=>{if(confirm('Remettre les données de démonstration ?')){D=demo();save();rendre()}};
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre();toastT('Nouvelle demande reçue')}});
+rendre();
+</script>
+</body>
+</html>
