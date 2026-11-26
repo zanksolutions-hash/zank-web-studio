@@ -339,6 +339,26 @@ dialog.mapd:not([open]){display:none}
 .mkpin svg{width:34px;height:44px;display:block}
 .mkpin path{fill:var(--urg);stroke:#fff;stroke-width:2}
 .mkpin circle{fill:#fff}
+/* bêta : guidage immersif */
+.navtop{background:rgba(13,27,19,.8);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.12)}
+.navbar{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));padding:12px 12px 12px 18px;border-radius:26px;background:rgba(255,255,255,.84);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.navbar:before{display:none}
+.navinf b{font-size:25px}
+.navinf span{font-size:14.5px}
+.navinf small{font-size:13px}
+.navside,.navsp{bottom:calc(122px + env(safe-area-inset-bottom))}
+.navside button,.navsp{background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.mapd.guide .maplibregl-ctrl-bottom-right,.mapd.guide .maplibregl-ctrl-bottom-left{bottom:calc(98px + env(safe-area-inset-bottom));right:auto;left:0}
+.mapd.guide .maplibregl-ctrl-attrib{opacity:.7}
+.navrue{position:absolute;left:84px;right:76px;bottom:calc(132px + env(safe-area-inset-bottom));z-index:3;margin:0;text-align:center;pointer-events:none}
+.navrue span{display:inline-block;max-width:100%;padding:8px 16px;border-radius:99px;background:#2f6fed;color:#fff;font-size:15px;font-weight:600;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;box-shadow:0 3px 12px rgba(0,0,0,.25);vertical-align:bottom}
+.mkme{width:64px;height:64px}
+.mkme i{background:rgba(47,111,237,.22);animation:mkpulse 2.4s ease-out infinite}
+.mkme svg{width:44px;height:44px}
+@keyframes mkpulse{0%{transform:scale(.55);opacity:1}100%{transform:scale(1.15);opacity:0}}
+@media (prefers-reduced-motion:reduce){.mkme i{animation:none}}
+.mkah{width:34px;height:34px;display:block}
+.mkah svg{width:34px;height:34px;display:block;fill:#fff;stroke:#0d2a6b;stroke-width:2;stroke-linejoin:round}
 </style>
 </head>
 <body class="locked">
@@ -578,7 +598,7 @@ dialog.mapd:not([open]){display:none}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.6.1</p>
+    <p class="ver">Domicile bêta · version 1.6.2</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -633,6 +653,7 @@ dialog.mapd:not([open]){display:none}
       <button type="button" id="navOv" aria-label="Voir tout le trajet"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.500"/><circle cx="18" cy="6" r="2.500"/><path d="M8.500 18H14a3.500 3.500 0 0 0 0-7h-4a3.500 3.500 0 0 1 0-7h5.500"/></svg></button>
       <button type="button" id="navRe" aria-label="Recentrer sur ma position" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.500l6.500 16-6.500-3.800-6.500 3.800z"/></svg></button>
     </div>
+    <p class="navrue" id="navRue" hidden></p>
     <div class="navbar" id="navBar" hidden>
       <div class="navrow">
         <div class="navinf"><b id="navEta"></b><span id="navSub"></span><small id="navTo"></small></div>
@@ -1901,11 +1922,15 @@ dialog.mapd:not([open]){display:none}
       var W=function(k){return['interpolate',['linear'],['zoom'],9,3*k,15,7*k,19,15*k]},L={'line-cap':'round','line-join':'round'};
       map.addSource('trajet',{type:'geojson',data:g});
       map.addSource('fait',{type:'geojson',data:VIDE});
+      map.addSource('man',{type:'geojson',data:VIDE});
+      map.addLayer({id:'trajet-g',type:'line',source:'trajet',layout:L,paint:{'line-color':'#2f6fed','line-width':W(2.800),'line-blur':10,'line-opacity':.28}},b);
       map.addLayer({id:'trajet-b',type:'line',source:'trajet',layout:L,paint:{'line-color':'#173f9e','line-width':W(1.500)}},b);
       map.addLayer({id:'trajet',type:'line',source:'trajet',layout:L,paint:{'line-color':'#2f6fed','line-width':W(1)}},b);
       map.addLayer({id:'fait',type:'line',source:'fait',layout:L,paint:{'line-color':'#a3adba','line-width':W(1.500)}},b);
+      map.addLayer({id:'man-b',type:'line',source:'man',layout:L,paint:{'line-color':'#0d2a6b','line-width':W(1.050)}},b);
+      map.addLayer({id:'man',type:'line',source:'man',layout:L,paint:{'line-color':'#fff','line-width':W(.620)}},b);
     }
-    map.getSource('fait').setData(VIDE);
+    map.getSource('fait').setData(VIDE);map.getSource('man').setData(VIDE);
     ['trajet','trajet-b'].forEach(function(i){map.setPaintProperty(i,'line-opacity',real?1:.45)});
   }
   function mapInfo(p,eta){
@@ -1943,10 +1968,13 @@ dialog.mapd:not([open]){display:none}
   function mapReady(){
     return mapLib().then(function(){
       if(!map){
-        map=new maplibregl.Map({container:'map',style:STYLE,center:[4.05,50.42],zoom:9,attributionControl:{compact:true}});
+        map=new maplibregl.Map({container:'map',style:STYLE,center:[4.05,50.42],zoom:9,maxPitch:74,attributionControl:{compact:true}});
         map.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:true}),'top-right');
         map.on('dragstart',function(){if(nav&&!nav.done){nav.follow=false;$('navRe').hidden=false}});
-        mapOk=new Promise(function(ok){map.on('load',ok)});
+        mapOk=new Promise(function(ok){map.on('load',function(){
+          try{map.setSky({'sky-color':'#7db7ee','horizon-color':'#e6f1fb','fog-color':'#eef2f3','sky-horizon-blend':.7,'horizon-fog-blend':.7,'fog-ground-blend':.35})}catch(e){}
+          ok();
+        })});
       }
       map.resize();
       return mapOk;
@@ -2014,6 +2042,28 @@ dialog.mapd:not([open]){display:none}
     if(d==='left'||d==='right')return svg('right',g);
     return svg('straight');
   }
+  /* portion du tracé entre deux distances parcourues */
+  function navSeg(a,b){
+    var c=nav.c,cum=nav.cum,o=[],i;
+    function pt(d){for(var j=1;j<cum.length;j++)if(cum[j]>=d){var t=(d-cum[j-1])/((cum[j]-cum[j-1])||1);return[c[j-1][0]+t*(c[j][0]-c[j-1][0]),c[j-1][1]+t*(c[j][1]-c[j-1][1])]}return c[c.length-1]}
+    a=Math.max(0,a);b=Math.min(nav.len,b);o.push(pt(a));
+    for(i=0;i<c.length;i++)if(cum[i]>a&&cum[i]<b)o.push(c[i]);
+    o.push(pt(b));return o;
+  }
+  function navMan(k){
+    var n=nav,s=n.st[k],ok=s&&s.s.maneuver.type!=='arrive'&&k>0;n.mk=k;
+    if(!ok){map.getSource('man').setData(VIDE);n.ah.getElement().style.visibility='hidden';return}
+    var g=navSeg(s.at*n.k-32,s.at*n.k+38),z=g[g.length-1],y=g[g.length-2];
+    map.getSource('man').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:g}});
+    n.ah.setLngLat(z).setRotation(Math.atan2((z[0]-y[0])*Math.cos(z[1]*Math.PI/180),z[1]-y[1])*180/Math.PI);n.ah.getElement().style.visibility='';
+  }
+  var BO={};
+  function navPoi(v){
+    try{map.getStyle().layers.forEach(function(l){
+      if(l['source-layer']==='poi'||/shield/.test(l.id))map.setLayoutProperty(l.id,'visibility',v?'visible':'none');
+      if(l.type==='fill-extrusion'){if(!(l.id in BO))BO[l.id]=map.getPaintProperty(l.id,'fill-extrusion-opacity');map.setPaintProperty(l.id,'fill-extrusion-opacity',v?BO[l.id]:.450)}
+    })}catch(e){}
+  }
   function navTop(d,t,ic){
     $('navD').textContent=d;$('navT').textContent=t;$('navIc').innerHTML=ic||'';$('navIc').hidden=!ic;
     $('navNx').hidden=true;$('navTop').hidden=false;
@@ -2031,8 +2081,9 @@ dialog.mapd:not([open]){display:none}
   function navStop(){
     navQuiet();nav=null;
     try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
-    $('mapD').classList.remove('guide','fin');$('navTop').hidden=true;$('navBar').hidden=true;$('navSide').hidden=true;$('navSp').hidden=true;
-    if(map){map.stop();map.jumpTo({pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}});if(map.getSource('fait'))map.getSource('fait').setData(VIDE)}
+    $('mapD').classList.remove('guide','fin');$('navTop').hidden=true;$('navBar').hidden=true;$('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;
+    try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}
+    if(map){map.stop();map.jumpTo({pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}});if(map.getSource('fait')){map.getSource('fait').setData(VIDE);map.getSource('man').setData(VIDE)}navPoi(true)}
   }
   function navRoute(from){
     var n=nav,seq=++n.seq;n.busy=true;n.t=Date.now();
@@ -2044,7 +2095,7 @@ dialog.mapd:not([open]){display:none}
       for(i=1;i<c.length;i++)cum[i]=cum[i-1]+hav({lat:c[i-1][1],lon:c[i-1][0]},{lat:c[i][1],lon:c[i][0]});
       r.legs[0].steps.forEach(function(s){st.push({s:s,at:da,t:ta,txt:navTxt(s)});da+=s.distance;ta+=s.duration});
       n.c=c;n.cum=cum;n.st=st;n.len=cum[cum.length-1];n.dur=r.duration;n.k=r.distance?n.len/r.distance:1;n.off=0;n.said={};
-      mapLine(c,true);
+      mapLine(c,true);n.mk=-1;
       if(n.first){n.first=false;dire(st[0].txt)}
       navFix(n.last);
     }).catch(function(){
@@ -2077,7 +2128,9 @@ dialog.mapd:not([open]){display:none}
     navTop('Vous êtes arrivé',p.ev?'Borne de recharge':p.name||p.label||'',svg('arrive'));
     $('mapD').classList.add('fin');
     $('navEta').textContent=p.ev?'Borne de recharge':p.name||'Destination';$('navSub').textContent=p.label||'';$('navTo').textContent='';
-    $('navSide').hidden=true;$('navSp').hidden=true;$('navStop').textContent='Fermer';
+    $('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;$('navStop').textContent='Fermer';
+    map.getSource('man').setData(VIDE);n.ah.getElement().style.visibility='hidden';
+    map.easeTo({center:[+p.lon,+p.lat],pitch:50,zoom:17,padding:{top:120,bottom:170,left:0,right:0},duration:900});
     $('navDone').hidden=!(p.id&&S.patients.indexOf(p)>=0&&!p.done&&!p.ev);
     dire('Vous êtes arrivé');
   }
@@ -2090,7 +2143,7 @@ dialog.mapd:not([open]){display:none}
     else n.off=0;
     navGlide(at,brg);
     if(on)map.getSource('fait').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:n.c.slice(0,q.i+1).concat([q.pt])}});
-    if(n.follow)map.easeTo({center:at,bearing:brg,pitch:55,zoom:p.spd>22?15.300:p.spd>12?16:16.800,padding:{top:260,bottom:150,left:0,right:0},duration:1000,easing:function(t){return t}});
+    if(n.follow)map.easeTo({center:at,bearing:brg,pitch:68,zoom:(p.spd>22?15.800:p.spd>12?16.500:17.200)+(n.dn<130?.500:0),padding:{top:Math.round(innerHeight*.480),bottom:120,left:0,right:0},duration:1000,easing:function(t){return t}});
     if(rest<30&&q.d<60)return navArrive();
     if(q.d>60&&n.busy)return;
     var i,k=n.st.length-1;
@@ -2098,6 +2151,8 @@ dialog.mapd:not([open]){display:none}
     var nx=n.st[k],cur=n.st[k-1]||nx,sv=n.st[k+1],dn=Math.max(0,nx.at*n.k-q.al);
     var tl=Math.max(0,n.dur-nx.t+(cur.s.distance?cur.s.duration*dn/(cur.s.distance*n.k):0));
     navTop(km(dn<1000?Math.max(10,Math.round(dn/10)*10):dn),nx.txt,navIc(nx.s));
+    n.dn=dn;if(n.mk!==k)navMan(k);
+    $('navRue').innerHTML=cur.s.name?'<span>'+esc(cur.s.name)+'</span>':'';$('navRue').hidden=!cur.s.name;
     if(sv&&nx.s.distance<300&&!/^exit/.test(sv.s.maneuver.type)){$('navNx').innerHTML='<span>Puis</span>'+navIc(sv.s)+'<span>'+esc(sv.txt)+'</span>';$('navNx').hidden=false}
     $('navEta').textContent=mn(tl);$('navSub').textContent=km(rest)+' · arrivée '+hm(Date.now()+tl*1000);
     if(dn<50){if(n.said[k]!==2){n.said[k]=2;dire(nx.txt)}}
@@ -2109,12 +2164,13 @@ dialog.mapd:not([open]){display:none}
     if(nav)navStop();
     stat('aller');
     if($('goSheet').open)$('goSheet').close();
-    var n=nav={dest:pt,seq:0,follow:true,off:0,t:0,said:{},first:true,watch:null,raf:0},d=mapShow(),m=$('mapMsg');
+    var n=nav={dest:pt,seq:0,follow:true,off:0,t:0,said:{},first:true,watch:null,raf:0,dn:1e9,mk:-1},d=mapShow(),m=$('mapMsg');
     d.classList.add('guide');d.classList.remove('fin');
     navTop('Recherche de votre position…','','');
     $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent=pt.ev?'Vers la borne : '+(pt.label||''):'Vers '+(pt.name||pt.label||'');
     $('navRe').hidden=true;$('navDone').hidden=true;$('navSp').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;$('navSide').hidden=false;
     dire('Guidage lancé');
+    try{var R=document.documentElement;if(R.requestFullscreen&&!document.fullscreenElement)R.requestFullscreen({navigationUI:'hide'}).catch(function(){})}catch(e){}
     mapReady().then(function(){
       if(nav!==n)return;
       m.hidden=true;map.resize();
@@ -2124,6 +2180,9 @@ dialog.mapd:not([open]){display:none}
       me.className='mkme';me.innerHTML='<i></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.500l6.500 16-6.500-3.800-6.500 3.800z"/></svg>';
       mks.push(new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat(c).addTo(map));
       n.me=new maplibregl.Marker({element:me,rotationAlignment:'map',pitchAlignment:'map'}).setLngLat(S.pos?[+S.pos.lon,+S.pos.lat]:c).addTo(map);mks.push(n.me);
+      var ah=document.createElement('span');ah.className='mkah';ah.style.visibility='hidden';ah.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z"/></svg>';
+      n.ah=new maplibregl.Marker({element:ah,rotationAlignment:'map',pitchAlignment:'map'}).setLngLat(c).addTo(map);mks.push(n.ah);
+      navPoi(false);
       map.jumpTo({center:c,zoom:14,pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}});
       n.watch=navigator.geolocation.watchPosition(function(g){
         if(nav!==n)return;
