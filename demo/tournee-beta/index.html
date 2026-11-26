@@ -380,6 +380,9 @@ dialog.mapd.nuit{background:#131a24}
 .navcom svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mapd.nuit .navcom a:last-child{background:rgba(22,26,32,.88);color:#fff}
 .mapd.fin .navcom{bottom:calc(210px + env(safe-area-inset-bottom))}
+/* bêta : nom du patient en haut du guidage */
+.navqui{margin:0;padding:9px 18px;background:rgba(255,255,255,.12);color:#fff;font-size:15.500px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mapd.fin .navqui{display:none}
 </style>
 </head>
 <body class="locked">
@@ -638,7 +641,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.8.0</p>
+    <p class="ver">Domicile bêta · version 1.8.1</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -684,6 +687,7 @@ dialog.mapd.nuit{background:#131a24}
     <p class="mapmsg" id="mapMsg" role="status"></p>
     <div class="mapi" id="mapI" hidden></div>
     <div class="navtop" id="navTop" role="status" hidden>
+      <p class="navqui" id="navQui"></p>
       <div class="navm"><span class="navic" id="navIc"></span><div><b id="navD"></b><p id="navT"></p></div></div>
       <p class="navnx" id="navNx" hidden></p>
     </div>
@@ -2256,7 +2260,7 @@ dialog.mapd.nuit{background:#131a24}
     var n=nav={dest:pt,seq:0,follow:true,off:0,t:0,said:{},first:true,watch:null,raf:0,dn:1e9,mk:-1},d=mapShow(),m=$('mapMsg');
     d.classList.add('guide');d.classList.remove('fin');
     navTop('Recherche de votre position…','','');
-    $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent=pt.name&&!pt.ev&&G.nom==='masque'?navNom(pt):'Vers '+navNom(pt).replace(/^Borne/,'la borne');
+    $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent='';$('navQui').textContent=pt.name&&!pt.ev&&G.nom==='masque'?navNom(pt):'Vers '+navNom(pt).replace(/^Borne/,'la borne');
     $('navRe').hidden=true;$('navDone').hidden=true;$('navSp').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;$('navSide').hidden=false;
     n.tel=pt.ev?'':((bk(pt)||{}).phone||'').replace(/[^\d+]/g,'');
     $('navCom').hidden=!n.tel;
