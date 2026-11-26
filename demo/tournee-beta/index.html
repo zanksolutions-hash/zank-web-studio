@@ -443,6 +443,10 @@ dialog.mapd.nuit{background:#131a24}
 .mapd.guide .navrue span{padding:6px 14px;font-size:13.500px}
 .mapd.guide .maplibregl-ctrl-bottom-right,.mapd.guide .maplibregl-ctrl-bottom-left{left:auto;right:calc(var(--gr) + 52px);bottom:calc(var(--gb) - 6px)}
 }
+/* bêta : appel et SMS toujours affichés (grisés sans numéro), bouton d'ajout en haut du carnet */
+.navcom.off a{opacity:.42;pointer-events:none}
+#addSel{position:sticky;top:calc(8px + env(safe-area-inset-top));z-index:5;margin:14px 0 0;box-shadow:0 6px 18px rgba(0,0,0,.16)}
+#addSel:disabled{box-shadow:none}
 </style>
 </head>
 <body class="locked">
@@ -593,8 +597,8 @@ dialog.mapd.nuit{background:#131a24}
     <div class="groups" id="groups"></div>
     <input type="search" id="bookQ" placeholder="Rechercher un patient ou une rue" aria-label="Rechercher dans le carnet" autocomplete="off" hidden>
     <button class="link" type="button" id="liResume" data-li hidden></button>
-    <div class="panel"><ul id="book"></ul></div>
     <button class="pill wide" type="button" id="addSel" disabled>Ajouter à la tournée</button>
+    <div class="panel"><ul id="book"></ul></div>
     <button class="link" type="button" id="saveGroup" hidden>Enregistrer cette sélection comme tournée type</button>
   </section>
 
@@ -701,7 +705,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.9.1</p>
+    <p class="ver">Domicile bêta · version 1.9.2</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -2325,8 +2329,10 @@ dialog.mapd.nuit{background:#131a24}
     $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent='';$('navQui').textContent=pt.name&&!pt.ev&&G.nom==='masque'?navNom(pt):'Vers '+navNom(pt).replace(/^Borne/,'la borne');
     $('navRe').hidden=true;$('navDone').hidden=true;$('navSp').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;$('navSide').hidden=false;
     n.tel=pt.ev?'':((bk(pt)||{}).phone||'').replace(/[^\d+]/g,'');
-    $('navCom').hidden=!n.tel;
-    if(n.tel){$('navTel').innerHTML=ICON.tel;$('navSms').innerHTML=ICON.sms;$('navTel').href='tel:'+n.tel;navSms('Bonjour, le docteur arrive chez vous dans environ '+(pt.dur!=null?Math.max(5,Math.round(pt.dur/300)*5):15)+' minutes.')}
+    $('navCom').hidden=false;$('navCom').classList.toggle('off',!n.tel);
+    $('navTel').innerHTML=ICON.tel;$('navSms').innerHTML=ICON.sms;
+    ['navTel','navSms'].forEach(function(i){$(i).removeAttribute('href');$(i).setAttribute('aria-disabled',n.tel?'false':'true')});
+    if(n.tel){$('navTel').href='tel:'+n.tel;navSms('Bonjour, le docteur arrive chez vous dans environ '+(pt.dur!=null?Math.max(5,Math.round(pt.dur/300)*5):15)+' minutes.')}
     dire('Guidage lancé');
     try{var R=document.documentElement;if(G.plein&&R.requestFullscreen&&!document.fullscreenElement)R.requestFullscreen({navigationUI:'hide'}).catch(function(){})}catch(e){}
     mapReady().then(function(){
