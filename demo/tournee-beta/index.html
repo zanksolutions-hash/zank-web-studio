@@ -298,6 +298,20 @@ dialog.mapd:not([open]){display:none}
 .mk.me{width:18px;height:18px;background:#1c7ed6;border-width:3px;cursor:default}
 .mk.home{border-radius:10px;background:#fff;color:var(--ink);border-color:var(--ink);cursor:default}
 .mk.home svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* bêta : guidage intégré */
+.mapd [hidden]{display:none!important}
+.mapd.guide .mapx,.mapd.guide .mapi,.mapd.guide .maplibregl-ctrl-top-right{display:none}
+.navtop{position:absolute;top:calc(10px + env(safe-area-inset-top));left:10px;right:10px;z-index:3;max-width:520px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:22px;background:var(--ink);color:#fff;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.navtop b{display:block;font-size:26px;font-weight:600;line-height:1.1}
+.navtop p{font-size:16px;line-height:1.3;margin:2px 0 0;color:#fff;opacity:.9}
+.navic{flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center}
+.navic svg{width:42px;height:42px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.navbar{position:absolute;left:10px;right:10px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:3;max-width:520px;margin:0 auto;padding:14px 16px;border-radius:24px;background:#fff;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.navbar b{display:block;font-size:17px;font-weight:600}
+.navbar small{display:block;font-size:13.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.navbar .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.navbar .acts .pill{flex:1;min-height:44px;margin:0;white-space:nowrap}
+.mk.next svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body class="locked">
@@ -536,8 +550,8 @@ dialog.mapd:not([open]){display:none}
       <button class="pill wide" type="button" id="sigGo">Envoyer à Zank Solutions</button>
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
-    <p class="hint" style="text-align:center">Version bêta : import d'une liste et carte en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.5.0</p>
+    <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
+    <p class="ver">Domicile bêta · version 1.6.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -582,6 +596,16 @@ dialog.mapd:not([open]){display:none}
     <button class="pill soft mapx" type="button" id="mapX">Fermer la carte</button>
     <p class="mapmsg" id="mapMsg" role="status"></p>
     <div class="mapi" id="mapI" hidden></div>
+    <div class="navtop" id="navTop" role="status" hidden><span class="navic" id="navIc"></span><div><b id="navD"></b><p id="navT"></p></div></div>
+    <div class="navbar" id="navBar" hidden>
+      <b id="navEta"></b><small id="navTo"></small>
+      <div class="acts">
+        <button class="pill soft" type="button" id="navRe" hidden>Recentrer</button>
+        <button class="pill soft" type="button" id="navV"></button>
+        <button class="pill" type="button" id="navDone" hidden>Visite faite</button>
+        <button class="pill soft" type="button" id="navStop">Arrêter</button>
+      </div>
+    </div>
   </dialog>
 </div>
 
@@ -1148,61 +1172,33 @@ dialog.mapd:not([open]){display:none}
     r.readAsText(f);
   });
 
-  /* itinéraire : Google Maps et Plans prennent toute la tournée, Waze la prochaine visite */
-  var GMAX=10,AMAX=14,ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  /* itinéraire : guidage intégré sur la carte, vers la prochaine visite */
+  var ARROW='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
   function appL(h,t,d){return '<a class="app-l" href="'+h+'" target="_blank" rel="noopener"><span><b>'+t+'</b><small>'+d+'</small></span>'+ARROW+'</a>'}
-  /* Plans : plusieurs daddr à la suite, format non documenté par Apple */
-  function aplans(stops){return 'https://maps.apple.com/?dirflg=d&'+stops.map(function(p){return 'daddr='+ll(p)}).join('&')}
-  function gmaps(stops){
-    var dest=stops[stops.length-1],way=stops.slice(0,-1);
-    return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+ll(dest)+(way.length?'&waypoints='+encodeURIComponent(way.map(ll).join('|')):'');
-  }
   function sheet(){var d=$('goSheet');if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','')}
   $('goBtn').addEventListener('click',function(){
-    var todo=ordered().filter(nd);if(!todo.length)return;stat('lancer');
-    var home=retPt()?[retPt()]:[],next=todo[0];
-    var g=todo.slice(0,GMAX-home.length).concat(home),a=todo.slice(0,AMAX-home.length).concat(home);
-    function txt(n,max){return 'Toute la tournée : '+n+' arrêt'+(n>1?'s':'')+(home.length?', retour compris':'')+(todo.length+home.length>max?' (les premiers seulement)':'')}
-    $('goT').innerHTML='Lancer <em>l\'itinéraire</em>';
-    $('goHint').textContent=(S.pos?'':'Ordre pas encore calculé depuis votre position. ')+'Départ de votre position actuelle, dans l\'ordre de la liste.';
-    $('goApps').innerHTML=
-      appL(gmaps(g),'Google Maps',txt(g.length,GMAX))+
-      appL(aplans(a),'Plans',txt(a.length,AMAX))+
-      appL('https://waze.com/ul?ll='+ll(next)+'&navigate=yes','Waze','Prochaine visite : '+esc(next.name));
-    sheet();
+    var todo=ordered().filter(nd);if(!todo.length)return;stat('lancer');navStart(todo[0]);
   });
 
-  /* un seul arrêt (Y aller, retour) : les trois applis */
-  function navApps(pt,d){
-    return appL('https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+ll(pt),'Google Maps',d)+
-      appL('https://maps.apple.com/?daddr='+ll(pt)+'&dirflg=d','Plans',d)+
-      appL('https://waze.com/ul?ll='+ll(pt)+'&navigate=yes','Waze',d);
-  }
-  function navSheet(title,hint,pt){stat('aller');
-    $('goT').innerHTML=title;$('goHint').textContent=hint||'';
-    $('goApps').innerHTML=navApps(pt,'Itinéraire depuis votre position');
-    sheet();
-  }
+  /* un seul arrêt (Y aller, retour) : guidage intégré */
+  function navBtn(pt){navPt=pt;return '<button class="pill go wide" type="button" data-nav style="margin-top:0">'+ICON.go+'Lancer le guidage</button>'}
+  function navSheet(title,hint,pt){navStart(pt)}
   function openRet(){
     var h=S.set[S.set.retTo];
     $('goT').innerHTML='Retour <em>'+PLACE[S.set.retTo]+'</em>';
     $('goHint').textContent=h?h.label:'Aucune adresse '+(S.set.retTo==='dom'?'du domicile':'du cabinet')+' enregistrée.';
     $('goApps').innerHTML='<div class="seg" id="rSeg" role="group" aria-label="Retour vers">'+
       ['cab','dom'].map(function(k){return '<button type="button" data-retto="'+k+'" aria-pressed="'+(S.set.retTo===k)+'">'+(k==='cab'?'Cabinet':'Domicile')+'</button>'}).join('')+'</div>'+
-      (h?navApps(h,'Itinéraire depuis votre position'):'<button class="pill wide" type="button" data-tab="set" style="margin-top:0">Ajouter l\'adresse dans les réglages</button>');
+      (h?navBtn(h):'<button class="pill wide" type="button" data-tab="set" style="margin-top:0">Ajouter l\'adresse dans les réglages</button>');
     sheet();
   }
 
   /* recharge : bornes proches du trajet vers la prochaine visite, ou recherche dans une appli */
   var evFound=[];
   $('evBtn').addEventListener('click',function(){
-    var q=encodeURIComponent('borne de recharge voiture électrique');
     $('goT').innerHTML='Recharger <em>la voiture</em>';
-    $('goHint').textContent='Ajoutez une borne comme prochain arrêt, ou cherchez-en une dans votre appli.';
+    $('goHint').textContent='Ajoutez une borne comme prochain arrêt, ou cherchez-en une sur Chargemap.';
     $('goApps').innerHTML='<button class="pill wide" type="button" id="evNear" style="margin-top:0">Bornes proches de mon trajet</button><div id="evList"></div>'+
-      appL('https://www.google.com/maps/search/?api=1&query='+q,'Google Maps','Bornes à proximité')+
-      appL('https://maps.apple.com/?q='+q,'Plans','Bornes à proximité')+
-      appL('https://waze.com/ul?q='+q,'Waze','Bornes à proximité')+
       appL('https://chargemap.com/map','Chargemap','Carte des bornes, prix et disponibilité');
     sheet();
   });
@@ -1221,11 +1217,12 @@ dialog.mapd:not([open]){display:none}
         box.innerHTML=evFound.length?evFound.map(function(e,i){
           return '<div class="ev-i"><span><b>'+esc(e.name)+'</b><small>À '+km(e.d)+' à vol d\'oiseau</small></span><button class="pill" type="button" data-evadd="'+i+'">Ajouter</button></div>';
         }).join(''):'<p class="hint">Aucune borne trouvée à moins de 4 km.</p>';
-      },function(){throw new Error('Le service de recherche des bornes ne répond pas. Utilisez une des applis ci-dessous.')});
+      },function(){throw new Error('Le service de recherche des bornes ne répond pas. Essayez Chargemap ci-dessous.')});
     }).catch(function(e){box.innerHTML='<p class="hint">'+esc(e&&e.message||'Recherche impossible.')+'</p>'}).then(function(){btn.disabled=false});
   }
   $('goApps').addEventListener('click',function(e){
     if(e.target.closest('#evNear'))return evSearch();
+    if(e.target.closest('[data-nav]'))return navStart(navPt);
     var r=e.target.closest('[data-retto]');if(r){setRetTo(r.dataset.retto);return openRet()}
     var cm=e.target.closest('[data-calm]');if(cm)return openCal(cm.dataset.calm);
     var cd=e.target.closest('[data-cal]');
@@ -1341,7 +1338,6 @@ dialog.mapd:not([open]){display:none}
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a.app-l,a[href^="sms:"]');if(!a)return;
     if(!a.classList.contains('app-l'))return stat('sms');
-    var t=(a.querySelector('b')||{}).textContent||'';stat(/Waze/.test(t)?'nav_waze':/Plans/.test(t)?'nav_plans':'nav_google');
   });
   document.addEventListener('visibilitychange',function(){if(document.hidden)statFlush()});
 
@@ -1903,19 +1899,28 @@ dialog.mapd:not([open]){display:none}
       }).catch(function(){});
     }
   }
-  function mapOpen(){
-    var d=$('mapD'),m=$('mapMsg');stat('carte');
-    if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','');
-    $('mapI').hidden=true;m.textContent='Chargement de la carte…';m.hidden=false;
-    mapLib().then(function(){
+  function mapReady(){
+    return mapLib().then(function(){
       if(!map){
         map=new maplibregl.Map({container:'map',style:STYLE,center:[4.05,50.42],zoom:9,attributionControl:{compact:true}});
         map.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:true}),'top-right');
+        map.on('dragstart',function(){if(nav&&!nav.done){nav.follow=false;$('navRe').hidden=false}});
         mapOk=new Promise(function(ok){map.on('load',ok)});
       }
       map.resize();
       return mapOk;
-    }).then(function(){m.hidden=true;if(d.open){map.resize();mapDraw()}},function(e){m.textContent=e&&e.message||'Carte indisponible pour le moment.'});
+    });
+  }
+  function mapShow(){
+    var d=$('mapD'),m=$('mapMsg');
+    if(d.showModal){if(!d.open)d.showModal()}else d.setAttribute('open','');
+    $('mapI').hidden=true;m.textContent='Chargement de la carte…';m.hidden=false;
+    return d;
+  }
+  function mapOpen(){
+    if(nav)navStop();
+    var d=mapShow(),m=$('mapMsg');stat('carte');
+    mapReady().then(function(){m.hidden=true;if(d.open&&!nav){map.resize();mapDraw()}},function(e){m.textContent=e&&e.message||'Carte indisponible pour le moment.'});
   }
   $('mapBtn').addEventListener('click',mapOpen);
   $('mapX').addEventListener('click',function(){$('mapD').close()});
@@ -1924,6 +1929,149 @@ dialog.mapd:not([open]){display:none}
     if(e.target.closest('[data-mgo]')&&mapSel)navSheet(mapSel.ev?'Aller <em>à la borne</em>':'Aller <em>chez '+esc(mapSel.name)+'</em>',mapSel.label,mapSel);
   });
 
+  /* ---------- bêta : guidage intégré sur la carte (tracé OSRM, position du téléphone, aucune appli externe) ---------- */
+  var nav=null,navPt=null,VK='domicile-beta-voix';
+  var SENS={left:'à gauche',right:'à droite','slight left':'légèrement à gauche','slight right':'légèrement à droite','sharp left':'franchement à gauche','sharp right':'franchement à droite'};
+  var ANGLE={left:-90,right:90,'slight left':-45,'slight right':45,'sharp left':-135,'sharp right':135,uturn:180};
+  function voixOn(){try{return localStorage.getItem(VK)!=='0'}catch(e){return true}}
+  function dire(t){
+    if(!voixOn()||!window.speechSynthesis)return;
+    try{var u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+  }
+  function navTxt(s){
+    var m=s.maneuver||{},t=m.type,d=m.modifier,n=s.name?' sur '+s.name:'',w=SENS[d];
+    if(t==='arrive')return 'Vous arrivez à destination';
+    if(t==='depart')return 'Partez'+(s.name?' par '+s.name:'');
+    if(t==='roundabout'||t==='rotary')return 'Au rond-point, '+(m.exit?'prenez la '+(m.exit===1?'1re':m.exit+'e')+' sortie':'continuez')+n;
+    if(t==='exit roundabout'||t==='exit rotary')return 'Sortez du rond-point'+n;
+    if(d==='uturn')return 'Faites demi-tour';
+    if(t==='fork')return 'Restez '+(/left/.test(d)?'à gauche':'à droite')+n;
+    if(t==='on ramp')return 'Prenez la bretelle'+(w?' '+w:'')+n;
+    if(t==='off ramp')return 'Prenez la sortie'+(w?' '+w:'')+n;
+    if(t==='merge')return 'Insérez-vous'+n;
+    if(!w)return 'Continuez tout droit'+n;
+    return(t==='end of road'?'Au bout de la rue, tournez ':'Tournez ')+w+n;
+  }
+  function navIc(s){
+    var m=s.maneuver||{};
+    if(m.type==='arrive')return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4h11l-2 4 2 4H6"/></svg>';
+    if(/roundabout|rotary/.test(m.type))return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="5"/><path d="M12 8V2M9 5l3-3 3 3"/></svg>';
+    return '<svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate('+(ANGLE[m.modifier]||0)+'deg)"><path d="M12 20V5M6 11l6-6 6 6"/></svg>';
+  }
+  function navTop(d,t,ic){$('navD').textContent=d;$('navT').textContent=t;$('navIc').innerHTML=ic||'';$('navIc').hidden=!ic;$('navTop').hidden=false}
+  function navVoix(){var b=$('navV'),on=voixOn();b.textContent=on?'Voix : oui':'Voix : non';b.setAttribute('aria-pressed',on)}
+  function navWake(){
+    try{if(navigator.wakeLock&&nav&&!nav.done)navigator.wakeLock.request('screen').then(function(w){if(nav&&!nav.done)nav.wl=w;else w.release()},function(){})}catch(e){}
+  }
+  function navQuiet(){
+    var n=nav;if(!n)return;
+    if(n.watch!=null)navigator.geolocation.clearWatch(n.watch);n.watch=null;
+    if(n.wl){try{n.wl.release()}catch(e){}n.wl=null}
+  }
+  function navStop(){
+    navQuiet();nav=null;
+    try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
+    $('mapD').classList.remove('guide');$('navTop').hidden=true;$('navBar').hidden=true;
+    if(map){map.stop();map.jumpTo({pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}})}
+  }
+  function navRoute(from){
+    var n=nav,seq=++n.seq;n.busy=true;n.t=Date.now();
+    fetch(ROUTE+from.lon.toFixed(6)+','+from.lat.toFixed(6)+';'+(+n.dest.lon).toFixed(6)+','+(+n.dest.lat).toFixed(6)+'?overview=full&geometries=geojson&steps=true')
+    .then(function(r){return r.ok?r.json():null}).then(function(j){
+      if(nav!==n||seq!==n.seq)return;n.busy=false;
+      if(!j||j.code!=='Ok'||!j.routes||!j.routes[0])throw 0;
+      var r=j.routes[0],c=r.geometry.coordinates,cum=[0],i,da=0,ta=0,st=[];
+      for(i=1;i<c.length;i++)cum[i]=cum[i-1]+hav({lat:c[i-1][1],lon:c[i-1][0]},{lat:c[i][1],lon:c[i][0]});
+      r.legs[0].steps.forEach(function(s){st.push({s:s,at:da,t:ta,txt:navTxt(s)});da+=s.distance;ta+=s.duration});
+      n.c=c;n.cum=cum;n.st=st;n.len=cum[cum.length-1];n.dur=r.duration;n.k=r.distance?n.len/r.distance:1;n.off=0;n.said={};
+      mapLine(c,true);
+      if(n.first){n.first=false;dire(st[0].txt)}
+      navFix(n.last);
+    }).catch(function(){
+      if(nav!==n)return;n.busy=false;
+      if(!n.c)navTop('Itinéraire introuvable','Vérifiez la connexion, un nouvel essai suit.','');
+    });
+  }
+  /* point du tracé le plus proche de la position : écart, distance parcourue, cap de la route */
+  function navProj(p){
+    var c=nav.c,kx=Math.cos(p.lat*Math.PI/180)*111320,ky=110540,px=p.lon*kx,py=p.lat*ky,best=1e15,al=0,brg=0,i;
+    for(i=0;i<c.length-1;i++){
+      var ax=c[i][0]*kx,ay=c[i][1]*ky,dx=c[i+1][0]*kx-ax,dy=c[i+1][1]*ky-ay,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L)):0;
+      var qx=ax+t*dx-px,qy=ay+t*dy-py,d=qx*qx+qy*qy;
+      if(d<best){best=d;al=nav.cum[i]+t*(nav.cum[i+1]-nav.cum[i]);brg=Math.atan2(dx,dy)*180/Math.PI}
+    }
+    return{d:Math.sqrt(best),al:al,brg:brg};
+  }
+  function navArrive(){
+    var n=nav,p=n.dest;n.done=true;navQuiet();
+    navTop('Vous êtes arrivé',p.ev?'Borne de recharge':p.name||p.label||'',navIc({maneuver:{type:'arrive'}}));
+    $('navEta').textContent=p.label||'';$('navTo').textContent='';
+    $('navRe').hidden=true;$('navV').hidden=true;$('navStop').textContent='Fermer';
+    $('navDone').hidden=!(p.id&&S.patients.indexOf(p)>=0&&!p.done&&!p.ev);
+    dire('Vous êtes arrivé');
+  }
+  function navFix(p){
+    var n=nav;if(!n||n.done||!p)return;n.last=p;
+    n.me.setLngLat([p.lon,p.lat]);
+    if(!n.c){if(!n.busy&&Date.now()-n.t>8000)navRoute(p);return}
+    var q=navProj(p),rest=Math.max(0,n.len-q.al);
+    if(q.d>60){if(++n.off>=2&&!n.busy&&Date.now()-n.t>8000){navTop('Nouveau calcul…','Vous avez quitté le trajet.','');navRoute(p)}}
+    else n.off=0;
+    if(n.follow)map.easeTo({center:[p.lon,p.lat],bearing:p.head!=null&&p.spd>1.5?p.head:q.brg,pitch:50,zoom:16.5,padding:{top:300,bottom:140,left:0,right:0},duration:900,easing:function(t){return t}});
+    if(rest<30&&q.d<60)return navArrive();
+    if(q.d>60&&n.busy)return;
+    var i,k=n.st.length-1;
+    for(i=1;i<n.st.length;i++)if(n.st[i].at*n.k>q.al+3){k=i;break}
+    var nx=n.st[k],cur=n.st[k-1]||nx,dn=Math.max(0,nx.at*n.k-q.al);
+    var tl=Math.max(0,n.dur-nx.t+(cur.s.distance?cur.s.duration*dn/(cur.s.distance*n.k):0));
+    navTop(km(dn<1000?Math.round(dn/10)*10:dn),nx.txt,navIc(nx.s));
+    $('navEta').textContent=mn(tl)+' · '+km(rest)+' · arrivée vers '+hm(Date.now()+tl*1000);
+    if(dn<50){if(n.said[k]!==2){n.said[k]=2;dire(nx.txt)}}
+    else if(!n.said[k]&&dn<400){n.said[k]=1;dire('Dans '+Math.max(50,Math.round(dn/50)*50)+' mètres, '+nx.txt.charAt(0).toLowerCase()+nx.txt.slice(1))}
+  }
+  function navStart(pt){
+    if(!pt||!isFinite(+pt.lat)||!isFinite(+pt.lon))return say('Adresse sans position : corrigez-la dans le carnet.',true);
+    if(!navigator.geolocation)return say('La position n\'est pas disponible sur cet appareil.',true);
+    if(nav)navStop();
+    stat('aller');
+    if($('goSheet').open)$('goSheet').close();
+    var n=nav={dest:pt,seq:0,follow:true,off:0,t:0,said:{},first:true,watch:null},d=mapShow(),m=$('mapMsg');
+    d.classList.add('guide');
+    navTop('Recherche de votre position…','','');
+    $('navEta').textContent='';$('navTo').textContent=pt.ev?'Vers la borne : '+(pt.label||''):'Vers '+(pt.name||pt.label||'');
+    $('navRe').hidden=true;$('navDone').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;
+    dire('Guidage lancé');
+    mapReady().then(function(){
+      if(nav!==n)return;
+      m.hidden=true;map.resize();
+      mks.forEach(function(x){x.remove()});mks=[];mapSeq++;mapLine([],false);
+      var c=[+pt.lon,+pt.lat],el=document.createElement('span'),me=document.createElement('span');
+      el.className='mk next';el.innerHTML=navIc({maneuver:{type:'arrive'}});me.className='mk me';
+      mks.push(new maplibregl.Marker({element:el}).setLngLat(c).addTo(map));
+      n.me=new maplibregl.Marker({element:me}).setLngLat(S.pos?[+S.pos.lon,+S.pos.lat]:c).addTo(map);mks.push(n.me);
+      map.jumpTo({center:c,zoom:14,pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}});
+      n.watch=navigator.geolocation.watchPosition(function(g){
+        if(nav!==n)return;
+        navFix({lat:g.coords.latitude,lon:g.coords.longitude,head:g.coords.heading==null||isNaN(g.coords.heading)?null:g.coords.heading,spd:g.coords.speed||0});
+      },function(e){
+        if(nav!==n||n.last)return;
+        navTop(e.code===1?'Position refusée':'Position introuvable',e.code===1?'Autorisez la position pour ce site dans les réglages du navigateur.':'Vérifiez que le GPS est activé.','');
+      },{enableHighAccuracy:true,maximumAge:2000,timeout:20000});
+      navWake();
+    },function(e){m.textContent=e&&e.message||'Carte indisponible pour le moment.'});
+  }
+  $('navStop').addEventListener('click',function(){$('mapD').close();if(nav)navStop()});
+  $('navRe').addEventListener('click',function(){if(!nav)return;nav.follow=true;this.hidden=true;navFix(nav.last)});
+  $('navV').addEventListener('click',function(){
+    var on=!voixOn();try{localStorage.setItem(VK,on?'1':'0')}catch(e){}
+    navVoix();if(on)dire('Voix activée');else try{speechSynthesis.cancel()}catch(e){}
+  });
+  $('navDone').addEventListener('click',function(){
+    var p=nav&&nav.dest;$('mapD').close();if(nav)navStop();if(!p)return;
+    var b=list.querySelector('.card[data-id="'+p.id+'"] button[data-act="done"]');if(b)b.click();
+  });
+  $('mapD').addEventListener('close',function(){if(nav)navStop()});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&nav)navWake()});
   /* nouvelle version : le bandeau apparaît quand elle est prête, un appui recharge l'appli */
   $('majGo').addEventListener('click',function(){location.reload()});
   if('serviceWorker' in navigator&&location.protocol==='https:'){
