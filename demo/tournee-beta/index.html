@@ -383,6 +383,35 @@ dialog.mapd.nuit{background:#131a24}
 /* bêta : nom du patient en haut du guidage */
 .navqui{margin:0;padding:9px 18px;background:rgba(255,255,255,.12);color:#fff;font-size:15.500px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mapd.fin .navqui{display:none}
+/* bêta : guidage en verre liquide (panneaux translucides, reflet en haut, liseré clair) */
+.navtop,.navbar,.navsp,.navside button,.navcom a{isolation:isolate;color:#0c1116;background:linear-gradient(140deg,rgba(255,255,255,.4),rgba(255,255,255,.1) 55%,rgba(255,255,255,.22));-webkit-backdrop-filter:blur(13px) saturate(2.100) brightness(1.050);backdrop-filter:blur(13px) saturate(2.100) brightness(1.050);border:1px solid rgba(255,255,255,.62);box-shadow:inset 0 1.500px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.3),inset 0 0 26px rgba(255,255,255,.2),0 14px 36px rgba(15,30,60,.22),0 2px 6px rgba(15,30,60,.12)}
+.navside button,.navcom a{position:relative}
+.navtop:before,.navbar:before,.navsp:before,.navside button:before,.navcom a:before{content:"";display:block;position:absolute;inset:0;width:auto;height:auto;margin:0;border-radius:inherit;z-index:-1;pointer-events:none;background:radial-gradient(120% 80% at 12% 0%,rgba(255,255,255,.5),rgba(255,255,255,0) 50%),radial-gradient(90% 70% at 100% 100%,rgba(255,255,255,.22),rgba(255,255,255,0) 60%)}
+.navtop{border-radius:30px}
+.navm p{color:#0c1116;opacity:1}
+.navic svg{stroke:#1c8a3a}
+.navic svg text,.navnx svg text{fill:currentColor}
+.navqui{background:rgba(255,255,255,.26);color:rgba(12,17,22,.74)}
+.navnx{background:rgba(255,255,255,.24);color:#0c1116}
+.navnx svg{stroke:currentColor}
+.navbar{border-radius:34px}
+.navinf b{color:#167a33}
+.navinf span{color:#0c1116}
+.navcom a:first-child{background:linear-gradient(140deg,rgba(74,201,104,.92),rgba(38,150,68,.82));border-color:rgba(200,255,214,.7);color:#fff}
+.navside #navRe{background:linear-gradient(140deg,rgba(72,134,255,.92),rgba(38,96,225,.82));border-color:rgba(205,222,255,.7);color:#fff}
+.navrue span{background:linear-gradient(140deg,rgba(72,134,255,.9),rgba(38,96,225,.8));border:1px solid rgba(205,222,255,.7);-webkit-backdrop-filter:blur(13px) saturate(2);backdrop-filter:blur(13px) saturate(2);box-shadow:inset 0 1.500px 0 rgba(255,255,255,.6),0 8px 22px rgba(15,30,60,.25)}
+.navend{background:linear-gradient(140deg,rgba(240,92,98,.94),rgba(214,56,64,.86));border:1px solid rgba(255,212,214,.7);box-shadow:inset 0 1.500px 0 rgba(255,255,255,.55),0 6px 16px rgba(120,20,30,.25)}
+.mapd.fin .navend{background:linear-gradient(140deg,rgba(255,255,255,.5),rgba(255,255,255,.2));border-color:rgba(255,255,255,.7);color:#0c1116;box-shadow:inset 0 1.500px 0 rgba(255,255,255,.9),0 6px 16px rgba(15,30,60,.15)}
+.mapd.nuit .navtop,.mapd.nuit .navbar,.mapd.nuit .navsp,.mapd.nuit .navside button,.mapd.nuit .navcom a:last-child{color:#fff;background:linear-gradient(140deg,rgba(255,255,255,.2),rgba(120,140,170,.08) 55%,rgba(255,255,255,.12));border-color:rgba(255,255,255,.3);-webkit-backdrop-filter:blur(13px) saturate(1.800) brightness(1.250);backdrop-filter:blur(13px) saturate(1.800) brightness(1.250);box-shadow:inset 0 1.500px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(255,255,255,.12),inset 0 0 26px rgba(255,255,255,.08),0 14px 36px rgba(0,0,0,.45)}
+.mapd.nuit .navtop:before,.mapd.nuit .navbar:before,.mapd.nuit .navsp:before,.mapd.nuit .navside button:before,.mapd.nuit .navcom a:before{background:radial-gradient(120% 80% at 12% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 55%)}
+.mapd.nuit .navm p,.mapd.nuit .navinf span{color:#fff}
+.mapd.nuit .navic svg{stroke:#7be08a}
+.mapd.nuit .navqui{background:rgba(255,255,255,.08);color:rgba(255,255,255,.76)}
+.mapd.nuit .navnx{background:rgba(255,255,255,.08);color:#fff}
+.mapd.nuit .navinf b{color:#7be08a}
+.mapd.nuit .navside #navRe{background:linear-gradient(140deg,rgba(72,134,255,.92),rgba(38,96,225,.82));border-color:rgba(205,222,255,.5)}
+.mapd.nuit.fin .navinf b{color:#fff}
+.mapd.nuit.fin .navend{background:linear-gradient(140deg,rgba(255,255,255,.22),rgba(255,255,255,.1));border-color:rgba(255,255,255,.3);color:#fff}
 </style>
 </head>
 <body class="locked">
@@ -641,7 +670,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.8.1</p>
+    <p class="ver">Domicile bêta · version 1.9.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
