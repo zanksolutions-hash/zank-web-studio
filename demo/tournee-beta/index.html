@@ -445,8 +445,10 @@ dialog.mapd.nuit{background:#131a24}
 }
 /* bêta : appel et SMS toujours affichés (grisés sans numéro), bouton d'ajout en haut du carnet */
 .navcom.off a{opacity:.42;pointer-events:none}
-#addSel{position:sticky;top:calc(8px + env(safe-area-inset-top));z-index:5;margin:14px 0 0;box-shadow:0 6px 18px rgba(0,0,0,.16)}
-#addSel:disabled{box-shadow:none}
+.addbar{position:sticky;top:calc(16px + env(safe-area-inset-top));z-index:5;margin-top:14px}
+.addbar #addSel{margin:0;transition:box-shadow .2s}
+.addbar.stuck:before{content:"";position:absolute;z-index:-1;left:-18px;right:-18px;top:calc(-16px - env(safe-area-inset-top));bottom:-18px;background:linear-gradient(#f4f4f2 calc(100% - 18px),rgba(244,244,242,0));pointer-events:none}
+.addbar.stuck #addSel:not(:disabled){box-shadow:0 8px 22px rgba(0,0,0,.18)}
 </style>
 </head>
 <body class="locked">
@@ -597,7 +599,7 @@ dialog.mapd.nuit{background:#131a24}
     <div class="groups" id="groups"></div>
     <input type="search" id="bookQ" placeholder="Rechercher un patient ou une rue" aria-label="Rechercher dans le carnet" autocomplete="off" hidden>
     <button class="link" type="button" id="liResume" data-li hidden></button>
-    <button class="pill wide" type="button" id="addSel" disabled>Ajouter à la tournée</button>
+    <div class="addbar" id="addBar"><button class="pill wide" type="button" id="addSel" disabled>Ajouter à la tournée</button></div>
     <div class="panel"><ul id="book"></ul></div>
     <button class="link" type="button" id="saveGroup" hidden>Enregistrer cette sélection comme tournée type</button>
   </section>
@@ -705,7 +707,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.9.2</p>
+    <p class="ver">Domicile bêta · version 1.9.3</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -1246,6 +1248,8 @@ dialog.mapd.nuit{background:#131a24}
     var f=S.book.find(function(x){return x.id===b.dataset.edit});
     if(f){openForm(f);tab('new',true)}
   });
+  /* bouton d'ajout : il s'arrête sous la barre d'état, avec un fond qui cache la liste qui défile */
+  addEventListener('scroll',function(){var w=$('addBar');if(w.offsetParent)w.classList.toggle('stuck',scrollY>0&&w.getBoundingClientRect().top<=parseFloat(getComputedStyle(w).top)+1)},{passive:true});
   addSel.addEventListener('click',function(){
     picked().forEach(function(id){var b=S.book.find(function(x){return x.id===id});if(b)toTour(b)});
     bookEl.querySelectorAll('input:checked:not(:disabled)').forEach(function(i){i.checked=false});
