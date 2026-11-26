@@ -359,6 +359,20 @@ dialog.mapd:not([open]){display:none}
 @media (prefers-reduced-motion:reduce){.mkme i{animation:none}}
 .mkah{width:34px;height:34px;display:block}
 .mkah svg{width:34px;height:34px;display:block;fill:#fff;stroke:#0d2a6b;stroke-width:2;stroke-linejoin:round}
+/* bêta : réglages du guidage et mode nuit */
+.gl{font-size:14px;color:var(--muted);margin:16px 4px 6px}
+.gl:first-of-type{margin-top:4px}
+.sw.off{opacity:.5;cursor:default}
+.sw small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+dialog.mapd.nuit{background:#131a24}
+.mapd.nuit .navbar{background:rgba(22,26,32,.84);border-color:rgba(255,255,255,.1);color:#fff}
+.mapd.nuit .navinf b{color:#7be08a}
+.mapd.nuit .navinf span{color:#fff}
+.mapd.nuit .navinf small,.mapd.nuit .navsp small{color:#aab3c0}
+.mapd.nuit.fin .navinf b{color:#fff}
+.mapd.nuit.fin .navend{background:#2c323b;color:#fff}
+.mapd.nuit .navside button,.mapd.nuit .navsp{background:rgba(22,26,32,.88);color:#fff}
+.mapd.nuit .navside #navRe{background:#2f6fed}
 </style>
 </head>
 <body class="locked">
@@ -579,6 +593,25 @@ dialog.mapd:not([open]){display:none}
       <button class="link" type="button" id="syOut">Se déconnecter</button>
       <button class="link" type="button" id="syDelAcc">Supprimer mon compte</button>
     </div>
+    <div class="panel pad" id="gPanel">
+      <p class="f">Guidage</p>
+      <p class="gl" id="gL1">Carte de jour ou de nuit</p>
+      <div class="seg" data-g="nuit" role="group" aria-labelledby="gL1"><button type="button" data-v="auto">Automatique</button><button type="button" data-v="clair">Jour</button><button type="button" data-v="sombre">Nuit</button></div>
+      <p class="gl" id="gL2">Voix</p>
+      <div class="seg" data-g="voix" role="group" aria-labelledby="gL2"><button type="button" data-v="tout">Toutes les consignes</button><button type="button" data-v="proche">Au virage seulement</button><button type="button" data-v="non">Coupée</button></div>
+      <p class="gl" id="gL3">Vue de la carte</p>
+      <div class="seg" data-g="vue" role="group" aria-labelledby="gL3"><button type="button" data-v="relief">Inclinée</button><button type="button" data-v="plat">À plat</button></div>
+      <p class="gl" id="gL4">Nom du patient pendant le guidage</p>
+      <div class="seg" data-g="nom" role="group" aria-labelledby="gL4"><button type="button" data-v="complet">Complet</button><button type="button" data-v="init">Initiales</button><button type="button" data-v="masque">Masqué</button></div>
+      <label class="sw">Bâtiments en 3D <input type="checkbox" data-g="bat"></label>
+      <label class="sw">Nord toujours en haut <input type="checkbox" data-g="nord"></label>
+      <label class="sw">Enchaîner sur le patient suivant <input type="checkbox" data-g="suite"></label>
+      <label class="sw">Afficher la vitesse <input type="checkbox" data-g="vit"></label>
+      <label class="sw">Plein écran au lancement <input type="checkbox" data-g="plein"></label>
+      <label class="sw">Garder l'écran allumé <input type="checkbox" data-g="eveil"></label>
+      <label class="sw off"><span>Éviter les autoroutes<small>Disponible avec les serveurs de trajets de production</small></span> <input type="checkbox" disabled></label>
+      <p class="hint">Ces réglages restent sur cet appareil.</p>
+    </div>
     <div class="panel pad">
       <p class="f">Liste de patients</p>
       <button class="pill wide" type="button" data-li style="margin-top:0">Importer une liste</button>
@@ -598,7 +631,7 @@ dialog.mapd:not([open]){display:none}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.6.2</p>
+    <p class="ver">Domicile bêta · version 1.7.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -1902,7 +1935,7 @@ dialog.mapd:not([open]){display:none}
   });
 
   /* ---------- bêta : carte intégrée (MapLibre, fond OpenFreeMap sur données OpenStreetMap) ---------- */
-  var ML='https://unpkg.com/maplibre-gl@5.24.1/dist/maplibre-gl',STYLE='https://tiles.openfreemap.org/styles/liberty',ROUTE='https://router.project-osrm.org/route/v1/driving/';
+  var ML='https://unpkg.com/maplibre-gl@5.24.1/dist/maplibre-gl',STYLE='https://tiles.openfreemap.org/styles/liberty',SOMBRE='https://tiles.openfreemap.org/styles/dark',ROUTE='https://router.project-osrm.org/route/v1/driving/';
   var mlP=null,map=null,mapOk=null,mks=[],mapSeq=0,mapSel=null;
   var HOUSE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>';
   function mapLib(){
@@ -1918,7 +1951,7 @@ dialog.mapd:not([open]){display:none}
     var g={type:'Feature',properties:{},geometry:{type:'LineString',coordinates:c}};
     if(map.getSource('trajet'))map.getSource('trajet').setData(g);
     else{
-      var ls=map.getStyle().layers,b=(ls.filter(function(l){return l.type==='fill-extrusion'})[0]||ls.filter(function(l){return l.type==='symbol'&&l.layout&&l.layout['text-field']})[0]||{}).id;
+      var ls=map.getStyle().layers,b=(ls.filter(function(l){return l.type==='fill-extrusion'})[0]||ls.filter(function(l){return l.type==='symbol'&&l.layout&&l.layout['text-field']&&!/^water/.test(l['source-layer']||'')})[0]||{}).id;
       var W=function(k){return['interpolate',['linear'],['zoom'],9,3*k,15,7*k,19,15*k]},L={'line-cap':'round','line-join':'round'};
       map.addSource('trajet',{type:'geojson',data:g});
       map.addSource('fait',{type:'geojson',data:VIDE});
@@ -1965,17 +1998,53 @@ dialog.mapd:not([open]){display:none}
       }).catch(function(){});
     }
   }
+  /* réglages du guidage : propres à l'appareil, non synchronisés */
+  var GK='domicile-beta-guidage',G={nuit:'auto',voix:'tout',vue:'relief',nom:'complet',bat:true,nord:false,suite:false,vit:true,plein:true,eveil:true},mapDk=false;
+  try{var g0=JSON.parse(localStorage.getItem(GK)||'null');if(g0)Object.keys(G).forEach(function(k){if(typeof g0[k]===typeof G[k])G[k]=g0[k]});else if(localStorage.getItem('domicile-beta-voix')==='0')G.voix='non'}catch(e){}
+  function gSave(){try{localStorage.setItem(GK,JSON.stringify(G))}catch(e){}gShow()}
+  function gShow(){
+    document.querySelectorAll('#gPanel [data-g]').forEach(function(e){
+      if(e.type==='checkbox')e.checked=!!G[e.dataset.g];
+      else e.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',G[e.dataset.g]===b.dataset.v)});
+    });
+  }
+  $('gPanel').addEventListener('click',function(e){var b=e.target.closest('.seg button');if(!b)return;G[b.parentNode.dataset.g]=b.dataset.v;gSave()});
+  $('gPanel').addEventListener('change',function(e){var k=e.target.dataset.g;if(k){G[k]=e.target.checked;gSave()}});
+  gShow();
+  /* nuit : entre le coucher et le lever du soleil à l'endroit où l'on se trouve (à un quart d'heure près) */
+  function mapSombre(){
+    if(G.nuit!=='auto')return G.nuit==='sombre';
+    var d=new Date(),lat=S.pos?+S.pos.lat:50.410,lon=S.pos?+S.pos.lon:4.100,r=Math.PI/180;
+    var j=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5),dec=-23.440*Math.cos(2*Math.PI*(j+10)/365)*r;
+    var c=-Math.tan(lat*r)*Math.tan(dec),h=c>=1?0:c<=-1?12:Math.acos(c)/r/15,midi=12-lon/15,u=d.getUTCHours()+d.getUTCMinutes()/60;
+    return u<midi-h||u>midi+h;
+  }
+  function mapSkin(){
+    if(mapDk)map.getStyle().layers.forEach(function(l){
+      var sl=l['source-layer'];
+      if(l.type==='background')map.setPaintProperty(l.id,'background-color','#131a24');
+      if(l.type==='line'&&sl==='transportation')map.setPaintProperty(l.id,'line-color',/casing/.test(l.id)?'#1b2330':'#3d4859');
+      if(l.type==='fill'&&sl==='building')map.setPaintProperty(l.id,'fill-color','#1c2531');
+      if(l.type==='fill'&&sl==='water')map.setPaintProperty(l.id,'fill-color','#0d2238');
+      if(l.type==='fill'&&(sl==='park'||sl==='landcover'||sl==='landuse'))map.setPaintProperty(l.id,'fill-color','#14251d');
+      if(l.type==='symbol'&&l.layout&&l.layout['text-field'])map.setPaintProperty(l.id,'text-color','#aeb8c6');
+    });
+    try{map.setSky(mapDk?{'sky-color':'#0b1626','horizon-color':'#1c2a3d','fog-color':'#141b26','sky-horizon-blend':.7,'horizon-fog-blend':.7,'fog-ground-blend':.4}:{'sky-color':'#7db7ee','horizon-color':'#e6f1fb','fog-color':'#eef2f3','sky-horizon-blend':.7,'horizon-fog-blend':.7,'fog-ground-blend':.35})}catch(e){}
+  }
   function mapReady(){
     return mapLib().then(function(){
+      var dk=mapSombre();
       if(!map){
-        map=new maplibregl.Map({container:'map',style:STYLE,center:[4.05,50.42],zoom:9,maxPitch:74,attributionControl:{compact:true}});
+        mapDk=dk;
+        map=new maplibregl.Map({container:'map',style:dk?SOMBRE:STYLE,center:[4.05,50.42],zoom:9,maxPitch:74,attributionControl:{compact:true}});
         map.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:true}),'top-right');
         map.on('dragstart',function(){if(nav&&!nav.done){nav.follow=false;$('navRe').hidden=false}});
-        mapOk=new Promise(function(ok){map.on('load',function(){
-          try{map.setSky({'sky-color':'#7db7ee','horizon-color':'#e6f1fb','fog-color':'#eef2f3','sky-horizon-blend':.7,'horizon-fog-blend':.7,'fog-ground-blend':.35})}catch(e){}
-          ok();
-        })});
+        mapOk=new Promise(function(ok){map.on('load',function(){mapSkin();ok()})});
+      }else if(dk!==mapDk){
+        mapDk=dk;BO={};
+        mapOk=mapOk.then(function(){return new Promise(function(ok){map.once('style.load',function(){mapSkin();ok()});map.setStyle(dk?SOMBRE:STYLE)})});
       }
+      $('mapD').classList.toggle('nuit',dk);
       map.resize();
       return mapOk;
     });
@@ -2013,7 +2082,15 @@ dialog.mapd:not([open]){display:none}
     muet:'<path d="M4 9.500v5h3.500L12 18.500v-13L7.500 9.500zM16 9.500l5 5M21 9.500l-5 5"/>'
   };
   function svg(k,flip){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(flip?' style="transform:scaleX(-1)"':'')+'>'+FL[k]+'</svg>'}
-  function voixOn(){try{return localStorage.getItem(VK)!=='0'}catch(e){return true}}
+  function voixOn(){return G.voix!=='non'}
+  /* nom affiché pendant le guidage : complet, initiales ou masqué */
+  function navNom(p){
+    if(p.ev)return 'Borne de recharge';
+    if(!p.name)return p.label||'';
+    if(G.nom==='masque')return 'Prochaine visite';
+    if(G.nom==='init')return p.name.split(/[\s-]+/).filter(Boolean).map(function(w){return w.charAt(0).toUpperCase()+'.'}).join(' ');
+    return p.name;
+  }
   function dire(t){
     if(!voixOn()||!window.speechSynthesis)return;
     try{var u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
@@ -2061,7 +2138,7 @@ dialog.mapd:not([open]){display:none}
   function navPoi(v){
     try{map.getStyle().layers.forEach(function(l){
       if(l['source-layer']==='poi'||/shield/.test(l.id))map.setLayoutProperty(l.id,'visibility',v?'visible':'none');
-      if(l.type==='fill-extrusion'){if(!(l.id in BO))BO[l.id]=map.getPaintProperty(l.id,'fill-extrusion-opacity');map.setPaintProperty(l.id,'fill-extrusion-opacity',v?BO[l.id]:.450)}
+      if(l.type==='fill-extrusion'){if(!(l.id in BO))BO[l.id]=map.getPaintProperty(l.id,'fill-extrusion-opacity');map.setPaintProperty(l.id,'fill-extrusion-opacity',v?BO[l.id]:.450);map.setLayoutProperty(l.id,'visibility',v||(G.bat&&G.vue!=='plat')?'visible':'none')}
     })}catch(e){}
   }
   function navTop(d,t,ic){
@@ -2070,7 +2147,7 @@ dialog.mapd:not([open]){display:none}
   }
   function navVoix(){var b=$('navV'),on=voixOn();b.innerHTML=svg(on?'son':'muet');b.setAttribute('aria-label',on?'Couper la voix':'Activer la voix');b.setAttribute('aria-pressed',on)}
   function navWake(){
-    try{if(navigator.wakeLock&&nav&&!nav.done)navigator.wakeLock.request('screen').then(function(w){if(nav&&!nav.done)nav.wl=w;else w.release()},function(){})}catch(e){}
+    try{if(G.eveil&&navigator.wakeLock&&nav&&!nav.done)navigator.wakeLock.request('screen').then(function(w){if(nav&&!nav.done)nav.wl=w;else w.release()},function(){})}catch(e){}
   }
   function navQuiet(){
     var n=nav;if(!n)return;
@@ -2125,9 +2202,9 @@ dialog.mapd:not([open]){display:none}
   }
   function navArrive(){
     var n=nav,p=n.dest;n.done=true;navQuiet();
-    navTop('Vous êtes arrivé',p.ev?'Borne de recharge':p.name||p.label||'',svg('arrive'));
+    navTop('Vous êtes arrivé',navNom(p),svg('arrive'));
     $('mapD').classList.add('fin');
-    $('navEta').textContent=p.ev?'Borne de recharge':p.name||'Destination';$('navSub').textContent=p.label||'';$('navTo').textContent='';
+    $('navEta').textContent=navNom(p)||'Destination';$('navSub').textContent=p.name&&!p.ev&&G.nom==='masque'?'':p.label||'';$('navTo').textContent='';
     $('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;$('navStop').textContent='Fermer';
     map.getSource('man').setData(VIDE);n.ah.getElement().style.visibility='hidden';
     map.easeTo({center:[+p.lon,+p.lat],pitch:50,zoom:17,padding:{top:120,bottom:170,left:0,right:0},duration:900});
@@ -2136,14 +2213,14 @@ dialog.mapd:not([open]){display:none}
   }
   function navFix(p){
     var n=nav;if(!n||n.done||!p)return;n.last=p;
-    if(p.spd!=null){$('navSp').hidden=false;$('navSp').firstChild.textContent=Math.round(p.spd*3.6)}
+    if(p.spd!=null&&G.vit){$('navSp').hidden=false;$('navSp').firstChild.textContent=Math.round(p.spd*3.6)}
     if(!n.c){navGlide([p.lon,p.lat],0);if(!n.busy&&Date.now()-n.t>8000)navRoute(p);return}
     var q=navProj(p),rest=Math.max(0,n.len-q.al),on=q.d<=35,brg=p.head!=null&&p.spd>1.5&&!on?p.head:q.brg,at=on?q.pt:[p.lon,p.lat];
     if(q.d>60){if(++n.off>=2&&!n.busy&&Date.now()-n.t>8000){navTop('Nouveau calcul…','Vous avez quitté le trajet.','');navRoute(p)}}
     else n.off=0;
     navGlide(at,brg);
     if(on)map.getSource('fait').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:n.c.slice(0,q.i+1).concat([q.pt])}});
-    if(n.follow)map.easeTo({center:at,bearing:brg,pitch:68,zoom:(p.spd>22?15.800:p.spd>12?16.500:17.200)+(n.dn<130?.500:0),padding:{top:Math.round(innerHeight*.480),bottom:120,left:0,right:0},duration:1000,easing:function(t){return t}});
+    if(n.follow)map.easeTo({center:at,bearing:G.nord?0:brg,pitch:G.vue==='plat'?0:68,zoom:(p.spd>22?15.800:p.spd>12?16.500:17.200)+(n.dn<130?.500:0)-(G.vue==='plat'?.700:0),padding:{top:Math.round(innerHeight*(G.vue==='plat'?(G.nord?.150:.340):.480)),bottom:120,left:0,right:0},duration:1000,easing:function(t){return t}});
     if(rest<30&&q.d<60)return navArrive();
     if(q.d>60&&n.busy)return;
     var i,k=n.st.length-1;
@@ -2156,7 +2233,7 @@ dialog.mapd:not([open]){display:none}
     if(sv&&nx.s.distance<300&&!/^exit/.test(sv.s.maneuver.type)){$('navNx').innerHTML='<span>Puis</span>'+navIc(sv.s)+'<span>'+esc(sv.txt)+'</span>';$('navNx').hidden=false}
     $('navEta').textContent=mn(tl);$('navSub').textContent=km(rest)+' · arrivée '+hm(Date.now()+tl*1000);
     if(dn<50){if(n.said[k]!==2){n.said[k]=2;dire(nx.txt)}}
-    else if(!n.said[k]&&dn<400){n.said[k]=1;dire('Dans '+Math.max(50,Math.round(dn/50)*50)+' mètres, '+nx.txt.charAt(0).toLowerCase()+nx.txt.slice(1))}
+    else if(G.voix==='tout'&&!n.said[k]&&dn<400){n.said[k]=1;dire('Dans '+Math.max(50,Math.round(dn/50)*50)+' mètres, '+nx.txt.charAt(0).toLowerCase()+nx.txt.slice(1))}
   }
   function navStart(pt){
     if(!pt||!isFinite(+pt.lat)||!isFinite(+pt.lon))return say('Adresse sans position : corrigez-la dans le carnet.',true);
@@ -2167,10 +2244,10 @@ dialog.mapd:not([open]){display:none}
     var n=nav={dest:pt,seq:0,follow:true,off:0,t:0,said:{},first:true,watch:null,raf:0,dn:1e9,mk:-1},d=mapShow(),m=$('mapMsg');
     d.classList.add('guide');d.classList.remove('fin');
     navTop('Recherche de votre position…','','');
-    $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent=pt.ev?'Vers la borne : '+(pt.label||''):'Vers '+(pt.name||pt.label||'');
+    $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent=pt.name&&!pt.ev&&G.nom==='masque'?navNom(pt):'Vers '+navNom(pt).replace(/^Borne/,'la borne');
     $('navRe').hidden=true;$('navDone').hidden=true;$('navSp').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;$('navSide').hidden=false;
     dire('Guidage lancé');
-    try{var R=document.documentElement;if(R.requestFullscreen&&!document.fullscreenElement)R.requestFullscreen({navigationUI:'hide'}).catch(function(){})}catch(e){}
+    try{var R=document.documentElement;if(G.plein&&R.requestFullscreen&&!document.fullscreenElement)R.requestFullscreen({navigationUI:'hide'}).catch(function(){})}catch(e){}
     mapReady().then(function(){
       if(nav!==n)return;
       m.hidden=true;map.resize();
@@ -2203,12 +2280,14 @@ dialog.mapd:not([open]){display:none}
     map.setPadding({top:0,bottom:0,left:0,right:0});map.fitBounds(B,{padding:{top:170,bottom:210,left:50,right:70},pitch:0,bearing:0,duration:600});
   });
   $('navV').addEventListener('click',function(){
-    var on=!voixOn();try{localStorage.setItem(VK,on?'1':'0')}catch(e){}
+    var on=!voixOn();G.voix=on?'tout':'non';gSave();
     navVoix();if(on)dire('Voix activée');else try{speechSynthesis.cancel()}catch(e){}
   });
   $('navDone').addEventListener('click',function(){
     var p=nav&&nav.dest;$('mapD').close();if(nav)navStop();if(!p)return;
     var b=list.querySelector('.card[data-id="'+p.id+'"] button[data-act="done"]');if(b)b.click();
+    /* enchaînement : guidage vers le patient suivant, dans l'ordre de la liste */
+    if(G.suite){var nx=ordered().filter(nd)[0];if(nx)setTimeout(function(){navStart(nx)},400)}
   });
   $('mapD').addEventListener('close',function(){if(nav)navStop()});
   document.addEventListener('visibilitychange',function(){if(!document.hidden&&nav)navWake()});
