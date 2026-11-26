@@ -373,6 +373,13 @@ dialog.mapd.nuit{background:#131a24}
 .mapd.nuit.fin .navend{background:#2c323b;color:#fff}
 .mapd.nuit .navside button,.mapd.nuit .navsp{background:rgba(22,26,32,.88);color:#fff}
 .mapd.nuit .navside #navRe{background:#2f6fed}
+/* bêta : appeler ou prévenir le patient pendant le guidage */
+.navcom{position:absolute;left:12px;bottom:calc(194px + env(safe-area-inset-bottom));z-index:3;display:flex;flex-direction:column;gap:10px}
+.navcom a{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 3px 12px rgba(0,0,0,.2)}
+.navcom a:first-child{background:#2f9e44;color:#fff}
+.navcom svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mapd.nuit .navcom a:last-child{background:rgba(22,26,32,.88);color:#fff}
+.mapd.fin .navcom{bottom:calc(210px + env(safe-area-inset-bottom))}
 </style>
 </head>
 <body class="locked">
@@ -631,7 +638,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.7.0</p>
+    <p class="ver">Domicile bêta · version 1.8.0</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -686,6 +693,7 @@ dialog.mapd.nuit{background:#131a24}
       <button type="button" id="navOv" aria-label="Voir tout le trajet"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.500"/><circle cx="18" cy="6" r="2.500"/><path d="M8.500 18H14a3.500 3.500 0 0 0 0-7h-4a3.500 3.500 0 0 1 0-7h5.500"/></svg></button>
       <button type="button" id="navRe" aria-label="Recentrer sur ma position" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.500l6.500 16-6.500-3.800-6.500 3.800z"/></svg></button>
     </div>
+    <div class="navcom" id="navCom" hidden><a id="navTel" aria-label="Appeler le patient"></a><a id="navSms" aria-label="Prévenir le patient par SMS"></a></div>
     <p class="navrue" id="navRue" hidden></p>
     <div class="navbar" id="navBar" hidden>
       <div class="navrow">
@@ -2083,6 +2091,8 @@ dialog.mapd.nuit{background:#131a24}
   };
   function svg(k,flip){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(flip?' style="transform:scaleX(-1)"':'')+'>'+FL[k]+'</svg>'}
   function voixOn(){return G.voix!=='non'}
+  /* SMS prêt à envoyer : le délai suit le temps de trajet restant */
+  function navSms(t){if(nav&&nav.tel)$('navSms').href='sms:'+nav.tel+'?&body='+encodeURIComponent(t)}
   /* nom affiché pendant le guidage : complet, initiales ou masqué */
   function navNom(p){
     if(p.ev)return 'Borne de recharge';
@@ -2158,7 +2168,7 @@ dialog.mapd.nuit{background:#131a24}
   function navStop(){
     navQuiet();nav=null;
     try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
-    $('mapD').classList.remove('guide','fin');$('navTop').hidden=true;$('navBar').hidden=true;$('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;
+    $('mapD').classList.remove('guide','fin');$('navTop').hidden=true;$('navBar').hidden=true;$('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;$('navCom').hidden=true;
     try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}
     if(map){map.stop();map.jumpTo({pitch:0,bearing:0,padding:{top:0,bottom:0,left:0,right:0}});if(map.getSource('fait')){map.getSource('fait').setData(VIDE);map.getSource('man').setData(VIDE)}navPoi(true)}
   }
@@ -2209,6 +2219,7 @@ dialog.mapd.nuit{background:#131a24}
     map.getSource('man').setData(VIDE);n.ah.getElement().style.visibility='hidden';
     map.easeTo({center:[+p.lon,+p.lat],pitch:50,zoom:17,padding:{top:120,bottom:170,left:0,right:0},duration:900});
     $('navDone').hidden=!(p.id&&S.patients.indexOf(p)>=0&&!p.done&&!p.ev);
+    navSms('Bonjour, le docteur est arrivé devant chez vous.');
     dire('Vous êtes arrivé');
   }
   function navFix(p){
@@ -2231,6 +2242,7 @@ dialog.mapd.nuit{background:#131a24}
     n.dn=dn;if(n.mk!==k)navMan(k);
     $('navRue').innerHTML=cur.s.name?'<span>'+esc(cur.s.name)+'</span>':'';$('navRue').hidden=!cur.s.name;
     if(sv&&nx.s.distance<300&&!/^exit/.test(sv.s.maneuver.type)){$('navNx').innerHTML='<span>Puis</span>'+navIc(sv.s)+'<span>'+esc(sv.txt)+'</span>';$('navNx').hidden=false}
+    navSms('Bonjour, le docteur arrive chez vous dans environ '+Math.max(5,Math.round(tl/300)*5)+' minutes.');
     $('navEta').textContent=mn(tl);$('navSub').textContent=km(rest)+' · arrivée '+hm(Date.now()+tl*1000);
     if(dn<50){if(n.said[k]!==2){n.said[k]=2;dire(nx.txt)}}
     else if(G.voix==='tout'&&!n.said[k]&&dn<400){n.said[k]=1;dire('Dans '+Math.max(50,Math.round(dn/50)*50)+' mètres, '+nx.txt.charAt(0).toLowerCase()+nx.txt.slice(1))}
@@ -2246,6 +2258,9 @@ dialog.mapd.nuit{background:#131a24}
     navTop('Recherche de votre position…','','');
     $('navEta').textContent='Guidage';$('navSub').textContent='';$('navTo').textContent=pt.name&&!pt.ev&&G.nom==='masque'?navNom(pt):'Vers '+navNom(pt).replace(/^Borne/,'la borne');
     $('navRe').hidden=true;$('navDone').hidden=true;$('navSp').hidden=true;$('navV').hidden=!window.speechSynthesis;$('navStop').textContent='Arrêter';navVoix();$('navBar').hidden=false;$('navSide').hidden=false;
+    n.tel=pt.ev?'':((bk(pt)||{}).phone||'').replace(/[^\d+]/g,'');
+    $('navCom').hidden=!n.tel;
+    if(n.tel){$('navTel').innerHTML=ICON.tel;$('navSms').innerHTML=ICON.sms;$('navTel').href='tel:'+n.tel;navSms('Bonjour, le docteur arrive chez vous dans environ '+(pt.dur!=null?Math.max(5,Math.round(pt.dur/300)*5):15)+' minutes.')}
     dire('Guidage lancé');
     try{var R=document.documentElement;if(G.plein&&R.requestFullscreen&&!document.fullscreenElement)R.requestFullscreen({navigationUI:'hide'}).catch(function(){})}catch(e){}
     mapReady().then(function(){
