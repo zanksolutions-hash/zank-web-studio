@@ -412,6 +412,37 @@ dialog.mapd.nuit{background:#131a24}
 .mapd.nuit .navside #navRe{background:linear-gradient(140deg,rgba(72,134,255,.92),rgba(38,96,225,.82));border-color:rgba(205,222,255,.5)}
 .mapd.nuit.fin .navinf b{color:#fff}
 .mapd.nuit.fin .navend{background:linear-gradient(140deg,rgba(255,255,255,.22),rgba(255,255,255,.1));border-color:rgba(255,255,255,.3);color:#fff}
+/* bêta : guidage en paysage (téléphone couché) : tout à gauche, hors de l'encoche, la carte garde le reste */
+@media (orientation:landscape) and (max-height:540px){
+.mapd.guide{--gl:max(10px,env(safe-area-inset-left));--gr:max(10px,env(safe-area-inset-right));--gb:max(8px,env(safe-area-inset-bottom))}
+.mapd.guide .navtop{top:calc(8px + env(safe-area-inset-top));left:var(--gl);right:auto;width:280px;max-width:none;margin:0;border-radius:22px}
+.mapd.guide .navqui{padding:5px 14px;font-size:12.500px}
+.mapd.guide .navm{gap:10px;padding:8px 14px 9px}
+.mapd.guide .navm b{font-size:21px}
+.mapd.guide .navm p{font-size:13.500px;line-height:1.22;margin-top:1px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mapd.guide .navic{flex-basis:36px;width:36px;height:36px}
+.mapd.guide .navic svg{width:35px;height:35px}
+.mapd.guide .navnx{padding:5px 14px;font-size:12.500px}
+.mapd.guide .navnx svg{flex-basis:17px;width:17px;height:17px}
+.mapd.guide .navbar{left:var(--gl);right:auto;bottom:var(--gb);width:280px;max-width:none;margin:0;padding:8px 8px 8px 14px;border-radius:22px}
+.mapd.guide .navinf b{font-size:19px}
+.mapd.guide .navinf span{font-size:13px;margin-top:0}
+.mapd.guide .navinf small{font-size:12px}
+.mapd.guide .navend{min-height:40px;padding:0 16px;font-size:14.500px}
+.mapd.guide .navbar #navDone{margin-top:8px;min-height:42px}
+.mapd.guide .navsp{left:var(--gl);bottom:calc(var(--gb) + 76px);width:46px;height:46px}
+.mapd.guide .navsp b{font-size:17px}
+.mapd.guide .navsp small{font-size:9px;margin-top:1px}
+.mapd.guide .navcom{left:calc(var(--gl) + 56px);bottom:calc(var(--gb) + 76px);flex-direction:row;gap:8px}
+.mapd.guide .navcom a{width:46px;height:46px}
+.mapd.guide .navcom svg{width:21px;height:21px}
+.mapd.guide.fin .navcom{left:var(--gl);bottom:calc(var(--gb) + 126px)}
+.mapd.guide .navside{right:var(--gr);bottom:var(--gb);gap:8px}
+.mapd.guide .navside button{width:44px;height:44px}
+.mapd.guide .navrue{left:calc(var(--gl) + 296px);right:calc(var(--gr) + 56px);bottom:calc(var(--gb) + 4px)}
+.mapd.guide .navrue span{padding:6px 14px;font-size:13.500px}
+.mapd.guide .maplibregl-ctrl-bottom-right,.mapd.guide .maplibregl-ctrl-bottom-left{left:auto;right:calc(var(--gr) + 52px);bottom:calc(var(--gb) - 6px)}
+}
 </style>
 </head>
 <body class="locked">
@@ -670,7 +701,7 @@ dialog.mapd.nuit{background:#131a24}
       <p class="hint" id="sigMsg">N'indiquez aucun nom de patient. La version de l'appli et le type d'appareil sont joints au message.</p>
     </div>
     <p class="hint" style="text-align:center">Version bêta : import d'une liste, carte et guidage intégré en test. La version habituelle reste disponible <a href="../tournee/" style="color:inherit">à son adresse</a>.</p>
-    <p class="ver">Domicile bêta · version 1.9.0</p>
+    <p class="ver">Domicile bêta · version 1.9.1</p>
   </section>
 
   <dialog class="sheet" id="goSheet" aria-labelledby="goT">
@@ -2124,6 +2155,8 @@ dialog.mapd.nuit{background:#131a24}
   };
   function svg(k,flip){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(flip?' style="transform:scaleX(-1)"':'')+'>'+FL[k]+'</svg>'}
   function voixOn(){return G.voix!=='non'}
+  /* téléphone couché : les panneaux sont à gauche, la carte se cale sur le reste */
+  function navPays(){return innerWidth>innerHeight&&innerHeight<=540}
   /* SMS prêt à envoyer : le délai suit le temps de trajet restant */
   function navSms(t){if(nav&&nav.tel)$('navSms').href='sms:'+nav.tel+'?&body='+encodeURIComponent(t)}
   /* nom affiché pendant le guidage : complet, initiales ou masqué */
@@ -2250,7 +2283,7 @@ dialog.mapd.nuit{background:#131a24}
     $('navEta').textContent=navNom(p)||'Destination';$('navSub').textContent=p.name&&!p.ev&&G.nom==='masque'?'':p.label||'';$('navTo').textContent='';
     $('navSide').hidden=true;$('navSp').hidden=true;$('navRue').hidden=true;$('navStop').textContent='Fermer';
     map.getSource('man').setData(VIDE);n.ah.getElement().style.visibility='hidden';
-    map.easeTo({center:[+p.lon,+p.lat],pitch:50,zoom:17,padding:{top:120,bottom:170,left:0,right:0},duration:900});
+    map.easeTo({center:[+p.lon,+p.lat],pitch:50,zoom:17,padding:navPays()?{top:20,bottom:20,left:320,right:0}:{top:120,bottom:170,left:0,right:0},duration:900});
     $('navDone').hidden=!(p.id&&S.patients.indexOf(p)>=0&&!p.done&&!p.ev);
     navSms('Bonjour, le docteur est arrivé devant chez vous.');
     dire('Vous êtes arrivé');
@@ -2264,7 +2297,7 @@ dialog.mapd.nuit{background:#131a24}
     else n.off=0;
     navGlide(at,brg);
     if(on)map.getSource('fait').setData({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:n.c.slice(0,q.i+1).concat([q.pt])}});
-    if(n.follow)map.easeTo({center:at,bearing:G.nord?0:brg,pitch:G.vue==='plat'?0:68,zoom:(p.spd>22?15.800:p.spd>12?16.500:17.200)+(n.dn<130?.500:0)-(G.vue==='plat'?.700:0),padding:{top:Math.round(innerHeight*(G.vue==='plat'?(G.nord?.150:.340):.480)),bottom:120,left:0,right:0},duration:1000,easing:function(t){return t}});
+    if(n.follow)map.easeTo({center:at,bearing:G.nord?0:brg,pitch:G.vue==='plat'?0:68,zoom:(p.spd>22?15.800:p.spd>12?16.500:17.200)+(n.dn<130?.500:0)-(G.vue==='plat'?.700:0),padding:{top:Math.round(innerHeight*(G.vue==='plat'?(G.nord?.150:.340):.480)),bottom:navPays()?24:120,left:navPays()?320:0,right:0},duration:1000,easing:function(t){return t}});
     if(rest<30&&q.d<60)return navArrive();
     if(q.d>60&&n.busy)return;
     var i,k=n.st.length-1;
@@ -2325,7 +2358,7 @@ dialog.mapd.nuit{background:#131a24}
     var n=nav;if(!n||!n.c)return;
     var B=new maplibregl.LngLatBounds();n.c.forEach(function(x){B.extend(x)});
     n.follow=false;$('navRe').hidden=false;
-    map.setPadding({top:0,bottom:0,left:0,right:0});map.fitBounds(B,{padding:{top:170,bottom:210,left:50,right:70},pitch:0,bearing:0,duration:600});
+    map.setPadding({top:0,bottom:0,left:0,right:0});map.fitBounds(B,{padding:navPays()?{top:30,bottom:30,left:350,right:100}:{top:170,bottom:210,left:50,right:70},pitch:0,bearing:0,duration:600});
   });
   $('navV').addEventListener('click',function(){
     var on=!voixOn();G.voix=on?'tout':'non';gSave();
