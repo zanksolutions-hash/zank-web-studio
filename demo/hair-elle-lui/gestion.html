@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Un Hair d'Elle &amp; Lui – Agenda</title>
+<link rel="icon" href="favicon.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Great+Vibes&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0a08;--card:#17110e;--sable:#211813;--txt:#f6ece1;--mut:#b5a493;--line:#3a2c22;--nude:#e2b77d;--nude2:#f3d4a6;--ok:#2fae66;--ko:#e5484d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 Inter,system-ui,sans-serif}
+*{font-variant-numeric:lining-nums}
+.rdv{grid-template-columns:64px 1fr!important}.rdv .acts{grid-column:2;justify-content:flex-start!important}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;margin:0;line-height:1.1}
+header{background:var(--card);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:12px}
+.mono{display:inline-grid;place-items:center;width:42px;height:42px;border:1px solid var(--nude);border-radius:50%;font-family:'Playfair Display',serif;font-size:19px;color:var(--nude)}
+.logo b{font-family:'Playfair Display',serif;font-size:21px;font-weight:600;line-height:1}
+.logo small{display:block;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-top:3px}
+.hb{display:flex;gap:8px;flex-wrap:wrap}
+.w{max-width:1240px;margin:0 auto}
+main.w{padding:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 15px;cursor:pointer;font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--nude)}
+.btn.p{background:var(--txt);border-color:var(--txt);color:#fff}
+.btn.p:hover{background:var(--nude2);border-color:var(--nude2)}
+.btn.s{padding:5px 12px;font-size:13px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 18px}
+.stat b{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;display:block;line-height:1.1}
+.stat small{color:var(--mut)}
+.stat.hl b{color:var(--nude2)}
+.cols{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}
+.cols>*{min-width:0}
+@media(max-width:980px){.cols{grid-template-columns:1fr}}
+.side{display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.card>h2{font-size:22px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.card>p.sub{color:var(--mut);font-size:13px;margin:0 0 10px}
+.cnt{font-family:Inter;font-size:12px;font-weight:600;background:var(--nude);color:#fff;border-radius:20px;padding:2px 9px}
+.it{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.it:first-of-type{border-top:none}
+.it b{display:block;font-weight:600}
+.it .m{color:var(--mut);font-size:13px}
+.vide{color:var(--mut);font-size:14px;padding:8px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nav h2{font-size:26px;margin:0 8px;font-weight:500}
+.nav h2::first-letter{text-transform:uppercase}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:none;background:var(--card);padding:7px 14px;cursor:pointer;font-weight:500;font-size:14px}
+.seg button.on{background:var(--txt);color:#fff}
+.rdv{display:grid;grid-template-columns:64px 1fr auto;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
+.rdv:first-child{border-top:none}
+.rdv .h{font-family:'Playfair Display',serif;font-size:24px;font-weight:500;line-height:1}
+.rdv .h small{display:block;font-family:Inter;font-size:12px;color:var(--mut);margin-top:4px}
+.rdv .who b{font-size:16px;font-weight:600}
+.rdv .m{color:var(--mut);font-size:14px}
+.rdv .note{font-size:13px;background:var(--bg);border-radius:10px;padding:6px 10px;margin-top:6px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:6px}
+.t-ok{background:var(--sable);color:var(--nude2)}
+.t-fin{background:#e5efe7;color:var(--ok)}
+.t-abs{background:#f6e2dc;color:var(--ko)}
+.t-ann{background:#eee;color:#999;text-decoration:line-through}
+.rdv.s-ann{opacity:.5}
+.libre{padding:10px 0;border-top:1px dashed var(--line);color:var(--mut);font-size:13px}
+@media(max-width:640px){.rdv{grid-template-columns:54px 1fr}.rdv .acts{grid-column:1/-1;justify-content:flex-start}}
+.sem{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:760px){.sem{grid-template-columns:1fr}}
+.sj{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:10px}
+.sj.auj{border-color:var(--nude)}
+.sj h3{font-family:Inter;font-size:13px;font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between}
+.sj h3 span:first-child::first-letter{text-transform:uppercase}
+.mini{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--nude);border-radius:10px;padding:6px 9px;margin-bottom:6px;font-size:12.5px;cursor:pointer}
+.mini.s-fin{border-left-color:var(--ok)}.mini.s-abs{border-left-color:var(--ko)}.mini.s-ann{display:none}
+.mini b{display:block;font-size:13px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--mut);font-weight:600;padding:8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+td .m{color:var(--mut);font-size:13px}
+.prog{display:flex;gap:3px;margin-top:4px}
+.prog i{width:14px;height:6px;border-radius:3px;background:var(--line)}
+.prog i.on{background:var(--nude)}
+input.q{border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--card);width:220px}
+@media(max-width:700px){thead{display:none}table,tbody,tr,td{display:block}tr{border-bottom:1px solid var(--line);padding:10px 0}td{border:none;padding:2px 0}input.q{width:100%}}
+dialog{border:none;border-radius:22px;padding:24px;width:min(500px,94vw);box-shadow:0 30px 80px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog h2{font-size:28px;margin-bottom:10px;font-weight:500}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;color:var(--mut);margin:8px 0 4px}
+dialog input,dialog select,dialog textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--card)}
+.row{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:10px 18px;border-radius:999px;font-weight:500;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+
+*{font-variant-numeric:lining-nums}
+.btn.p{background:var(--nude);border-color:var(--nude);color:#111;font-weight:700}
+.btn:hover{background:var(--nude2);border-color:var(--nude2);color:#111}
+.btn.l{background:transparent;color:var(--txt);border-color:#555}
+.btn.l:hover{background:var(--txt);color:#111}
+.tab.on,.chip.on,.day.on,.slot.on,.seg button.on{background:var(--nude)!important;border-color:var(--nude)!important;color:#111!important}
+.chip.on span:last-child,.day.on small{color:#111!important}
+h1,h2,h3{letter-spacing:.01em}
+h2 em,h1 em{font-family:'Great Vibes',cursive;font-style:normal;font-weight:400;font-size:1.15em;color:var(--nude)}
+
+.btn{background:var(--sable);color:var(--txt)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.logo img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--nude)}
+.logo b{font-size:24px}
+.cnt{color:#111}
+.script{font-family:'Great Vibes',cursive!important;font-weight:400!important;font-size:28px!important;color:var(--nude2)} .btn.p{color:#1a120c}</style>
+</head>
+<body>
+<header><div class="w">
+  <div class="logo"><img src="portrait.jpg" alt=""><span><b class="script">Un Hair d'Elle &amp; Lui</b><small>Agenda du salon</small></span></div>
+  <div class="hb"><a class="btn" href="./" target="_blank">Voir le site</a><button class="btn" id="bReset">Réinitialiser</button><button class="btn p" id="bNew">+ Rendez-vous</button></div>
+</div></header>
+
+<main class="w">
+  <div class="stats" id="stats"></div>
+  <div class="cols">
+    <div class="side">
+      <aside class="card"><h2>Rappels <span class="cnt" id="nRap"></span></h2><p class="sub" id="rapSub"></p><div id="rappels"></div></aside>
+      <aside class="card"><h2>Clients à relancer <span class="cnt" id="nRel"></span></h2><p class="sub">Dernière visite il y a plus de 6 semaines, rien de prévu.</p><div id="relances"></div></aside>
+    </div>
+    <section class="card">
+      <div class="bar">
+        <div class="nav"><button class="btn s" id="bPrev" aria-label="Précédent">&larr;</button><button class="btn s" id="bAuj">Aujourd'hui</button><button class="btn s" id="bNext" aria-label="Suivant">&rarr;</button><h2 id="titre"></h2></div>
+        <div class="seg"><button data-v="jour">Jour</button><button data-v="sem">Semaine</button><button data-v="cli">Clients</button></div>
+      </div>
+      <div id="vue"></div>
+    </section>
+  </div>
+</main>
+
+<dialog id="dlg"><form id="fR" method="dialog">
+  <h2 id="dTitre">Rendez-vous</h2>
+  <div class="g2">
+    <div style="grid-column:1/-1"><label>Prestation</label><select name="soin" id="sSoin"></select></div>
+    <div><label>Date</label><input type="date" name="date" required></div>
+    <div><label>Heure</label><input type="time" name="heure" step="900" required></div>
+    <div><label>Client</label><input name="nom" required></div>
+    <div><label>GSM</label><input name="tel" inputmode="tel" required></div>
+    <div style="grid-column:1/-1"><label>Note</label><textarea name="note" rows="2"></textarea></div>
+    <div><label>Statut</label><select name="statut" id="sStat"></select></div>
+  </div>
+  <div class="row"><button class="btn" value="x" formnovalidate>Fermer</button><button class="btn p" value="ok">Enregistrer</button></div>
+</form></dialog>
+<div class="toast" id="toast"></div>
+
+<script src="commun.js"></script>
+<script>
+let D=charger(),cur=jour(0),vueM='jour',edit=null,q='';
+const save=()=>enregistrer(D);
+const toastT=t=>{toast.textContent=t;toast.classList.add('on');setTimeout(()=>toast.classList.remove('on'),1800)};
+const tri=(a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure);
+const lundi=d=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()-((x.getDay()+6)%7));return iso(x)};
+const ecart=(a,b)=>Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+const sms=(t,txt)=>`sms:${telNorm(t).replace(/^0/,'+32')}?body=${encodeURIComponent(txt)}`;
+const prenom=n=>n.split(' ')[0];
+const txtRappel=r=>`Bonjour ${prenom(r.nom)}, petit rappel de votre rendez-vous ${r.date===jour(1)?'demain':'le '+fmtDate(r.date)} à ${fmtH(r.heure)} (${soin(r.soin).nom}) chez Un Hair d'Elle & Lui, place de Bray 14. À bientôt !`;
+const txtRelance=c=>`Bonjour ${prenom(c.nom)}, cela fait un moment ! Envie d'un petit rafraîchissement ? Vous pouvez réserver ici : ${new URL('./#rdv',location.href).href} À bientôt chez Un Hair d'Elle & Lui`;
+
+// Regroupe par cliente (GSM)
+function clientes(){
+  const m={};D.rdv.forEach(r=>{const k=telNorm(r.tel);(m[k]=m[k]||{nom:r.nom,tel:r.tel,rdv:[]}).rdv.push(r)});
+  return Object.values(m).map(c=>{c.rdv.sort(tri);const venus=c.rdv.filter(r=>r.statut==='fin');
+    const las=venus;
+    c.visites=venus.length;c.total=venus.reduce((s,r)=>s+soin(r.soin).prix,0);c.abs=c.rdv.filter(r=>r.statut==='abs').length;
+    c.n=las.length;c.dernierLaser=las.length?las[las.length-1].date:null;c.zone='';
+    c.dernier=venus.length?venus[venus.length-1]:null;c.prochain=c.rdv.find(r=>r.statut==='ok'&&r.date>=jour(0))||null;return c});
+}
+
+function rendre(){
+  const auj=jour(0),lu=lundi(auj),sem=D.rdv.filter(r=>r.date>=lu&&r.date<=plus(lu,6)&&r.statut!=='ann'&&r.statut!=='abs');
+  const ajd=D.rdv.filter(r=>r.date===auj&&actif(r));
+  const prochainJour=(()=>{for(let i=1;i<10;i++){const d=jour(i);if(HORAIRES[new Date(d+'T12:00').getDay()])return d}})();
+  const rap=D.rdv.filter(r=>r.date===prochainJour&&r.statut==='ok').sort(tri);
+  const C=clientes(),rel=C.filter(c=>c.dernierLaser&&ecart(c.dernierLaser,auj)>42&&!c.prochain).sort((a,b)=>a.dernierLaser.localeCompare(b.dernierLaser));
+  stats.innerHTML=`<div class="stat"><b>${ajd.length}</b><small>rendez-vous aujourd'hui</small></div>
+    <div class="stat"><b>${sem.length}</b><small>rendez-vous cette semaine</small></div>
+    <div class="stat hl"><b>${rel.length}</b><small>clients à relancer</small></div>
+    <div class="stat"><b>${D.rdv.filter(r=>r.statut==='abs'&&r.date>=plus(auj,-30)).length}</b><small>absence ce mois-ci</small></div>`;
+  nRap.textContent=rap.length;rapSub.textContent='Rendez-vous du '+fmtDate(prochainJour)+'.';
+  rappels.innerHTML=rap.length?rap.map(r=>`<div class="it"><div><b>${fmtH(r.heure)} · ${esc(r.nom)}</b><span class="m">${esc(soin(r.soin).nom)}</span></div><a class="btn s" href="${sms(r.tel,txtRappel(r))}">SMS</a></div>`).join(''):'<div class="vide">Aucun rendez-vous.</div>';
+  nRel.textContent=rel.length;
+  relances.innerHTML=rel.length?rel.map(c=>`<div class="it"><div><b>${esc(c.nom)}</b><span class="m">${c.n} visite${c.n>1?'s':''} · il y a ${Math.round(ecart(c.dernierLaser,auj)/7)} sem.</span></div><a class="btn s" href="${sms(c.tel,txtRelance(c))}">SMS</a></div>`).join(''):'<div class="vide">Personne à relancer.</div>';
+
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.v===vueM));
+  [bPrev,bAuj,bNext].forEach(b=>b.style.display=vueM==='cli'?'none':'');
+  if(vueM==='jour'){
+    titre.textContent=cur===auj?'Aujourd\'hui':fmtDate(cur);
+    const h=HORAIRES[new Date(cur+'T12:00').getDay()],l=D.rdv.filter(r=>r.date===cur).sort(tri);
+    const libres=h?creneaux(D,cur,30):[];
+    vue.innerHTML=!h&&!l.length?'<div class="vide">Salon fermé ce jour-là.</div>':(l.map(ligne).join('')||'<div class="vide">Aucun rendez-vous.</div>')+(h?`<div class="libre">${libres.length?'Créneaux libres : '+libres.map(fmtH).join(', '):'Journée complète.'}</div>`:'');
+  }else if(vueM==='sem'){
+    const lu2=lundi(cur);titre.textContent='Semaine du '+fmtCourt(lu2);
+    vue.innerHTML='<div class="sem" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">'+[0,1,2,3,4,5].map(i=>{const d=plus(lu2,i),l=D.rdv.filter(r=>r.date===d).sort(tri);
+      return `<div class="sj ${d===auj?'auj':''}"><h3><span>${fmtCourt(d)}</span><span style="color:var(--mut)">${l.filter(actif).length} rdv</span></h3>
+      ${l.map(r=>`<div class="mini s-${r.statut}" data-a="jour" data-d="${d}"><b>${fmtH(r.heure)} · ${esc(prenom(r.nom))}</b>${esc(soin(r.soin).nom)}</div>`).join('')||'<div class="vide">Libre</div>'}</div>`}).join('')+'</div>';
+  }else{
+    titre.textContent='Clients';
+    const l=C.filter(c=>!q||(c.nom+' '+c.tel).toLowerCase().includes(q)).sort((a,b)=>a.nom.localeCompare(b.nom));
+    vue.innerHTML=`<input class="q" id="qq" placeholder="Rechercher un client" value="${esc(q)}" style="margin-bottom:10px"><table><thead><tr><th>Client</th><th>Visites</th><th>Fidélité</th><th>Prochain rendez-vous</th></tr></thead><tbody>${l.map(c=>`<tr>
+      <td><b>${esc(c.nom)}</b><div class="m"><a href="tel:${telNorm(c.tel)}">${esc(c.tel)}</a>${c.abs?` · ${c.abs} absence${c.abs>1?'s':''}`:''}</div></td>
+      <td>${c.visites}</td>
+      <td>${c.n?`${c.n} visite${c.n>1?'s':''}<div class="prog">${Array.from({length:10},(_,i)=>`<i class="${i<c.n?'on':''}"></i>`).join('')}</div>`:'<span class="m">–</span>'}</td>
+      <td>${c.prochain?fmtCourt(c.prochain.date)+' à '+fmtH(c.prochain.heure)+`<div class="m">${esc(soin(c.prochain.soin).nom)}</div>`:'<span class="m">Aucun</span>'}</td></tr>`).join('')}</tbody></table>`;
+    qq.oninput=e=>{q=e.target.value.toLowerCase();const p=e.target.selectionStart;rendre();qq.focus();qq.setSelectionRange(p,p)};
+  }
+  document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>action(b.dataset.a,b.dataset.i,b.dataset.d));
+}
+
+function ligne(r){
+  const s=soin(r.soin),fin=hh(min(r.heure)+r.duree);
+  const a=r.statut==='ok'?`<button class="btn s ok" data-a="fin" data-i="${r.id}">Venu</button><button class="btn s" data-a="abs" data-i="${r.id}">Absent</button><a class="btn s" href="${sms(r.tel,txtRappel(r))}">Rappel</a><button class="btn s" data-a="edit" data-i="${r.id}">Modifier</button><button class="btn s" data-a="ann" data-i="${r.id}">Annuler</button>`
+    :`<button class="btn s" data-a="ok" data-i="${r.id}">Rétablir</button>`;
+  return `<div class="rdv s-${r.statut}"><div class="h">${fmtH(r.heure)}<small>→ ${fmtH(fin)}</small></div>
+    <div class="who"><b>${esc(r.nom)}</b><span class="tag t-${r.statut}">${STATUTS[r.statut]}</span>
+      <div class="m">${esc(s.nom)}</div><div class="m"><a href="tel:${telNorm(r.tel)}">${esc(r.tel)}</a></div>
+      ${r.note?`<div class="note">${esc(r.note)}</div>`:''}</div>
+    <div class="acts">${a}</div></div>`;
+}
+
+function action(a,id,d){
+  if(a==='jour'){cur=d;vueM='jour';return rendre()}
+  const r=D.rdv.find(x=>x.id===id);
+  if(a==='edit')return ouvrir(r);
+  if(a==='ann'&&!confirm('Annuler le rendez-vous de '+r.nom+' ?'))return;
+  r.statut=a;save();rendre();toastT({ok:'Rendez-vous rétabli',fin:'Visite enregistrée',abs:'Absence notée',ann:'Rendez-vous annulé'}[a]);
+}
+
+sSoin.innerHTML=CATS.map(([k,n])=>`<optgroup label="${n}">${SOINS.filter(s=>s.cat===k).map(s=>`<option value="${s.id}">${esc(s.nom)} </option>`).join('')}</optgroup>`).join('');
+sStat.innerHTML=Object.entries(STATUTS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+function ouvrir(r){
+  edit=r||null;dTitre.textContent=r?'Modifier le rendez-vous':'Nouveau rendez-vous';
+  const v=r||{soin:'cf',date:cur,heure:'10:00',nom:'',tel:'',note:'',statut:'ok'};
+  for(const k of['soin','date','heure','nom','tel','note','statut'])fR.elements[k].value=v[k]||'';
+  dlg.showModal();
+}
+dlg.onclose=()=>{
+  if(dlg.returnValue!=='ok')return;const f=fR.elements,v={};
+  for(const k of['soin','date','heure','nom','tel','note','statut'])v[k]=f[k].value.trim();
+  v.duree=soin(v.soin).duree;
+  if(edit)Object.assign(edit,v);else D.rdv.push({id:uid(),cree:Date.now(),...v});
+  cur=v.date;vueM='jour';save();rendre();toastT('Enregistré');
+};
+bNew.onclick=()=>ouvrir();
+bPrev.onclick=()=>{cur=plus(cur,vueM==='jour'?-1:-7);rendre()};
+bNext.onclick=()=>{cur=plus(cur,vueM==='jour'?1:7);rendre()};
+bAuj.onclick=()=>{cur=jour(0);rendre()};
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{vueM=b.dataset.v;rendre()});
+bReset.onclick=()=>{if(confirm('Remettre les données de démonstration ?')){D=demo();save();rendre()}};
+addEventListener('storage',e=>{if(e.key===CLE){D=charger();rendre();toastT('Nouvelle réservation')}});
+rendre();
+</script>
+</body>
+</html>
